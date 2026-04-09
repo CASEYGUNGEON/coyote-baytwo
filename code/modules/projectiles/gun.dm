@@ -605,14 +605,21 @@ ATTACHMENTS
 		return
 	if(!user_can_physically_operate_this(user))
 		return
+	var/a_boltie_happened = FALSE
 	if(bolt_state == GBOLT_CLOSED)
 		bolt_open(user)
+		a_boltie_happened = TRUE
 	else
-		bolt_closed(user)
+		bolt_close(user)
+		a_boltie_happened = TRUE
 	if(my_mode.bolt_cycles_to_shootable_state)
 		if(bolt_state != my_mode.bolt_shootable_state)
 			if(bolt_state == GBOLT_CLOSED)
-
+				bolt_open(user)
+				a_boltie_happened = TRUE
+			else
+				bolt_close(user)
+				a_boltie_happened = TRUE
 
 /obj/item/gun/proc/bolt_open(mob/living/user)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
@@ -625,12 +632,14 @@ ATTACHMENTS
 	if(!user_can_physically_operate_this(user))
 		return
 	bolt_state = GBOLT_OPEN
+	if(my_mode.bolt_ejects_on_open)
+		eject_chambered(user)
 	do_bolt_open_effects(user)
 
 /obj/item/gun/proc/do_bolt_open_effects(mob/living/user)
 	// override for cookies
 
-/obj/item/gun/proc/bolt_closed(mob/living/user)
+/obj/item/gun/proc/bolt_close(mob/living/user)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		bolt_state = GBOLT_CLOSED
@@ -641,6 +650,7 @@ ATTACHMENTS
 	if(!user_can_physically_operate_this(user))
 		return
 	bolt_state = GBOLT_CLOSED
+	
 	do_bolt_closed_effects(user)
 
 /obj/item/gun/proc/do_bolt_closed_effects(mob/living/user)
