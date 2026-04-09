@@ -74,6 +74,7 @@
 	var/bolt_ejects_on_open     = TRUE
 	var/bolt_opens_on_last_shot = TRUE
 	var/bolt_shootable_state = G_BOLT_FORWARD
+	var/bolt_ignore = TRUE
 
 /datum/firemode/New(obj/item/gun/_gun, atom/movable/_dependant)
 	..()

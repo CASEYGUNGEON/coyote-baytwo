@@ -350,10 +350,12 @@ ATTACHMENTS
 		return TRUE // idk
 	if(!my_mode.hammer_ignore)
 		var/hammer_prmoblem = check_hammer_is_in_shootable_position()
-		if(hammer_promblem)
+		if(hammer_prmoblem)
 			return FALSE
 	if(!my_mode.bolt_ignore)
 		var/hammer_promblem = check_bolt_is_in_shootable_position()
+		if(hammer_promblem)
+			return FALSE
 	return TRUE
 
 //Adds logging to the attack log whenever anyone draws a gun, adds a pause after drawing a gun before you can do anything based on it's size
@@ -420,13 +422,7 @@ ATTACHMENTS
 		if(!CheckAttackCooldown(user, target))
 			return
 
-	if(isliving(user))//Check if the user can use the gun, if the user isn't alive(turrets) assume it can.
-		var/mob/living/L = user
-		if(!can_trigger_gun(L))
-			return
-
-	if(user && user.incapacitated(allow_crit = TRUE))
-		to_chat(user, span_danger("You're too messed up to shoot [src]!"))
+	if(!user_can_physically_operate_this(user))
 		return
 
 	if(!can_shoot())
@@ -474,6 +470,21 @@ ATTACHMENTS
 	var/stam_cost = getstamcost(user)
 	process_fire(target, user, TRUE, params, null, stam_cost)
 	update_icon()
+
+/obj/item/gun/proc/user_can_physically_operate_this(mob/living/user)
+	if(!user)
+		return FALSE
+	if(!isliving(user))
+		return TRUE // if it's not alive, it can operate it, because reasons (turrets)
+	if(user.incapacitated(allow_crit = TRUE))
+		to_chat(user, span_danger("You're too messed up to shoot [src]!"))
+		return FALSE
+	if(!can_trigger_gun(user))
+		return FALSE
+	if(!user.can_reach(src, INVENTORY_DEPTH, user.reach))
+		to_chat(user, span_danger("You can't reach [src]!"))
+		return FALSE
+	return TRUE
 
 /obj/item/gun/proc/dont_shoot(mob/living/user)
 	shoot_with_empty_chamber(user)
@@ -551,114 +562,6 @@ ATTACHMENTS
 		return TRUE
 	if (!automatic)
 		return (last_fire + get_fire_delay(user)) > world.time
-
-/obj/item/gun/proc/toggle_hammer(mob/living/user)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return
-	if(my_mode.hammer_ignore)
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	if(hammer_state == GHAMMER_UNCOCKED)
-		cock_hammer(user, TRUE)
-	else
-		drop_hammer(user, TRUE)
-
-/obj/item/gun/proc/drop_hammer(mob/living/user, dry)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		hammer_state = GHAMMER_COCKED
-		return
-	if(my_mode.hammer_ignore)
-		hammer_state = GHAMMER_COCKED
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	hammer_state = GHAMMER_UNCOCKED
-	do_hammer_dropped_effects(user, dry)
-
-/obj/item/gun/proc/do_hammer_dropped_effects(mob/living/user, dry)
-	// override for cookies
-
-/obj/item/gun/proc/cock_hammer(mob/living/user, dry)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		hammer_state = GHAMMER_COCKED
-		return
-	if(my_mode.hammer_ignore)
-		hammer_state = GHAMMER_COCKED
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	hammer_state = GHAMMER_COCKED
-	do_hammer_cocked_effects(user, dry)
-
-/obj/item/gun/proc/do_hammer_cocked_effects(mob/living/user)
-	// override for cookies
-
-/obj/item/gun/proc/cycle_bolt(mob/living/user)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return
-	if(my_mode.bolt_ignore)
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	var/a_boltie_happened = FALSE
-	if(bolt_state == GBOLT_CLOSED)
-		bolt_open(user)
-		a_boltie_happened = TRUE
-	else
-		bolt_close(user)
-		a_boltie_happened = TRUE
-	if(my_mode.bolt_cycles_to_shootable_state)
-		if(bolt_state != my_mode.bolt_shootable_state)
-			if(bolt_state == GBOLT_CLOSED)
-				bolt_open(user)
-				a_boltie_happened = TRUE
-			else
-				bolt_close(user)
-				a_boltie_happened = TRUE
-
-/obj/item/gun/proc/bolt_open(mob/living/user)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		bolt_state = GBOLT_OPEN
-		return
-	if(my_mode.bolt_ignore)
-		bolt_state = GBOLT_OPEN
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	bolt_state = GBOLT_OPEN
-	if(my_mode.bolt_ejects_on_open)
-		eject_chambered(user)
-	do_bolt_open_effects(user)
-
-/obj/item/gun/proc/do_bolt_open_effects(mob/living/user)
-	// override for cookies
-
-/obj/item/gun/proc/bolt_close(mob/living/user)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		bolt_state = GBOLT_CLOSED
-		return
-	if(my_mode.bolt_ignore)
-		bolt_state = GBOLT_CLOSED
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	bolt_state = GBOLT_CLOSED
-	
-	do_bolt_closed_effects(user)
-
-/obj/item/gun/proc/do_bolt_closed_effects(mob/living/user)
-	// override for cookies
-
-
-
-
 
 // handles the theatrics of dryfiring; sound, messages, etc
 // also the hammer for some reason
@@ -868,39 +771,113 @@ ATTACHMENTS
 		return
 	return "The hammer isn't cocked! Cock it to shoot!!"
 
-/* ACTION STUFF */
-// Called when the gun's trigger is pulled, to see if we can actually fire or not
-// Handles hammer state, returns boolean whether or not we can shoot the thing
-/obj/item/gun/proc/try_hammer(drop_hammer = FALSE)
-	GET_GUN
-	if(hammer_ignore)
-		gun.hammer_state = GHAMMER_COCKED
-		return TRUE
-	if(gun.hammer_state == GHAMMER_COCKED)
-		if(drop_hammer)
-			if(!hammer_recock_on_fire)
-				gun.hammer_state = GHAMMER_UNCOCKED
-		return TRUE
-	return FALSE
 
-/obj/item/gun/proc/toggle_hammer()
-	GET_GUN
-	if(hammer_ignore)
-		gun.hammer_state = GHAMMER_COCKED
+/obj/item/gun/proc/toggle_hammer(mob/living/user)
+	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	if(!my_mode)
 		return
-	if(gun.hammer_state == GHAMMER_COCKED)
-		gun.hammer_state = GHAMMER_UNCOCKED
+	if(my_mode.hammer_ignore)
+		return
+	if(!user_can_physically_operate_this(user))
+		return
+	if(hammer_state == GHAMMER_UNCOCKED)
+		cock_hammer(user, TRUE)
 	else
-		gun.hammer_state = GHAMMER_COCKED
+		drop_hammer(user, TRUE)
 
-// Called when the gun is shot, to see if we need to eject casings or not
-/obj/item/gun/proc/eject_on_fire()
-	GET_GUN
-	if(bolt_ejects_on_open == GEJECTOR_AFTER_FIRING)
-		return TRUE
-	return FALSE
+/obj/item/gun/proc/drop_hammer(mob/living/user, dry)
+	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	if(!my_mode)
+		hammer_state = GHAMMER_COCKED
+		return
+	if(my_mode.hammer_ignore)
+		hammer_state = GHAMMER_COCKED
+		return
+	if(!user_can_physically_operate_this(user))
+		return
+	hammer_state = GHAMMER_UNCOCKED
+	do_hammer_dropped_effects(user, dry)
 
+/obj/item/gun/proc/do_hammer_dropped_effects(mob/living/user, dry)
+	// override for cookies
 
+/obj/item/gun/proc/cock_hammer(mob/living/user, dry)
+	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	if(!my_mode)
+		hammer_state = GHAMMER_COCKED
+		return
+	if(my_mode.hammer_ignore)
+		hammer_state = GHAMMER_COCKED
+		return
+	if(!user_can_physically_operate_this(user))
+		return
+	hammer_state = GHAMMER_COCKED
+	do_hammer_cocked_effects(user, dry)
+
+/obj/item/gun/proc/do_hammer_cocked_effects(mob/living/user)
+	// override for cookies
+
+/obj/item/gun/proc/cycle_bolt(mob/living/user)
+	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	if(!my_mode)
+		return
+	if(my_mode.bolt_ignore)
+		return
+	if(!user_can_physically_operate_this(user))
+		return
+	var/a_boltie_happened = FALSE
+	if(bolt_state == GBOLT_CLOSED)
+		bolt_open(user)
+		a_boltie_happened = TRUE
+	else
+		bolt_close(user)
+		a_boltie_happened = TRUE
+	if(my_mode.bolt_cycles_to_shootable_state)
+		if(bolt_state != my_mode.bolt_shootable_state)
+			if(bolt_state == GBOLT_CLOSED)
+				bolt_open(user)
+				a_boltie_happened = TRUE
+			else
+				bolt_close(user)
+				a_boltie_happened = TRUE
+
+/obj/item/gun/proc/bolt_open(mob/living/user)
+	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	if(!my_mode)
+		bolt_state = GBOLT_OPEN
+		return
+	if(my_mode.bolt_ignore)
+		bolt_state = GBOLT_OPEN
+		return
+	if(!user_can_physically_operate_this(user))
+		return
+	bolt_state = GBOLT_OPEN
+	if(my_mode.bolt_ejects_on_open)
+		eject_chambered(user) // ten lines 
+	do_bolt_open_effects(user)
+
+/obj/item/gun/proc/do_bolt_open_effects(mob/living/user)
+	// override for cookies
+
+/obj/item/gun/proc/bolt_close(mob/living/user)
+	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	if(!my_mode)
+		bolt_state = GBOLT_CLOSED
+		return
+	if(my_mode.bolt_ignore)
+		bolt_state = GBOLT_CLOSED
+		return
+	if(!user_can_physically_operate_this(user))
+		return
+	bolt_state = GBOLT_CLOSED
+	
+	do_bolt_closed_effects(user)
+
+/obj/item/gun/proc/do_bolt_closed_effects(mob/living/user)
+	// override for cookies
+
+/obj/item/gun/proc/eject_chambered(mob/living/user)
+	return TRUE
 
 /// If the chamber is empty, take a round from the magazine and put it in there
 /// If the chamber is not empty, or theres no magazine, do nothing
@@ -1806,7 +1783,7 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 		// if(!gungun.eject_magazine(user, gungun.en_bloc, FALSE, FALSE))
 		// 	thing_2_yeet = null
 		//and your little chambered round as well! huahahaha!
-		gungun.eject_chambered_round(user, FALSE)
+		eject_chambered(user, FALSE)
 	if(!thing_2_yeet)
 		return FALSE
 	var/falls_or_flies = "falls"
@@ -1839,6 +1816,31 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 
 /obj/item/gun/proc/post_modify_projectile(obj/item/projectile/BB)
 	return
+
+
+
+
+/// important procs stuffed somewhere nobody will ever find them
+/proc/doing_something(mob/user)
+	var/datum/weakref/do_somethinger = WEAKREF(user)
+	if(GLOB.currently_loading_something[do_somethinger] > world.time)
+		return TRUE
+	if(GLOB.currently_loading_something[do_somethinger] < world.time)
+		GLOB.currently_loading_something -= do_somethinger
+	return FALSE
+
+/proc/start_doing_something(mob/user, delay)
+	var/datum/weakref/do_somethinger = WEAKREF(user)
+	GLOB.currently_loading_something[do_somethinger] = world.time + delay
+
+/proc/stop_doing_something(mob/user)
+	var/datum/weakref/do_somethinger = WEAKREF(user)
+	GLOB.currently_loading_something -= do_somethinger
+
+
+
+
+
 
 /obj/item/storage/backpack/debug_gun_hobo
 	name = "Bag of Gunstuff 4 hobos"

@@ -1428,6 +1428,9 @@ GLOBAL_LIST_INIT(main_body_parts2words, list(
 #define GHAMMER_UNCOCKED                "HAMMER_IS_NOT_COCKED"
 #define GHAMMER_HALFCOCK                "HAMMER_IS_HALF_COCKED"
 
+#define GBOLT_CLOSED                    "BOLT_IS_CLOSED"
+#define GBOLT_OPEN                      "BOLT_IS_OPEN"
+
 #define GEJECTOR_AFTER_FIRING           "EJECT_AFTER_FIRING"
 #define GEJECTOR_AFTER_COCKING          "EJECT_AFTER_COCKING"
 #define GEJECTOR_MANUAL_ONLY            "EJECT_MANUALLY"

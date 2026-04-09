@@ -117,12 +117,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /// chamber_round wont load another one if something's still in the chamber
 /// this is how bolt-action guns require pumping
 /obj/item/gun/ballistic/process_chamber(mob/living/user, soft_eject = FALSE)
-	var/obj/item/ammo_casing/AC = chambered //Find chambered round
-	if(istype(AC)) //there's a chambered round
-		if(casing_ejector)
-			AC.forceMove(drop_location()) //Eject casing onto ground.
-			AC.bounce_away(TRUE, toss_direction = (soft_eject ? null : get_ejector_direction(user)))
-			chambered = null
+	eject_chambered(user, FALSE)
 	chamber_round()
 
 /obj/item/gun/ballistic/chamber_round(obj/item/ammo_casing/load_this)
@@ -145,6 +140,19 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		return FALSE
 	if(!casing_ejector)
 	return TRUE */
+
+/obj/item/gun/ballistic/attack_self(mob/living/user)
+	pump(user, TRUE)
+	update_icon()
+	return
+
+/obj/item/gun/ballistic/AltClick(mob/living/user)
+	if(!magazine)
+		return
+	if(magazine.fixed_mag)
+		return
+	eject_magazine(user, !en_bloc, TRUE)
+	update_icon()
 
 /obj/item/gun/ballistic/attackby(obj/item/A, mob/user, params)
 	..()
@@ -214,22 +222,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	update_icon()
 	return TRUE
 
-/proc/doing_something(mob/user)
-	var/datum/weakref/do_somethinger = WEAKREF(user)
-	if(GLOB.currently_loading_something[do_somethinger] > world.time)
-		return TRUE
-	if(GLOB.currently_loading_something[do_somethinger] < world.time)
-		GLOB.currently_loading_something -= do_somethinger
-	return FALSE
-
-/proc/start_doing_something(mob/user, delay)
-	var/datum/weakref/do_somethinger = WEAKREF(user)
-	GLOB.currently_loading_something[do_somethinger] = world.time + delay
-
-/proc/stop_doing_something(mob/user)
-	var/datum/weakref/do_somethinger = WEAKREF(user)
-	GLOB.currently_loading_something -= do_somethinger
-
 // gets the delay for you stuffing that ammobox into this gun
 /obj/item/gun/ballistic/proc/load_into_gun_delay(mob/user, obj/item/ammo_box/A)
 	if(insert_magazine_delay <= 0)
@@ -239,7 +231,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		return FALSE
 	var/datum/weakref/loader = WEAKREF(user)
 	var/insert_delay = insert_magazine_delay * A.magazine_load_delay_mult
-	GLOB.currently_loading_something[loader] = world.time + (insert_delay)
+	start_doing_something(loader, insert_delay)
 	. = do_after(
 		user,
 		delay = insert_delay,
@@ -250,7 +242,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		allow_movement = TRUE,
 		progbar_on_target = TRUE,
 		)
-	GLOB.currently_loading_something -= loader
+	stop_doing_something(loader)
 	if(!.)
 		to_chat(user, span_alert("You were interrupted!"))
 
@@ -388,10 +380,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/proc/pump_unload(mob/M, hard_eject = FALSE)
 	if(!chambered)//We have a shell in the chamber
 		return
-	chambered.forceMove(drop_location())//Eject casing
-	if(hard_eject)
-		chambered.bounce_away()
-	var/obj/item/ammo_casing/ejected = chambered
+	var/obj/item/ammo_casing/ejected = eject_chambered(M, FALSE)
 	chambered = null
 	return ejected
 
@@ -403,21 +392,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(!magazine.ammo_count())
 		return FALSE
 	var/obj/item/ammo_casing/AC = magazine.get_round() //load next casing.
-	if(AC)
-		chambered = AC
-		return TRUE
-
-/obj/item/gun/ballistic/attack_self(mob/living/user)
-	pump(user, TRUE)
-	update_icon()
-	return
-
-/obj/item/gun/ballistic/AltClick(mob/living/user)
-	if(!magazine)
-		return
-	if(magazine.fixed_mag)
-		return
-	eject_magazine(user, !en_bloc, TRUE)
+	ifuser, !en_bloc, TRUE)
 	update_icon()
 
 /obj/item/gun/ballistic/proc/eject_magazine(mob/living/user, put_it_in_their_hand, makesound, maketext)
@@ -453,11 +428,16 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	else
 		..()
 
-/obj/item/gun/ballistic/proc/eject_chambered_round(mob/living/user, sounds_and_words)
+/obj/item/gun/ballistic/eject_chambered(mob/living/user, sounds_and_words)
 	if(sounds_and_words)
 		to_chat(user, span_notice("You eject \a [chambered] from \the [src]'s chamber."))
 		playsound(src, "gun_slide_lock", 70, 1)
-	process_chamber(user, FALSE)
+	var/obj/item/ammo_casing/AC = chambered //Find chambered round
+	if(istype(AC)) //there's a chambered round
+		AC.forceMove(drop_location()) //Eject casing onto ground.
+		AC.bounce_away(TRUE, toss_direction = (soft_eject ? null : get_ejector_direction(user)))
+		chambered = null
+	return AC
 
 /obj/item/gun/ballistic/examine(mob/user)
 	. = ..()
