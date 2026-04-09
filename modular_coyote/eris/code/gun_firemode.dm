@@ -62,13 +62,18 @@
 	 *   - Bolt-action rifles: Ignore cocking, eject after racking
 	 */
 	/// Should we consult the hammer state when firing? If true, we defer to the hammer state to see if we can try to shoot
-	var/ignore_hammer          = TRUE
+	var/hammer_ignore          = TRUE
 	/// Should we automatically recock after firing, if the hammer is consulted? False means you have to click again to recock
 	var/hammer_recock_on_fire  = TRUE
-	/// When do we eject casings? Immediately after firing, or after racking, or only manually? (manually when you re/unload it)
-	var/ejector_behavior       = GEJECTOR_AFTER_FIRING
-	/// For flavoring, do we pull back the hammer, or rack the gun when we jerk off the gun?
-	var/rack_or_cock           = G_RACK
+	/// does the bolt cycle back, then forward on a shot?
+	var/bolt_cycles_on_shoot   = TRUE
+	/// when you click the gun, does it cycle until its in a position you can shoot it with?
+	var/bolt_cycles_to_shootable_state = TRUE
+	// so if it doesnt cycle on shoot, and doesnt cycle to a shootable state
+	// when u shoot, you gotta use it to *chunk* it back, then use it to *clack* it forward
+	var/bolt_ejects_on_open     = TRUE
+	var/bolt_opens_on_last_shot = TRUE
+	var/bolt_shootable_state = G_BOLT_FORWARD
 
 /datum/firemode/New(obj/item/gun/_gun, atom/movable/_dependant)
 	..()
@@ -140,54 +145,6 @@
 /datum/firemode/proc/update()
 	return
 
-/* ACTION STUFF */
-// Called when the gun's trigger is pulled, to see if we can actually fire or not
-// Handles hammer state, returns boolean whether or not we can shoot the thing
-/datum/firemode/proc/try_hammer(drop_hammer = FALSE)
-	GET_GUN
-	if(ignore_hammer)
-		gun.hammer_state = GHAMMER_COCKED
-		return TRUE
-	if(gun.hammer_state == GHAMMER_COCKED)
-		if(drop_hammer)
-			if(!hammer_recock_on_fire)
-				gun.hammer_state = GHAMMER_UNCOCKED
-		return TRUE
-	return FALSE
-
-/datum/firemode/proc/toggle_hammer()
-	GET_GUN
-	if(ignore_hammer)
-		gun.hammer_state = GHAMMER_COCKED
-		return
-	if(gun.hammer_state == GHAMMER_COCKED)
-		gun.hammer_state = GHAMMER_UNCOCKED
-	else
-		gun.hammer_state = GHAMMER_COCKED
-
-// Called when the gun is shot, to see if we need to eject casings or not
-/datum/firemode/proc/eject_on_fire()
-	GET_GUN
-	if(ejector_behavior == GEJECTOR_AFTER_FIRING)
-		return TRUE
-	return FALSE
-
-// Called when the gun is racked, to see if we need to eject casings or not
-/datum/firemode/proc/eject_on_rack()
-	GET_GUN
-	if(ejector_behavior == GEJECTOR_AFTER_COCKING)
-		return TRUE
-	return FALSE
-
-// called when racked
-/datum/firemode/proc/on_rack()
-	GET_GUN
-	if(gun.hammer_state == GHAMMER_COCKED || ignore_hammer)
-		gun.hammer_state = GHAMMER_COCKED
-		return FALSE
-	gun.hammer_state = GHAMMER_COCKED
-	return TRUE
-
 /datum/firemode/semi_auto
 	name = "Semi Automatic"
 	desc = "Shoot one shot per trigger pull."
@@ -211,9 +168,8 @@
 	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
 	burst_count_default = 1
 	hammer_recock_on_fire = FALSE
-	ignore_hammer = FALSE
-	ejector_behavior = GEJECTOR_MANUAL_ONLY
-	rack_or_cock = G_COCK
+	hammer_ignore = FALSE
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 
 /datum/firemode/single_action/pump_action
 	name = "Single Shot - Pump Action"
@@ -222,8 +178,7 @@
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to rack the gun manually after every shot!"
-	ejector_behavior = GEJECTOR_AFTER_COCKING
-	rack_or_cock = G_RACK
+	bolt_ejects_on_open = GEJECTOR_AFTER_COCKING
 
 /datum/firemode/single_action/pump_action/bolt_action
 	name = "Single Shot - Bolt Action"
@@ -244,7 +199,7 @@
 /datum/firemode/semi_auto/shotgun_fixed
 	name = "Single-Barrel Shot"
 	desc = "Blast 'em with one of those barrels!"
-	ejector_behavior = GEJECTOR_MANUAL_ONLY
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 
 /datum/firemode/semi_auto/fastest
 	shoot_delay_default = GUN_FIRE_DELAY_FASTEST
@@ -368,7 +323,7 @@
 	desc = "Fire both barrels at once!"
 	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
 	burst_count_default = 2
-	ejector_behavior = GEJECTOR_MANUAL_ONLY
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 
 /datum/firemode/burst/two/slower
 	name = "2-Round Burst"
