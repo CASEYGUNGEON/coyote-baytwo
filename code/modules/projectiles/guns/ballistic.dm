@@ -142,7 +142,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return TRUE */
 
 /obj/item/gun/ballistic/attack_self(mob/living/user)
-	pump(user, TRUE)
+	cycle_bolt(user, TRUE)
 	update_icon()
 	return
 
@@ -364,6 +364,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		return TRUE
 	if(user)
 		to_chat(user, span_alert("You can't seem to fit \the [mag_to_check] into \the [src]."))
+
+/obj/item/gun/ballistic/do_bolt_open_effects(mob/living/user, loudly)
+
 
 /obj/item/gun/ballistic/proc/pump(mob/living/M, visible = TRUE, rechamber = TRUE, hard_eject = FALSE)
 	if(visible)

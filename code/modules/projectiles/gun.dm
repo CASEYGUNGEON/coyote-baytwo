@@ -772,7 +772,7 @@ ATTACHMENTS
 	return "The hammer isn't cocked! Cock it to shoot!!"
 
 
-/obj/item/gun/proc/toggle_hammer(mob/living/user)
+/obj/item/gun/proc/toggle_hammer(mob/living/user, loudly)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		return
@@ -781,11 +781,11 @@ ATTACHMENTS
 	if(!user_can_physically_operate_this(user))
 		return
 	if(hammer_state == GHAMMER_UNCOCKED)
-		cock_hammer(user, TRUE)
+		cock_hammer(user, TRUE, loudly)
 	else
-		drop_hammer(user, TRUE)
+		drop_hammer(user, TRUE, loudly)
 
-/obj/item/gun/proc/drop_hammer(mob/living/user, dry)
+/obj/item/gun/proc/drop_hammer(mob/living/user, dry, loudly)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		hammer_state = GHAMMER_COCKED
@@ -796,12 +796,12 @@ ATTACHMENTS
 	if(!user_can_physically_operate_this(user))
 		return
 	hammer_state = GHAMMER_UNCOCKED
-	do_hammer_dropped_effects(user, dry)
+	do_hammer_dropped_effects(user, dry, loudly)
 
-/obj/item/gun/proc/do_hammer_dropped_effects(mob/living/user, dry)
+/obj/item/gun/proc/do_hammer_dropped_effects(mob/living/user, dry, loudly)
 	// override for cookies
 
-/obj/item/gun/proc/cock_hammer(mob/living/user, dry)
+/obj/item/gun/proc/cock_hammer(mob/living/user, dry, loudly)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		hammer_state = GHAMMER_COCKED
@@ -812,12 +812,12 @@ ATTACHMENTS
 	if(!user_can_physically_operate_this(user))
 		return
 	hammer_state = GHAMMER_COCKED
-	do_hammer_cocked_effects(user, dry)
+	do_hammer_cocked_effects(user, dry, loudly)
 
-/obj/item/gun/proc/do_hammer_cocked_effects(mob/living/user)
+/obj/item/gun/proc/do_hammer_cocked_effects(mob/living/user, loudly)
 	// override for cookies
 
-/obj/item/gun/proc/cycle_bolt(mob/living/user)
+/obj/item/gun/proc/cycle_bolt(mob/living/user, loudly)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		return
@@ -825,23 +825,19 @@ ATTACHMENTS
 		return
 	if(!user_can_physically_operate_this(user))
 		return
-	var/a_boltie_happened = FALSE
+	var/did_something = FALSE
 	if(bolt_state == GBOLT_CLOSED)
-		bolt_open(user)
-		a_boltie_happened = TRUE
+		did_something = cycle_bolt_open(user, loudly)
 	else
-		bolt_close(user)
-		a_boltie_happened = TRUE
+		did_something = cycle_bolt_closed(user, loudly)
 	if(my_mode.bolt_cycles_to_shootable_state)
 		if(bolt_state != my_mode.bolt_shootable_state)
 			if(bolt_state == GBOLT_CLOSED)
-				bolt_open(user)
-				a_boltie_happened = TRUE
+				cycle_bolt_open(user, FALSE)
 			else
-				bolt_close(user)
-				a_boltie_happened = TRUE
+				cycle_bolt_closed(user, FALSE)
 
-/obj/item/gun/proc/bolt_open(mob/living/user)
+/obj/item/gun/proc/cycle_bolt_open(mob/living/user, loudly)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		bolt_state = GBOLT_OPEN
@@ -853,13 +849,13 @@ ATTACHMENTS
 		return
 	bolt_state = GBOLT_OPEN
 	if(my_mode.bolt_ejects_on_open)
-		eject_chambered(user) // ten lines 
-	do_bolt_open_effects(user)
+		eject_chambered(user, loudly) // ten lines 
+	do_bolt_open_effects(user, loudly)
 
-/obj/item/gun/proc/do_bolt_open_effects(mob/living/user)
+/obj/item/gun/proc/do_bolt_open_effects(mob/living/user, loudly)
 	// override for cookies
 
-/obj/item/gun/proc/bolt_close(mob/living/user)
+/obj/item/gun/proc/cycle_bolt_closed(mob/living/user, loudly)
 	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
 	if(!my_mode)
 		bolt_state = GBOLT_CLOSED
@@ -867,16 +863,16 @@ ATTACHMENTS
 	if(my_mode.bolt_ignore)
 		bolt_state = GBOLT_CLOSED
 		return
-	if(!user_can_physically_operate_this(user))
+	if(!user_can_physically_operate_this(user, loudly))
 		return
 	bolt_state = GBOLT_CLOSED
 	
-	do_bolt_closed_effects(user)
+	do_bolt_closed_effects(user, loudly)
 
-/obj/item/gun/proc/do_bolt_closed_effects(mob/living/user)
+/obj/item/gun/proc/do_bolt_closed_effects(mob/living/user, loudly)
 	// override for cookies
 
-/obj/item/gun/proc/eject_chambered(mob/living/user)
+/obj/item/gun/proc/eject_chambered(mob/living/user, loudly)
 	return TRUE
 
 /// If the chamber is empty, take a round from the magazine and put it in there
@@ -2004,11 +2000,11 @@ CITADEL MODULAR PISTOL CODE
 SOME SORT OF  BOLT ACTION CODE UNUSED
 /obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
 	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
-	if(bolt_open)
+	if(cycle_bolt_open)
 		pump_reload(M)
 	else
 		pump_unload(M)
-	bolt_open = !bolt_open
+	cycle_bolt_open = !cycle_bolt_open
 	update_icon()	//I.E. fix the desc
 	return 1
 
@@ -2020,14 +2016,14 @@ SOME SORT OF  BOLT ACTION CODE UNUSED
 	return 1
 
 /obj/item/gun/ballistic/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	if(!bolt_open)
+	if(!cycle_bolt_open)
 		to_chat(user, span_notice("The bolt is closed!"))
 		return
 	. = ..()
 
 /obj/item/gun/ballistic/shotgun/boltaction/examine(mob/user)
 	. = ..()
-	. += "The bolt is [bolt_open ? "open" : "closed"]."
+	. += "The bolt is [cycle_bolt_open ? "open" : "closed"]."
 
 
 CODE FOR RESKIN
