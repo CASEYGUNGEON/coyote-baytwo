@@ -753,6 +753,18 @@
 /mob/living/carbon/human/species/scrotie
 	race = /datum/species/feral/scrotie
 
+/datum/species/feral/scrorcshund
+	name = "Feral Scrorcshund"
+	id = "scrotie"
+	simple_icon = 'modular_coyote/icons/mob/vore64x32.dmi'
+	icon_width = 64
+	icon_dead_suffix = "-dead"
+	icon_rest_suffix = "_rest"
+	alt_prefixes = list("Collared Scrotie" = "c_", "Security Scrotie" = "s_", "Fat Scrotie" = "fat_", "Fyrotie" = "h_", "Fun Sized" = "cup_", "Fun Sized Security" = "scup_")
+	liked_food = MEAT | RAW
+/mob/living/carbon/human/species/scrorcshund
+	race = /datum/species/feral/scrorcshund
+
 /datum/species/feral/otiepede
 	name = "Feral Otiepede"
 	id = "otiepede"
