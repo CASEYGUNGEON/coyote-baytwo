@@ -192,6 +192,7 @@ ATTACHMENTS
 	var/recharge_queued = TRUE
 	/// Cooldown between times the gun will tell you it shot, 0.5 seconds cus its not super duper important
 	COOLDOWN_DECLARE(shoot_message_antispam)
+	var/datum/weakref/listening_to = null // for knowing whose mousewheels to listen to
 
 	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
 	var/manual_chamber_sound = 'sound/weapons/bulletinsert.ogg'
@@ -303,6 +304,13 @@ ATTACHMENTS
 	if(chambered)
 		QDEL_NULL(chambered)
 	QDEL_LIST(firemodes)
+	UnregisterSignal(src, COMSIG_ATOM_POST_ADMIN_SPAWN,PROC_REF(admin_fill_gun))
+	if(listening_to)
+		var/mob/listening_to_mob = GET_WEAKREF(listening_to)
+		listening_to = null
+		if(listening_to_mob)
+			UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
+			UnregisterSignal(listening_to_mob, COMSIG_MOB_MIDDLECLICKED_SOMETHING)
 	return ..()
 
 /obj/item/gun/handle_atom_del(atom/A)
@@ -345,9 +353,7 @@ ATTACHMENTS
 //i.e if clicking would make it shoot
 // doesnt care if its loaded, just if pulling the trigger would do anything
 /obj/item/gun/proc/can_shoot()
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return TRUE // idk
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(!my_mode.hammer_ignore)
 		var/hammer_prmoblem = check_hammer_is_in_shootable_position()
 		if(hammer_prmoblem)
@@ -369,6 +375,50 @@ ATTACHMENTS
 		for(var/obj/O in contents)
 			O.emp_act(severity)
 	update_icon()
+
+/obj/item/gun/equipped(mob/living/user, slot)
+	. = ..()
+	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
+	if(listening_to_mob)
+		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
+		listening_to = null
+	if(user.get_active_held_item() == src)
+		listening_to = WEAKREF(user)
+		RegisterSignal(user, COMSIG_MOB_MOUSEWHEEL, PROC_REF(mouse_wheel_signal_handler))
+		RegisterSignal(user, COMSIG_MOB_MIDDLECLICKED_SOMETHING, PROC_REF(middleclick_signal_handler))
+
+/obj/item/gun/dropped(mob/user)
+	. = ..()
+	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
+	if(listening_to_mob)
+		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
+		UnregisterSignal(listening_to_mob, COMSIG_MOB_MIDDLECLICKED_SOMETHING)
+		listening_to = null
+
+/obj/item/gun/proc/mouse_wheel_signal_handler(
+	mob/living/user,
+	atom/wheeled_on,
+	delta_x,
+	delta_y,
+	params,
+	)
+	SIGNAL_HANDLER
+	if(user != GET_WEAKREF(listening_to))
+		return
+	if(wheeled_on == src)
+		return // prevent double-doing
+	return TRUE
+
+/obj/item/gun/proc/middleclick_signal_handler(
+	mob/living/user,
+	atom/clicked_on,
+	)
+	SIGNAL_HANDLER
+	if(user != GET_WEAKREF(listening_to))
+		return
+	if(clicked_on == src)
+		return // prevent double-doing
+	return TRUE
 
 // these two are part of the Melee Attack Chain
 // used for melee attacks against mobs
@@ -674,7 +724,7 @@ ATTACHMENTS
 	/// recoil is read before a burst, so all subsequent shots in a burst will have the same recoil
 	/// This is the mob shooting's aggregate recoil
 	var/sprd = SSrecoil.get_offset(user) /// its still *added* with each shot, so the next burst will be higher
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	var/datum/firemode/my_mode = get_current_firemode()
 	for(var/i in 1 to burst_size)
 		if(safety)
 			to_chat(user, span_danger("The gun's safety is on!"))
@@ -733,7 +783,7 @@ ATTACHMENTS
 		make_noise(user)
 		if(my_mode)
 			if(my_mode.bolt_cycles_on_shoot)
-				bolt_cycle()
+				cycle_bolt(user, FALSE)
 		// if(!my_mode || my_mode.hammer_ignore || my_mode.bolt_ejects_on_open == GEJECTOR_AFTER_FIRING)
 		// 	process_chamber(user)
 		// 	chamber_round()
@@ -745,9 +795,7 @@ ATTACHMENTS
 	return TRUE
 
 /obj/item/gun/proc/check_bolt_is_in_shootable_position()
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		return
 	var/shootable_state = my_mode.bolt_shootable_state
@@ -761,9 +809,7 @@ ATTACHMENTS
 		return "The bolt is busted! It won't let you shoot!!"
 
 /obj/item/gun/proc/check_hammer_is_in_shootable_position()
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.hammer_ignore)
 		return
 	// shootable position is always cocked
@@ -773,9 +819,7 @@ ATTACHMENTS
 
 
 /obj/item/gun/proc/toggle_hammer(mob/living/user, loudly)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.hammer_ignore)
 		return
 	if(!user_can_physically_operate_this(user))
@@ -784,12 +828,10 @@ ATTACHMENTS
 		cock_hammer(user, TRUE, loudly)
 	else
 		drop_hammer(user, TRUE, loudly)
+	return TRUE
 
 /obj/item/gun/proc/drop_hammer(mob/living/user, dry, loudly)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		hammer_state = GHAMMER_COCKED
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.hammer_ignore)
 		hammer_state = GHAMMER_COCKED
 		return
@@ -802,10 +844,7 @@ ATTACHMENTS
 	// override for cookies
 
 /obj/item/gun/proc/cock_hammer(mob/living/user, dry, loudly)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		hammer_state = GHAMMER_COCKED
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.hammer_ignore)
 		hammer_state = GHAMMER_COCKED
 		return
@@ -818,9 +857,7 @@ ATTACHMENTS
 	// override for cookies
 
 /obj/item/gun/proc/cycle_bolt(mob/living/user, loudly)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		return
 	if(!user_can_physically_operate_this(user))
@@ -830,47 +867,88 @@ ATTACHMENTS
 		did_something = cycle_bolt_open(user, loudly)
 	else
 		did_something = cycle_bolt_closed(user, loudly)
-	if(my_mode.bolt_cycles_to_shootable_state)
-		if(bolt_state != my_mode.bolt_shootable_state)
-			if(bolt_state == GBOLT_CLOSED)
-				cycle_bolt_open(user, FALSE)
-			else
-				cycle_bolt_closed(user, FALSE)
+	if(did_something) // if did, then do
+		if(my_mode.bolt_cycles_to_shootable_state) //if diddle, then poo
+			if(bolt_state != my_mode.bolt_shootable_state)
+				if(bolt_state == GBOLT_CLOSED)
+					cycle_bolt_open(user, FALSE)
+				else
+					cycle_bolt_closed(user, FALSE)
+	return TRUE
 
 /obj/item/gun/proc/cycle_bolt_open(mob/living/user, loudly)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		bolt_state = GBOLT_OPEN
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		bolt_state = GBOLT_OPEN
 		return
+	if(bolt_state == GBOLT_OPEN)
+		if(loudly)
+			to_chat(user, span_notice("The bolt is already open!"))
+		return
 	if(!user_can_physically_operate_this(user))
 		return
+	if(my_mode.bolt_opening_delay)
+		if(!do_delay(user, my_mode.bolt_opening_delay))
+			return
 	bolt_state = GBOLT_OPEN
-	if(my_mode.bolt_ejects_on_open)
-		eject_chambered(user, loudly) // ten lines 
-	do_bolt_open_effects(user, loudly)
+	return do_bolt_open_effects(user, loudly)
 
 /obj/item/gun/proc/do_bolt_open_effects(mob/living/user, loudly)
-	// override for cookies
+	var/obj/item/ammo_casing/ejected
+	if(my_mode.bolt_ejects_on_open)
+		ejected = eject_chambered(user, loudly) // ten lines 
+	return ejected || TRUE
 
 /obj/item/gun/proc/cycle_bolt_closed(mob/living/user, loudly)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		bolt_state = GBOLT_CLOSED
-		return
+	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		bolt_state = GBOLT_CLOSED
 		return
 	if(!user_can_physically_operate_this(user, loudly))
 		return
+	if(my_mode.bolt_closing_delay)
+		if(!do_delay(user, my_mode.bolt_closing_delay))
+			return
 	bolt_state = GBOLT_CLOSED
-	
-	do_bolt_closed_effects(user, loudly)
+	return do_bolt_closed_effects(user, loudly)
 
 /obj/item/gun/proc/do_bolt_closed_effects(mob/living/user, loudly)
-	// override for cookies
+	return TRUE
+
+/obj/item/gun/proc/do_delay(mob/user, delay_in)
+	if(doing_something(user))
+		to_chat(user, span_warning("You're already doing something!"))
+		return FALSE
+	var/datum/weakref/loader = WEAKREF(user)
+	start_doing_something(loader, delay_in)
+	. = do_after(
+		user,
+		delay = delay_in,
+		needhand = TRUE,
+		target = src,
+		progress = TRUE,
+		public_progbar = TRUE,
+		allow_movement = TRUE,
+		progbar_on_target = TRUE,
+		)
+	stop_doing_something(loader)
+	if(!.)
+		to_chat(user, span_alert("You were interrupted!"))
+
+/obj/item/gun/proc/get_current_firemode()
+	var/datum/firemode/mymode = LAZYACCESS(firemodes, sel_mode)
+	if(mymode)
+		return mymode
+	mymode = LAZYACCESS(firemodes, 1)
+	if(mymode)
+		return mymode
+	stack_trace("Couldnt find any valid firemodes on [src] when trying to get current firemode! This should never happen, report it to the developers!")
+	initialize_firemodes()
+	for(var/i in 1 to LAZYLEN(firemodes))
+		mymode = LAZYACCESS(firemodes, i)
+		if(mymode)
+			return mymode
+	CRASH("SOMETHING IS SERIOUSLY WRONG WITH THE FIREMODES ON [src], COULD NOT FIND ANY VALID FIREMODES EVEN AFTER INITIALIZATION! THIS SHOULD NEVER HAPPEN, REPORT IT TO THE DEVELOPERS! PREPARE FOR A CASCADE OF RUNTIMES!!!!")
 
 /obj/item/gun/proc/eject_chambered(mob/living/user, loudly)
 	return TRUE
@@ -1387,7 +1465,7 @@ ATTACHMENTS
 	data["gun_recoil_scoot_stats"] = scoot_stats
 	data["gun_spread"] = added_spread || 0
 
-	var/datum/firemode/my_firemode = LAZYACCESS(firemodes, sel_mode)
+	var/datum/firemode/my_firemode = get_current_firemode()
 	var/action_kind = "Unknown"
 	switch(my_firemode.fire_type)
 		if(GUN_FIREMODE_SEMIAUTO)
@@ -1555,9 +1633,7 @@ ATTACHMENTS
 	return ZONE_WEIGHT_SEMI_AUTO
 
 /obj/item/gun/proc/get_fire_delay(mob/user)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return fire_delay // shrug
+	var/datum/firemode/my_mode = get_current_firemode()
 	. = my_mode.get_fire_delay()
 	if(CHECK_BITFIELD(gun_skill_check, AFFECTED_BY_FAST_PUMP) && user)
 		if(HAS_TRAIT(user, TRAIT_FAST_PUMP))
@@ -1942,226 +2018,3 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 	// if(get_inactive_held_item() == G2)//recheck this again because it might have changed since we reloaded the active hand gun.
 	// 	G2?.Reload(src)
 	// return TRUE
-
-///////////////////
-//GUNCODE ARCHIVE//
-///////////////////
-
-/*
-STICK GUN PICKUP WEIRDNESS
-/obj/item/gun/ballistic/automatic/pistol/stickman/pickup(mob/living/user)
-	. = ..()
-	to_chat(user, span_notice("As you try to pick up [src], it slips out of your grip.."))
-	if(prob(50))
-		to_chat(user, span_notice("..and vanishes from your vision! Where the hell did it go?"))
-		qdel(src)
-		user.update_icons()
-	else
-		to_chat(user, span_notice("..and falls into view. Whew, that was a close one."))
-		user.dropItemToGround(src)
-
-/obj/item/gun/ballistic/automatic/pistol/deagle/update_overlays()
-	. = ..()
-	if(magazine)
-		. += "deagle_magazine"
-
-CITADEL MODULAR PISTOL CODE
-/obj/item/gun/ballistic/automatic/pistol/modular
-	name = "modular pistol"
-	desc = "A small, easily concealable 10mm handgun. Has a threaded barrel for suppressors."
-	icon = 'modular_citadel/icons/obj/guns/cit_guns.dmi'
-	icon_state = "cde"
-	can_unsuppress = TRUE
-	automatic_burst_overlay = FALSE
-	obj_flags = UNIQUE_RENAME
-	unique_reskin = list("Default" = "cde",
-						"N-99" = "n99",
-						"Stealth" = "stealthpistol",
-						"HKVP-78" = "vp78",
-						"Luger" = "p08b",
-						"Mk.58" = "secguncomp",
-						"PX4 Storm" = "px4"
-						)
-
-/obj/item/gun/ballistic/automatic/pistol/modular/update_icon_state()
-	if(current_skin)
-		icon_state = "[unique_reskin[current_skin]][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
-	else
-		icon_state = "[initial(icon_state)][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
-
-/obj/item/gun/ballistic/automatic/pistol/modular/update_overlays()
-	. = ..()
-	if(magazine && suppressed)
-		. += "[unique_reskin[current_skin]]-magazine-sup"	//Yes, this means the default iconstate can't have a magazine overlay
-	else if (magazine)
-		. += "[unique_reskin[current_skin]]-magazine"
-
-
-SOME SORT OF  BOLT ACTION CODE UNUSED
-/obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
-	if(cycle_bolt_open)
-		pump_reload(M)
-	else
-		pump_unload(M)
-	cycle_bolt_open = !cycle_bolt_open
-	update_icon()	//I.E. fix the desc
-	return 1
-
-/obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
-	pump_unload(M)
-	pump_reload(M)
-	update_icon()	//I.E. fix the desc
-	return 1
-
-/obj/item/gun/ballistic/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	if(!cycle_bolt_open)
-		to_chat(user, span_notice("The bolt is closed!"))
-		return
-	. = ..()
-
-/obj/item/gun/ballistic/shotgun/boltaction/examine(mob/user)
-	. = ..()
-	. += "The bolt is [cycle_bolt_open ? "open" : "closed"]."
-
-
-CODE FOR RESKIN
-	unique_reskin = list("Tactical" = "cshotgun",
-						"Slick" = "cshotgun_slick"
-						)
-
-
-DUAL TUBE PUMP ACTION (seems redundant with neostead but why not keep it.)
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/examine(mob/user)
-	. = ..()
-	. += span_notice("Alt-click to pump it.")
-
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/attack_self(mob/living/user)
-	if(!chambered && magazine.contents.len)
-		pump()
-	else
-		toggle_tube(user)
-
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/AltClick(mob/living/user)
-	. = ..()
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
-		return
-	pump()
-	return TRUE
-
-
-ATTACHING SLING
-/obj/item/gun/ballistic/shotgun/boltaction/improvised/attackby(obj/item/A, mob/user, params)
-	..()
-	if(istype(A, /obj/item/stack/cable_coil) && !sawn_off)
-		if(A.use_tool(src, user, 0, 10, skill_gain_mult = EASY_USE_TOOL_MULT))
-			slot_flags = INV_SLOTBIT_BACK
-			to_chat(user, span_notice("You tie the lengths of cable to the rifle, making a sling."))
-			slung = TRUE
-			update_icon()
-		else
-			to_chat(user, span_warning("You need at least ten lengths of cable if you want to make a sling!"))
-
-/obj/item/gun/ballistic/shotgun/boltaction/improvised/update_overlays()
-	. = ..()
-	if(slung)
-		. += "[icon_state]sling"
-
-
-HOOK GUN CODE. Bizarre but could be made into something useful.
-/obj/item/gun/ballistic/shotgun/doublebarrel/hook
-	name = "hook modified sawn-off shotgun"
-	desc = "Range isn't an issue when you can bring your user to you."
-	icon_state = "hookshotgun"
-	inhand_icon_state = "shotgun"
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
-	w_class = WEIGHT_CLASS_BULKY
-	weapon_weight = GUN_ONE_HAND_ONLY
-	force = 16 //it has a hook on it
-	attack_verb = list("slashed", "hooked", "stabbed")
-	hitsound = 'sound/weapons/bladeslice.ogg'
-	//our hook gun!
-	var/obj/item/gun/magic/hook/bounty/hook
-	var/toggled = FALSE
-
-CODE FOR ASSAULT RIFE WITH GRENADE LAUNCHER ATTACHED
-/obj/item/gun/ballistic/automatic/m90
-	name = "\improper M-90gl Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
-	icon_state = "m90"
-	inhand_icon_state = "m90"
-	mag_type = /obj/item/ammo_box/magazine/m556
-	fire_sound = 'sound/weapons/gunshot_smg.ogg'
-	can_suppress = FALSE
-	automatic_burst_overlay = FALSE
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/underbarrel
-
-/obj/item/gun/ballistic/automatic/m90/Initialize()
-	. = ..()
-	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher(src)
-	update_icon()
-
-/obj/item/gun/ballistic/automatic/m90/unrestricted
-	pin = /obj/item/firing_pin
-
-/obj/item/gun/ballistic/automatic/m90/unrestricted/Initialize()
-	. = ..()
-	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher/unrestricted(src)
-	update_icon()
-
-/obj/item/gun/ballistic/automatic/m90/afterattack(atom/target, mob/living/user, flag, params)
-	if(select == 2)
-		underbarrel.afterattack(target, user, flag, params)
-	else
-		. = ..()
-		return
-/obj/item/gun/ballistic/automatic/m90/attackby(obj/item/A, mob/user, params)
-	if(istype(A, /obj/item/ammo_casing))
-		if(istype(A, underbarrel.magazine.ammo_type))
-			underbarrel.attack_self()
-			underbarrel.attackby(A, user, params)
-	else
-		..()
-/obj/item/gun/ballistic/automatic/m90/update_overlays()
-	. = ..()
-	switch(select)
-		if(0)
-			. += "[initial(icon_state)]semi"
-		if(1)
-			. += "[initial(icon_state)]burst"
-		if(2)
-			. += "[initial(icon_state)]gren"
-
-/obj/item/gun/ballistic/automatic/m90/update_icon_state()
-	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
-
-LONG SCOPE
-	zoomable = TRUE
-	zoom_amt = 10 //Long range, enough to see in front of you, but no tiles behind you.
-	zoom_out_amt = 13
-
-
-MAG ICON CODE
-/obj/item/gun/ballistic/automatic/surplus/update_icon_state()
-	if(magazine)
-		icon_state = "surplus"
-	else
-		icon_state = "surplus-e"
-
-SPREAD UPON BURST TOGGLE
-/obj/item/gun/ballistic/automatic/wt550/enable_burst()
-	. = ..()
-	spread = 15
-
-/obj/item/gun/ballistic/automatic/wt550/disable_burst()
-	. = ..()
-	spread = 0
-
-ICON UPDATE FOR GRADUAL DEPLETION, PLASTIC MAGS ETC
-/obj/item/gun/ballistic/automatic/c20r/update_icon_state()
-	icon_state = "c20r[magazine ? "-[CEILING(get_ammo(0)/4, 1)*4]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
-
-/obj/item/gun/ballistic/automatic/wt550/update_icon_state()
-	icon_state = "wt550[magazine ? "-[CEILING(((get_ammo(FALSE) / magazine.max_ammo) * 20) /4, 1)*4]" : "-0"]" //Sprites only support up to 20.
-*/

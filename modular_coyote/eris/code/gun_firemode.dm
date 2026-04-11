@@ -73,8 +73,12 @@
 	// when u shoot, you gotta use it to *chunk* it back, then use it to *clack* it forward
 	var/bolt_ejects_on_open     = TRUE
 	var/bolt_opens_on_last_shot = TRUE
-	var/bolt_shootable_state = G_BOLT_FORWARD
+	var/bolt_shootable_state = GBOLT_CLOSED
+	var/bolt_manually_chamberable_state = GBOLT_OPEN
 	var/bolt_ignore = TRUE
+	var/bolt_cocks_hammer_on_this_state = GBOLT_CLOSED
+	var/bolt_opening_delay = 0
+	var/bolt_closing_delay = 0
 
 /datum/firemode/New(obj/item/gun/_gun, atom/movable/_dependant)
 	..()

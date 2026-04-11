@@ -85,7 +85,6 @@
 	var/speedloader_sound =          'sound/weapons/ba_revolver/speedloader_act.ogg'
 	var/eject_all_sound =            'sound/weapons/ba_revolver/eject_multiple.ogg'
 	var/eject_all_no_shells_sound =  'sound/weapons/ba_revolver/eject_multiple_no_shells.ogg'
-	var/datum/weakref/listening_to = null // for knowing whose mousewheels to listen to
 	equipsound = 'sound/f13weapons/equipsounds/pistolequip.ogg'
 
 /obj/item/gun/ballistic/revolver/Initialize()
@@ -97,25 +96,6 @@
 /obj/item/gun/ballistic/revolver/generate_guntags()
 	..()
 	gun_tags |= GUN_REVOLVER
-
-/obj/item/gun/ballistic/revolver/equipped(mob/living/user, slot)
-	. = ..()
-	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
-	if(listening_to_mob)
-		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
-		listening_to = null
-	if(user.get_active_held_item() == src)
-		listening_to = WEAKREF(user)
-		RegisterSignal(user, COMSIG_MOB_MOUSEWHEEL, PROC_REF(mouse_wheel_signal_handler))
-		RegisterSignal(user, COMSIG_MOB_MIDDLECLICKED_SOMETHING, PROC_REF(middleclick_signal_handler))
-
-/obj/item/gun/ballistic/revolver/dropped(mob/user)
-	. = ..()
-	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
-	if(listening_to_mob)
-		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
-		UnregisterSignal(listening_to_mob, COMSIG_MOB_MIDDLECLICKED_SOMETHING)
-		listening_to = null
 
 /obj/item/gun/ballistic/revolver/proc/init_kind()
 	switch(kind)
@@ -170,7 +150,7 @@
 			eject_all_sound =            'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
 			eject_all_no_shells_sound =  'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
 
-/obj/item/gun/ballistic/revolver/proc/mouse_wheel_signal_handler(
+/obj/item/gun/ballistic/revolver/mouse_wheel_signal_handler(
 	mob/living/user,
 	atom/wheeled_on,
 	delta_x,
@@ -178,22 +158,18 @@
 	params,
 	)
 	SIGNAL_HANDLER
-	if(user != GET_WEAKREF(listening_to))
+	if(!..())
 		return
-	if(wheeled_on == src)
-		return // prevent double-doing
 	if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
 		advance_chamber(user, SIGN(-delta_y), TRUE)
 
-/obj/item/gun/ballistic/revolver/proc/middleclick_signal_handler(
+/obj/item/gun/ballistic/revolver/middleclick_signal_handler(
 	mob/living/user,
 	atom/clicked_on,
 	)
 	SIGNAL_HANDLER
-	if(user != GET_WEAKREF(listening_to))
+	if(!..())
 		return
-	if(clicked_on == src)
-		return // prevent double-doing
 	var/obj/item/in_active_hand = user.get_active_held_item()
 	// var/gun_is_in_active_hand = in_active_hand == src
 	var/obj/item/in_inactive_hand = user.get_inactive_held_item()
