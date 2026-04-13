@@ -201,6 +201,33 @@
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to lever the gun manually after every shot!"
 
+/datum/firemode/bolt_using
+	name = "Parent Bolt Using"
+	desc = "hi"
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
+		Also, remember that you have to bolt the gun manually after every shot!"
+	bolt_ignore = FALSE
+	bolt_cycles_on_shoot   = FALSE
+	bolt_cycles_to_shootable_state = FALSE
+	bolt_ejects_on_open     = TRUE
+	bolt_opens_on_last_shot = FALSE
+	bolt_shootable_state = GBOLT_CLOSED
+	bolt_manually_chamberable_state = GBOLT_OPEN
+	bolt_cocks_hammer_on_this_state = GBOLT_CLOSED
+	bolt_opening_delay = 0
+	bolt_closing_delay = 0
+
+/datum/firemode/bolt_using/straight_pull
+	name = "Straight-Pull Bolt"
+	desc = "Shoot one shot, pull the bolt straight back and forward, repeat."
+	extra_tip = "Uses a straight-pull bolt action, which means you just pull the bolt back, \
+		then push it forward, with no delay on either action."
+
+
+
+
 /datum/firemode/semi_auto/shotgun_fixed
 	name = "Single-Barrel Shot"
 	desc = "Blast 'em with one of those barrels!"
