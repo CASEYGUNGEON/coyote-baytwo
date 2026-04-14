@@ -68,14 +68,15 @@
 	/// does the bolt cycle back, then forward on a shot?
 	var/bolt_cycles_on_shoot   = TRUE
 	/// when you click the gun, does it cycle until its in a position you can shoot it with?
-	var/bolt_cycles_to_shootable_state = TRUE
+	var/bolt_cycles_to_shootable_state_on_shoot = TRUE
 	// so if it doesnt cycle on shoot, and doesnt cycle to a shootable state
 	// when u shoot, you gotta use it to *chunk* it back, then use it to *clack* it forward
 	var/bolt_ejects_on_open     = TRUE
+	var/bolt_chambers_on_close  = TRUE
 	var/bolt_opens_on_last_shot = TRUE
 	var/bolt_shootable_state = GBOLT_CLOSED
 	var/bolt_manually_chamberable_state = GBOLT_OPEN
-	var/bolt_ignore = TRUE
+	var/bolt_ignore = FALSE
 	var/bolt_cocks_hammer_on_this_state = GBOLT_CLOSED
 	var/bolt_opening_delay = 0
 	var/bolt_closing_delay = 0
@@ -210,7 +211,7 @@
 		Also, remember that you have to bolt the gun manually after every shot!"
 	bolt_ignore = FALSE
 	bolt_cycles_on_shoot   = FALSE
-	bolt_cycles_to_shootable_state = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = FALSE
 	bolt_ejects_on_open     = TRUE
 	bolt_opens_on_last_shot = FALSE
 	bolt_shootable_state = GBOLT_CLOSED

@@ -195,7 +195,15 @@ ATTACHMENTS
 	var/datum/weakref/listening_to = null // for knowing whose mousewheels to listen to
 
 	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
-	var/manual_chamber_sound = 'sound/weapons/bulletinsert.ogg'
+	var/manual_chamber_sound =          'sound/weapons/bulletinsert.ogg'
+	/// sound for pulling bolt open manually
+	var/manual_bolt_open_sound
+	// sound for pushing bolt closed manually
+	var/manual_bolt_close_sound
+	/// sound for when it ejects a loaded casing when you pull the bolt open manually
+	var/manual_bolt_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	/// sound for when it ejects an empty casing when you pull the bolt open manually
+	var/manual_bolt_eject_empty_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 
 	/// Is the player currently reloading this gun?
 	var/reloading = FALSE
@@ -856,7 +864,7 @@ ATTACHMENTS
 /obj/item/gun/proc/do_hammer_cocked_effects(mob/living/user, loudly)
 	// override for cookies
 
-/obj/item/gun/proc/cycle_bolt(mob/living/user, loudly)
+/obj/item/gun/proc/cycle_bolt(mob/living/user, loudly, manually)
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		return
@@ -868,7 +876,7 @@ ATTACHMENTS
 	else
 		did_something = cycle_bolt_closed(user, loudly)
 	if(did_something) // if did, then do
-		if(my_mode.bolt_cycles_to_shootable_state) //if diddle, then poo
+		if(my_mode.bolt_cycles_to_shootable_state_on_shoot && !manually) //if diddle, then poo
 			if(bolt_state != my_mode.bolt_shootable_state)
 				if(bolt_state == GBOLT_CLOSED)
 					cycle_bolt_open(user, FALSE)
@@ -896,8 +904,14 @@ ATTACHMENTS
 /obj/item/gun/proc/do_bolt_open_effects(mob/living/user, loudly)
 	var/datum/firemode/my_mode = get_current_firemode()
 	var/obj/item/ammo_casing/ejected
+	playsound(src, manual_bolt_open_sound, 70, 1)
 	if(my_mode.bolt_ejects_on_open)
-		ejected = eject_chambered(user, loudly) // ten lines 
+		ejected = eject_chambered(user, loudly) // ten lines
+		if(ejected)
+			if(ejected.BB)
+				playsound(src, manual_bolt_eject_sound, 70, 1)
+			else
+				playsound(src, manual_bolt_eject_empty_sound, 70, 1)
 	return ejected || TRUE
 
 /obj/item/gun/proc/cycle_bolt_closed(mob/living/user, loudly)
@@ -910,6 +924,7 @@ ATTACHMENTS
 	if(my_mode.bolt_closing_delay)
 		if(!do_delay(user, my_mode.bolt_closing_delay))
 			return
+	playsound(src, manual_bolt_close_sound, 70, 1)
 	bolt_state = GBOLT_CLOSED
 	return do_bolt_closed_effects(user, loudly)
 

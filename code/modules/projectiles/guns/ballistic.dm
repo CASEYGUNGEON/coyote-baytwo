@@ -30,6 +30,12 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	var/revolver = FALSE // hack
 	fire_sound = null //null tells the gun to draw from the casing instead of the gun for sound
 
+	manual_chamber_sound =          'sound/weapons/bulletinsert.ogg'
+	manual_bolt_open_sound
+	manual_bolt_close_sound = 'sound/weapons/gun_chamber_round.ogg'
+	manual_bolt_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	manual_bolt_eject_empty_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
+
 /obj/item/gun/ballistic/Initialize()
 	. = ..()
 	give_magazine()
@@ -148,7 +154,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return TRUE */
 
 /obj/item/gun/ballistic/attack_self(mob/living/user)
-	cycle_bolt(user, TRUE)
+	cycle_bolt(user, TRUE, TRUE)
 	update_icon()
 	return
 
@@ -215,8 +221,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 			to_chat(user, span_alert("There's still something in the chamber of \the [src]!"))
 			return FALSE
 	chamber_round(A)
-	playsound(src, manual_chamber_sound, 70, 1)
-	addtimer(CALLBACK(usr, GLOBAL_PROC_REF(playsound), src, 'sound/weapons/gun_chamber_round.ogg', 100, 1), 3)
+	if(chambered)
+		playsound(src, manual_chamber_sound, 70, 1)
+	// addtimer(CALLBACK(usr, GLOBAL_PROC_REF(playsound), src, 'sound/weapons/gun_chamber_round.ogg', 100, 1), 3)
 	update_icon()
 	if(!user)
 		return TRUE
@@ -253,6 +260,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return TRUE
 
 /obj/item/gun/ballistic/do_bolt_closed_effects(mob/living/user, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_chambers_on_close)
+		chamber_round()
 	return TRUE
 
 // gets the delay for you stuffing that ammobox into this gun
@@ -301,9 +311,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 	if(magazine.ammo_count())
 		playsound(src, "gun_insert_full_magazine", 70, 1)
-		if(!chambered)
-			chamber_round()
-			addtimer(CALLBACK(usr, GLOBAL_PROC_REF(playsound), src, 'sound/weapons/gun_chamber_round.ogg', 100, 1), 3)
 	else
 		playsound(src, "gun_insert_empty_magazine", 70, 1)
 	new_mag.update_icon()
@@ -370,7 +377,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/do_bolt_open_effects(mob/living/user, loudly)
 	if(loudly)
 		user.visible_message(span_warning("[user] [cock_wording]\s \the [src]."), span_warning("You [cock_wording] \the [src]."))
-		playsound(user, cock_sound, 60, 1)
 	. = ..()
 	update_icon()	//I.E. fix the desc
 	update_firemode()
@@ -409,7 +415,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/eject_chambered(mob/living/user, sounds_and_words)
 	if(sounds_and_words)
 		to_chat(user, span_notice("You eject \a [chambered] from \the [src]'s chamber."))
-		playsound(src, "gun_slide_lock", 70, 1)
 	var/obj/item/ammo_casing/AC = chambered //Find chambered round
 	if(istype(AC)) //there's a chambered round
 		AC.forceMove(drop_location()) //Eject casing onto ground.
@@ -760,6 +765,10 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	init_firemodes = list(
 		/datum/firemode/bolt_using/straight_pull
 	)
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_short.ogg'
+	manual_bolt_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	manual_bolt_eject_empty_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 
 /obj/item/gun/ballistic/rifle/debug_boltie/c_on_open
 	name = "Debug Boltie cack on open"
@@ -767,6 +776,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	init_firemodes = list(
 		/datum/firemode/bolt_using/delay_on_open
 	)
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_long.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_short.ogg'
 
 /obj/item/gun/ballistic/rifle/debug_boltie/c_on_close
 	name = "Debug Boltie cack on close"
@@ -774,6 +785,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	init_firemodes = list(
 		/datum/firemode/bolt_using/delay_on_close
 	)
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_long.ogg'
 
 
 
