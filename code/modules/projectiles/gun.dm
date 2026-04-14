@@ -894,6 +894,7 @@ ATTACHMENTS
 	return do_bolt_open_effects(user, loudly)
 
 /obj/item/gun/proc/do_bolt_open_effects(mob/living/user, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
 	var/obj/item/ammo_casing/ejected
 	if(my_mode.bolt_ejects_on_open)
 		ejected = eject_chambered(user, loudly) // ten lines 

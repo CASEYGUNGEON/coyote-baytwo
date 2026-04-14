@@ -153,7 +153,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return
 
 /obj/item/gun/ballistic/MiddleClick(mob/living/doer)
-	if(!toggle_hammer(doer, loudly))
+	if(!toggle_hammer(doer, TRUE))
 		return
 	return COMSIG_MOB_CANCEL_CLICKON
 
@@ -369,8 +369,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 /obj/item/gun/ballistic/do_bolt_open_effects(mob/living/user, loudly)
 	if(loudly)
-		M.visible_message(span_warning("[M] [cock_wording]\s \the [src]."), span_warning("You [cock_wording] \the [src]."))
-		playsound(M, cock_sound, 60, 1)
+		user.visible_message(span_warning("[user] [cock_wording]\s \the [src]."), span_warning("You [cock_wording] \the [src]."))
+		playsound(user, cock_sound, 60, 1)
 	. = ..()
 	update_icon()	//I.E. fix the desc
 	update_firemode()
@@ -404,10 +404,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 /// Pump if click with empty thing
 /obj/item/gun/ballistic/shoot_with_empty_chamber(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0)
-	if(!casing_ejector && chambered && HAS_TRAIT(user, TRAIT_FAST_PUMP) && !istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
-		pump(user, TRUE)
-	else
-		..()
+	..()
 
 /obj/item/gun/ballistic/eject_chambered(mob/living/user, sounds_and_words)
 	if(sounds_and_words)
@@ -739,7 +736,44 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	spawned += new /obj/item/ammo_box/tube/c4570(src)
 	spawned += new /obj/item/ammo_box/c4570box(src)
 
-
 	for(var/obj/item/thingy in spawned)
 		SEND_SIGNAL(thingy, COMSIG_GUN_MAG_ADMIN_RELOAD)
+
+/obj/item/gun/ballistic/rifle/debug_boltie
+	name = "Debug Boltie"
+	desc = "A gun for testing bolt actions!"
+	icon = 'modular_coyote/icons/objects/rifles.dmi'
+	icon_state = "308"
+	inhand_icon_state = "308"
+	mag_type = /obj/item/ammo_box/magazine/internal/boltaction/hunting
+	weapon_class = WEAPON_CLASS_RIFLE
+	weapon_weight = GUN_TWO_HAND_ONLY
+	damage_multiplier = GUN_EXTRA_DAMAGE_0
+	init_recoil = RIFLE_RECOIL(1, 1)
+	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
+	can_scope = TRUE
+	scope_state = "scope_long"
+	scope_x_offset = 4
+	scope_y_offset = 12
+	cock_sound = 'sound/weapons/boltpump.ogg'
+	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
+	init_firemodes = list(
+		/datum/firemode/bolt_using/straight_pull
+	)
+
+/obj/item/gun/ballistic/rifle/debug_boltie/c_on_open
+	name = "Debug Boltie cack on open"
+	desc = "A gun for testing bolt actions! this oine has a delay on opening"
+	init_firemodes = list(
+		/datum/firemode/bolt_using/delay_on_open
+	)
+
+/obj/item/gun/ballistic/rifle/debug_boltie/c_on_close
+	name = "Debug Boltie cack on close"
+	desc = "A gun for testing bolt actions! this oine has a delay on closing"
+	init_firemodes = list(
+		/datum/firemode/bolt_using/delay_on_close
+	)
+
+
 

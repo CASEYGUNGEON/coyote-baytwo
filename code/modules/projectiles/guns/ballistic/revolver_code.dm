@@ -157,7 +157,6 @@
 	delta_y,
 	params,
 	)
-	SIGNAL_HANDLER
 	if(!..())
 		return
 	if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
@@ -167,7 +166,6 @@
 	mob/living/user,
 	atom/clicked_on,
 	)
-	SIGNAL_HANDLER
 	if(!..())
 		return
 	var/obj/item/in_active_hand = user.get_active_held_item()
@@ -707,7 +705,7 @@
 		return FALSE
 	return TRUE
 
-/obj/item/gun/ballistic/revolver/proc/toggle_hammer(mob/living/user, onlycock)
+/obj/item/gun/ballistic/revolver/toggle_hammer(mob/living/user, onlycock)
 	if(loader_exposed)
 		return
 	if(onlycock)

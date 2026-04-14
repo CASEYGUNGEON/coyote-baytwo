@@ -220,12 +220,24 @@
 	bolt_closing_delay = 0
 
 /datum/firemode/bolt_using/straight_pull
-	name = "Straight-Pull Bolt"
+	name = "Straight-Pull Bolt Action"
 	desc = "Shoot one shot, pull the bolt straight back and forward, repeat."
 	extra_tip = "Uses a straight-pull bolt action, which means you just pull the bolt back, \
 		then push it forward, with no delay on either action."
 
+/datum/firemode/bolt_using/delay_on_open
+	name = "Cock-On-Open Bolt Action"
+	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
+	extra_tip = "Uses a cock-on-open bolt action, which means that pulling the bolt open \
+		will have a short delay, but closing it will be instant."
+	bolt_opening_delay = 0.2 SECONDS
 
+/datum/firemode/bolt_using/delay_on_close
+	name = "Cock-On-Close Bolt Action"
+	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
+	extra_tip = "Uses a cock-on-close bolt action, which means that jorking the bolt closed \
+		will have a short delay, but opening it will be instant."
+	bolt_closing_delay = 0.2 SECONDS
 
 
 /datum/firemode/semi_auto/shotgun_fixed
