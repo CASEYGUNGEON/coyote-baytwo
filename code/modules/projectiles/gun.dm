@@ -809,9 +809,9 @@ ATTACHMENTS
 	var/shootable_state = my_mode.bolt_shootable_state
 	if(bolt_state == shootable_state)
 		return
-	if(shootable_state == GBOLT_OPEN)
+	if(shootable_state == GBOLT_CLOSED)
 		return "The bolt is open! Close it to shoot!!"
-	else if(shootable_state == GBOLT_CLOSED)
+	else if(shootable_state == GBOLT_OPEN)
 		return "The bolt is closed! Open it to shoot!!"
 	else
 		return "The bolt is busted! It won't let you shoot!!"
