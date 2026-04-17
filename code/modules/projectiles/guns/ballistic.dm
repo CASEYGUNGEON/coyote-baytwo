@@ -32,7 +32,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 	manual_chamber_sound =          'sound/weapons/bulletinsert.ogg'
 	manual_bolt_open_sound
-	manual_bolt_close_sound = 'sound/weapons/gun_chamber_round.ogg'
+	manual_bolt_close_sound =       'sound/weapons/gun_chamber_round.ogg'
 	manual_bolt_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
 	manual_bolt_eject_empty_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 

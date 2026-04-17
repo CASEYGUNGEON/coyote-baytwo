@@ -204,6 +204,8 @@ ATTACHMENTS
 	var/manual_bolt_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
 	/// sound for when it ejects an empty casing when you pull the bolt open manually
 	var/manual_bolt_eject_empty_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
+	/// sound for when the gun automatically cycles the bolt closed after firing
+	var/auto_bolt_close_sound
 
 	/// Is the player currently reloading this gun?
 	var/reloading = FALSE
@@ -916,15 +918,15 @@ ATTACHMENTS
 
 /obj/item/gun/proc/cycle_bolt_closed(mob/living/user, loudly)
 	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.bolt_ignore)
-		bolt_state = GBOLT_CLOSED
-		return
 	if(!user_can_physically_operate_this(user, loudly))
 		return
 	if(my_mode.bolt_closing_delay)
 		if(!do_delay(user, my_mode.bolt_closing_delay))
 			return
-	playsound(src, manual_bolt_close_sound, 70, 1)
+	if(loudly)
+		playsound(src, manual_bolt_close_sound, 70, 1)
+	else
+		playsound(src, auto_bolt_close_sound, 70, 1)
 	bolt_state = GBOLT_CLOSED
 	return do_bolt_closed_effects(user, loudly)
 
