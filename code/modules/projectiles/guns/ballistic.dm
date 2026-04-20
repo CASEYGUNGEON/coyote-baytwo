@@ -30,22 +30,22 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	fire_sound = null //null tells the gun to draw from the casing instead of the gun for sound
 
 	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
-	var/manual_chamber_sound =        'sound/weapons/bulletinsert.ogg'
+	var/manual_chamber_sound =       'sound/weapons/biblically_accurate_guns/manual_insert_casing_into_chamber.ogg'
 	/// sound for pulling bolt open manually
-	var/manual_bolt_open_sound =     'sound/vox_fem/honk.ogg' //!! DEBUG SOUND PLS CHANGE
+	var/manual_bolt_open_sound =     'sound/weapons/biblically_accurate_guns/manual_bolt_back_pistol.ogg'
 	// sound for pushing bolt closed manually
-	var/manual_bolt_close_sound =    'sound/weapons/gun_chamber_round.ogg'
+	var/manual_bolt_close_sound =    'sound/weapons/biblically_accurate_guns/manual_bolt_forward_pistol.ogg'
 	/// sound for when it ejects a loaded casing when you pull the bolt open manually
 	var/casing_eject_sound =         'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
 	/// sound for when it ejects an empty casing when you pull the bolt open manually
 	var/empty_casing_eject_sound =   'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 	/// sound for when the gun automatically cycles the bolt closed after firing
-	var/auto_bolt_open_sound =       'sound/items/AirHorn.ogg' //!! DEBUG SOUND PLS CHANGE
-	var/auto_bolt_close_sound =      'sound/items/bikehorn.ogg' //!! DEBUG SOUND PLS CHANGE
-	var/cock_hammer_sound =          'sound/items/change_drill.ogg' //!! DEBUG SOUND PLS CHANGE
-	var/uncock_hammer_sound =        'sound/items/change_jaws.ogg' //!! DEBUG SOUND PLS CHANGE
-	var/auto_cock_hammer_sound =     'sound/items/polaroid1.ogg' //!! DEBUG SOUND PLS CHANGE
-	var/auto_uncock_hammer_sound =   'sound/items/sheath.ogg' //!! DEBUG SOUND PLS CHANGE
+	var/auto_bolt_open_sound =       'sound/weapons/biblically_accurate_guns/auto_bolt_back.ogg'
+	var/auto_bolt_close_sound =      'sound/weapons/biblically_accurate_guns/auto_bolt_forward.ogg'
+	var/cock_hammer_sound =          'sound/weapons/biblically_accurate_guns/manual_hammer_back_normalgun.ogg'
+	var/uncock_hammer_sound =        'sound/weapons/biblically_accurate_guns/manual_hammer_forward_normalgun.ogg'
+	var/auto_cock_hammer_sound =     'sound/weapons/biblically_accurate_guns/auto_hammer_back.ogg'
+	var/auto_uncock_hammer_sound =   'sound/weapons/biblically_accurate_guns/auto_hammer_forward.ogg'
 
 
 
