@@ -27,7 +27,7 @@
 	flags_1 =  CONDUCT_1
 	casing_ejector = FALSE
 	spawnwithmagazine = TRUE
-	cock_sound = 'sound/weapons/shotgunpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	init_recoil = SHOTGUN_RECOIL(1, 1)
 	init_firemodes = list(
@@ -363,7 +363,7 @@
 	can_suppress = TRUE
 	casing_ejector = FALSE
 	spawnwithmagazine = TRUE
-	cock_sound = 'sound/weapons/shotgunpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	init_recoil = SHOTGUN_RECOIL(2, 2)
 	init_firemodes = list(

@@ -318,7 +318,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 24
 	knife_y_offset = 25
-	cock_sound = 'sound/f13weapons/grasbolt.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/grasbolt.ogg'
 	fire_sound = 'sound/f13weapons/gras.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -347,7 +347,7 @@
 	)
 	can_scope = FALSE
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 	damage_multiplier = TIER1
 

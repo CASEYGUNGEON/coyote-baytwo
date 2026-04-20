@@ -355,7 +355,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower

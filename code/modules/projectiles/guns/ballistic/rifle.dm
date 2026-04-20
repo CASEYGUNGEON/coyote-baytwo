@@ -34,7 +34,7 @@
 	casing_ejector = FALSE // THIS makes it require manual cocking of the gun!!!
 	spawnwithmagazine = TRUE
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
-	cock_sound = 'sound/weapons/shotgunpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
 	reloading_time = 0.5 SECONDS
 
 /* /obj/item/gun/ballistic/rifle/process_chamber(mob/living/user, empty_chamber = 0)
@@ -79,7 +79,7 @@
 	)
 	scope_x_offset = 5
 	scope_y_offset = 13
-	cock_sound = 'sound/f13weapons/cowboyrepeaterreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/cowboyrepeaterreload.ogg'
 
 /* * * * * * * * * * *
  * Cowboy Repeater
@@ -403,7 +403,7 @@
 	scope_state = "scope_long"
 	scope_x_offset = 4
 	scope_y_offset = 12
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
 	reskinnable_component = /datum/component/reskinnable/hunting_rifle
 
@@ -435,7 +435,7 @@
 	scope_state = "scope_long"
 	scope_x_offset = 4
 	scope_y_offset = 12
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
 
 	init_firemodes = list(
@@ -531,7 +531,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 
 	init_firemodes = list(
@@ -553,7 +553,7 @@
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 	can_scope = TRUE
 	can_bayonet = FALSE
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 
 	init_firemodes = list(
@@ -623,7 +623,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -657,7 +657,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -686,7 +686,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 24
 	knife_y_offset = 25
-	cock_sound = 'sound/f13weapons/grasbolt.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/grasbolt.ogg'
 	fire_sound = 'sound/f13weapons/gras.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -718,7 +718,7 @@
 		/datum/firemode/semi_auto/slower
 	)
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/antique/tankgun/custom
 	name = "Custom TankGewehr M1918"
@@ -744,7 +744,7 @@
 		/datum/firemode/semi_auto/slower
 	)
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/antique/gross
 	name = "sawed off Gras"
@@ -765,7 +765,7 @@
 	scope_x_offset = 3
 	scope_y_offset = 13
 	can_bayonet = FALSE
-	cock_sound = 'sound/f13weapons/grasbolt.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/grasbolt.ogg'
 	fire_sound = 'sound/f13weapons/gras.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -970,7 +970,7 @@
 	can_scope = FALSE
 	zoom_factor = 1
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/mag/antimaterial/loadout
 	desc = "The Hecate II is a heavy, high-powered bolt action sniper rifle chambered in .50 caliber ammunition. Not only lacks an iron sight, but due to unmaintained age it doesn't punch as hard."
@@ -999,7 +999,7 @@
 	can_flashlight = FALSE
 	can_scope = TRUE
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 
 
@@ -1026,7 +1026,7 @@
 	can_flashlight = FALSE
 	can_scope = TRUE
 	fire_sound = 'sound/f13weapons/fg42.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/gewehr88
 	name = "Model 1888 commission rifle"
@@ -1079,7 +1079,7 @@
 	)
 	can_scope = FALSE
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 // BETA // Obsolete
 /obj/item/gun/ballistic/rifle/rifletesting

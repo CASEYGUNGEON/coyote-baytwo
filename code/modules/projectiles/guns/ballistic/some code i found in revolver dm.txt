@@ -233,11 +233,11 @@ CITADEL MODULAR PISTOL CODE
 SOME SORT OF  BOLT ACTION CODE UNUSED
 /obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
 	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
-	if(cycle_bolt_open)
+	if(bolt_open)
 		pump_reload(M)
 	else
 		pump_unload(M)
-	cycle_bolt_open = !cycle_bolt_open
+	bolt_open = !bolt_open
 	update_icon()	//I.E. fix the desc
 	return 1
 
@@ -249,14 +249,14 @@ SOME SORT OF  BOLT ACTION CODE UNUSED
 	return 1
 
 /obj/item/gun/ballistic/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	if(!cycle_bolt_open)
+	if(!bolt_open)
 		to_chat(user, span_notice("The bolt is closed!"))
 		return
 	. = ..()
 
 /obj/item/gun/ballistic/shotgun/boltaction/examine(mob/user)
 	. = ..()
-	. += "The bolt is [cycle_bolt_open ? "open" : "closed"]."
+	. += "The bolt is [bolt_open ? "open" : "closed"]."
 
 
 CODE FOR RESKIN

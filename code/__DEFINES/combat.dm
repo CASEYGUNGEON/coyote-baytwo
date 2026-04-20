@@ -1260,7 +1260,7 @@ GLOBAL_LIST_INIT(main_body_parts2words, list(
 /// Gun is slower to refire if you autopump it (without fast pump)
 #define GUN_AUTO_PUMPED (1<<0)
 
-/// Gun handedness defines -- for picking which direction to toss casings
+/// Gun ejector_side defines -- for picking which direction to toss casings
 #define GUN_EJECTOR_RIGHT 1
 #define GUN_EJECTOR_LEFT 2
 #define GUN_EJECTOR_ANY 3

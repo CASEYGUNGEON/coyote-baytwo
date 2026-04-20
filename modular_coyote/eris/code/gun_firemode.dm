@@ -65,6 +65,8 @@
 	var/hammer_ignore          = TRUE
 	/// Should we automatically recock after firing, if the hammer is consulted? False means you have to click again to recock
 	var/hammer_recock_on_fire  = TRUE
+	/// can you even mess with the hammer manually?
+	var/hammer_manually_operatable = FALSE
 	/// does the bolt cycle back, then forward on a shot?
 	var/bolt_cycles_on_shoot   = TRUE
 	/// when you click the gun, does it cycle until its in a position you can shoot it with?
@@ -210,7 +212,6 @@
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to bolt the gun manually after every shot!"
 	bolt_ignore = FALSE
-	bolt_cycles_on_shoot   = FALSE
 	bolt_cycles_to_shootable_state_on_shoot = FALSE
 	bolt_ejects_on_open     = TRUE
 	bolt_opens_on_last_shot = FALSE

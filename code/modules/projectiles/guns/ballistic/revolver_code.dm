@@ -57,7 +57,7 @@
 	init_firemodes = list(
 		/datum/firemode/semi_auto
 	)
-	handedness = GUN_EJECTOR_ANY
+	ejector_side = GUN_EJECTOR_ANY
 	revolver = TRUE
 	var/kind = REVKIND_SWINGOUT_DOUBLE_ACTION
 	var/cock_method = REVCOCK_SINGLE_ACTION
@@ -74,8 +74,8 @@
 	/* sounds! */
 	var/rotate_forward_sound =       'sound/weapons/ba_revolver/rotate_forward.ogg'
 	var/rotate_backward_sound =      'sound/weapons/ba_revolver/rotate_backward.ogg'
-	var/cock_hammer_sound =          'sound/weapons/ba_revolver/singleaction_cock.ogg'
-	var/uncock_hammer_sound =        'sound/weapons/ba_revolver/singleaction_un_cock.ogg'
+	cock_hammer_sound =          'sound/weapons/ba_revolver/singleaction_cock.ogg'
+	uncock_hammer_sound =        'sound/weapons/ba_revolver/singleaction_un_cock.ogg'
 	/// for when we put the gun into a state where we can access the ammo, like swinging out the cylinder or half-cocking
 	var/open_gun_sound =             'sound/weapons/ba_revolver/cylinder_open.ogg'
 	/// for making it not accessible anymore
@@ -423,7 +423,7 @@
 		toggle_hammer(user, TRUE)
 	update_icon()
 
-/obj/item/gun/ballistic/revolver/shoot_live_shot(mob/living/user as mob|obj)
+/obj/item/gun/ballistic/revolver/after_shooting(mob/living/user as mob|obj)
 	..()
 	if(cock_method == REVCOCK_DOUBLE_ACTION)
 		toggle_hammer(user, TRUE)

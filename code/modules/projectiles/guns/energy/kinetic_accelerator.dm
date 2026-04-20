@@ -125,7 +125,7 @@
 	if(!holds_charge)
 		empty()
 
-/obj/item/gun/energy/kinetic_accelerator/shoot_live_shot(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0)
+/obj/item/gun/energy/kinetic_accelerator/after_shooting()
 	. = ..()
 	attempt_reload()
 
@@ -201,12 +201,6 @@
 	if(loc && istype(loc, /obj/item/gun/energy/kinetic_accelerator))
 		var/obj/item/gun/energy/kinetic_accelerator/KA = loc
 		KA.modify_projectile(BB)
-
-/obj/item/gun/energy/kinetic_accelerator/getstamcost(mob/living/carbon/user)
-	if(user && !lavaland_equipment_pressure_check(get_turf(user)))
-		return 0
-	else
-		return ..()
 
 //Projectiles
 /obj/item/projectile/kinetic

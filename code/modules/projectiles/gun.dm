@@ -194,19 +194,6 @@ ATTACHMENTS
 	COOLDOWN_DECLARE(shoot_message_antispam)
 	var/datum/weakref/listening_to = null // for knowing whose mousewheels to listen to
 
-	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
-	var/manual_chamber_sound =          'sound/weapons/bulletinsert.ogg'
-	/// sound for pulling bolt open manually
-	var/manual_bolt_open_sound
-	// sound for pushing bolt closed manually
-	var/manual_bolt_close_sound
-	/// sound for when it ejects a loaded casing when you pull the bolt open manually
-	var/manual_bolt_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
-	/// sound for when it ejects an empty casing when you pull the bolt open manually
-	var/manual_bolt_eject_empty_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
-	/// sound for when the gun automatically cycles the bolt closed after firing
-	var/auto_bolt_close_sound
-
 	/// Is the player currently reloading this gun?
 	var/reloading = FALSE
 	/// This is the base reload speed, which is modified by things like the size of the magazine in use.
@@ -394,8 +381,8 @@ ATTACHMENTS
 		listening_to = null
 	if(user.get_active_held_item() == src)
 		listening_to = WEAKREF(user)
-		RegisterSignal(user, COMSIG_MOB_MOUSEWHEEL, PROC_REF(mouse_wheel_signal_handler))
-		RegisterSignal(user, COMSIG_MOB_MIDDLECLICKED_SOMETHING, PROC_REF(middleclick_signal_handler))
+		RegisterSignal(user, COMSIG_MOB_MOUSEWHEEL, PROC_REF(mouse_wheel_signal_handler), TRUE)
+		RegisterSignal(user, COMSIG_MOB_MIDDLECLICKED_SOMETHING, PROC_REF(middleclick_signal_handler), TRUE)
 
 /obj/item/gun/dropped(mob/user)
 	. = ..()
@@ -489,25 +476,6 @@ ATTACHMENTS
 		dont_shoot(user)
 		return
 
-	if(rigged)
-		user.visible_message(
-			span_danger("As \the [user] pulls the trigger on \the [src], a bullet fires backwards out of it"),
-			span_danger("Your \the [src] fires backwards, shooting you in the face!")
-		)
-		process_fire(user, user, FALSE, params, BODY_ZONE_HEAD)
-		if(rigged > TRUE)
-			explosion(get_turf(src),0,0,2,1)
-		return
-
-	if(clumsy_check)
-		if(istype(user, /mob/living/carbon/human))
-			if (HAS_TRAIT(user, TRAIT_CLUMSY) && prob(40))
-				to_chat(user, span_userdanger("You shoot yourself in the foot with [src]!"))
-				var/shot_leg = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-				process_fire(user, user, FALSE, params, shot_leg)
-				user.dropItemToGround(src, TRUE)
-				return
-
 	var/point_blank = flag // flag means we're adjacent to the target
 	if(point_blank) //It's adjacent, is the user, or is on the user's person
 		if(target in user.contents) //can't shoot stuff inside us.
@@ -527,8 +495,7 @@ ATTACHMENTS
 
 	try_akimbo(target, user, flag, params, is_akimbo)
 
-	var/stam_cost = getstamcost(user)
-	process_fire(target, user, TRUE, params, null, stam_cost)
+	process_fire(target, user, TRUE, params, null)
 	update_icon()
 
 /obj/item/gun/proc/user_can_physically_operate_this(mob/living/user)
@@ -581,6 +548,18 @@ ATTACHMENTS
 	if(HAS_TRAIT(user, TRAIT_PACIFISM) && chambered?.harmful) // If the user has the pacifist trait, then they won't be able to fire [src] if the round chambered inside of [src] is lethal.
 		to_chat(user, span_notice(" [src] is lethally chambered! You don't want to risk harming anyone..."))
 		return FALSE
+	if(is_kelpwand && isliving(user))
+		var/badkelpwand = FALSE
+		if(type == /obj/item/gun/magic/wand/kelpmagic/magicmissile)
+			if(HAS_TRAIT(user, TRAIT_MARTIAL_A))
+				badkelpwand = TRUE
+		else
+			if(HAS_TRAIT(user, TRAIT_MARTIAL_A) || !HAS_TRAIT(user, TRAIT_WAND_PROFICIENT))
+				badkelpwand = TRUE
+		if(badkelpwand)
+			to_chat(user, span_danger("You don't know how to use magic wands!"))
+			return FALSE
+	return TRUE
 
 /obj/item/gun/CanItemAutoclick(object, location, params) // fuck you why wasnt this here to begin with
 	if(automatic)
@@ -625,39 +604,16 @@ ATTACHMENTS
 
 // handles the theatrics of dryfiring; sound, messages, etc
 // also the hammer for some reason
-/obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user, drop_hammer = TRUE)
+/obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user, hammer_drop = TRUE)
 	to_chat(user, span_danger("[dryfire_text]"))
 	playsound(src, dryfire_sound, 30, 1)
-	if(drop_hammer)
-		drop_hammer()
+	if(hammer_drop)
+		hammer_drop()
 	update_firemode()
 	update_icon()
 
-// handles the theatrics of shooting; sound, recoil, etc
-// also the hammer for some reason
-// does NOT actually fire anything
+// handles the ... well nothing, now
 /obj/item/gun/proc/shoot_live_shot(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0, obj/item/projectile/P, casing_sound)
-	if(stam_cost && istype(user)) //CIT CHANGE - makes gun recoil cause staminaloss
-		var/safe_cost = clamp(stam_cost, 0, STAMINA_NEAR_CRIT - user.getStaminaLoss())*(firing && burst_size >= 2 ? 1/burst_size : 1)
-		user.adjustStaminaLossBuffered(safe_cost) //CIT CHANGE - ditto
-
-	var/datum/ammo_sound_properties/soundies = GLOB.casing_sound_properties[casing_sound]
-	if(!soundies)
-		return
-	var/list/shootprops = soundies.shootlist(silenced)
-	if(!isnull(fire_sound))
-		shootprops[CSP_INDEX_SOUND_OUT] = silenced ? fire_sound_silenced : fire_sound
-	playsound(
-		src,
-		shootprops[CSP_INDEX_SOUND_OUT],
-		shootprops[CSP_INDEX_VOLUME],
-		shootprops[CSP_INDEX_VARY],
-		shootprops[CSP_INDEX_DISTANCE],
-		ignore_walls = shootprops[CSP_INDEX_IGNORE_WALLS],
-		distant_sound = shootprops[CSP_INDEX_DISTANT_SOUND],
-		distant_range = shootprops[CSP_INDEX_DISTANT_RANGE]
-		)
-	drop_hammer()
 	update_firemode()
 	update_icon()
 
@@ -692,50 +648,64 @@ ATTACHMENTS
  */
 
 // Another wrapper proc for firing, more prechecks, and handles the cooldown and safety checks for guns
-/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", stam_cost = 0)
+// basically pulling the trigger
+/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "")
 	add_fingerprint(user)
 
 	if(on_cooldown(user))
 		return
 	clear_cooldown_mods()
 
-	if(is_kelpwand)
-		if(isliving(user))
-			if(type == /obj/item/gun/magic/wand/kelpmagic/magicmissile)
-				if(HAS_TRAIT(user, TRAIT_MARTIAL_A))
-					to_chat(user, span_danger("You don't know how to use magic wands!"))
-					return
-			else
-				if(HAS_TRAIT(user, TRAIT_MARTIAL_A) || !HAS_TRAIT(user, TRAIT_WAND_PROFICIENT))
-					to_chat(user, span_danger("You don't know how to use magic wands!"))
-					return
+	if(rigged)
+		user.visible_message(
+			span_danger("As \the [user] pulls the trigger on \the [src], a bullet fires backwards out of it"),
+			span_danger("Your \the [src] fires backwards, shooting you in the face!")
+		)
+		zone_override = BODY_ZONE_HEAD
+		target = user
+		message = FALSE
+		if(rigged > TRUE)
+			explosion(get_turf(src),0,0,2,1)
+
+	var/durg = FALSE // Drop UR Gun
+	if(clumsy_check)
+		if(istype(user, /mob/living/carbon/human))
+			if (HAS_TRAIT(user, TRAIT_CLUMSY) && prob(40))
+				to_chat(user, span_userdanger("You shoot yourself in the foot with [src]!"))
+				var/shot_leg = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+				target = user
+				zone_override = shot_leg
+				message = FALSE
+				durg = TRUE
 
 	var/time_till_draw = user.AmountWeaponDrawDelay()
 	if(time_till_draw)
 		to_chat(user, span_notice("You're still drawing your [src]! It'll take another <u>[time_till_draw*0.1] seconds</u> until it's ready!"))
 		return
-	if(pre_fire(user, target, params, zone_override, stam_cost))
+	if(pre_fire(user, target, params, zone_override))
 		return TRUE // pre_fire will handle what comes next~ (like firing at your mouse cursor after a delay)
 	firing = TRUE
-	. = do_fire(target, user, message, params, zone_override, stam_cost)
+	. = do_fire(target, user, message, params, zone_override)
 	firing = FALSE
 	last_fire = world.time
 
 	if(user)
 		user.update_inv_hands()
-		SEND_SIGNAL(user, COMSIG_LIVING_GUN_PROCESS_FIRE, target, params, zone_override, stam_cost)
+		SEND_SIGNAL(user, COMSIG_LIVING_GUN_PROCESS_FIRE, target, params, zone_override, 0)
+	if(durg)
+		user.dropItemToGround(src, TRUE)
 
-/obj/item/gun/proc/pre_fire(mob/user, atom/target, params, zone_override, stam_cost, message = TRUE)
+/obj/item/gun/proc/pre_fire(mob/user, atom/target, params, zone_override, message = TRUE)
 	return FALSE
 
 // actually shoots the projectile, handles recoil, misfire, and all that stuff
 // also handles burst fire
-/obj/item/gun/proc/do_fire(atom/target, mob/living/user, message = TRUE, params, zone_override = "", stam_cost = 0)
+/obj/item/gun/proc/do_fire(atom/target, mob/living/user, message = TRUE, params, zone_override = "")
 	/// recoil is read before a burst, so all subsequent shots in a burst will have the same recoil
 	/// This is the mob shooting's aggregate recoil
 	var/sprd = SSrecoil.get_offset(user) /// its still *added* with each shot, so the next burst will be higher
-	var/datum/firemode/my_mode = get_current_firemode()
 	for(var/i in 1 to burst_size)
+		before_shooting(user, target, params, zone_override)
 		if(safety)
 			to_chat(user, span_danger("The gun's safety is on!"))
 			shoot_with_empty_chamber(user, FALSE)
@@ -750,13 +720,12 @@ ATTACHMENTS
 			to_chat(user, span_danger("[hammer_promblem]"))
 			shoot_with_empty_chamber(user, FALSE)
 			return
-		drop_hammer() // we just checked that the hammer was in the right position, pay attentioN!
+		operate_hammer_on_trigger(user)
 		misfire_act(user)
 		var/obj/item/ammo_casing/thing_in_chamber = get_chambered()
 		if(!thing_in_chamber || !istype(thing_in_chamber.BB))
 			shoot_with_empty_chamber(user)
 			return
-		before_firing(target,user)
 		var/recoil = thing_in_chamber.BB.recoil || 0
 		// if the bullet has a recoil value, use it, otherwise default to 0, which means the gun's recoil will be the only recoil
 		var/casing_sound = thing_in_chamber.sound_properties
@@ -780,23 +749,15 @@ ATTACHMENTS
 			update_icon()
 			return
 		// yeah!
-		var/pointblank = (get_dist(get_turf(src), target) <= 1)
-		shoot_live_shot(
-			user,
-			pointblank,
-			target,
-			message,
-			stam_cost,
-			thing_in_chamber.BB,
-			casing_sound)
+		// var/pointblank = (get_dist(get_turf(src), target) <= 1)
+		shoot_live_shot(user)
 		SSrecoil.kickback(user, src, recoil_tag, recoil)
-		make_noise(user)
-		if(my_mode)
-			if(my_mode.bolt_cycles_on_shoot)
-				cycle_bolt(user, FALSE)
-		// if(!my_mode || my_mode.hammer_ignore || my_mode.bolt_ejects_on_open == GEJECTOR_AFTER_FIRING)
-		// 	process_chamber(user)
-		// 	chamber_round()
+		play_shoot_audio(user, casing_sound)
+		cause_attraction(user)
+		cost_stamina(user)
+		operate_bolt_on_shoot(user)
+		operate_hammer_post_fire(user)
+		after_shooting(user, target, params, zone_override)
 		user?.in_crit_HP_penalty = 25
 		if(i < burst_size)
 			sleep(burst_shot_delay)
@@ -804,134 +765,59 @@ ATTACHMENTS
 	SSblackbox.record_feedback("tally", "gun_fired", 1, type)
 	return TRUE
 
+/obj/item/gun/proc/before_shooting(atom/target, mob/living/user, params, zone_override)
+	return
+
+/obj/item/gun/proc/after_shooting(atom/target, mob/living/user, params, zone_override)
+	return
+
+////////////////
+// BOLTIES AND HAMMER
+
 /obj/item/gun/proc/check_bolt_is_in_shootable_position()
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.bolt_ignore)
-		return
-	var/shootable_state = my_mode.bolt_shootable_state
-	if(bolt_state == shootable_state)
-		return
-	if(shootable_state == GBOLT_CLOSED)
-		return "The bolt is open! Close it to shoot!!"
-	else if(shootable_state == GBOLT_OPEN)
-		return "The bolt is closed! Open it to shoot!!"
-	else
-		return "The bolt is busted! It won't let you shoot!!"
 
 /obj/item/gun/proc/check_hammer_is_in_shootable_position()
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.hammer_ignore)
-		return
-	// shootable position is always cocked
-	if(hammer_state == GHAMMER_COCKED)
-		return
-	return "The hammer isn't cocked! Cock it to shoot!!"
 
+/obj/item/gun/proc/operate_hammer_on_trigger(mob/living/user)
+
+/obj/item/gun/proc/operate_hammer_post_fire(mob/living/user)
+
+/obj/item/gun/proc/operate_hammer_manually(mob/living/user)
 
 /obj/item/gun/proc/toggle_hammer(mob/living/user, loudly)
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.hammer_ignore)
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	if(hammer_state == GHAMMER_UNCOCKED)
-		cock_hammer(user, TRUE, loudly)
-	else
-		drop_hammer(user, TRUE, loudly)
-	return TRUE
-
-/obj/item/gun/proc/drop_hammer(mob/living/user, dry, loudly)
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.hammer_ignore)
-		hammer_state = GHAMMER_COCKED
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	hammer_state = GHAMMER_UNCOCKED
-	do_hammer_dropped_effects(user, dry, loudly)
-
-/obj/item/gun/proc/do_hammer_dropped_effects(mob/living/user, dry, loudly)
-	// override for cookies
-
-/obj/item/gun/proc/cock_hammer(mob/living/user, dry, loudly)
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.hammer_ignore)
-		hammer_state = GHAMMER_COCKED
-		return
-	if(!user_can_physically_operate_this(user))
-		return
 	hammer_state = GHAMMER_COCKED
-	do_hammer_cocked_effects(user, dry, loudly)
 
-/obj/item/gun/proc/do_hammer_cocked_effects(mob/living/user, loudly)
-	// override for cookies
+/obj/item/gun/proc/set_hammer_state(mob/living/user, newstate, manually, loudly)
+	hammer_state = GHAMMER_COCKED
 
-/obj/item/gun/proc/cycle_bolt(mob/living/user, loudly, manually)
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.bolt_ignore)
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	var/did_something = FALSE
-	if(bolt_state == GBOLT_CLOSED)
-		did_something = cycle_bolt_open(user, loudly)
-	else
-		did_something = cycle_bolt_closed(user, loudly)
-	if(did_something) // if did, then do
-		if(my_mode.bolt_cycles_to_shootable_state_on_shoot && !manually) //if diddle, then poo
-			if(bolt_state != my_mode.bolt_shootable_state)
-				if(bolt_state == GBOLT_CLOSED)
-					cycle_bolt_open(user, FALSE)
-				else
-					cycle_bolt_closed(user, FALSE)
-	return TRUE
+/obj/item/gun/proc/hammer_cock(mob/living/user, dry, loudly)
+	hammer_state = GHAMMER_COCKED
 
-/obj/item/gun/proc/cycle_bolt_open(mob/living/user, loudly)
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(my_mode.bolt_ignore)
-		bolt_state = GBOLT_OPEN
-		return
-	if(bolt_state == GBOLT_OPEN)
-		if(loudly)
-			to_chat(user, span_notice("The bolt is already open!"))
-		return
-	if(!user_can_physically_operate_this(user))
-		return
-	if(my_mode.bolt_opening_delay)
-		if(!do_delay(user, my_mode.bolt_opening_delay))
-			return
-	bolt_state = GBOLT_OPEN
-	return do_bolt_open_effects(user, loudly)
+/obj/item/gun/proc/hammer_drop(mob/living/user, dry, loudly)
+	hammer_state = GHAMMER_COCKED
 
-/obj/item/gun/proc/do_bolt_open_effects(mob/living/user, loudly)
-	var/datum/firemode/my_mode = get_current_firemode()
-	var/obj/item/ammo_casing/ejected
-	playsound(src, manual_bolt_open_sound, 70, 1)
-	if(my_mode.bolt_ejects_on_open)
-		ejected = eject_chambered(user, loudly) // ten lines
-		if(ejected)
-			if(ejected.BB)
-				playsound(src, manual_bolt_eject_sound, 70, 1)
-			else
-				playsound(src, manual_bolt_eject_empty_sound, 70, 1)
-	return ejected || TRUE
+/obj/item/gun/proc/hammer_cock_effects(mob/living/user, loudly)
 
-/obj/item/gun/proc/cycle_bolt_closed(mob/living/user, loudly)
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(!user_can_physically_operate_this(user, loudly))
-		return
-	if(my_mode.bolt_closing_delay)
-		if(!do_delay(user, my_mode.bolt_closing_delay))
-			return
-	if(loudly)
-		playsound(src, manual_bolt_close_sound, 70, 1)
-	else
-		playsound(src, auto_bolt_close_sound, 70, 1)
+/obj/item/gun/proc/hammer_drop_effects(mob/living/user, dry, loudly)
+
+/obj/item/gun/proc/operate_bolt_on_shoot(mob/living/user)
+
+/obj/item/gun/proc/operate_bolt_manually(mob/living/user)
+
+/obj/item/gun/proc/toggle_bolt(mob/living/user, loudly, manually)
 	bolt_state = GBOLT_CLOSED
-	return do_bolt_closed_effects(user, loudly)
 
-/obj/item/gun/proc/do_bolt_closed_effects(mob/living/user, loudly)
-	return TRUE
+/obj/item/gun/proc/bolt_open(mob/living/user, loudly)
+	bolt_state = GBOLT_OPEN
+
+/obj/item/gun/proc/bolt_opened_effects(mob/living/user, loudly)
+
+/obj/item/gun/proc/bolt_close(mob/living/user, loudly)
+	bolt_state = GBOLT_CLOSED
+
+/obj/item/gun/proc/bolt_closed_effects(mob/living/user, loudly)
+
+///////////////////////////////////////
 
 /obj/item/gun/proc/do_delay(mob/user, delay_in)
 	if(doing_something(user))
@@ -979,7 +865,41 @@ ATTACHMENTS
 /obj/item/gun/proc/get_chambered()
 	return chambered
 
-/obj/item/gun/proc/make_noise(mob/living/user)
+/obj/item/gun/proc/cost_stamina(mob/living/user)
+	return
+	// if(!istype(user))
+	// 	return
+	// var/stamcost = 0 //get_per_shot_recoil()
+	// var/safe_cost = clamp(stamcost, 0, STAMINA_NEAR_CRIT - user.getStaminaLoss())
+	// user.adjustStaminaLossBuffered(safe_cost) //CIT CHANGE - ditto
+
+/obj/item/gun/proc/play_shoot_audio(mob/living/user, casing_sound)
+	var/datum/ammo_sound_properties/soundies = LAZYACCESS(GLOB.casing_sound_properties, casing_sound)
+	if(!soundies)
+		for(var/ky in GLOB.casing_sound_properties)
+			soundies = GLOB.casing_sound_properties[ky]
+			if(istype(soundies, /datum/ammo_sound_properties))
+				break
+		if(!soundies)
+			CRASH("Couldn't find any sound properties for casing sound [casing_sound] on [src]! This should never happen, report it to the developers!")
+		return
+	var/list/shootprops = soundies.shootlist(silenced)
+	if(!silenced && !isnull(fire_sound))
+		shootprops[CSP_INDEX_SOUND_OUT] = fire_sound
+	if(silenced && !isnull(fire_sound_silenced))
+		shootprops[CSP_INDEX_SOUND_OUT] = fire_sound_silenced
+	playsound(
+		src,
+		shootprops[CSP_INDEX_SOUND_OUT],
+		shootprops[CSP_INDEX_VOLUME],
+		shootprops[CSP_INDEX_VARY],
+		shootprops[CSP_INDEX_DISTANCE],
+		ignore_walls = shootprops[CSP_INDEX_IGNORE_WALLS],
+		distant_sound = shootprops[CSP_INDEX_DISTANT_SOUND],
+		distant_range = shootprops[CSP_INDEX_DISTANT_RANGE]
+		)
+
+/obj/item/gun/proc/cause_attraction(mob/living/user)
 	if(loudness <= 0)
 		return
 	if(loud_range <= 0)
@@ -1239,11 +1159,6 @@ ATTACHMENTS
 	user.client.change_view(zoom_out_amt)
 	user.client.pixel_x = world.icon_size*_x
 	user.client.pixel_y = world.icon_size*_y
-
-/obj/item/gun/proc/getstamcost(mob/living/carbon/user)
-	. = 0 //get_per_shot_recoil()
-	if(user && !user.has_gravity())
-		. *= 5
 
 /obj/item/gun/proc/weapondraw(obj/item/gun/G, mob/living/user) // Eventually, this will be /obj/item/weapon and guns will be /obj/item/weapon/gun/etc. SOON.tm
 	user.visible_message(span_danger("[user] grabs \a [G]!")) // probably could code in differences as to where you're picking it up from and so forth. later.

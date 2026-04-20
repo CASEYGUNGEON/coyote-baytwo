@@ -3804,7 +3804,7 @@
 	damage_multiplier = GUN_LESS_DAMAGE_C1
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC
 	casing_ejector = TRUE
-	handedness = GUN_EJECTOR_RIGHT
+	ejector_side = GUN_EJECTOR_RIGHT
 	cock_delay = GUN_COCK_RIFLE_BASE
 	draw_time = GUN_DRAW_NORMAL
 	init_recoil = CARBINE_RECOIL (1.7 , 1.2)
