@@ -230,6 +230,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		return FALSE
 	var/obj/item/ammo_casing/cbrd = get_chambered()
 	if(cbrd)
+		if(cbrd.BB)
+			return FALSE // somethings already in there..... maybe load the mag!
 		eject_chambered(user, FALSE)
 		if(get_chambered()) // its still in there!
 			to_chat(user, span_alert("There's still something in the chamber of \the [src]!"))
@@ -437,6 +439,11 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/bolt_open(mob/living/user, manually, loudly)
 	if(bolt_state == GBOLT_OPEN)
 		return
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_opening_delay)
+		if(!do_delay(user, my_mode.bolt_opening_delay))
+			to_chat(user, span_alert("You were interrupted!"))
+			return FALSE
 	bolt_state = GBOLT_OPEN
 	bolt_opened_effects(user, manually, loudly)
 	return TRUE
@@ -444,6 +451,11 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/bolt_close(mob/living/user, manually, loudly)
 	if(bolt_state == GBOLT_CLOSED)
 		return
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_closing_delay)
+		if(!do_delay(user, my_mode.bolt_closing_delay))
+			to_chat(user, span_alert("You were interrupted!"))
+			return FALSE
 	bolt_state = GBOLT_CLOSED
 	bolt_closed_effects(user, manually, loudly)
 	return TRUE
