@@ -636,13 +636,14 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	..()
 
 /obj/item/gun/ballistic/eject_chambered(mob/living/user, sounds_and_words)
-	if(sounds_and_words)
-		to_chat(user, span_notice("You eject \a [chambered] from \the [src]'s chamber."))
 	var/obj/item/ammo_casing/AC = chambered //Find chambered round
 	if(istype(AC)) //there's a chambered round
 		AC.forceMove(drop_location()) //Eject casing onto ground.
-		AC.bounce_away(TRUE, toss_direction = get_ejector_direction(user))
+		var/howfar = AC.BB ? 1 : rand(4, 6)
+		AC.bounce_away(TRUE, toss_direction = get_ejector_direction(user), max_dist = howfar)
 		chambered = null
+		if(sounds_and_words)
+			to_chat(user, span_notice("You eject \a [AC] from \the [src]'s chamber."))
 	return AC
 
 /obj/item/gun/ballistic/examine(mob/user)
