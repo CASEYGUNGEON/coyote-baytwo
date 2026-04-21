@@ -42,7 +42,8 @@
 /obj/item/gun/ballistic/automatic/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_open = bolt_state == GBOLT_OPEN
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_open ? "" : "-e"]"
 
 /* /obj/item/gun/ballistic/automatic/attackby(obj/item/A, mob/user, params)
 	. = ..()
