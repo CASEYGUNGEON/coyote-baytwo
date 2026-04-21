@@ -37,7 +37,8 @@
 	)
 
 /obj/item/gun/ballistic/automatic/toy/pistol/update_icon_state()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"][silenced ? "-suppressed" : ""]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][bolt_closed ? "" : "-e"][silenced ? "-suppressed" : ""]"
 
 /obj/item/gun/ballistic/automatic/toy/pistol/riot
 	mag_type = /obj/item/ammo_box/magazine/toy

@@ -206,16 +206,9 @@
 		/datum/firemode/semi_auto/slower
 	)
 
-// Haha johnathan you're fucking my sawed off shotgun
-// /obj/item/gun/ballistic/shotgun/hunting/update_icon_state()
-//	if(sawn_off)
-//		icon_state = "[initial(icon_state)]-sawn"
-//	else if(!magazine || !magazine.ammo_count(0))
-//		icon_state = "[initial(icon_state)]-e"
-//	else
-//		icon_state = "[initial(icon_state)]"
 /obj/item/gun/ballistic/shotgun/hunting/update_icon_state()
-	if(!magazine || !magazine.ammo_count(0))
+	var/bolt_open = bolt_state == GBOLT_OPEN
+	if(bolt_open)
 		icon_state = "[initial(icon_state)]-e"
 	else
 		icon_state = "[initial(icon_state)]"
@@ -235,7 +228,8 @@
 	
 // Makes the gun appear empty when it still has one in the chamber. No sir, I don't like it.
 /obj/item/gun/ballistic/shotgun/hunting/sawn/update_icon_state()
-	if(!magazine || !magazine.ammo_count(0))
+	var/bolt_open = bolt_state == GBOLT_OPEN
+	if(bolt_open)
 		icon_state = "[initial(icon_state)]-e"
 	else
 		icon_state = "[initial(icon_state)]"
@@ -331,7 +325,8 @@
 	)
 
 /obj/item/gun/ballistic/shotgun/trench/update_icon_state()
-	if(!magazine || !magazine.ammo_count(0))
+	var/bolt_open = bolt_state == GBOLT_OPEN
+	if(bolt_open)
 		icon_state = "[initial(icon_state)]-e"
 	else
 		icon_state = "[initial(icon_state)]"
@@ -391,7 +386,8 @@
 	)
 
 /obj/item/gun/ballistic/shotgun/automatic/combat/update_icon_state()
-	if(!magazine || !magazine.ammo_count(0))
+	var/bolt_open = bolt_state == GBOLT_OPEN
+	if(bolt_open)
 		icon_state = "[initial(icon_state)]-e"
 	else
 		icon_state = "[initial(icon_state)]"

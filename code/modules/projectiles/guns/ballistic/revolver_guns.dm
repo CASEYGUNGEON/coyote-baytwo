@@ -35,7 +35,7 @@
 		/datum/firemode/burst/two/faster
 	)
 
-/obj/item/gun/ballistic/revolver/detective/derringer/update_icon_state()
+/obj/item/gun/ballistic/revolver/detective/derringer/update_icon_state() //! todo: REVOLER STUFF
 	if(!magazine || !get_ammo(TRUE, FALSE) || !chambered?.BB)
 		icon_state = "[initial(icon_state)]_open"
 	else
@@ -693,7 +693,7 @@
 		/datum/firemode/semi_auto/slower
 	)
 
-/obj/item/gun/ballistic/revolver/derringer4570/update_icon_state()
+/obj/item/gun/ballistic/revolver/derringer4570/update_icon_state() //! todo: REVOLVER STUFF
 	if(!magazine || !get_ammo(TRUE, FALSE) || !chambered?.BB)
 		icon_state = "[initial(icon_state)]_open"
 	else
@@ -808,7 +808,7 @@
 	)
 	fire_sound = 'sound/f13weapons/45revolver.ogg'
 
-/obj/item/gun/ballistic/revolver/derringerLC/update_icon_state()
+/obj/item/gun/ballistic/revolver/derringerLC/update_icon_state() //! todo: REVOLVER STUFF
 	if(!magazine || !get_ammo(TRUE, FALSE) || !chambered?.BB)
 		icon_state = "[initial(icon_state)]_open"
 	else

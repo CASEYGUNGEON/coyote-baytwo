@@ -31,7 +31,8 @@
 	spawnwithmagazine = FALSE
 
 /obj/item/gun/ballistic/automatic/pistol/update_icon_state()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][bolt_closed ? "" : "-e"]"
 
 
 /* * * * * * * * *
@@ -75,7 +76,8 @@
 /obj/item/gun/ballistic/automatic/pistol/pistol22/val/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"]"
 
 /obj/item/gun/ballistic/automatic/pistol/pistol22/val/Initialize()
 	.=..()
@@ -182,7 +184,8 @@
 /obj/item/gun/ballistic/automatic/pistol/ninemil/skorpion/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"]"
 
 //ruby pistol. single stack bootgun, otherwise unexceptional
 /obj/item/gun/ballistic/automatic/pistol/ninemil/ruby

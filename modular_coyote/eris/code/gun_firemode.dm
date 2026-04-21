@@ -178,6 +178,8 @@
 	hammer_recock_on_fire = FALSE
 	hammer_ignore = FALSE
 	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
+	bolt_cycles_on_shoot = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = FALSE
 
 /datum/firemode/single_action/pump_action
 	name = "Single Shot - Pump Action"

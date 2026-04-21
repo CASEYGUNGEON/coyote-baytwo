@@ -66,7 +66,8 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 
 /obj/item/gun/ballistic/automatic/magrifle/hyperburst/update_icon_state()
-	icon_state = "hyperburst[magazine ? "-[get_ammo()]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "hyperburst[magazine ? "-[get_ammo()]" : ""][bolt_closed ? "" : "-e"]"
 
 ///magpistol///
 
@@ -87,7 +88,8 @@
 		. += "magpistol-magazine"
 
 /obj/item/gun/ballistic/automatic/magrifle/pistol/update_icon_state()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][bolt_closed ? "" : "-e"]"
 
 /obj/item/gun/ballistic/automatic/magrifle/pistol/nopin
 	pin = null
