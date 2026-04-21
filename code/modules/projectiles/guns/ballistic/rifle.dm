@@ -31,7 +31,7 @@
 	can_bayonet = TRUE
 
 	gun_skill_check = AFFECTED_BY_FAST_PUMP | AFFECTED_BY_AUTO_PUMP
-	casing_ejector = FALSE // THIS makes it require manual cocking of the gun!!!
+	casing_ejector = FALSE // THIS makes it require manual cocking of the gun!!! // lol not anymore
 	spawnwithmagazine = TRUE
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
