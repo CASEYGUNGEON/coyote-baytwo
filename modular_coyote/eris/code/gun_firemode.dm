@@ -153,17 +153,13 @@
 /datum/firemode/proc/update()
 	return
 
-/datum/firemode/semi_auto
-	name = "Semi Automatic"
-	desc = "Shoot one shot per trigger pull."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
-	icon_state = "semi"
-	fire_type_default = GUN_FIREMODE_SEMIAUTO
-	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
-	burst_count_default = 1
-
+/* *
+ * SINGLE ACTION FIREMODES
+ * For revolvers of various types, and break action guns
+ * HAMMER is important, BOLT is not
+ * For burstfire single-actions (DB shotguns or whatever), make the hammer recock on fire
+ * and ideally, have a burst count equal to the magazine capacity, to maintain the illusion
+ * */
 /datum/firemode/single_action
 	name = "Single Action"
 	desc = "Shoot one shot, pull back the hammer, repeat."
@@ -177,35 +173,17 @@
 	burst_count_default = 1
 	hammer_recock_on_fire = FALSE
 	hammer_ignore = FALSE
+	bolt_ignore = TRUE
 	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 	bolt_cycles_on_shoot = FALSE
 	bolt_cycles_to_shootable_state_on_shoot = FALSE
 
-/datum/firemode/single_action/pump_action
-	name = "Single Shot - Pump Action"
-	desc = "Shoot one shot, pump the pumper, repeat."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
-		Also, remember that you have to rack the gun manually after every shot!"
-	bolt_ejects_on_open = GEJECTOR_AFTER_COCKING
-
-/datum/firemode/single_action/pump_action/bolt_action
-	name = "Single Shot - Bolt Action"
-	desc = "Shoot one shot, do the bolt thing, repeat."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
-		Also, remember that you have to bolt the gun manually after every shot!"
-
-/datum/firemode/single_action/pump_action/lever_action
-	name = "Single Shot - Lever Action"
-	desc = "Shoot one shot, tweak the lever, repeat."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
-		Also, remember that you have to lever the gun manually after every shot!"
-
+/* 
+ * BOLT ACTION FIREMODES
+ * For guns that require manual cycling of the bolt, like bolt action rifles and pump shotguns
+ * BOLT is important, HAMMER is (generally) not
+ * For burstfire bolt-actions... just use one of the automatic firemodes
+ */
 /datum/firemode/bolt_using
 	name = "Parent Bolt Using"
 	desc = "hi"
@@ -213,6 +191,7 @@
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to bolt the gun manually after every shot!"
+	default_shoot_delay = GUN_FIRE_DELAY_SLOW
 	bolt_ignore                             = FALSE
 	bolt_cycles_to_shootable_state_on_shoot = FALSE
 	bolt_cycles_on_shoot                    = FALSE
@@ -230,6 +209,10 @@
 	extra_tip = "Uses a straight-pull bolt action, which means you just pull the bolt back, \
 		then push it forward, with no delay on either action."
 
+/datum/firemode/bolt_using/straight_pull/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+////////////////////
 /datum/firemode/bolt_using/delay_on_open
 	name = "Cock-On-Open Bolt Action"
 	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
@@ -237,6 +220,10 @@
 		will have a short delay, but closing it will be instant."
 	bolt_opening_delay = 0.2 SECONDS
 
+/datum/firemode/bolt_using/delay_on_open/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+////////////////////
 /datum/firemode/bolt_using/delay_on_close
 	name = "Cock-On-Close Bolt Action"
 	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
@@ -244,6 +231,36 @@
 		will have a short delay, but opening it will be instant."
 	bolt_closing_delay = 0.2 SECONDS
 
+/datum/firemode/bolt_using/pump_action
+	name = "Pump Action"
+	desc = "Shoot one shot, pull the pump back, push it forward, repeat."
+	extra_tip = "Uses a pump action, which means that you just pull the pump back, \
+		then push it forward, with no delay on either action."
+
+/datum/firemode/bolt_using/lever_action
+	name = "Lever Action"
+	desc = "Shoot one shot, jork the lever, repeat."
+	extra_tip = "Uses a lever action, which means that you just jork the lever, \
+		with no delay on either action."
+
+/datum/firemode/bolt_using/lever_action/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+/* 
+ * SEMI-AUTOMATIC FIREMODES
+ * For guns that fire one shot per trigger pull without having to mess with anything... generally
+ * */
+/// basic firemode for firemoding, its a firemode thats boring and works
+/datum/firemode/semi_auto
+	name = "Semi Automatic"
+	desc = "Shoot one shot per trigger pull."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	icon_state = "semi"
+	fire_type_default = GUN_FIREMODE_SEMIAUTO
+	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
+	burst_count_default = 1
 
 /datum/firemode/semi_auto/shotgun_fixed
 	name = "Single-Barrel Shot"
@@ -268,6 +285,12 @@
 /datum/firemode/semi_auto/slowest
 	shoot_delay_default = GUN_FIRE_DELAY_SLOWEST
 
+/*
+ * FULLY AUTOMATIC FIREMODES
+ * For guns that keep shooting as long as you hold the trigger down
+ * Assumes a closed-bolt design, where the gun chambers a round, then fires it, then ejects the casing, then repeats
+ * sugma
+ */
 /datum/firemode/automatic
 	name = "Fully Automatic"
 	desc = "Spray and pray."
@@ -350,6 +373,11 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_100
 
+/* 
+ * BURST FIREMODES
+ * For guns that fire a set number of shots per trigger pull
+ * Assumes a closed-bolt
+ */
 /datum/firemode/burst
 	name = "Burstfire"
 	desc = "Shoot multiple shots per triggerpull."
@@ -503,5 +531,6 @@
 	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
 	burst_count_default = 20
 
+// yes there are a lot of them 
 
 
