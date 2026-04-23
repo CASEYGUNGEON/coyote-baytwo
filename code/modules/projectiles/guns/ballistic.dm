@@ -28,6 +28,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	var/remove_magazine_delay = 0.5 SECONDS
 	var/revolver = FALSE // hack
 	fire_sound = null //null tells the gun to draw from the casing instead of the gun for sound
+	var/can_load_magazine_through_bolt = FALSE
 
 	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
 	var/manual_chamber_sound =       'sound/weapons/biblically_accurate_guns/manual_insert_casing_into_chamber.ogg'
@@ -47,7 +48,18 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	var/auto_cock_hammer_sound =     'sound/weapons/biblically_accurate_guns/auto_hammer_back.ogg'
 	var/auto_uncock_hammer_sound =   'sound/weapons/biblically_accurate_guns/auto_hammer_forward.ogg'
 
+	/// cutecool overlays to show what position the hammer and or bolt are in!
+	var/mutable_appearance/hammer_overlay
+	var/hammer_cocked_icon = 'icons/obj/genitals/dildo.dmi'
+	var/hammer_cocked_icon_state = "dildo_knotted_1"
+	var/hammer_uncocked_icon = 'icons/obj/genitals/dildo.dmi'
+	var/hammer_uncocked_icon_state = "dildo_knotted_3"
 
+	var/mutable_appearance/bolt_overlay
+	var/bolt_closed_icon = 'icons/obj/genitals/onahole.dmi'
+	var/bolt_closed_icon_state = "onahole_plain_1"
+	var/bolt_open_icon = 'icons/obj/genitals/onahole.dmi'
+	var/bolt_open_icon_state = "onahole_plain_3"
 
 /obj/item/gun/ballistic/Initialize()
 	. = ..()
@@ -90,38 +102,38 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	hammer_state = GHAMMER_COCKED
 	bolt_state = my_mode.bolt_shootable_state
 
-/obj/item/gun/ballistic/UpdateAmmoCountOverlay()
-	// if(isturf(loc))//Only show th ammo count if the magazine is, like, in an inventory or something. Mags on the ground don't need a big number on them, that's ugly.
-	// 	maptext = ""
-	// else 
-	// 	var/ammos = get_ammo()
-	// 	var/ammomax = get_max_ammo()
-	// 	var/textt = ""
-	// 	var/culur = "#FF0000"
-	// 	if(ammomax == 0)
-	// 		culur = "#FFFFFF"
-	// 	else if(ammos == ammomax)
-	// 		culur = "#00FFFF"
-	// 	else if(ammos > ammomax * 0.75)
-	// 		culur = "#00FF00"
-	// 	else if(ammos > ammomax * 0.5)
-	// 		culur = "#FFFF00"
-	// 	else if(ammos > ammomax * 0.25)
-	// 		culur = "#FFA500"
-	// 	else if(ammos > 0)
-	// 		culur = "#FF0000"
-	// 	else
-	// 		culur = "#FF00FF"
-	// 	if(ammos > 0)
-	// 		textt = "[ammos]/[get_max_ammo()]"
-	// 	else
-	// 		textt = "0/[get_max_ammo()]"
-	// 	maptext = "<font color='[culur]'><b>[textt]</b></font>"
-
 /obj/item/gun/ballistic/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
 	icon_state = "[initial(icon_state)][sawn_off ? "-sawn" : ""]"
+
+/obj/item/gun/ballistic/update_overlays()
+	. = ..()
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode)
+		if(!my_mode.hammer_ignore)
+			var/mutable_appearance/hoverlay
+			hoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+			if(hammer_state == GHAMMER_COCKED)
+				if(hammer_cocked_icon && hammer_cocked_icon_state)
+					hoverlay = mutable_appearance(hammer_cocked_icon, hammer_cocked_icon_state)
+			else if(hammer_state == GHAMMER_UNCOCKED)
+				if(hammer_uncocked_icon && hammer_uncocked_icon_state)
+					hoverlay = mutable_appearance(hammer_uncocked_icon, hammer_uncocked_icon_state)
+			if(hoverlay)
+				. += hoverlay
+		// bolt ignore doesnt really apply, cus you can still open and close the bolt
+		if(!revolver) // revolvers dont really have bolts, do they?
+			var/mutable_appearance/boltoverlay
+			boltoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+			if(bolt_state == GBOLT_OPEN)
+				if(bolt_open_icon && bolt_open_icon_state)
+					boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
+			else if(bolt_state == GBOLT_CLOSED)
+				if(bolt_closed_icon && bolt_closed_icon_state)
+					boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
+			if(boltoverlay)
+				. += boltoverlay
 
 /obj/item/gun/ballistic/proc/register_magazines()
 	if(LAZYACCESS(GLOB.gun_accepted_magazines, "[type]"))
@@ -161,10 +173,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(!!AC?.BB)
 		return TRUE
 	. = ..()
-/* 	if(!magazine || !magazine.ammo_count(0))
-		return FALSE
-	if(!casing_ejector)
-	return TRUE */
 
 /obj/item/gun/ballistic/attack_self(mob/living/user)
 	operate_bolt_manually(user)
@@ -204,12 +212,13 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return FALSE
 
 /obj/item/gun/ballistic/proc/use_casing_on_gun(obj/item/ammo_casing/A, mob/user)
+	// first try stuffing it into the chamber
 	if(try_load_chamber_with_casing(A, user))
 		return TRUE
-	if(!magazine.fixed_mag)
-		return FALSE
+	// if not, can we stuff it into the mazagine?
 	if(!can_insert_casings_into_gun(user))
 		return FALSE
+	// okay stuff it in
 	if(magazine.load_from_casing(
 		A,
 		user,
@@ -222,11 +231,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return TRUE
 
 /obj/item/gun/ballistic/proc/try_load_chamber_with_casing(obj/item/ammo_casing/A, mob/user)
-	if(!istype(A))
-		return FALSE
-	if(!casing_probably_fits_in_chamber(A))
-		return FALSE
-	if(!can_insert_casings_into_gun(user))
+	if(!can_insert_casing_into_chamber(user, A))
 		return FALSE
 	var/obj/item/ammo_casing/cbrd = get_chambered()
 	if(cbrd)
@@ -262,9 +267,39 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/proc/can_insert_casings_into_gun(mob/user, loudly = FALSE)
 	if(!user)
 		return TRUE
+	if(!istype(magazine))
+		return FALSE
+	if(!magazine.fixed_mag)
+		if(!can_load_magazine_through_bolt)
+			return FALSE
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		return TRUE // load it anyway
+	if(isnull(my_mode.bolt_reloadable_state))
+		return TRUE // like how you can stuff shells into a shootgun
+	if(bolt_state != my_mode.bolt_reloadable_state)
+		if(my_mode.bolt_reloadable_state == GBOLT_CLOSED)
+			if(loudly)
+				to_chat(user, span_warning("The bolt of \the [src] is closed, you need to open it to load ammo!"))
+		else
+			if(loudly)
+				to_chat(user, span_warning("The bolt of \the [src] is open, you need to close it to load ammo!"))
+		return FALSE
+	return TRUE
+
+/// TG always said to make your procs and vars check for the *truth* of something, instead of a non-null meaning *no its not good*
+/obj/item/gun/ballistic/proc/can_insert_casings_into_gun(mob/user, obj/item/ammo_casing/A, loudly = FALSE)
+	if(!istype(A))
+		return FALSE
+	if(!casing_probably_fits_in_chamber(A))
+		return FALSE
+	if(!user)
+		return TRUE
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE // load it anyway
+	if(isnull(my_mode.bolt_manually_chamberable_state))
+		return TRUE // like how you can stuff shells into a shootgun
 	if(bolt_state != my_mode.bolt_manually_chamberable_state)
 		if(my_mode.bolt_manually_chamberable_state == GBOLT_CLOSED)
 			if(loudly)
@@ -279,28 +314,36 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /// BOLTIE AND HAMMER STUFF
 ////////////////////////////////////////////////////
 
-/obj/item/gun/ballistic/check_bolt_is_in_shootable_position()
+/obj/item/gun/ballistic/check_bolt_is_in_shootable_position(mob/living/user, tell_them)
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
-		return
+		return TRUE
 	var/shootable_state = my_mode.bolt_shootable_state
 	if(bolt_state == shootable_state)
-		return
-	if(shootable_state == GBOLT_CLOSED)
-		return "The bolt is open! Close it to shoot!!"
-	else if(shootable_state == GBOLT_OPEN)
-		return "The bolt is closed! Open it to shoot!!"
-	else
-		return "The bolt is busted! It won't let you shoot!!"
+		return TRUE
+	// not working, let them know why
+	if(tell_them && user)
+		if(shootable_state == GBOLT_CLOSED)
+			to_chat(user, span_danger("The bolt of \the [src] isn't closed! Close it to shoot!!"))
+		else if(shootable_state == GBOLT_OPEN)
+			to_chat(user, span_danger("The bolt of \the [src] isn't open! Open it to shoot!!"))
+		else
+			to_chat(user, span_danger("The bolt of \the [src] is broken! It cant shoot"))
+	return FALSE
 
-/obj/item/gun/ballistic/check_hammer_is_in_shootable_position()
+/obj/item/gun/ballistic/check_hammer_is_in_shootable_position(mob/living/user, tell_them)
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.hammer_ignore)
-		return
+		return TRUE
 	// shootable position is always cocked
 	if(hammer_state == GHAMMER_COCKED)
-		return
-	return "The hammer isn't cocked! Cock it to shoot!!"
+		return TRUE
+	// not working, let them knof
+	if(tell_them && user)
+		to_chat(user, span_danger("The hammer of \the [src] isn't cocked! Cock it to shoot!!"))
+	return FALSE
+
+
 
 /// When the gun shoots, this happens automatically with the hammer
 /// typically just drops the hammer (striker, etc) after triggerpull
@@ -648,11 +691,38 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 /obj/item/gun/ballistic/examine(mob/user)
 	. = ..()
+	var/datum/firemode/my_mode = get_current_firemode()
+	var/hammer_ok = check_hammer_is_in_shootable_position()
+	if(!my_mode.hammer_ignore)
+		if(hammer_ok)
+			. += "The hammer is currently [span_green("cocked")]."
+		else
+			. += "The hammer is currently [span_alert("uncocked")]."
+	var/bst = ""
+	if(bolt_state == GBOLT_OPEN)
+		bst = span_notice("open")
+	else if(bolt_state == GBOLT_CLOSED)
+		bst = span_love("closed")
+	else
+		bst = "broken"
+	var/ready = ""
+	var/bolt_ok = check_bolt_is_in_shootable_position()
+	if(!revolver)
+		if(bolt_ok)
+			ready = span_green("in shootable position")
+		else
+			ready = span_alert("not in shootable position")
+		. += "The bolt is currently [bst], and is [ready]."
+
 	if(istype(magazine) && magazine.fixed_mag && length(magazine.caliber))
 		. += "It accepts [span_notice(english_list(magazine.caliber))]"
 	. += "It has [span_notice("[get_ammo()]")] round\s remaining."
-	if (chambered && !casing_ejector)
+	if (chambered)
 		. += "A [chambered.BB ? span_green("live") : span_alert("spent")] one is in the chamber."
+	if(hammer_ok && bolt_ok && chambered && chambered.BB)
+		. += "It is currently " + span_green("ready to fire") + "!"
+	else
+		. += "It is currently " + span_alert("not ready to fire") + "!"
 
 /obj/item/gun/ballistic/proc/get_ammo(countchambered = 1)
 	var/boolets = 0 //mature var names for mature people

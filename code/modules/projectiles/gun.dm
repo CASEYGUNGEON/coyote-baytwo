@@ -350,15 +350,10 @@ ATTACHMENTS
 //i.e if clicking would make it shoot
 // doesnt care if its loaded, just if pulling the trigger would do anything
 /obj/item/gun/proc/can_shoot()
-	var/datum/firemode/my_mode = get_current_firemode()
-	if(!my_mode.hammer_ignore)
-		var/hammer_prmoblem = check_hammer_is_in_shootable_position()
-		if(hammer_prmoblem)
-			return FALSE
-	if(!my_mode.bolt_ignore)
-		var/hammer_promblem = check_bolt_is_in_shootable_position()
-		if(hammer_promblem)
-			return FALSE
+	if(!check_hammer_is_in_shootable_position())
+		return FALSE
+	if(!check_bolt_is_in_shootable_position())
+		return FALSE
 	return TRUE
 
 //Adds logging to the attack log whenever anyone draws a gun, adds a pause after drawing a gun before you can do anything based on it's size
@@ -710,14 +705,10 @@ ATTACHMENTS
 			to_chat(user, span_danger("The gun's safety is on!"))
 			shoot_with_empty_chamber(user, FALSE)
 			return
-		var/bolt_promblem = check_bolt_is_in_shootable_position()
-		if(bolt_promblem)
-			to_chat(user, span_danger("[bolt_promblem]"))
+		if(!check_bolt_is_in_shootable_position(user, TRUE))
 			shoot_with_empty_chamber(user, FALSE)
 			return
-		var/hammer_promblem = check_hammer_is_in_shootable_position()
-		if(hammer_promblem)
-			to_chat(user, span_danger("[hammer_promblem]"))
+		if(!check_hammer_is_in_shootable_position(user, TRUE))
 			shoot_with_empty_chamber(user, FALSE)
 			return
 		operate_hammer_on_trigger(user)

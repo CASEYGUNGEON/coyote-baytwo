@@ -29,13 +29,16 @@
 		/datum/firemode/bolt_using/straight_pull
 	)
 	can_bayonet = TRUE
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_short.ogg'
+	casing_eject_sound =            'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	empty_casing_eject_sound =      'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 
-	gun_skill_check = AFFECTED_BY_FAST_PUMP | AFFECTED_BY_AUTO_PUMP
 	casing_ejector = FALSE // THIS makes it require manual cocking of the gun!!! // lol not anymore
 	spawnwithmagazine = TRUE
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
-	auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
 	reloading_time = 0.5 SECONDS
+	can_load_magazine_through_bolt = TRUE
 
 /* /obj/item/gun/ballistic/rifle/process_chamber(mob/living/user, empty_chamber = 0)
 	return ..() //changed argument value
@@ -875,28 +878,28 @@
 	. = ..()
 	. += span_notice("Alt-click to remove the magazine.")
 
-/obj/item/gun/ballistic/rifle/mag/AltClick(mob/living/user)
-	var/obj/item/ammo_casing/AC = chambered //Find chambered round
-	if(magazine)
-		magazine.forceMove(drop_location())
-		user.put_in_hands(magazine)
-		magazine.update_icon()
-		if(magazine.ammo_count())
-			playsound(src, 'sound/weapons/gun_magazine_remove_full.ogg', 70, 1)
-		else
-			playsound(src, "gun_remove_empty_magazine", 70, 1)
-		magazine = null
-		to_chat(user, span_notice("You pull the magazine out of \the [src]."))
-	else if(chambered)
-		AC.forceMove(drop_location())
-		AC.bounce_away()
-		chambered = null
-		to_chat(user, span_notice("You unload the round from \the [src]'s chamber."))
-		playsound(src, "gun_slide_lock", 70, 1)
-	else
-		to_chat(user, span_notice("There's no magazine in \the [src]."))
-	update_icon()
-	return
+// /obj/item/gun/ballistic/rifle/mag/AltClick(mob/living/user)
+// 	var/obj/item/ammo_casing/AC = chambered //Find chambered round
+// 	if(magazine)
+// 		magazine.forceMove(drop_location())
+// 		user.put_in_hands(magazine)
+// 		magazine.update_icon()
+// 		if(magazine.ammo_count())
+// 			playsound(src, 'sound/weapons/gun_magazine_remove_full.ogg', 70, 1)
+// 		else
+// 			playsound(src, "gun_remove_empty_magazine", 70, 1)
+// 		magazine = null
+// 		to_chat(user, span_notice("You pull the magazine out of \the [src]."))
+// 	else if(chambered)
+// 		AC.forceMove(drop_location())
+// 		AC.bounce_away()
+// 		chambered = null
+// 		to_chat(user, span_notice("You unload the round from \the [src]'s chamber."))
+// 		playsound(src, "gun_slide_lock", 70, 1)
+// 	else
+// 		to_chat(user, span_notice("There's no magazine in \the [src]."))
+// 	update_icon()
+// 	return
 
 /obj/item/gun/ballistic/rifle/mag/update_icon_state()
 	var/bolt_closed = bolt_state == GBOLT_CLOSED

@@ -31,9 +31,10 @@
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	init_recoil = SHOTGUN_RECOIL(1, 1)
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
+		/datum/firemode/bolt_using/pump_action
 	)
 	reloading_time = 0.5 SECONDS
+	can_load_magazine_through_bolt = TRUE
 
 /obj/item/gun/ballistic/shotgun/blow_up(mob/user)
 	. = 0
@@ -202,9 +203,6 @@
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 
 /obj/item/gun/ballistic/shotgun/hunting/update_icon_state()
 	var/bolt_open = bolt_state == GBOLT_OPEN
@@ -222,9 +220,6 @@
 	weapon_class = WEAPON_CLASS_SMALL
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_LESS_DAMAGE_T1
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 	
 // Makes the gun appear empty when it still has one in the chamber. No sir, I don't like it.
 /obj/item/gun/ballistic/shotgun/hunting/sawn/update_icon_state()
@@ -261,9 +256,6 @@
 	gunlight_state = "flightangle"
 	flight_x_offset = 23
 	flight_y_offset = 21
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 
 /obj/item/gun/ballistic/shotgun/police/AltClick(mob/living/user)
 	. = ..()
@@ -320,9 +312,6 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 24
 	knife_y_offset = 22
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 
 /obj/item/gun/ballistic/shotgun/trench/update_icon_state()
 	var/bolt_open = bolt_state == GBOLT_OPEN
@@ -361,9 +350,6 @@
 	auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	init_recoil = SHOTGUN_RECOIL(2, 2)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 	icon = 'icons/fallout/objects/guns/ballistic.dmi'
 	lefthand_file = 'icons/fallout/onmob/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/fallout/onmob/weapons/guns_righthand.dmi'
@@ -408,11 +394,7 @@
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
-
-	casing_ejector = TRUE // makes it eject casings -- and not need pumping!!!
+	casing_ejector = TRUE // makes it eject casings -- and not need pumping!!! // no it oesnt
 	fire_sound = 'sound/f13weapons/auto5.ogg'
 
 /obj/item/gun/ballistic/shotgun/automatic/combat/auto5/worn
@@ -427,8 +409,6 @@
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
 	)
-
-	casing_ejector = TRUE // makes it eject casings -- and not need pumping!!!
 	fire_sound = 'sound/f13weapons/auto5.ogg'
 
 /* * * * * * * * * * *
@@ -450,9 +430,8 @@
 	cock_delay = GUN_COCK_SHOTGUN_FAST
 	init_recoil = SHOTGUN_RECOIL(1, 1)
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/bolt_using/lever_action/fast
 	)
-
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	can_bayonet = FALSE //doesn't need one, needs some disadvantage compared to a trench gun
 	bayonet_state = "bayonet"
@@ -477,10 +456,6 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	cock_delay = GUN_COCK_SHOTGUN_FAST
 	init_recoil = SHOTGUN_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
-
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	can_bayonet = FALSE
 /* * * * * * * * * * *
@@ -500,10 +475,6 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	cock_delay = GUN_COCK_SHOTGUN_FAST
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
-
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	can_bayonet = FALSE
 /* * * * * * * * * * *
@@ -522,10 +493,6 @@
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
-
 	var/toggled = FALSE
 	var/obj/item/ammo_box/magazine/internal/shot/alternate_magazine
 
@@ -576,9 +543,6 @@
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 	fire_sound = 'sound/f13weapons/riot_shotgun.ogg'
 	init_recoil = AUTOSHOTGUN_RECOIL(1, 1)
 
@@ -602,11 +566,9 @@
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_LESS_DAMAGE_T1
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/riot_shotgun.ogg'
 	init_recoil = AUTOSHOTGUN_RECOIL(1, 1)
+	can_load_magazine_through_bolt = FALSE
 
 /obj/item/gun/ballistic/shotgun/needles
 	name = "Pz87 pump-action shotgun"
@@ -619,9 +581,6 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/needler
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/needler.ogg'
 	init_recoil = AUTOSHOTGUN_RECOIL(1, 1)
 
@@ -647,6 +606,7 @@
 		/datum/firemode/semi_auto/slow
 	)
 	init_recoil = AUTOSHOTGUN_RECOIL(1, 0.8)
+	can_load_magazine_through_bolt = FALSE
 
 // Ballistic Fist			Keywords: Damage max 42, Shotgun
 /obj/item/gun/ballistic/revolver/ballisticfist

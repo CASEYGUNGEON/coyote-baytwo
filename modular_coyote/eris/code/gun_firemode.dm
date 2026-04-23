@@ -78,6 +78,10 @@
 	var/bolt_opens_on_last_shot = TRUE
 	var/bolt_shootable_state = GBOLT_CLOSED
 	var/bolt_manually_chamberable_state = GBOLT_OPEN
+	/// sets what state you can load ammo into the *magazine*
+	/// set to null to load it from any state
+	/// one time on deviantart i found a pony who's special talent was peeing while having an erection
+	var/bolt_reloadable_state = GBOLT_OPEN
 	var/bolt_ignore = FALSE
 	var/bolt_cocks_hammer_on_this_state = GBOLT_CLOSED
 	var/bolt_opening_delay = 0
@@ -191,7 +195,7 @@
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to bolt the gun manually after every shot!"
-	default_shoot_delay = GUN_FIRE_DELAY_SLOW
+	shoot_delay_default = GUN_FIRE_DELAY_SLOW
 	bolt_ignore                             = FALSE
 	bolt_cycles_to_shootable_state_on_shoot = FALSE
 	bolt_cycles_on_shoot                    = FALSE
@@ -202,6 +206,7 @@
 	bolt_cocks_hammer_on_this_state         = GBOLT_CLOSED
 	bolt_opening_delay                      = 0
 	bolt_closing_delay                      = 0
+	bolt_reloadable_state                   = GBOLT_OPEN
 
 /datum/firemode/bolt_using/straight_pull
 	name = "Straight-Pull Bolt Action"
@@ -231,17 +236,22 @@
 		will have a short delay, but opening it will be instant."
 	bolt_closing_delay = 0.2 SECONDS
 
+/datum/firemode/bolt_using/delay_on_close/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
 /datum/firemode/bolt_using/pump_action
 	name = "Pump Action"
 	desc = "Shoot one shot, pull the pump back, push it forward, repeat."
 	extra_tip = "Uses a pump action, which means that you just pull the pump back, \
 		then push it forward, with no delay on either action."
+	bolt_reloadable_state = null
 
 /datum/firemode/bolt_using/lever_action
 	name = "Lever Action"
 	desc = "Shoot one shot, jork the lever, repeat."
 	extra_tip = "Uses a lever action, which means that you just jork the lever, \
 		with no delay on either action."
+	bolt_reloadable_state = null
 
 /datum/firemode/bolt_using/lever_action/fast
 	shoot_delay_default = GUN_FIRE_DELAY_FAST
