@@ -28,6 +28,12 @@
 	casing_ejector = FALSE
 	spawnwithmagazine = TRUE
 	// auto_bolt_open_sound = 'sound/weapons/shotgunpump.ogg'
+
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_shotgun_open.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_shotgun_close.ogg'
+	casing_eject_sound =            'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	empty_casing_eject_sound =      'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
+
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	init_recoil = SHOTGUN_RECOIL(1, 1)
 	init_firemodes = list(

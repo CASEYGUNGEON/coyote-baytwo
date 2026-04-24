@@ -195,7 +195,7 @@
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to bolt the gun manually after every shot!"
-	shoot_delay_default = GUN_FIRE_DELAY_SLOW
+	shoot_delay_default                     = GUN_FIRE_DELAY_SLOW
 	bolt_ignore                             = FALSE
 	bolt_cycles_to_shootable_state_on_shoot = FALSE
 	bolt_cycles_on_shoot                    = FALSE
