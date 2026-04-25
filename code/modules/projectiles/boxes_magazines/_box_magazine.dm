@@ -121,7 +121,7 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 	if (!stored_ammo.len)
 		return null
 	else
-		var/b = LAZYACCESS(stored_ammo, 1)
+		var/b = LAZYACCESS(stored_ammo, LAZYLEN(stored_ammo))
 		if(!b)
 			return null
 		if (!keep)
@@ -183,7 +183,7 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 		stored_ammo[index] = other_casing // Carefully replace the spent round
 		. = TRUE
 	else
-		stored_ammo.Insert(other_casing, 1) // just stuff it in there
+		stored_ammo += other_casing // just stuff it in there
 		. = TRUE
 	if(.)
 		other_casing.forceMove(src)

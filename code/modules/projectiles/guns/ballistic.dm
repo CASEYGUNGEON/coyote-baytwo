@@ -115,7 +115,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(my_mode)
 		if(!my_mode.hammer_ignore)
 			var/mutable_appearance/hoverlay
-			hoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 			if(hammer_state == GHAMMER_COCKED)
 				if(hammer_cocked_icon && hammer_cocked_icon_state)
 					hoverlay = mutable_appearance(hammer_cocked_icon, hammer_cocked_icon_state)
@@ -123,11 +122,11 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 				if(hammer_uncocked_icon && hammer_uncocked_icon_state)
 					hoverlay = mutable_appearance(hammer_uncocked_icon, hammer_uncocked_icon_state)
 			if(hoverlay)
+				hoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 				. += hoverlay
 		// bolt ignore doesnt really apply, cus you can still open and close the bolt
 		if(!revolver) // revolvers dont really have bolts, do they?
 			var/mutable_appearance/boltoverlay
-			boltoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 			if(bolt_state == GBOLT_OPEN)
 				if(bolt_open_icon && bolt_open_icon_state)
 					boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
@@ -135,6 +134,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 				if(bolt_closed_icon && bolt_closed_icon_state)
 					boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
 			if(boltoverlay)
+				boltoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 				. += boltoverlay
 
 /obj/item/gun/ballistic/proc/register_magazines()
@@ -443,7 +443,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /// mainly for open bolts to quickly close n chamber a bullet before it shots
 /obj/item/gun/ballistic/operate_bolt_on_trigger(mob/living/user)
 	var/datum/firemode/my_mode = get_current_firemode()
-	if(!my_mode.bolt_shootable_state != GBOLT_OPEN)
+	if(my_mode.bolt_shootable_state != GBOLT_OPEN)
 		return
 	if(bolt_state != GBOLT_OPEN)
 		return
@@ -461,15 +461,16 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(!my_mode.bolt_cycles_on_shoot && !my_mode.bolt_cycles_to_shootable_state_on_shoot)
 		return // prolly a bolt action
 	// bolt gotta be in a shootable position to do all this stuff
-	if(bolt_state != my_mode.bolt_shootable_state)
-		return
 	if(my_mode.bolt_cycles_to_shootable_state_on_shoot)
 		if(my_mode.bolt_shootable_state == GBOLT_CLOSED)
-			bolt_open(user, FALSE, FALSE)
-			bolt_close(user, FALSE, FALSE)
-		else
-			bolt_close(user, FALSE, FALSE)
-			bolt_open(user, FALSE, FALSE)
+			if(bolt_state == GBOLT_OPEN)
+				bolt_close(user, FALSE, FALSE)
+			else if(bolt_state == GBOLT_CLOSED)
+				bolt_open(user, FALSE, FALSE)
+				bolt_close(user, FALSE, FALSE)
+		else if (my_mode.bolt_shootable_state == GBOLT_OPEN)
+			if(bolt_state == GBOLT_CLOSED)
+				bolt_open(user, FALSE, FALSE)
 	else if(my_mode.bolt_cycles_on_shoot)
 		if(my_mode.bolt_shootable_state == GBOLT_CLOSED)
 			bolt_open(user, FALSE, FALSE)
