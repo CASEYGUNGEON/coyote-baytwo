@@ -185,6 +185,14 @@
 	bolt_cycles_on_shoot = FALSE
 	bolt_cycles_to_shootable_state_on_shoot = FALSE
 
+/datum/firemode/single_action/double_action
+	name = "Double Action"
+	desc = "Shoot one shot, repeat."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	hammer_recock_on_fire = TRUE
+
 /* 
  * BOLT ACTION FIREMODES
  * For guns that require manual cycling of the bolt, like bolt action rifles and pump shotguns

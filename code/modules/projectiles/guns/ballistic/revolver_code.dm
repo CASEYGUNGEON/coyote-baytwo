@@ -916,7 +916,7 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/single_action/double_action
 	)
 	fire_sound = 'sound/f13weapons/357magnum.ogg'
 	kind = REVKIND_SWINGOUT_DOUBLE_ACTION

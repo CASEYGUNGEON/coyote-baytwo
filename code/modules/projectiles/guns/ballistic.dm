@@ -104,6 +104,18 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	hammer_state = GHAMMER_COCKED
 	bolt_state = my_mode.bolt_shootable_state
 
+/obj/item/gun/ballistic/pickup(mob/living/user)
+	. = ..()
+	update_icon()
+
+/obj/item/gun/ballistic/dropped(mob/user)
+	. = ..()
+	update_icon()
+
+/obj/item/gun/ballistic/equipped(mob/living/user, slot)
+	. = ..()
+	update_icon()
+
 /obj/item/gun/ballistic/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
@@ -111,6 +123,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 /obj/item/gun/ballistic/update_overlays()
 	. = ..()
+	if(!istype(loc, /mob))
+		return
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode)
 		if(!my_mode.hammer_ignore)
