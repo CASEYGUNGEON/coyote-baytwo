@@ -205,6 +205,8 @@ ATTACHMENTS
 	var/loudness = 100
 	var/loud_range = 15
 
+	var/can_click = TRUE
+
 /obj/item/gun/Initialize()
 	recoil_tag = SSrecoil.give_recoil_tag(init_recoil)
 	if(!recoil_tag)
@@ -600,8 +602,10 @@ ATTACHMENTS
 // handles the theatrics of dryfiring; sound, messages, etc
 // also the hammer for some reason
 /obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user, hammer_drop = TRUE)
-	to_chat(user, span_danger("[dryfire_text]"))
-	playsound(src, dryfire_sound, 30, 1)
+	if(can_click)
+		to_chat(user, span_danger("[dryfire_text]"))
+		playsound(src, dryfire_sound, 30, 1)
+		can_click = FALSE
 	if(hammer_drop)
 		hammer_drop()
 	update_firemode()
@@ -757,6 +761,7 @@ ATTACHMENTS
 		operate_hammer_post_fire(user)
 		after_shooting(user, target, params, zone_override)
 		user?.in_crit_HP_penalty = 25
+		can_click = TRUE // allow dryfire again after a successful shot
 		if(i < burst_size)
 			sleep(burst_shot_delay)
 		update_icon()
