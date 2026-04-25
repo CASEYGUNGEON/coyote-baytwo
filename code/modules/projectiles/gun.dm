@@ -699,6 +699,7 @@ ATTACHMENTS
 	/// recoil is read before a burst, so all subsequent shots in a burst will have the same recoil
 	/// This is the mob shooting's aggregate recoil
 	var/sprd = SSrecoil.get_offset(user) /// its still *added* with each shot, so the next burst will be higher
+	var/datum/firemode/my_mode = get_current_firemode()
 	for(var/i in 1 to burst_size)
 		before_shooting(user, target, params, zone_override)
 		if(safety)
@@ -711,7 +712,13 @@ ATTACHMENTS
 		if(!check_hammer_is_in_shootable_position(user, TRUE))
 			shoot_with_empty_chamber(user, FALSE)
 			return
+		operate_bolt_on_trigger(user)
 		operate_hammer_on_trigger(user)
+		if(!can_still_shoot_after_operating(user))
+			shoot_with_empty_chamber(user)
+			return
+		if(my_mode.trigger_to_shoot_delay > 0)
+			sleep(my_mode.trigger_to_shoot_delay)
 		misfire_act(user)
 		var/obj/item/ammo_casing/thing_in_chamber = get_chambered()
 		if(!thing_in_chamber || !istype(thing_in_chamber.BB))
@@ -791,6 +798,8 @@ ATTACHMENTS
 
 /obj/item/gun/proc/hammer_drop_effects(mob/living/user, dry, loudly)
 
+/obj/item/gun/proc/operate_bolt_on_trigger(mob/living/user)
+
 /obj/item/gun/proc/operate_bolt_on_shoot(mob/living/user)
 
 /obj/item/gun/proc/operate_bolt_manually(mob/living/user)
@@ -807,6 +816,9 @@ ATTACHMENTS
 	bolt_state = GBOLT_CLOSED
 
 /obj/item/gun/proc/bolt_closed_effects(mob/living/user, loudly)
+
+/obj/item/gun/proc/can_still_shoot_after_operating(mob/living/user)
+	return TRUE
 
 ///////////////////////////////////////
 

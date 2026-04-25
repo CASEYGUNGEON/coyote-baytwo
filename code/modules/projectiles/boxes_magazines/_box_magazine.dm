@@ -117,14 +117,15 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 			return
 		my_gun?.chamber_round()
 
-/obj/item/ammo_box/proc/get_round(keep = 0)
+/obj/item/ammo_box/proc/get_round(keep = FALSE)
 	if (!stored_ammo.len)
 		return null
 	else
-		var/b = stored_ammo[stored_ammo.len]
-		stored_ammo -= b
-		if (keep)
-			stored_ammo.Insert(1,b)
+		var/b = LAZYACCESS(stored_ammo, 1)
+		if(!b)
+			return null
+		if (!keep)
+			stored_ammo -= b
 		return b
 
 /obj/item/ammo_box/proc/does_that_fit_in_this(obj/item/ammo_casing/other_casing)
@@ -182,7 +183,7 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 		stored_ammo[index] = other_casing // Carefully replace the spent round
 		. = TRUE
 	else
-		stored_ammo += other_casing // just stuff it in there
+		stored_ammo.Insert(other_casing, 1) // just stuff it in there
 		. = TRUE
 	if(.)
 		other_casing.forceMove(src)

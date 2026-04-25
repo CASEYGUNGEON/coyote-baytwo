@@ -66,7 +66,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	give_magazine()
 	handle_accepted_magazines()
 	register_magazines()
-	chamber_round()
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_shootable_state != GBOLT_OPEN)
+		chamber_round()
 	make_bolt_and_hammer_shootable()
 	update_icon()
 
@@ -160,13 +162,18 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /obj/item/gun/ballistic/chamber_round(obj/item/ammo_casing/load_this)
 	if(chambered)
 		return
-	if(load_this)
-		chambered = load_this
-	else if(magazine)
-		chambered = magazine.get_round()
-	if(chambered)
-		chambered.forceMove(src)
+	var/obj/item/ammo_casing/to_chamber = load_this
+	if(!to_chamber)
+		to_chamber = get_next_chamberable_round(TRUE)
+	if(to_chamber)
+		to_chamber.forceMove(src)
+		chambered = to_chamber
 	update_icon()
+
+/obj/item/gun/ballistic/proc/get_next_chamberable_round(take_it)
+	if(istype(magazine))
+		return magazine.get_round(!take_it)
+	return null
 
 /obj/item/gun/ballistic/can_shoot()
 	var/obj/item/ammo_casing/AC = get_chambered()
@@ -432,6 +439,17 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 //////////////////////////////////////
 /// BOLT STUFF
 
+/// for when to do bolt things when you pull the trigger
+/// mainly for open bolts to quickly close n chamber a bullet before it shots
+/obj/item/gun/ballistic/operate_bolt_on_trigger(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(!my_mode.bolt_shootable_state != GBOLT_OPEN)
+		return
+	if(bolt_state != GBOLT_OPEN)
+		return
+	bolt_close(user, FALSE, FALSE)
+	return TRUE
+
 /// When the gun shoots, it does this to make it run through its bolt stuff
 /// In terms of timing, this is just after the bullet has been shot, now its time for the
 /// bolt to do a thing or two, if it should
@@ -452,8 +470,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		else
 			bolt_close(user, FALSE, FALSE)
 			bolt_open(user, FALSE, FALSE)
-		return
-	if(my_mode.bolt_cycles_on_shoot)
+	else if(my_mode.bolt_cycles_on_shoot)
 		if(my_mode.bolt_shootable_state == GBOLT_CLOSED)
 			bolt_open(user, FALSE, FALSE)
 		else
@@ -495,6 +512,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(bolt_state == GBOLT_CLOSED)
 		return
 	var/datum/firemode/my_mode = get_current_firemode()
+	if(!bolt_can_close(user, manually, loudly))
+		return
 	if(my_mode.bolt_closing_delay)
 		if(!do_delay(user, my_mode.bolt_closing_delay))
 			to_chat(user, span_alert("You were interrupted!"))
@@ -502,6 +521,33 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	bolt_state = GBOLT_CLOSED
 	bolt_closed_effects(user, manually, loudly)
 	return TRUE
+
+// mainly for open bolt guns, to refuse to close the bolt if something is
+// somehow chambered when it shouldnt be
+// it checks if something is chambered, *and* there's another round that
+// could be chambered from the mag
+/obj/item/gun/ballistic/proc/bolt_can_close(mob/living/user, manually, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE
+	if(my_mode.bolt_shootable_state != GBOLT_OPEN)
+		return TRUE // open bolts are special
+	var/obj/item/ammo_casing/AC = get_chambered()
+	if(!AC)
+		return TRUE
+	var/obj/item/ammo_casing/nextup = get_next_chamberable_round()
+	if(!nextup)
+		return TRUE
+	if(user)
+		to_chat(user, span_alert("[src] can't close it's bolt! There's still a round in the chamber, and another one ready to go in the magazine!"))
+		to_chat(user, span_notice("Remove the magazine, then rack the bolt to eject the chambered round. Then you can put the magazine back in and close the bolt!"))
+	return FALSE
+
+/obj/item/gun/ballistic/can_still_shoot_after_operating(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE
+	return bolt_state == GBOLT_CLOSED
 
 ///////
 /obj/item/gun/ballistic/bolt_opened_effects(mob/living/user, manually, loudly)
@@ -1080,6 +1126,13 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	)
 	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
 	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_long.ogg'
+
+/obj/item/gun/ballistic/automatic/smg/american180/debug_open_boltie
+	name = "Debug American 180 open boltie"
+	desc = "A gun for testing open bolt stuff actions!"
+	init_firemodes = list(
+		/datum/firemode/open_bolt/automatic
+	)
 
 
 

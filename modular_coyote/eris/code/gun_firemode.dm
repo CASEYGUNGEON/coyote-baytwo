@@ -86,6 +86,9 @@
 	var/bolt_cocks_hammer_on_this_state = GBOLT_CLOSED
 	var/bolt_opening_delay = 0
 	var/bolt_closing_delay = 0
+	/// to add a delay to between you pull trigger and the gun shoots
+	/// for stuff like open bolties
+	var/trigger_to_shoot_delay = 0
 
 /datum/firemode/New(obj/item/gun/_gun, atom/movable/_dependant)
 	..()
@@ -255,6 +258,34 @@
 
 /datum/firemode/bolt_using/lever_action/fast
 	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+/datum/firemode/open_bolt
+	name = "Open Bolt"
+	desc = "Shoot one shot per trigger pull."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	icon_state = "semi"
+	fire_type_default = GUN_FIREMODE_SEMIAUTO
+	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
+	burst_count_default = 1
+	bolt_ignore                             = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = TRUE
+	bolt_ejects_on_open                     = TRUE
+	bolt_opens_on_last_shot                 = FALSE
+	bolt_shootable_state                    = GBOLT_OPEN
+	bolt_manually_chamberable_state         = GBOLT_OPEN
+	bolt_cocks_hammer_on_this_state         = GBOLT_OPEN
+	// trigger_to_shoot_delay = 0.1 SECONDS
+
+/datum/firemode/open_bolt/automatic
+	name = "Open Bolt Automatic"
+	desc = "Spray and pray, but with an open bolt design."
+	icon_state = "auto"
+	extra_tip = "Fires as long as you hold the mouse click down. Careful when clicking things, \
+		it will rapidly click them."
+	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_1200
 
 /* 
  * SEMI-AUTOMATIC FIREMODES
