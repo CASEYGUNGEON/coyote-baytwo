@@ -50,16 +50,16 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 	/// cutecool overlays to show what position the hammer and or bolt are in!
 	var/mutable_appearance/hammer_overlay
-	var/hammer_cocked_icon = 'icons/obj/genitals/dildo.dmi'
-	var/hammer_cocked_icon_state = "dildo_knotted_1"
-	var/hammer_uncocked_icon = 'icons/obj/genitals/dildo.dmi'
-	var/hammer_uncocked_icon_state = "dildo_knotted_3"
+	var/hammer_cocked_icon = 'icons/obj/guninfo.dmi'
+	var/hammer_cocked_icon_state = "hammer_up"
+	var/hammer_uncocked_icon = 'icons/obj/guninfo.dmi'
+	var/hammer_uncocked_icon_state = "hammer_down"
 
 	var/mutable_appearance/bolt_overlay
-	var/bolt_closed_icon = 'icons/obj/genitals/onahole.dmi'
-	var/bolt_closed_icon_state = "onahole_plain_1"
-	var/bolt_open_icon = 'icons/obj/genitals/onahole.dmi'
-	var/bolt_open_icon_state = "onahole_plain_3"
+	var/bolt_closed_icon = 'icons/obj/guninfo.dmi'
+	var/bolt_closed_icon_state = "bolt_closed"
+	var/bolt_open_icon = 'icons/obj/guninfo.dmi'
+	var/bolt_open_icon_state = "bolt_open"
 
 /obj/item/gun/ballistic/Initialize()
 	. = ..()
@@ -128,11 +128,19 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		if(!revolver) // revolvers dont really have bolts, do they?
 			var/mutable_appearance/boltoverlay
 			if(bolt_state == GBOLT_OPEN)
-				if(bolt_open_icon && bolt_open_icon_state)
-					boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
+				if(my_mode.bolt_shootable_state == GBOLT_OPEN)
+					if(bolt_closed_icon && bolt_closed_icon_state)
+						boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
+				else
+					if(bolt_open_icon && bolt_open_icon_state)
+						boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
 			else if(bolt_state == GBOLT_CLOSED)
-				if(bolt_closed_icon && bolt_closed_icon_state)
-					boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
+				if(my_mode.bolt_shootable_state == GBOLT_OPEN)
+					if(bolt_open_icon && bolt_open_icon_state)
+						boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
+				else
+					if(bolt_closed_icon && bolt_closed_icon_state)
+						boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
 			if(boltoverlay)
 				boltoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
 				. += boltoverlay

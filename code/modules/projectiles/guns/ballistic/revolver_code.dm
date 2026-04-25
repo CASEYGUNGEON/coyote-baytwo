@@ -285,7 +285,7 @@
 	loader_exposed = TRUE
 	playsound(doer, open_gun_sound, 80, FALSE)
 	if(eject_style == REV_EJECT_ALL)
-		auto_eject_casings(doer, TRUE)
+		auto_eject_casings(doer, TRUE, nodelay = TRUE)
 	else
 		inform_user(doer, REV_INFO_OPENED_GUN)
 
@@ -319,12 +319,13 @@
 		to_chat(doer, span_alert("You were interrupted!"))
 
 // ejects casings according to the gun's eject style!
-/obj/item/gun/ballistic/revolver/proc/auto_eject_casings(mob/doer, do_words, do_sound, force_all_of_them)
+/obj/item/gun/ballistic/revolver/proc/auto_eject_casings(mob/doer, do_words, do_sound, force_all_of_them, nodelay)
 	// indexes!
 	if(!can_interact_with_this(doer, do_words, REV_FLAG_NEEDS_MAGAZINE | REV_FLAG_NEEDS_LOADER_EXPOSED))
 		return
-	if(!cause_delay(doer, 0.5 SECONDS))
-		return
+	if(!nodelay)
+		if(!cause_delay(doer, 0.5 SECONDS))
+			return
 	var/list/toeject = list()
 	var/spew_everywhere = FALSE
 	var/what_ejected = "empties"
@@ -717,6 +718,7 @@
 			if(GHAMMER_COCKED)
 				hammer_state = GHAMMER_UNCOCKED
 	if(hammer_state == GHAMMER_COCKED)
+		can_click = TRUE
 		advance_chamber(user)
 	var/snd = hammer_state == GHAMMER_COCKED ? cock_hammer_sound : uncock_hammer_sound
 	playsound(user, snd, 80, FALSE)
