@@ -21,7 +21,8 @@
 		. += "foamsp-magazine"
 
 /obj/item/gun/ballistic/automatic/toy/pistol/stealth/update_icon_state()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][bolt_closed ? "" : "-e"]"
 
 /////////RAYGUN MEMES/////////
 

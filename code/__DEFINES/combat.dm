@@ -1260,7 +1260,7 @@ GLOBAL_LIST_INIT(main_body_parts2words, list(
 /// Gun is slower to refire if you autopump it (without fast pump)
 #define GUN_AUTO_PUMPED (1<<0)
 
-/// Gun handedness defines -- for picking which direction to toss casings
+/// Gun ejector_side defines -- for picking which direction to toss casings
 #define GUN_EJECTOR_RIGHT 1
 #define GUN_EJECTOR_LEFT 2
 #define GUN_EJECTOR_ANY 3
@@ -1415,25 +1415,15 @@ GLOBAL_LIST_INIT(main_body_parts2words, list(
 #define AMMOB_REVOLVER_SPEEDLOADER        "AMMOB_REVOLVER_SPEEDLOADER"
 #define AMMOB_REPEATER_SPEEDTUBE          "AMMOB_REPEATER_SPEEDTUBE"
 
-// gun action behaviors
-#define GACTION_DISREGARD               "GUN_DISREGARD" // manual override
-#define GACTION_DEFAULT                 "GUN_DEFAULT"
-#define GACTION_AUTOLOADER              "GUN_AUTOLOADER"
-#define GACTION_SINGLE_ACTION_REVOLVER  "GUN_SINGLE_ACTION_REVOLVER"
-#define GACTION_PUMP_SHOTGUN            "GUN_PUMP_SHOTGUN"
-#define GACTION_BOLT_ACTION             "GUN_BOLT_ACTION"
-
-#define GHAMMER_IGNORE                  "IGNORE_HAMMER"
 #define GHAMMER_COCKED                  "HAMMER_IS_COCKED"
 #define GHAMMER_UNCOCKED                "HAMMER_IS_NOT_COCKED"
-#define GHAMMER_HALFCOCK                "HAMMER_IS_HALF_COCKED"
+
+#define GBOLT_CLOSED                    "BOLT_IS_CLOSED"
+#define GBOLT_OPEN                      "BOLT_IS_OPEN"
 
 #define GEJECTOR_AFTER_FIRING           "EJECT_AFTER_FIRING"
 #define GEJECTOR_AFTER_COCKING          "EJECT_AFTER_COCKING"
 #define GEJECTOR_MANUAL_ONLY            "EJECT_MANUALLY"
-
-#define G_RACK                          "YOU_RACK_THIS_GUN"
-#define G_COCK                          "YOU_COCK_THIS_GUN"
 
 // revolver stuff
 #define REV_ADVANCE_FORWARD   1

@@ -31,7 +31,8 @@
 	spawnwithmagazine = FALSE
 
 /obj/item/gun/ballistic/automatic/pistol/update_icon_state()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][bolt_closed ? "" : "-e"]"
 
 
 /* * * * * * * * *
@@ -58,9 +59,6 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HANDGUN_RECOIL(1, 1)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION // plug em in the skull!
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	can_suppress = FALSE
 	silenced = TRUE
 	fire_sound_silenced = 'sound/f13weapons/22pistol.ogg'
@@ -75,7 +73,8 @@
 /obj/item/gun/ballistic/automatic/pistol/pistol22/val/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"]"
 
 /obj/item/gun/ballistic/automatic/pistol/pistol22/val/Initialize()
 	.=..()
@@ -128,9 +127,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HANDGUN_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 30
 	suppressor_y_offset = 19
@@ -148,9 +144,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = HANDGUN_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 
 //9mm automatic pistol. smol magazine, zippy gun
 /obj/item/gun/ballistic/automatic/pistol/ninemil/auto
@@ -182,7 +175,8 @@
 /obj/item/gun/ballistic/automatic/pistol/ninemil/skorpion/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"]"
 
 //ruby pistol. single stack bootgun, otherwise unexceptional
 /obj/item/gun/ballistic/automatic/pistol/ninemil/ruby
@@ -428,9 +422,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HANDGUN_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	can_suppress = "pistol_suppressor"
 	suppressor_x_offset = 30
 	suppressor_y_offset = 20
@@ -644,9 +635,6 @@
 
 	can_suppress = FALSE
 	fire_sound = 'sound/f13weapons/10mm_fire_02.ogg'
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	can_scope = TRUE
 	can_suppress = TRUE
 
@@ -680,9 +668,6 @@
 	righthand_file = 'icons/fallout/onmob/weapons/guns_righthand.dmi'
 	icon_state = "no3custom"
 	inhand_icon_state = "no3custom"
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	init_mag_type = /obj/item/ammo_box/magazine/internal/no3pistol
 	mag_type = /obj/item/ammo_box/magazine/internal/no3pistol
 
@@ -707,9 +692,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HANDGUN_RECOIL(1.1, 1.1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 30
 	suppressor_y_offset = 20
@@ -729,9 +711,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HANDGUN_RECOIL(1.1, 1.1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 30
 	suppressor_y_offset = 20
@@ -748,9 +727,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_LESS_DAMAGE_T1
 	init_recoil = HANDGUN_RECOIL(1.1, 1.1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 30
 	suppressor_y_offset = 20
@@ -901,9 +877,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = HANDGUN_RECOIL(0.8, 0.8)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
-	)
 	can_flashlight = TRUE
 	gunlight_state = "flight"
 	flight_x_offset = 16

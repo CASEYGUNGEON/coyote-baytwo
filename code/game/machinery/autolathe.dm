@@ -506,7 +506,7 @@ GLOBAL_VAR_INIT(lathe_reports_done, 0)
 				if(recycle_casing(user, C)) // TRUE will tell the loop to queue up another cycle
 					return ballgun // revolvers are special
 		// if its a fixed mag, using the gun in hand will eject a casing
-		if((mag.fixed_mag || !ballgun.casing_ejector) && ballgun.chambered) // usually the chambered one, so, lets do that
+		if(ballgun.chambered) // usually the chambered one, so, lets do that
 			C = ballgun.chambered
 			ballgun.attack_self(user)
 			if(ballgun.chambered == C) // Darn thing is still in there

@@ -156,7 +156,8 @@
 		. += "[magtype]-magazine"
 
 /obj/item/gun/ballistic/automatic/flechette/update_icon_state()
-	icon_state = "[initial(icon_state)][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][bolt_closed ? "" : "-e"]"
 
 ///unique variant///
 

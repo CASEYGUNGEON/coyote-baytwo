@@ -193,7 +193,7 @@
 	update_icon()
 
 /// Plays a click-sound, then a half-second later, shoots whatever's under the user's cursor. or the mob's direction if the cursor's params are null
-/obj/item/gun/flintlock/pre_fire(mob/user, atom/target, params, zone_override, stam_cost, message = TRUE)
+/obj/item/gun/flintlock/pre_fire(mob/user, atom/target, params, zone_override, message = TRUE)
 	if(!user?.client)
 		return FALSE
 	if(!cocked)

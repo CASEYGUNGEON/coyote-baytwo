@@ -36,7 +36,7 @@
 	)
 
 /obj/item/gun/ballistic/revolver/detective/derringer/update_icon_state()
-	if(!magazine || !get_ammo(TRUE, FALSE) || !chambered?.BB)
+	if(!magazine || loader_exposed)
 		icon_state = "[initial(icon_state)]_open"
 	else
 		icon_state = "[initial(icon_state)]"
@@ -694,7 +694,7 @@
 	)
 
 /obj/item/gun/ballistic/revolver/derringer4570/update_icon_state()
-	if(!magazine || !get_ammo(TRUE, FALSE) || !chambered?.BB)
+	if(!magazine || loader_exposed)
 		icon_state = "[initial(icon_state)]_open"
 	else
 		icon_state = "[initial(icon_state)]"
@@ -809,7 +809,7 @@
 	fire_sound = 'sound/f13weapons/45revolver.ogg'
 
 /obj/item/gun/ballistic/revolver/derringerLC/update_icon_state()
-	if(!magazine || !get_ammo(TRUE, FALSE) || !chambered?.BB)
+	if(!magazine || loader_exposed)
 		icon_state = "[initial(icon_state)]_open"
 	else
 		icon_state = "[initial(icon_state)]"

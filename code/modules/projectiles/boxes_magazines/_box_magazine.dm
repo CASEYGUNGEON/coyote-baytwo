@@ -117,14 +117,15 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 			return
 		my_gun?.chamber_round()
 
-/obj/item/ammo_box/proc/get_round(keep = 0)
+/obj/item/ammo_box/proc/get_round(keep = FALSE)
 	if (!stored_ammo.len)
 		return null
 	else
-		var/b = stored_ammo[stored_ammo.len]
-		stored_ammo -= b
-		if (keep)
-			stored_ammo.Insert(1,b)
+		var/b = LAZYACCESS(stored_ammo, LAZYLEN(stored_ammo))
+		if(!b)
+			return null
+		if (!keep)
+			stored_ammo -= b
 		return b
 
 /obj/item/ammo_box/proc/does_that_fit_in_this(obj/item/ammo_casing/other_casing)
