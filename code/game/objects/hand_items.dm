@@ -4,36 +4,7 @@
 /// Sounds and text for licking have this range
 #define LICK_SOUND_TEXT_RANGE 2
 
-/// For all of the items that are really just the user's hand used in different ways, mostly (all, really) from emotes
-/obj/item/hand_item
-	name = "your hand"
-	desc = "Gimme five (or however many fingers you have, if you have any)!"
-	force = 0
-	throwforce = 0
-	item_flags = DROPDEL | ABSTRACT | HAND_ITEM
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	rad_flags = RAD_NO_CONTAMINATE
-	slot_flags = INV_SLOTBIT_DENYPOCKET
-	block_parry_data = /datum/block_parry_data/bokken //release the butt parries
 
-
-/obj/item/hand_item/Initialize(mapload)
-	. = ..()
-	ADD_TRAIT(src, TRAIT_NO_STORAGE_INSERT, TRAIT_GENERIC)
-
-/// Just a cool hand-item that holds a healing... thing
-/obj/item/hand_item/tactile
-	var/obj/item/stack/medical/healthing = /obj/item/stack/medical/bruise_pack/lick
-	/// are we licking something?
-	var/working = FALSE
-	var/needed_trait = TRAIT_HEAL_TONGUE
-	var/tend_word = "licking"
-	var/action_verb = "lick"
-	var/action_verb_s = "licks"
-	var/action_verb_ing = "licking"
-	var/can_taste = TRUE
-	var/datum/grope_kiss_MERP/grope
-	var/list/lastgrope
 
 /// Course our first hand item would be a tongue
 /obj/item/hand_item/tactile/tender //chimken
@@ -44,13 +15,13 @@
 	attack_verb = list("tended", "treated", "healed")
 	pokesound = 'sound/items/tendingwounds.ogg'
 	healthing = /obj/item/stack/medical/bruise_pack/lick/tend
-	needed_trait = TRAIT_HEAL_TEND
+	needed_trait_to_heal = TRAIT_HEAL_TEND
 	tend_word = "tending"
 	action_verb = "tend"
 	action_verb_s = "tends"
 	action_verb_ing = "tending"
 	can_taste = FALSE
-	
+
 /obj/item/hand_item/tactile/toucher/horny //being repurposed as a way to 'feel' the world around the player.  Specifically other players though, lets be real.
 	grope = /datum/grope_kiss_MERP
 
@@ -62,7 +33,7 @@
 	attack_verb = list("touched", "poked", "prodded")
 	pokesound = 'sound/items/tendingwounds.ogg'
 	healthing = /obj/item/stack/medical/bruise_pack/lick/touch
-	needed_trait = TRAIT_HEAL_TOUCH
+	needed_trait_to_heal = TRAIT_HEAL_TOUCH
 	tend_word = "touching"
 	action_verb = "touch"
 	action_verb_s = "touches"
@@ -83,7 +54,7 @@
 		'modular_splurt/sound/interactions/kiss/kiss4.ogg',
 	)
 	healthing = /obj/item/stack/medical/bruise_pack/lick/touch
-	needed_trait = TRAIT_HEAL_TOUCH
+	needed_trait_to_heal = TRAIT_HEAL_TOUCH
 	tend_word = "smooching"
 	action_verb = "kiss"
 	action_verb_s = "kisses"
@@ -105,94 +76,9 @@
 	pokesound = 'sound/effects/lick.ogg'
 	siemens_coefficient = 5 // hewwo mistow ewectwic fence mlem mlem
 
-/obj/item/hand_item/tactile/attack(mob/living/L, mob/living/carbon/user)
-	return start_licking(src, L, user)
-
-/obj/item/hand_item/tactile/attack_obj(obj/O, mob/living/user)
-	return start_licking(src, O, user)
-
-/obj/item/hand_item/tactile/attack_obj_nohit(obj/O, mob/living/user)
-	return start_licking(src, O, user)
-
-/obj/item/hand_item/tactile/proc/start_licking(atom/source, atom/licked, mob/living/user)
-	if(!isliving(user))
-		return FALSE
-	if(working)
-		to_chat(user, span_alert("You're already [tend_word] something!"))
-		return FALSE
-	if(!licked)
-		return FALSE
-	if(tend_hurt(user, licked))
-		return TRUE
-	lick_atom(licked, user)
-	return cool_thing(source, user, licked)
-
-/obj/item/hand_item/tactile/proc/cool_thing(mob/living/user, atom/licked)
-	return TRUE
-
-/obj/item/hand_item/tactile/proc/tend_hurt(mob/living/user, mob/living/target)
-	if(!isliving(user) || !isliving(target))
-		return
-	if(grope)
-		return FALSE
-	// if(!HAS_TRAIT(user, needed_trait))
-	// 	return FALSE
-	var/mob/living/mlemmed = target
-	if(iscarbon(mlemmed) && !mlemmed.get_bodypart(user.zone_selected))
-		return FALSE
-	if(!istype(healthing))
-		healthing = new healthing(src)
-	if(!istype(healthing))
-		return FALSE
-	if(!healthing.try_heal(mlemmed, user, TRUE))
-		return FALSE
-	healthing.attack(mlemmed, user)
-	return TRUE
 
 
-/obj/item/hand_item/tactile/licker/Initialize(mapload)
-	. = ..()
-	RegisterSignal(src, COMSIG_LICK_RETURN,PROC_REF(start_licking))
 
-/obj/item/hand_item/tactile/proc/lick_atom(atom/movable/licked, mob/living/user)
-	if(SEND_SIGNAL(licked, COMSIG_ATOM_LICKED, user, src))
-		return
-	if(do_a_grope(user, licked))
-		return
-	var/list/lick_words = get_lick_words(user)
-	if(isliving(licked))
-		user.visible_message(
-			span_notice("[user] [lick_words[LICK_INTENT]] [action_verb_s] [user == licked ? "[user.p_their()]" : "[licked]'s"] [lick_words[LICK_LOCATION]]."),
-			span_notice("I [lick_words[LICK_INTENT]] [action_verb] [user == licked ? "your" : "[licked]'s"] [lick_words[LICK_LOCATION]]."),
-			span_notice("I hear [action_verb_ing]."),
-			LICK_SOUND_TEXT_RANGE
-		)
-	else
-		user.visible_message(
-			span_notice("[user] [lick_words[LICK_INTENT]] [action_verb_s] [user == licked ? "[user.p_them()]self" : "[licked]"]."),
-			span_notice("I [lick_words[LICK_INTENT]] [action_verb] [user == licked ? "yourself" : "[licked]"]."),
-			span_notice("I hear [action_verb_ing]."),
-			LICK_SOUND_TEXT_RANGE
-		)
-	var/list/sounds2play = list()
-	// sounds2play += hitsound
-	sounds2play += pokesound
-	playsound(licked, safepick(sounds2play), 85, TRUE)
-	if(can_taste && iscarbon(user))
-		lick_flavor(atom_licked = licked, licker = user)
-
-/obj/item/hand_item/tactile/proc/lick_flavor(atom/source, atom/atom_licked, mob/living/licker)
-	if(!atom_licked)
-		return
-	if(!licker)
-		var/mob/living/maybe_licker = loc
-		if(!isliving(maybe_licker))
-			return
-		licker = maybe_licker
-	if(iscarbon(licker))
-		var/mob/living/carbon/C = licker
-		C.taste(null, atom_licked)
-	playsound(get_turf(src), pokesound, 25, 1, SOUND_DISTANCE(LICK_SOUND_TEXT_RANGE))
 
 /obj/item/hand_item/tactile/licker/tend_hurt(mob/living/licked, mob/living/user)
 	if(iscarbon(user))
@@ -217,47 +103,7 @@
 		lastgrope = gropeturn
 		return TRUE
 
-/obj/item/hand_item/tactile/proc/get_lick_words(mob/living/user)
-	if(!user)
-		return
 
-	. = list(LICK_LOCATION = "spot", LICK_INTENT = "like a dork") //👀 Dan I swear to god.
-	switch(user.zone_selected)
-		if(BODY_ZONE_CHEST)
-			.[LICK_LOCATION] = "chest"
-		if(BODY_ZONE_HEAD)
-			.[LICK_LOCATION] = "face"
-		if(BODY_ZONE_L_ARM)
-			.[LICK_LOCATION] = "left arm"
-		if(BODY_ZONE_R_ARM)
-			.[LICK_LOCATION] = "right arm"
-		if(BODY_ZONE_L_LEG)
-			.[LICK_LOCATION] = "left leg"
-		if(BODY_ZONE_R_LEG)
-			.[LICK_LOCATION] = "right leg"
-		if(BODY_ZONE_PRECISE_EYES)
-			.[LICK_LOCATION] = "eyes"
-		if(BODY_ZONE_PRECISE_MOUTH)
-			.[LICK_LOCATION] = "lips"
-		if(BODY_ZONE_PRECISE_GROIN)
-			.[LICK_LOCATION] = "butt"
-		if(BODY_ZONE_PRECISE_L_HAND)
-			.[LICK_LOCATION] = "left hand"
-		if(BODY_ZONE_PRECISE_R_HAND)
-			.[LICK_LOCATION] = "right hand"
-		if(BODY_ZONE_PRECISE_L_FOOT)
-			.[LICK_LOCATION] = "left foot"
-		if(BODY_ZONE_PRECISE_R_FOOT)
-			.[LICK_LOCATION] = "right foot"
-	switch(user.a_intent)
-		if(INTENT_HELP)
-			.[LICK_INTENT] = "gently"
-		if(INTENT_DISARM)
-			.[LICK_INTENT] = "briskly"
-		if(INTENT_GRAB)
-			.[LICK_INTENT] = "aggressively"
-		if(INTENT_HARM)
-			.[LICK_INTENT] = "very aggressively"
 /*
 You take the item in hand.
 The item + the intent + direction of click = outcome.
