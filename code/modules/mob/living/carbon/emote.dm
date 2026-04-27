@@ -302,7 +302,7 @@
 	// else if(I)
 	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't tend anything!"))
 	// 	return
-	var/obj/item/hand_item/tactile/tender/tendy = new(user)
+	var/obj/item/hand_item/tactile/triage/tendy = new(user)
 	if(user.put_in_hands(tendy))
 		to_chat(user, span_notice("You retrieve your emergency kit and get ready to tend something."))
 	else
