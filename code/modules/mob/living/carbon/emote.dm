@@ -160,20 +160,6 @@
 	key_third_person = "winks"
 	message = "winks."
 
-/datum/emote/living/carbon/erp
-	key = "erp"
-	key_third_person = "erps"
-
-/datum/emote/living/carbon/erp/run_emote(mob/user)
-	var/obj/item/hand_item/subtle_catapult/licky = SSchat.UnstashHornyThing(user)
-	if(!licky)
-		return
-	if(user.put_in_hands(licky))
-		to_chat(user, span_notice("You get ready to send someone a message."))
-	else
-		SSchat.StashHornyThing(user)
-
-
 /datum/emote/living/carbon/lick
 	key = "lick"
 	key_third_person = "licks"
@@ -181,36 +167,7 @@
 
 /datum/emote/living/carbon/lick/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't lick anything! Don't ask why!"))
-	// 	return
-	var/obj/item/hand_item/tactile/licker/licky = new(user)
-	if(user.put_in_hands(licky))
-		to_chat(user, span_notice("You extend your tongue and get ready to lick something."))
-	else
-		qdel(licky)
-
-// /datum/emote/living/carbon/lick_horny
-// 	key = "lickhorny"
-// 	key_third_person = "licks"
-// 	restraint_check = TRUE
-
-// /datum/emote/living/carbon/lick_horny/run_emote(mob/user)
-// 	. = ..()
-// 	var/obj/item/I = user.get_active_held_item()
-// 	if(istype(I, /obj/item/hand_item/tactile))
-// 		I.melee_attack_chain(user, user)
-// 	// else if(I)
-// 	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't lick anything! Don't ask why!"))
-// 	// 	return
-// 	var/obj/item/hand_item/tactile/licker/horny/licky = new(user)
-// 	if(user.put_in_hands(licky))
-// 		to_chat(user, span_notice("You extend your tongue and get ready to lick something."))
-// 	else
-// 		qdel(licky)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/licker)
 
 /datum/emote/living/carbon/touch
 	key = "touch"
@@ -219,36 +176,7 @@
 
 /datum/emote/living/carbon/touch/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't touch anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/toucher/touchy = new(user)
-	if(user.put_in_hands(touchy))
-		to_chat(user, span_notice("You get ready to touch something."))
-	else
-		qdel(touchy)
-
-// /datum/emote/living/carbon/touch_horny
-// 	key = "touchhorny"
-// 	key_third_person = "touches"
-// 	restraint_check = TRUE
-
-// /datum/emote/living/carbon/touch_horny/run_emote(mob/user)
-// 	. = ..()
-// 	var/obj/item/I = user.get_active_held_item()
-// 	if(istype(I, /obj/item/hand_item/tactile/))
-// 		I.melee_attack_chain(user, user)
-// 	// else if(I)
-// 	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't touch anything!"))
-// 	// 	return
-// 	var/obj/item/hand_item/tactile/toucher/horny/touchy = new(user)
-// 	if(user.put_in_hands(touchy))
-// 		to_chat(user, span_notice("You get ready to touch something."))
-// 	else
-// 		qdel(touchy)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/toucher)
 
 /datum/emote/living/carbon/kiss
 	key = "kiss"
@@ -257,37 +185,7 @@
 
 /datum/emote/living/carbon/kiss/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("My active hand is full, and therefore you can't touch anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/kisser/touchy = new(user)
-	if(user.put_in_hands(touchy))
-		to_chat(user, span_notice("You get ready to smooch something."))
-	else
-		qdel(touchy)
-
-// /datum/emote/living/carbon/kiss_horny
-// 	key = "kisshorny"
-// 	key_third_person = "kisses"
-// 	restraint_check = TRUE
-	
-
-// /datum/emote/living/carbon/kiss_horny/run_emote(mob/user)
-// 	. = ..()
-// 	var/obj/item/I = user.get_active_held_item()
-// 	if(istype(I, /obj/item/hand_item/tactile/))
-// 		I.melee_attack_chain(user, user)
-// 	// else if(I)
-// 	// 	to_chat(user, span_warning("My active hand is full, and therefore you can't touch anything!"))
-// 	// 	return
-// 	var/obj/item/hand_item/tactile/kisser/horny/touchy = new(user)
-// 	if(user.put_in_hands(touchy))
-// 		to_chat(user, span_notice("You get ready to smooch something."))
-// 	else
-// 		qdel(touchy)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/kisser)
 
 /datum/emote/living/carbon/tend
 	key = "tend"
@@ -296,17 +194,7 @@
 
 /datum/emote/living/carbon/tend/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't tend anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/triage/tendy = new(user)
-	if(user.put_in_hands(tendy))
-		to_chat(user, span_notice("You retrieve your emergency kit and get ready to tend something."))
-	else
-		qdel(tendy)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/tender)
 
 //We are not naming this 'beaner' so help me god
 /datum/emote/living/carbon/bean
@@ -316,14 +204,7 @@
 
 /datum/emote/living/carbon/bean/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your beans are too full to bean the beans, what the hell are you doing???!?"))
-		return
-	var/obj/item/hand_item/beans/bean = new(user)
-	if(user.put_in_hands(bean))
-		to_chat(user, span_notice("You ready your beans for WAR!!"))
-	else
-		qdel(bean)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/beans)
 
 /datum/emote/living/carbon/bean_war
 	key = "warbean"
@@ -332,14 +213,7 @@
 
 /datum/emote/living/carbon/bean_war/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your beans are too full to bean the beans, what the hell are you doing???!?"))
-		return
-	var/obj/item/hand_item/beans_war/warbean = new(user)
-	if(user.put_in_hands(warbean))
-		to_chat(user, span_notice("You ready your warbeans for REAL WAR!!"))
-	else
-		qdel(warbean)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/beans/war)
 
 /datum/emote/living/carbon/cuphand
 	key = "cuphand"
@@ -348,14 +222,8 @@
 
 /datum/emote/living/carbon/cuphand/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your cup your hand to hold liquids."))
-		return
-	var/obj/item/reagent_containers/food/drinks/sillycup/handcup/handcup = new(user)
-	if(user.put_in_hands(handcup))
-		to_chat(user, span_notice("Your cuphand is ready!"))
-	else
-		qdel(handcup)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/spawner/cuphand)
+
 
 /*/datum/emote/living/carbon/human/magic/can_run_emote(mob/user, status_check = FALSE, intentional = TRUE)
 	. = ..()
@@ -392,32 +260,7 @@
 
 /datum/emote/living/carbon/bite/run_emote(mob/living/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to properly bite!  Don't ask!"))
-		return
-	var/which_biter_to_spawn
-	if(LAZYLEN(user.mob_quirks))//Check if we need to do all these expensive checks
-		if(HAS_TRAIT(user, TRAIT_BIGBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/big
-		else if(HAS_TRAIT(user, TRAIT_FASTBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/fast
-		else if(HAS_TRAIT(user, TRAIT_PLAYBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/play
-		else if(HAS_TRAIT(user, TRAIT_SPICYBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/spicy
-		else if(HAS_TRAIT(user, TRAIT_SABREBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/sabre
-		else 
-			which_biter_to_spawn = /obj/item/hand_item/biter
-	else if(isanimal(user) && !isadvancedmob(user))
-		which_biter_to_spawn = /obj/item/hand_item/biter/creature
-	else//Fallback
-		which_biter_to_spawn = /obj/item/hand_item/biter
-	var/obj/item/hand_item/bite = new which_biter_to_spawn(user)
-	if(user.put_in_hands(bite)) 
-		to_chat(user, span_notice("You show your fangs and prepare to bite the mess out of something or someone!"))
-	else
-		qdel(bite)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/biter)
 
 //Tailer//
 /datum/emote/living/carbon/tailer
@@ -461,32 +304,7 @@
 
 /datum/emote/living/carbon/claw/run_emote(mob/living/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to use your claws!"))
-		return
-	var/which_clawer_to_spawn
-	if(LAZYLEN(user.mob_quirks))//Check if we need to do all these expensive checks
-		if(HAS_TRAIT(user, TRAIT_BIGCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/big
-		else if(HAS_TRAIT(user, TRAIT_FASTCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/fast
-		else if(HAS_TRAIT(user, TRAIT_PLAYCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/play
-		else if(HAS_TRAIT(user, TRAIT_SPICYCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/spicy
-		else if(HAS_TRAIT(user, TRAIT_RAZORCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/razor
-		else 
-			which_clawer_to_spawn =  /obj/item/hand_item/clawer 
-	else if(isanimal(user) && !isadvancedmob(user))
-		which_clawer_to_spawn =  /obj/item/hand_item/clawer/creature
-	else//fallback
-		which_clawer_to_spawn =  /obj/item/hand_item/clawer
-	var/obj/item/hand_item/clawer/claw = new which_clawer_to_spawn(user)
-	if(user.put_in_hands(claw))
-		to_chat(user, span_notice("You get your claws ready to slice!"))
-	else
-		qdel(claw)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/clawer)
 
 //shocking grasp//
 /datum/emote/living/carbon/shocking

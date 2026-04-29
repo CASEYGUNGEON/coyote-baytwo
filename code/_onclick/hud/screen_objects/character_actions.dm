@@ -167,16 +167,7 @@
 	screen_loc = ui_merp
 
 /atom/movable/screen/merp_button/Click(location,control,params)
-	var/mob/living/carbon/human/H = usr
-	if(!ishuman(H))
-		to_chat(H, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
-		return
-	var/obj/item/hand_item/merp_doer/brick = new(H)
-
-	if(H.put_in_hands(brick))
-		to_chat(H, span_notice("Now click someone with this thing (or yourself)! Range is infinite, so you can totally interact with people across the bar!"))
-	else
-		qdel(brick)
+	SShanditems.give_hand_item(usr, /obj/item/hand_item/merp_doer)
 
 /// special cool button that turns into more buttons!
 /atom/movable/screen/foldout
@@ -442,11 +433,7 @@
 		if("Subtlest - Long & Short Range")
 			H.emote("erp")
 		if("Mechanical Erotic Roleplay")
-			var/obj/item/hand_item/merp_doer/brick = new(H)
-			if(H.put_in_hands(brick))
-				to_chat(H, span_notice("Now click someone with this thing (or yourself)! Range is infinite, so you can totally interact with people across the bar!"))
-			else
-				qdel(brick)
+			SShanditems.give_hand_item(usr, /obj/item/hand_item/merp_doer)
 		if("Private Panel")
 			H.toggle_genitals()
 		if("Vore Menu")

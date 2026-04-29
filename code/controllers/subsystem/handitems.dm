@@ -50,7 +50,10 @@ SUBSYSTEM_DEF(handitems)
 		return TRUE
 
 /datum/controller/subsystem/handitems/proc/give_hand_item(mob/living/user, obj/item/hand_item/hitem)
-	if(!istype(user))
+	if(!user)
+		return FALSE
+	if(!isliving(user))
+		to_chat(user, span_alert("You're a ghost (or something), shoo!"))
 		return FALSE
 	if(!ispath(hitem))
 		to_chat(user, span_phobia("[hitem] is not a valid path to a hand item! Call 1-800-IM-CODER and tell them error code BIG-STRONG-ALPHA-THRUMBO"))
@@ -61,67 +64,26 @@ SUBSYSTEM_DEF(handitems)
 		to_chat(user, span_phobia("No template found for [hitem]! Call 1-800-IM-CODER and tell them error code WILD-SLEEPY-BOOMRAT"))
 		stack_trace("No template found for [hitem] in give_hand_item: [hitem]")
 		return FALSE
-	if(hi_temp.just_one)
-		if(user_already_has_one_of_these(user, hi_temp))
-			to_chat(user, span_alert("You already have your [hi_temp.name] ready!"))
-			return FALSE
-	if(hi_temp.user_trait_can_spawn_associated_item)
-		hi_temp = get_associated_item_for_user_trait(user, hi_temp)
-	if(!istype(hi_temp))
-		to_chat(user, span_phobia("[hitem] is no longer a valid template! Call 1-800-IM-CODER and tell them error code CHUNKY-FERIAN-SWELLGLOW"))
-		stack_trace("No valid template found for [hitem] after checking user traits in give_hand_item: [hitem]. Check that the hand item template is set up correctly and that the user's traits are valid.")
-		return FALSE
+	return hi_temp.give_to_user(user)
 
-
-
-
-/datum/controller/subsystem/handitems/proc/get_hand_item_template(path)
-	if(!ispath(path))
-		to_chat(world, span_phobia("[path] is not a valid path to a hand item! Call 1-800-IM-CODER and tell them error code BIG-STRONG-ALPHA-THRUMBO"))
-		stack_trace("Invalid hand item path given to get_hand_item_template: [path]")
+/datum/controller/subsystem/handitems/proc/get_hand_item_template(hi_path)
+	if(!ispath(hi_path))
+		to_chat(world, span_phobia("[hi_path] is not a valid path to a hand item! Call 1-800-IM-CODER and tell them error code BIG-STRONG-ALPHA-THRUMBO"))
+		stack_trace("Invalid hand item path given to get_hand_item_template: [hi_path]")
 		return null
-	var/obj/item/hand_item/hi_temp = LAZYACCESS(hand_items, path)
+	var/obj/item/hand_item/hi_temp = LAZYACCESS(hand_items, hi_path)
 	if(!hi_temp)
-		to_chat(world, span_phobia("No template found for [path]! Call 1-800-IM-CODER and tell them error code WILD-SLEEPY-BOOMRAT"))
-		stack_trace("No template found for [path] in get_hand_item_template: [path]")
+		to_chat(world, span_phobia("No template found for [hi_path]! Call 1-800-IM-CODER and tell them error code WILD-SLEEPY-BOOMRAT"))
+		stack_trace("No template found for [hi_path] in get_hand_item_template: [hi_path]")
 		return null
 	return hi_temp
 
-/datum/controller/subsystem/handitems/proc/user_already_has_one_of_these(mob/living/user, obj/item/hand_item/hi_temp)
-	if(!istype(user) || !istype(hi_temp))
-		CRASH("Invalid arguments given to user_already_has_one_of_these: [user], [hi_temp]")
-		return FALSE
-	var/loose_pathing = ispath(hi_temp.base_path)
-	for(var/atom/movable/AM as anything in (get_nested_locs(user) + user))
-		if(loose_pathing)
-			if(ispath(AM.type, hi_temp.base_path))
-				return TRUE
-		else
-			if(AM.type == hi_temp.type)
-				return TRUE
 
-/datum/controller/subsystem/handitems/proc/get_associated_item_for_user_trait(mob/living/user, obj/item/hand_item/hi_temp)
-	. = hi_temp
-	if(!istype(user) || !istype(hi_temp))
-		stack_trace("Invalid arguments given to get_associated_item_for_user_trait: [user], [hi_temp]")
-		return
-	if(!ispath(hi_temp.base_path))
-		stack_trace("Invalid hand item template given to get_associated_item_for_user_trait: [hi_temp]. Base path must be set and be a valid path! Check the hand item definition for [hi_temp]")
-		return
-	var/trait = hi_temp.associated_trait
-	if(!trait)
-		stack_trace("Hand item [hi_temp] is set to spawn an associated item based on a user trait, but has no associated trait set! Check the hand item definition for [hi_temp]")
-		return
-	/// list of items to check through
-	var/list/candidates = list()
-	for(var/hi_pat in typesof(hi_temp.base_path))
-		candidates |= LAZYACCESS(hand_items, hi_pat)
-	if(!LAZYLEN(candidates))
-		stack_trace("Hand item [hi_temp] is set to spawn an associated item based on a user trait, but no candidates were found! Check that there are hand items with a base path of [hi_temp.base_path] in the hand item definitions.")
-		return
-	for(var/obj/item/hand_item/hi_cand in candidates)
-		if(HAS_TRAIT(user, hi_cand.associated_trait))
-			return hi_cand
+
+
+
+
+
 
 /// / / / / / / ///
 /// HAND ITEMS! ///
@@ -143,8 +105,9 @@ SUBSYSTEM_DEF(handitems)
 	var/just_one = FALSE // if you should only have one at a time, so you cant dual wield your own butt
 	var/base_path // set this to the parent object you want to check for to be the thing to have just one of
 	var/template = FALSE
+	var/del_on_fail = TRUE
 
-/obj/item/hand_item/Initialize(mapload, is_template)
+/obj/item/hand_item/Initialize(mapload, is_template, mob/handholder)
 	if(is_template)
 		item_flags = NONE
 		resistance_flags |= INDESTRUCTIBLE
@@ -152,6 +115,118 @@ SUBSYSTEM_DEF(handitems)
 	. = ..()
 	if(!inventoryable) // cant stuff your butt in your backpack... i guess?
 		ADD_TRAIT(src, TRAIT_NO_STORAGE_INSERT, TRAIT_GENERIC)
+	if(handholder)
+		customize_to_user(handholder)
+
+/// run by template
+/obj/item/hand_item/proc/give_to_user(mob/living/user)
+	if(!user)
+		return FALSE
+	var/obj/item/hand_item/instead = on_check_for_instead(user)
+	if(instead)
+		return instead.give_to_user(user)
+	if(on_hands_check(user))
+		return FALSE
+	if(on_user_has_one_check(user))
+		return FALSE
+	var/obj/item/hand_item/new_thing = new src.type(user, FALSE, user)
+	if(new_thing.on_pre_spawn(user))
+		return FALSE
+	return new_thing.on_post_spawn(user)
+
+/obj/item/hand_item/proc/on_check_for_instead(mob/living/user)
+	if(!user_trait_can_spawn_associated_item)
+		return null
+	return get_associated_item_for_user_trait(user, src)
+
+/obj/item/hand_item/proc/get_associated_item_for_user_trait(mob/living/user)
+	if(!istype(user))
+		stack_trace("Invalid arguments given to get_associated_item_for_user_trait: [user], [src]")
+		return
+	if(!ispath(base_path))
+		stack_trace("Invalid hand item template given to get_associated_item_for_user_trait: [src]. Base path must be set and be a valid path! Check the hand item definition for [src]")
+		return
+	if(!associated_trait)
+		stack_trace("Hand item [src] is set to spawn an associated item based on a user trait, but has no associated trait set! Check the hand item definition for [src]")
+		return
+	/// list of items to check through
+	var/list/candidates = list()
+	for(var/hi_pat in typesof(base_path))
+		candidates |= SShanditems.get_hand_item_template(hi_pat)
+	if(!LAZYLEN(candidates))
+		stack_trace("Hand item [src] is set to spawn an associated item based on a user trait, but no candidates were found! Check that there are hand items with a base path of [base_path] in the hand item definitions.")
+		return
+	for(var/obj/item/hand_item/hi_cand in candidates)
+		if(HAS_TRAIT(user, hi_cand.associated_trait))
+			return hi_cand
+
+// does something if we already have one of these, returns FALSE to proceed with normal giving, TRUE to stop it
+/obj/item/hand_item/proc/on_already_has_one(mob/living/user, obj/item/hand_item/existing)
+	if(!just_one)
+		return FALSE
+	on_failed_give(user, "ALREADY_HAVE_ONE")
+	return TRUE
+
+// checks if either hand is empty, returns FALSE to proceed with giving, TRUE to stop it
+/obj/item/hand_item/proc/on_hands_check(mob/living/user)
+	if(user.get_active_held_item() && user.get_inactive_held_item())
+		on_failed_give(user, "HANDS_FULL")
+		return TRUE
+	return FALSE
+
+// happens after the item is created, but before it is given to user
+// returns TRUE to stop the give, FALSE to continue with normal giving
+// can be used to spawn something else instead, or to cancel giving entirely
+/obj/item/hand_item/proc/on_pre_spawn(mob/living/user)
+	return !(user.put_in_hands(src))
+
+// happens after the item is done spawning and is, ideally, in the players hands
+// returns TRUE if the thing was given, FALSE if it wasnt
+/obj/item/hand_item/proc/on_post_spawn(mob/living/user)
+	if(user.put_in_hands(src))
+		return on_successful_give(user, "GAVE")
+	else
+		return on_failed_give(user, "HANDS_FULL")
+
+// false lets the subsystem proceed with normal spawnage
+/obj/item/hand_item/proc/on_user_has_one_check(mob/living/user)
+	if(!just_one)
+		return FALSE
+	var/loose_pathing = get_path_looseness(user)
+	var/obj/item/path_to_check = get_path_to_check(user)
+	var/obj/item/existing
+	for(var/obj/item/AM as anything in (get_nested_locs(user) + user))
+		if(loose_pathing)
+			if(ispath(AM.type, path_to_check))
+				existing = AM
+				break
+		else
+			if(AM.type == path_to_check)
+				existing = AM
+				break
+	if(existing)
+		return on_already_has_one(user, existing)
+	else
+		return FALSE
+
+
+/obj/item/hand_item/proc/get_path_to_check(mob/living/user)
+	return type
+
+/obj/item/hand_item/proc/get_path_looseness(mob/living/user)
+	return TRUE
+
+/obj/item/hand_item/proc/customize_to_user(mob/user)
+
+/obj/item/hand_item/proc/on_successful_give(mob/user, reason)
+	to_chat(user, span_notify("You ready your [src]!"))
+	return TRUE
+
+/obj/item/hand_item/proc/on_failed_give(mob/user, reason)
+	to_chat(user, span_alert("You can't get ye [src]! Try emptying one of your hands?"))
+	if(del_on_fail)
+		qdel(src)
+	return TRUE
 
 /// Tactile hand item, for all your tactile needs
 /// It can be used for things like licking, groping, kissing, and... healing!
@@ -172,10 +247,9 @@ SUBSYSTEM_DEF(handitems)
 
 /obj/item/hand_item/tactile/Initialize(mapload)
 	. = ..()
-	spawn_healthing()
 	RegisterSignal(src, COMSIG_LICK_RETURN,PROC_REF(perform_tactile_action))
 
-/obj/item/hand_item/tactile/proc/spawn_healthing()
+/obj/item/hand_item/tactile/on_pre_spawn()
 	if(healthing)
 		healthing = new /obj/item/stack/medical/healthing(src)
 
@@ -390,6 +464,16 @@ SUBSYSTEM_DEF(handitems)
 	can_taste = FALSE
 	grope = /datum/grope_kiss_MERP/lick
 
+/obj/item/hand_item/tactile/licker/on_failed_give(mob/user, reason)
+	if(reason == "ALREADY_HAVE_ONE")
+		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
+			to_chat(user, span_alert("You already have your [src] ready!"))
+	else
+		to_chat(user, span_alert("Your hands are too full to lick anything!"))
+		qdel(src)
+	return TRUE
+
+////////////////////////
 /obj/item/hand_item/tactile/triage //chimken
 	name = "triage kit"
 	desc = "A small collection of vital medical supplies."
@@ -405,6 +489,16 @@ SUBSYSTEM_DEF(handitems)
 	action_verb_ing = "tending"
 	can_taste = FALSE
 
+/obj/item/hand_item/tactile/triage/on_failed_give(mob/user, reason)
+	if(reason == "ALREADY_HAVE_ONE")
+		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
+			to_chat(user, span_alert("You already have your [src] ready!"))
+	else
+		to_chat(user, span_alert("Your hands are too full to tend anything!"))
+		qdel(src)
+	return TRUE
+
+////////////////////////
 /obj/item/hand_item/tactile/toucher //being repurposed as a way to 'feel' the world around the player.  Specifically other players though, lets be real.
 	name = "touch"
 	desc = "A finger, for touching things."
@@ -421,6 +515,16 @@ SUBSYSTEM_DEF(handitems)
 	grope = /datum/grope_kiss_MERP
 	can_taste = FALSE
 
+/obj/item/hand_item/tactile/toucher/on_failed_give(mob/user, reason)
+	if(reason == "ALREADY_HAVE_ONE")
+		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
+			melee_attack_chain(user, user) // touch yourself, now
+	else
+		to_chat(user, span_alert("Your hands are too full to touch anything!"))
+		qdel(src)
+	return TRUE
+
+////////////////////////
 /obj/item/hand_item/tactile/kisser
 	name = "kisser"
 	desc = "A kisser, for smooching things."
@@ -443,6 +547,15 @@ SUBSYSTEM_DEF(handitems)
 	can_taste = FALSE
 	grope = /datum/grope_kiss_MERP/kiss
 
+/obj/item/hand_item/tactile/kisser/on_failed_give(mob/user, reason)
+	if(reason == "ALREADY_HAVE_ONE")
+		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
+			melee_attack_chain(user, user) // kiss yourself, now
+	else
+		to_chat(user, span_alert("Your hands are too full to kiss anything!"))
+		qdel(src)
+	return TRUE
+
 /// / / / / / / / / / / / / / / / / / / / / / / / / / / ///
 /// hand items used primarily as a way to attack things ///
 /// generally for things you whack other things with    ///
@@ -461,6 +574,7 @@ SUBSYSTEM_DEF(handitems)
 	item_flags = PERSONAL_ITEM | ABSTRACT | HAND_ITEM
 	weapon_special_component = /datum/component/weapon_special/single_turf
 	block_parry_data = /datum/block_parry_data/bokken
+	var/obj/item/hand_item/weapon/for_creatures
 	var/extra_force_as_glove = 0
 	var/extra_damage = 0
 	var/extra_damage_type = STAMINA
@@ -509,6 +623,11 @@ SUBSYSTEM_DEF(handitems)
 	. = ..()
 	transmute_into_bodypart(user)
 
+/obj/item/hand_item/weapon/get_associated_item_for_user_trait(mob/living/user)
+	if(ispath(for_creatures) && isanimal(user) && !isadvancedmob(user))
+		return SShanditems.get_hand_item_template(for_creatures)
+	. = ..()
+
 /obj/item/hand_item/weapon/proc/transmute_into_bodypart(mob/user)
 	if(!use_bodypart_image_slot)
 		return
@@ -554,6 +673,10 @@ SUBSYSTEM_DEF(handitems)
 	just_one = TRUE
 	user_trait_can_spawn_associated_item = TRUE
 	base_path = /obj/item/hand_item/weapon/biter
+	for_creatures = /obj/item/hand_item/weapon/biter/creature
+
+/obj/item/hand_item/weapon/biter/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You show your fangs and prepare to bite the mess out of something or someone!"))
 
 /obj/item/hand_item/weapon/biter/creature
 	force = 35
@@ -631,6 +754,11 @@ SUBSYSTEM_DEF(handitems)
 	weapon_special_component = /datum/component/weapon_special/single_turf
 	block_parry_data = /datum/block_parry_data/bokken
 	user_trait_can_spawn_associated_item = TRUE
+	base_path = /obj/item/hand_item/weapon/clawer
+	for_creatures = /obj/item/hand_item/weapon/clawer/creature
+
+/obj/item/hand_item/weapon/clawer/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your claws, ready to rip and tear at anything that gets in your way!"))
 
 /obj/item/hand_item/weapon/clawer/creature
 	force = 30
@@ -720,7 +848,7 @@ SUBSYSTEM_DEF(handitems)
 
 /// / / / / ///
 /// SHOVERS ///
-/obj/item/hand_item/shover // i shove around the blind people
+/obj/item/hand_item/shover // pak chooie unf
 	name = "shover"
 	desc = "Stay back!"
 	icon = 'icons/obj/items_and_weapons.dmi'
@@ -811,6 +939,10 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage = 1 // its mildly annoying!
 	extra_damage_type = STAMINA
 
+/obj/item/hand_item/weapon/beans/on_successful_give(mob/user, reason)
+	to_chat(user, span_notice("You ready your beans for WAR!!"))
+	return TRUE
+
 /obj/item/hand_item/weapon/beans/war
 	name = "war beans"
 	desc = "Them's ya' war beans. Touch em' to things you want dead."
@@ -818,6 +950,10 @@ SUBSYSTEM_DEF(handitems)
 	force = 6
 	force_wielded = 10
 	backstab_multiplier = 3 //OBLITERATE THEM, BOYKISSER. ~TK
+
+/obj/item/hand_item/weapon/beans/on_successful_give(mob/user, reason)
+	to_chat(user, span_notice("You ready your warbeans for REAL WAR!!"))
+	return TRUE
 
 /// / / / ///
 /// BUTT  ///
@@ -867,6 +1003,60 @@ SUBSYSTEM_DEF(handitems)
 			w_class = WEIGHT_CLASS_HUGE
 		if(8 to INFINITY)
 			w_class = WEIGHT_CLASS_GIGANTIC
+
+// / / / / / / / / / / / / / / / / / / / / / / //
+// hand items that instead spawn other things  //
+/obj/item/hand_item/spawner
+	name = "spawner item"
+	desc = "Instead of giving the player this thing, it spawns something else and deletes itself!"
+	icon = 'icons/obj/in_hands.dmi'
+	icon_state = "clawer"
+	item_flags = PERSONAL_ITEM | ABSTRACT | HAND_ITEM
+	var/atom/movable/thing_to_spawn
+	var/del_on_ground = FALSE // if TRUE, the thing this spawns will be deleted if it fails to be put in someone's hands
+
+/obj/item/hand_item/spawner/on_pre_spawn(mob/living/user)
+	. = TRUE // stop the rest of the spawn code from running, since we dont actually want to spawn this thing!
+	if(!ispath(thing_to_spawn))
+		stack_trace("Invalid [thing_to_spawn] in [src] to spawn! Bad! Fix your code!")
+		to_chat(user, span_alert("This thing isnt set up to spawn a thing! Call 1-800-IM-CODER with error code: FURRY-NAKED-EXPIE"))
+		qdel(src)
+		return
+	var/atom/movable/spawned = new thing_to_spawn(get_turf(user))
+	if(isitem(spawned))
+		if(user.put_in_hands(spawned))
+			on_spawner_put_in_hands(user, spawned)
+		else
+			on_spawner_put_on_ground(user, spawned)
+	else
+		on_spawner_put_on_ground(user, spawned)
+	qdel(src) // delete the spawner item, since we dont actually want it to exist
+
+// does something if we already have one of these, returns FALSE to proceed with normal giving, TRUE to stop it
+/obj/item/hand_item/spawner/get_path_to_check(mob/living/user)
+	return thing_to_spawn
+
+/obj/item/hand_item/spawner/get_path_looseness(mob/living/user)
+	return FALSE // strict nonlooseness
+
+/obj/item/hand_item/spawner/proc/on_spawner_put_in_hands(mob/living/user, atom/movable/spawned)
+	// override me!
+
+/obj/item/hand_item/spawner/proc/on_spawner_put_on_ground(mob/living/user, atom/movable/spawned)
+	if(del_on_ground)
+		qdel(spawned)
+
+// / / / / / / / / / //
+// CUPHAND AND HEAD  //
+/obj/item/hand_item/spawner/cuphand
+	name = "your cupped hand"
+	desc = "Cup your hand to hold liquids. Kinda gross ngl. if you can read this, call 1-800-IM-CODER with error code: OBESE-AVALI-TOIR"
+	thing_to_spawn = /obj/item/reagent_containers/food/drinks/sillycup/handcup/handcup
+	del_on_ground = TRUE // its your hand, if you drop it, it goes back to being your hand!
+
+/obj/item/hand_item/spawner/cuphand/on_spawner_put_in_hands(mob/living/user, atom/movable/spawned)
+	to_chat(user, span_notice("You cup your hands, ready to hold some liquids!"))
+
 
 ////// old code in case the above doesnt work
 // /obj/item/hand_item/butt/proc/buttify(mob/user)
@@ -1090,6 +1280,65 @@ SUBSYSTEM_DEF(handitems)
 	mommy.checkin()
 	user.playsound_local(get_turf(user), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE)
 	M.playsound_local(get_turf(M), 'sound/f13effects/sunsetsounds/blush.ogg', 80, FALSE)
+
+///////////////////////////////////////////////////
+//// FLIRT ITEM ///////////////////////////////////
+/obj/item/hand_item/flirter
+	name = "Flirtation Device" // in the event of a crash, your hand can be used as a flirtation device
+	desc = "This thing is used to flirt with people! Or it would if it initialized properly. Oops."
+	icon = 'icons/mob/actions.dmi'
+	icon_state = "velvet_chords"
+	max_reach = 30 // love knows no bounds
+	var/flirtkey = "hi"
+
+/obj/item/hand_item/flirter/proc/flirtify(datum/flirt/F) // Fs in chat
+	if(!istype(F))
+		qdel(src) // dies of illiteracy
+		return
+	flirtkey = F.key
+	name = F.flirtname
+	desc = F.flirtdesc
+	icon = F.flirticon
+	icon_state = F.flirticon_state
+	return TRUE
+
+/obj/item/hand_item/flirter/pre_attack(atom/A, mob/living/user, params, attackchain_flags, damage_multiplier)
+	. = STOP_ATTACK_PROC_CHAIN // never let this thing hit anyone ever for any ever anytime
+	if(!isliving(A))
+		return
+	if(!SSchat.run_directed_flirt(user, A, flirtkey))
+		return
+	qdel(src)
+
+/obj/item/hand_item/flirter/attack_self(mob/user)
+	. = STOP_ATTACK_PROC_CHAIN // never let this thing hit anyone ever for any ever anytime
+	if(!isliving(user))
+		return
+	if(!SSchat.run_aoe_flirt(user, flirtkey))
+		return
+	qdel(src)
+
+////////////////////////////////////////////////////////
+//// FLIRT TARGETTER ///////////////////////////////////
+/obj/item/hand_item/flirt_targetter
+	name = "Flirtation Targetter" // in the event of a crash, your hand can be used as a flirtation device
+	desc = "Click someone with this, and the next Flirt button you press will be directed at them! There's no range restriction, so, yeah!"
+	icon = 'icons/mob/actions.dmi'
+	icon_state = "velvet_chords"
+	max_reach = 30 // love knows no bounds
+
+/obj/item/hand_item/flirt_targetter/pre_attack(atom/A, mob/living/user, params, attackchain_flags, damage_multiplier)
+	. = STOP_ATTACK_PROC_CHAIN // never let this thing hit anyone ever for any ever anytime
+	if(!isliving(A))
+		return
+	if(!SSchat.add_flirt_target(user, A))
+		return
+	to_chat(user, span_notice("You'll now send a flirt to [A] when you press the next Flirt button. Happy flirting!"))
+	qdel(src)
+
+
+
+
 
 
 
