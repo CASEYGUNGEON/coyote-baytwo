@@ -2307,12 +2307,6 @@
 	icon_state = "whitegreenrustychess"
 	},
 /area/f13/building)
-"bcb" = (
-/obj/structure/closet/cabinet,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/obj/item/storage/trash_stack/loot/common,
-/turf/open/floor/f13/wood,
-/area/f13/building)
 "bcn" = (
 /obj/machinery/washing_machine,
 /turf/open/floor/f13{
@@ -4329,7 +4323,6 @@
 /area/f13/wasteland)
 "bRS" = (
 /obj/structure/closet/cabinet,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
 /obj/item/clothing/accessory/pocketprotector,
 /obj/item/clothing/accessory/pocketprotector,
 /turf/open/floor/f13/wood,
@@ -7636,13 +7629,6 @@
 "dkM" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/f13/wood,
-/area/f13/building)
-"dkO" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/obj/structure/table/wood/settler,
-/turf/open/floor/plasteel/f13{
-	icon_state = "greenrustychess"
-	},
 /area/f13/building)
 "dld" = (
 /obj/effect/decal/cleanable/blood/drip,
@@ -14661,11 +14647,6 @@
 	color = "#CACACA"
 	},
 /area/f13/wasteland)
-"gis" = (
-/obj/structure/table/wood/settler,
-/obj/item/book/granter/crafting_recipe/gunsmith_one,
-/turf/open/floor/f13/wood,
-/area/f13/building)
 "giF" = (
 /obj/effect/spawner/lootdrop/trash,
 /turf/open/floor/f13/wood{
@@ -17741,13 +17722,6 @@
 /obj/item/storage/trash_stack/loot/common,
 /turf/open/floor/plasteel/f13/vault_floor/dark/darksolid{
 	icon_state = "darkdirtysolid"
-	},
-/area/f13/building)
-"hxp" = (
-/obj/structure/table/wood/settler,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/floor/plasteel/f13{
-	icon_state = "greenrustychess"
 	},
 /area/f13/building)
 "hxA" = (
@@ -31246,14 +31220,6 @@
 /obj/structure/barricade/wooden/planks,
 /turf/open/indestructible/ground/outside/sidewalk,
 /area/f13/wasteland)
-"mKz" = (
-/obj/structure/table/reinforced,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/obj/structure/barricade/sandbags,
-/turf/open/floor/plasteel/f13{
-	icon_state = "floorrustysolid"
-	},
-/area/f13/building)
 "mKN" = (
 /obj/effect/decal/marking{
 	icon_state = "doubleverticalcorroded"
@@ -37963,13 +37929,6 @@
 "pxb" = (
 /turf/closed/wall/f13/wood,
 /area/f13/building/abandoned)
-"pxc" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/obj/structure/rack/shelf_metal,
-/turf/open/floor/plasteel/f13{
-	icon_state = "greendirtysolid"
-	},
-/area/f13/building)
 "pxi" = (
 /obj/structure/table/wasteland,
 /turf/open/floor/f13{
@@ -41757,7 +41716,6 @@
 "qXb" = (
 /obj/item/flashlight/flare,
 /obj/item/flashlight/flare,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
 /obj/structure/rack/shelf_metal,
 /obj/item/storage/trash_stack/loot/uncommon,
 /turf/open/floor/plasteel/f13{
@@ -42469,13 +42427,6 @@
 	color = "#666666"
 	},
 /area/f13/wasteland)
-"rmL" = (
-/obj/structure/table/reinforced,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/floor/plasteel/f13{
-	icon_state = "floorrustysolid"
-	},
-/area/f13/building)
 "rmM" = (
 /turf/open/indestructible/ground/inside/subway,
 /area/f13/tunnel)
@@ -48939,11 +48890,6 @@
 	color = "#666666"
 	},
 /area/f13/caves)
-"tMJ" = (
-/obj/structure/table/wood/settler,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/floor/f13/wood,
-/area/f13/building)
 "tMK" = (
 /obj/structure/rack,
 /obj/item/circuitboard/computer/arcade/battle,
@@ -49071,9 +49017,6 @@
 /area/f13/building)
 "tQc" = (
 /obj/machinery/autolathe/ammo,
-/obj/item/book/granter/crafting_recipe/gunsmith_two,
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
-/obj/item/book/granter/crafting_recipe/gunsmith_one,
 /turf/open/floor/f13{
 	dir = 9;
 	icon_state = "yellowsiding"
@@ -51006,10 +50949,6 @@
 	color = "#666666"
 	},
 /area/f13/wasteland)
-"uDM" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/floor/f13/wood,
-/area/f13/building)
 "uDQ" = (
 /obj/structure/flora/ausbushes/grassybush,
 /obj/effect/decal/cleanable/dirt,
@@ -53403,16 +53342,6 @@
 	},
 /turf/open/indestructible/ground/inside/subway,
 /area/f13/wasteland)
-"vET" = (
-/obj/machinery/autolathe/ammo,
-/obj/item/book/granter/crafting_recipe/gunsmith_two,
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
-/obj/item/book/granter/crafting_recipe/gunsmith_one,
-/turf/open/floor/f13{
-	dir = 10;
-	icon_state = "yellowsiding"
-	},
-/area/f13/brotherhood)
 "vFm" = (
 /obj/structure/billboard/powerlines2{
 	icon_state = "rr12";
@@ -56630,7 +56559,6 @@
 /area/f13/wasteland)
 "wVH" = (
 /obj/machinery/workbench,
-/obj/item/book/granter/crafting_recipe/gunsmith_two,
 /turf/open/floor/f13/wood{
 	icon_state = "housewood2"
 	},
@@ -59540,14 +59468,6 @@
 	light_color = "#706891"
 	},
 /turf/open/indestructible/ground/outside/road,
-/area/f13/building)
-"xZQ" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/obj/structure/rack/shelf_metal,
-/obj/item/storage/trash_stack/loot/uncommon,
-/turf/open/floor/plasteel/f13{
-	icon_state = "greendirtysolid"
-	},
 /area/f13/building)
 "xZT" = (
 /obj/structure/flora/rock/pile/largejungle,
@@ -68859,7 +68779,7 @@ smo
 tQc
 vlr
 xRS
-vET
+smo
 nkC
 jCJ
 jCJ
@@ -98029,7 +97949,7 @@ jmE
 nAy
 unL
 keh
-gis
+dMl
 das
 nXY
 opj
@@ -136031,7 +135951,7 @@ eux
 iHu
 kwO
 opj
-uDM
+opj
 opj
 opj
 nAy
@@ -138309,7 +138229,7 @@ nAy
 opj
 opj
 opj
-uDM
+opj
 opj
 opj
 wtk
@@ -146547,7 +146467,7 @@ opj
 bQU
 opj
 tBC
-tMJ
+dMl
 vhh
 gBf
 gBf
@@ -146989,7 +146909,7 @@ eId
 tRL
 jmE
 nAy
-bcb
+wOk
 opj
 afb
 afb
@@ -150600,7 +150520,7 @@ wmF
 oll
 sSu
 hKX
-tMJ
+dMl
 mgP
 nAy
 aHe
@@ -161643,9 +161563,9 @@ fGs
 fGs
 muZ
 muZ
-hxp
+muZ
 esD
-dkO
+muZ
 fwM
 fwM
 gBf
@@ -162561,7 +162481,7 @@ fGs
 fGs
 fGs
 fwM
-pxc
+fwM
 iLq
 gBf
 gBf
@@ -162997,7 +162917,7 @@ ojT
 vsQ
 jRn
 jRn
-rmL
+plw
 jRn
 skX
 cqY
@@ -163013,7 +162933,7 @@ wgW
 nML
 fGs
 muZ
-hxp
+muZ
 muZ
 fGs
 fGs
@@ -163461,7 +163381,7 @@ xoY
 jRn
 iWf
 iWf
-mKz
+iWf
 ptp
 ptp
 jRn
@@ -163474,7 +163394,7 @@ fGs
 rwt
 fGs
 fGs
-pxc
+fwM
 fwM
 iLq
 gBf
@@ -165752,7 +165672,7 @@ ydh
 eSe
 eQq
 pFc
-pxc
+fwM
 jGv
 csI
 qXb
@@ -167120,7 +167040,7 @@ jyu
 lKK
 pqh
 hsU
-xZQ
+eSe
 pqh
 jRn
 spS
@@ -168034,7 +167954,7 @@ nXT
 rlI
 buB
 ydh
-xZQ
+eSe
 mYF
 cqY
 dBp
@@ -168945,7 +168865,7 @@ ydh
 eSe
 pqh
 ydh
-pxc
+fwM
 mYF
 wJt
 sgJ
