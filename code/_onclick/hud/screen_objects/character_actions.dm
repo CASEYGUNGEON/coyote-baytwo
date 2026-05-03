@@ -478,38 +478,40 @@
 	screen_loc = "CENTER+3:+4, SOUTH+1:-4"
 
 /atom/movable/screen/hand_items_button/Click(location,control,params)
-	var/mob/living/carbon/human/H = usr
-	if(!ishuman(usr))
-		to_chat(usr, span_alert("Sorry! You've gotta be a fully spawned in character with hopes and dreams to use this!"))
-		return
-	var/static/list/choices = list(
-			"Tail"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "tail"    ),
-			"Butt"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "butt"    ),
-			"Claw"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "claw"    ),
-			"Bite"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "bite"    ),
-			"Beans"       = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "beans"   ),
-			"Tend"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "tend"    ),
-			"Cuphand"     = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "cuphand" ),
-		)
-	var/mob/user = usr
-	var/choice = show_radial_menu(user, src, choices, radius = 28, ultradense = TRUE, linedir = NORTH)
-	if(!ishuman(usr))//Check after they select something just in case they've somehow switched to a non-human in the mean time
-		return
-	switch(choice)
-		if("Tail")
-			H.emote("tailer")
-		if("Butt")
-			H.emote("butt")
-		if("Claw")
-			H.emote("claw")
-		if("Bite")
-			H.emote("bite")
-		if("Beans")
-			H.emote("beans")
-		if("Tend")
-			H.emote("tend")
-		if("Cuphand")
-			H.emote("cuphand")
+	SShanditems.get_hand_item_popup(usr, src) // ligma bingue, corey
+
+
+
+
+	// var/static/list/choices = list(
+	// 		"Tail"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "tail"    ),
+	// 		"Butt"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "butt"    ),
+	// 		"Claw"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "claw"    ),
+	// 		"Bite"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "bite"    ),
+	// 		"Beans"       = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "beans"   ),
+	// 		"Tend"        = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "tend"    ),
+	// 		"Cuphand"     = image(icon = 'icons/mob/screen_gen.dmi', icon_state = "cuphand" ),
+	// 	)
+	// var/mob/user = usr
+	// if(!ishuman(usr))//Check after they select something just in case they've somehow switched to a non-human in the mean time
+	// 	return
+	// switch(choice)
+	// 	if("Tail")
+	// 		H.emote("tailer")
+	// 	if("Butt")
+	// 		H.emote("butt")
+	// 	if("Claw")
+	// 		H.emote("claw")
+	// 	if("Bite")
+	// 		H.emote("bite")
+	// 	if("Beans")
+	// 		H.emote("beans")
+	// 	if("Tend")
+	// 		H.emote("tend")
+	// 	if("Cuphand")
+	// 		H.emote("cuphand")
+
+
 
 ////////////////////////////////////////////////////////////
 /*

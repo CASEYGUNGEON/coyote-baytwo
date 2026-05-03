@@ -210,7 +210,6 @@
 	damage_override = damage_override * bs_mult
 	M.attacked_by(src, user, attackchain_flags, damage_multiplier, damage_addition = force_modifier, damage_override = damage_override)
 
-	if(force_out > 5 || damage_override > 5)
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
 	add_fingerprint(user)
 
