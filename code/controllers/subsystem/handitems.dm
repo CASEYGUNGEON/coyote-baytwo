@@ -1160,6 +1160,7 @@ SUBSYSTEM_DEF(handitems)
 	throwforce = 0
 	wound_bonus = 0
 	can_knockback = TRUE
+	hud_use = FALSE
 
 /obj/item/hand_item/weapon/shover/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You hold a hand up, ready to shove something around!"))
