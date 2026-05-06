@@ -206,6 +206,8 @@
 	if(damage_override)
 		var/dammod = min(damage_override / max(1, force), 1)
 		damage_override += (force_modifier * dammod)
+	var/bs_mult = try_backstab(user, M)
+	damage_override = damage_override * bs_mult
 	M.attacked_by(src, user, attackchain_flags, damage_multiplier, damage_addition = force_modifier, damage_override = damage_override)
 
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
