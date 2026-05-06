@@ -2194,7 +2194,7 @@ SUBSYSTEM_DEF(economy)
 		return
 	. = TRUE
 	switch(reason)
-		if("ALREADY_HAVE_ONE")
+		if(HI_ALREADY_HAVE_ONE)
 			var/obj/item/in_active_hand = user.get_active_held_item()
 			var/obj/item/inactive_hand = user.get_inactive_held_item()
 			if(istype(in_active_hand, /obj/item/hand_item/quest_scanner))
@@ -2203,7 +2203,7 @@ SUBSYSTEM_DEF(economy)
 				to_chat(user, span_warning("You already have a quest scanner, right there in your other hand! You'd get it out, but your [prob(1) ? "beans" : "hands"] are full!"))
 			else
 				to_chat(user, span_warning("You can't get ye scanner! Somehow!"))
-		if("HANDS_FULL")
+		if(HI_HANDS_FULL)
 			if(prob(1))
 				to_chat(user, span_warning("Your beans are too full to bean the beans, what the hell are you doing???!?"))
 			else

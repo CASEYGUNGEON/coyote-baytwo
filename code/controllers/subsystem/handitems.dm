@@ -64,7 +64,7 @@ SUBSYSTEM_DEF(handitems)
 		return FALSE
 	if(!LAZYLEN(gropekissers))
 		return FALSE
-	var/datum/grope_kiss_MERP/grope = LAZYACCESS(gropekissers, hitem.type)
+	var/datum/grope_kiss_MERP/grope = LAZYACCESS(gropekissers, hitem.grope)
 	if(!grope)
 		return FALSE
 	var/list/used_grope = grope.make_visible_message(user, target, hitem.lastgrope)
@@ -78,6 +78,8 @@ SUBSYSTEM_DEF(handitems)
 	if(!isliving(user))
 		to_chat(user, span_alert("You're a ghost (or something), shoo!"))
 		return FALSE
+	if(istype(hitem, /obj/item/hand_item))
+		hitem = hitem.type
 	if(!ispath(hitem))
 		to_chat(user, span_phobia("[hitem] is not a valid path to a hand item! Call 1-800-IM-CODER and tell them error code BIG-STRONG-ALPHA-THRUMBO"))
 		stack_trace("Invalid hand item path given to give_hand_item: [hitem]")
@@ -151,13 +153,15 @@ SUBSYSTEM_DEF(handitems)
 	var/list/popup_choices = list()
 	var/list/popup_decoder = list()
 	for(var/obj/item/hand_item/hi_cand in hi_candidates)
-		popup_choices["[hi_cand.name]"] = image(icon = hi_cand.hud_icon, icon_state = hi_cand.hud_icon_state)
+		var/icon/ico_use = hi_cand.hud_icon || hi_cand.icon
+		var/ico_state_use = hi_cand.hud_icon_state || hi_cand.icon_state
+		popup_choices["[hi_cand.name]"] = image(icon = ico_use, icon_state = ico_state_use)
 		popup_decoder["[hi_cand.name]"] = hi_cand
-	var/choice = show_radial_menu(user, src, popup_choices, radius = 28, ultradense = TRUE, linedir = NORTH)
+	var/choice = show_radial_menu(user, origin, popup_choices, radius = 28, ultradense = TRUE, linedir = NORTH)
 	if(!choice || !isliving(user))
 		return
 	var/obj/item/hand_item/true_hi_cand = popup_decoder[choice]
-	return SShanditems.give_hand_item(user, hand_items[true_hi_cand.type])
+	return SShanditems.give_hand_item(user, true_hi_cand.type)
 
 
 
@@ -175,8 +179,8 @@ SUBSYSTEM_DEF(handitems)
 	slot_flags = INV_SLOTBIT_DENYPOCKET
 	block_parry_data = /datum/block_parry_data/bokken //release the butt parries
 	/// UI stuff
-	var/hud_icon = 'icons/mob/amusing_duck.dmi' // override this please
-	var/hud_icon_state = "duckbot" // this too
+	var/hud_icon // override this please
+	var/hud_icon_state // this too
 	var/hud_use = FALSE
 	var/hud_desc = "Just a normal every day hand for doing handy things for handy people!"
 	// i wish this game supported abstracts // dan only var, ask before messing with
@@ -185,7 +189,6 @@ SUBSYSTEM_DEF(handitems)
 	var/user_trait_can_spawn_associated_item = FALSE
 	var/associated_trait
 	var/required_trait // if set, can only be given if the user has this trait
-	var/suppress_hud_thing = FALSE
 	var/inventoryable = FALSE
 	var/just_one = FALSE // if you should only have one at a time, so you cant dual wield your own butt
 	/// this sets a base path for a category of hand items, for various uses
@@ -234,6 +237,8 @@ SUBSYSTEM_DEF(handitems)
 		return FALSE
 	if(on_user_has_one_check(user, just_checking))
 		return FALSE
+	if(just_checking)
+		return TRUE
 	var/obj/item/hand_item/new_thing = new src.type(user, FALSE, user)
 	if(new_thing.on_pre_spawn(user))
 		return FALSE
@@ -244,9 +249,15 @@ SUBSYSTEM_DEF(handitems)
 		return FALSE
 	if(!hud_use)
 		return FALSE
-	if(!give_to_user(user, TRUE))
+	if(type == abstract)
 		return FALSE
-	return type != abstract // shrug
+	if(!has_required_trait(user, TRUE))
+		return FALSE
+	if(!in_season(user, TRUE))
+		return FALSE
+	if(!outside_check(user, TRUE))
+		return FALSE
+	return TRUE
 
 /obj/item/hand_item/proc/outside_check(mob/living/user, just_checking = FALSE)
 	if(!outside_only)
@@ -254,7 +265,7 @@ SUBSYSTEM_DEF(handitems)
 	if(is_outdoors(user))
 		return TRUE
 	if(!just_checking)
-		on_failed_give(user, "OUTSIDE_ONLY")
+		on_failed_give(user, HI_OUTSIDE_ONLY)
 	return FALSE
 
 /obj/item/hand_item/proc/in_season(mob/living/user, just_checking = FALSE)
@@ -265,7 +276,7 @@ SUBSYSTEM_DEF(handitems)
 	if(MM in required_months)
 		return TRUE
 	if(!just_checking)
-		on_failed_give(user, "OUT_OF_SEASON")
+		on_failed_give(user, HI_OUT_OF_SEASON)
 	return FALSE
 
 /obj/item/hand_item/proc/on_cooldown_check(mob/living/user, just_checking = FALSE)
@@ -277,17 +288,21 @@ SUBSYSTEM_DEF(handitems)
 	var/time_can_use_it = LAZYACCESS(cool_cooldowns, user_ref)
 	if(time_can_use_it > world.time)
 		if(!just_checking)
-			on_failed_give(user, "ON_COOLDOWN")
+			on_failed_give(user, HI_ON_COOLDOWN)
 		return TRUE
 	return FALSE
 
-/obj/item/hand_item/proc/on_check_for_instead(mob/living/user)
+/obj/item/hand_item/proc/on_check_for_instead(mob/living/user, ui_checking)
 	if(!user_trait_can_spawn_associated_item)
 		return null
 	if(!associated_trait)
 		to_chat(world, span_phobia("Hand item [src] is set to spawn an associated item based on a user trait, but has no associated trait set! Call 1-800-IM-CODER and tell them error code MOOSHY-BINGUS-SUPREME"))
 		stack_trace("Hand item [src] is set to spawn an associated item based on a user trait, but has no associated trait set! Check the hand item definition for [src]")
 		return null
+	if(HAS_TRAIT(user, associated_trait))
+		return null // means just to use this
+	else if(ui_checking)
+		return TRUE // yes means no
 	return get_associated_item_for_user_trait(user, src)
 
 /obj/item/hand_item/proc/get_associated_item_for_user_trait(mob/living/user)
@@ -313,12 +328,13 @@ SUBSYSTEM_DEF(handitems)
 		if(HAS_TRAIT(user, hi_cand.associated_trait))
 			return hi_cand
 
-/obj/item/hand_item/proc/has_required_trait(mob/living/user)
+/obj/item/hand_item/proc/has_required_trait(mob/living/user, just_checking = FALSE)
 	if(!required_trait)
 		return TRUE
 	if(HAS_TRAIT(user, required_trait))
 		return TRUE
-	on_failed_give(user, "MISSING_REQUIRED_TRAIT")
+	if(!just_checking)
+		on_failed_give(user, HI_MISSING_REQUIRED_TRAIT)
 	return FALSE
 
 // does something if we already have one of these, returns FALSE to proceed with normal giving, TRUE to stop it
@@ -326,14 +342,14 @@ SUBSYSTEM_DEF(handitems)
 	if(!just_one)
 		return FALSE
 	if(!just_checking)
-		on_failed_give(user, "ALREADY_HAVE_ONE")
+		on_failed_give(user, HI_ALREADY_HAVE_ONE)
 	return TRUE
 
 // checks if either hand is empty, returns FALSE to proceed with giving, TRUE to stop it
 /obj/item/hand_item/proc/on_hands_check(mob/living/user, just_checking = FALSE)
 	if(user.get_active_held_item() && user.get_inactive_held_item())
 		if(!just_checking)
-			on_failed_give(user, "HANDS_FULL")
+			on_failed_give(user, HI_HANDS_FULL)
 		return TRUE
 	return FALSE
 
@@ -341,15 +357,15 @@ SUBSYSTEM_DEF(handitems)
 // returns TRUE to stop the give, FALSE to continue with normal giving
 // can be used to spawn something else instead, or to cancel giving entirely
 /obj/item/hand_item/proc/on_pre_spawn(mob/living/user)
-	return !(user.put_in_hands(src))
+	return FALSE
 
 // happens after the item is done spawning and is, ideally, in the players hands
 // returns TRUE if the thing was given, FALSE if it wasnt
 /obj/item/hand_item/proc/on_post_spawn(mob/living/user)
 	if(user.put_in_hands(src))
-		return on_successful_give(user, "GAVE")
+		return on_successful_give(user, HI_GAVE)
 	else
-		return on_failed_give(user, "HANDS_FULL")
+		return on_failed_give(user, HI_HANDS_FULL)
 
 // false lets the subsystem proceed with normal spawnage
 /obj/item/hand_item/proc/on_user_has_one_check(mob/living/user, just_checking = FALSE)
@@ -386,7 +402,11 @@ SUBSYSTEM_DEF(handitems)
 	return TRUE
 
 /obj/item/hand_item/proc/on_successful_give_message(mob/user, reason)
-	to_chat(user, span_notice("You ready your [src]!"))
+	switch(reason)
+		if(HI_GAVE)
+			to_chat(user, span_notice("You ready your [src]!"))
+		else
+			to_chat(user, span_notice("You got ye [src]!"))
 
 /obj/item/hand_item/proc/on_failed_give(mob/user, reason)
 	on_failed_give_message(user, reason)
@@ -395,7 +415,22 @@ SUBSYSTEM_DEF(handitems)
 	return TRUE
 
 /obj/item/hand_item/proc/on_failed_give_message(mob/user, reason)
-	to_chat(user, span_alert("You can't get ye [src]! Try emptying one of your hands?"))
+	switch(reason)
+		if(HI_OUTSIDE_ONLY)
+			to_chat(user, span_alert("You can't get ye [src] here! Try going outside?"))
+		if(HI_OUT_OF_SEASON)
+			to_chat(user, span_alert("You can't get ye [src] right now! Maybe try again in a different season?"))
+		if(HI_ON_COOLDOWN)
+			var/time_left = SShanditems.get_cooldown_time_left(user, src)
+			to_chat(user, span_alert("You can't get ye [src] right now! Try again in [DisplayTimeText(time_left)]?"))
+		if(HI_MISSING_REQUIRED_TRAIT)
+			to_chat(user, span_alert("You can't get ye [src]! You lack the necessary trait to use it!"))
+		if(HI_ALREADY_HAVE_ONE)
+			to_chat(user, span_alert("You can't get ye [src]! You already have one!"))
+		if(HI_HANDS_FULL)
+			to_chat(user, span_alert("You can't get ye [src]! Your hands are full! Try emptying one of them?"))
+		else
+			to_chat(user, span_alert("You can't get ye [src]!"))
 
 /// Tactile hand item, for all your tactile needs
 /// It can be used for things like licking, groping, kissing, and... healing!
@@ -422,9 +457,30 @@ SUBSYSTEM_DEF(handitems)
 	. = ..()
 	RegisterSignal(src, COMSIG_LICK_RETURN,PROC_REF(perform_tactile_action))
 
+/obj/item/hand_item/tactile/examine(mob/user)
+	. = ..()
+	if(grope)
+		. += "Middle-click to toggle horny mode for this item! It is currently [horny_mode?"on":"off"]."
+	if(healthing)
+		. += "Alt-click to toggle medical mode for this item! It is currently [medical_mode?"on":"off"]."
+		if(needed_trait_to_heal)
+			if(!HAS_TRAIT(user, needed_trait_to_heal))
+				. += "However, you lack the necessary trait to use this item for healing."
+
 /obj/item/hand_item/tactile/on_pre_spawn()
 	if(ispath(healthing))
 		healthing = new(src)
+
+/obj/item/hand_item/tactile/update_icon()
+	if(horny_mode)
+		color = "#FF69B4"
+	else
+		color = initial(color)
+	var/matrix/tf = initial(transform)
+	if(medical_mode)
+		transform = tf.Turn(90)
+	else
+		transform = tf
 
 /obj/item/hand_item/tactile/MiddleClick(user)
 	if(!grope)
@@ -466,13 +522,13 @@ SUBSYSTEM_DEF(handitems)
 /// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / ///
 /// Forces this thing to do its tactile action instead of bapping ///
 /obj/item/hand_item/tactile/attack(mob/living/L, mob/living/carbon/user)
-	INVOKE_ASYNC(PROC_REF(handle_hand_item_use), src, user, L)
+	INVOKE_ASYNC(src, PROC_REF(handle_hand_item_use), src, user, L)
 
 /obj/item/hand_item/tactile/attack_obj(obj/O, mob/living/user)
-	INVOKE_ASYNC(PROC_REF(handle_hand_item_use), src, user, O)
+	INVOKE_ASYNC(src, PROC_REF(handle_hand_item_use), src, user, O)
 
 /obj/item/hand_item/tactile/attack_obj_nohit(obj/O, mob/living/user)
-	INVOKE_ASYNC(PROC_REF(handle_hand_item_use), src, user, O)
+	INVOKE_ASYNC(src, PROC_REF(handle_hand_item_use), src, user, O)
 
 /// / / / / / / / / / / / / / / / / / / / / / / / / / / / / ///
 /// Common hand item use handler for tactile touchy things  ///
@@ -522,6 +578,8 @@ SUBSYSTEM_DEF(handitems)
 /obj/item/hand_item/tactile/proc/perform_tactile_action(mob/living/user, atom/target)
 	do_message(user, target)
 	do_sounds(user, target)
+	if(can_taste)
+		taste_if_possible(user, target)
 	return TRUE
 
 // non-horny, non-medical tactile action message 
@@ -547,7 +605,6 @@ SUBSYSTEM_DEF(handitems)
 	if(lick_ret)
 		return lick_ret
 	. = ..()
-	taste_if_possible(user, target)
 
 /obj/item/hand_item/tactile/licker/do_message(mob/living/user, atom/licked)
 	var/list/lick_words = get_lick_words(user)
@@ -633,6 +690,8 @@ SUBSYSTEM_DEF(handitems)
 	attack_verb = list("licked", "lapped", "mlemmed")
 	pokesound = 'sound/effects/lick.ogg'
 	siemens_coefficient = 5 // hewwo mistow ewectwic fence mlem mlem
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "lick"
 	healthing = /obj/item/stack/medical/bruise_pack/lick
 	needed_trait_to_heal = TRAIT_HEAL_TONGUE
 	tend_word = "licking"
@@ -641,15 +700,13 @@ SUBSYSTEM_DEF(handitems)
 	action_verb_ing = "licking"
 	can_taste = FALSE
 	grope = /datum/grope_kiss_MERP/lick
+	hud_use = TRUE
 
-/obj/item/hand_item/tactile/licker/on_failed_give(mob/user, reason)
-	if(reason == "ALREADY_HAVE_ONE")
-		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
-			to_chat(user, span_alert("You already have your [src] ready!"))
-	else
+/obj/item/hand_item/tactile/licker/on_failed_give_message(mob/user, reason)
+	if(reason == HI_HANDS_FULL)
 		to_chat(user, span_alert("Your hands are too full to lick anything!"))
-		qdel(src)
-	return TRUE
+		return TRUE
+	. = ..()
 
 ////////////////////////
 /obj/item/hand_item/tactile/triage //chimken
@@ -659,22 +716,23 @@ SUBSYSTEM_DEF(handitems)
 	icon_state = "traumapack"
 	attack_verb = list("tended", "treated", "healed")
 	pokesound = 'sound/items/tendingwounds.ogg'
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "tend"
 	healthing = /obj/item/stack/medical/bruise_pack/lick/tend
 	needed_trait_to_heal = TRAIT_HEAL_TEND
+	required_trait = TRAIT_HEAL_TEND
 	tend_word = "tending"
 	action_verb = "tend"
 	action_verb_s = "tends"
 	action_verb_ing = "tending"
 	can_taste = FALSE
+	hud_use = TRUE
 
-/obj/item/hand_item/tactile/triage/on_failed_give(mob/user, reason)
-	if(reason == "ALREADY_HAVE_ONE")
-		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
-			to_chat(user, span_alert("You already have your [src] ready!"))
-	else
+/obj/item/hand_item/tactile/triage/on_failed_give_message(mob/user, reason)
+	if(reason == HI_HANDS_FULL)
 		to_chat(user, span_alert("Your hands are too full to tend anything!"))
-		qdel(src)
-	return TRUE
+		return TRUE
+	. = ..()
 
 ////////////////////////
 /obj/item/hand_item/tactile/toucher //being repurposed as a way to 'feel' the world around the player.  Specifically other players though, lets be real.
@@ -684,6 +742,8 @@ SUBSYSTEM_DEF(handitems)
 	icon_state = "feeder"
 	attack_verb = list("touched", "poked", "prodded")
 	pokesound = 'sound/items/tendingwounds.ogg'
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "touch"
 	healthing = /obj/item/stack/medical/bruise_pack/lick/touch
 	needed_trait_to_heal = TRAIT_HEAL_TOUCH
 	tend_word = "touching"
@@ -692,15 +752,13 @@ SUBSYSTEM_DEF(handitems)
 	action_verb_ing = "touching"
 	grope = /datum/grope_kiss_MERP
 	can_taste = FALSE
+	hud_use = TRUE
 
-/obj/item/hand_item/tactile/toucher/on_failed_give(mob/user, reason)
-	if(reason == "ALREADY_HAVE_ONE")
-		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
-			melee_attack_chain(user, user) // touch yourself, now
-	else
+/obj/item/hand_item/tactile/toucher/on_failed_give_message(mob/user, reason)
+	if(reason == HI_HANDS_FULL)
 		to_chat(user, span_alert("Your hands are too full to touch anything!"))
-		qdel(src)
-	return TRUE
+		return TRUE
+	. = ..()
 
 ////////////////////////
 /obj/item/hand_item/tactile/kisser
@@ -717,6 +775,8 @@ SUBSYSTEM_DEF(handitems)
 		'modular_splurt/sound/interactions/kiss/kiss4.ogg',
 	)
 	healthing = /obj/item/stack/medical/bruise_pack/lick/touch
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "kiss"
 	needed_trait_to_heal = TRAIT_HEAL_TOUCH
 	tend_word = "smooching"
 	action_verb = "kiss"
@@ -724,15 +784,14 @@ SUBSYSTEM_DEF(handitems)
 	action_verb_ing = "kissing"
 	can_taste = FALSE
 	grope = /datum/grope_kiss_MERP/kiss
+	hud_use = TRUE
+	can_taste = TRUE // a good kiss is one you can *taste*
 
-/obj/item/hand_item/tactile/kisser/on_failed_give(mob/user, reason)
-	if(reason == "ALREADY_HAVE_ONE")
-		if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
-			melee_attack_chain(user, user) // kiss yourself, now
-	else
+/obj/item/hand_item/tactile/kisser/on_failed_give_message(mob/user, reason)
+	if(reason == HI_HANDS_FULL)
 		to_chat(user, span_alert("Your hands are too full to kiss anything!"))
-		qdel(src)
-	return TRUE
+		return TRUE
+	. = ..()
 
 /// / / / / / / / / / / / / / / / / / / / / / / / / / / ///
 /// hand items used primarily as a way to attack things ///
@@ -746,12 +805,12 @@ SUBSYSTEM_DEF(handitems)
 	slot_flags = INV_SLOTBIT_GLOVES
 	backstab_multiplier = 1.8
 	throwforce = 0
-	wound_bonus = 4
 	sharpness = SHARP_POINTY
 	attack_speed = CLICK_CD_MELEE
 	item_flags = PERSONAL_ITEM | ABSTRACT | HAND_ITEM
 	weapon_special_component = /datum/component/weapon_special/single_turf
 	block_parry_data = /datum/block_parry_data/bokken
+	hud_use = TRUE
 	var/obj/item/hand_item/weapon/for_creatures
 	var/extra_force_as_glove = 0
 	var/extra_damage = 0
@@ -759,7 +818,7 @@ SUBSYSTEM_DEF(handitems)
 	var/can_knockback = FALSE
 	var/spin_attack = FALSE
 	var/use_bodypart_image_slot
-	var/list/bodypart_images
+	var/list/bodypart_images = list()
 	abstract = /obj/item/hand_item/weapon
 
 /obj/item/hand_item/weapon/ComponentInitialize()
@@ -842,6 +901,7 @@ SUBSYSTEM_DEF(handitems)
 
 /// / / / / ///
 /// BITERS  ///
+// todo: make biting metal things hurt a lot
 /obj/item/hand_item/weapon/biter
 	name = "Biter"
 	desc = "Talk shit, get bit."
@@ -849,18 +909,22 @@ SUBSYSTEM_DEF(handitems)
 	icon_state = "biter"
 	attack_verb = list("chomped", "gnawed", "bit", "crunched", "nommed")
 	hitsound = "sound/weapons/bite.ogg"
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "bite"
 	just_one = TRUE
 	user_trait_can_spawn_associated_item = TRUE
+	associated_trait = TRAIT_BITE
 	category_base_path = /obj/item/hand_item/weapon/biter
-	for_creatures = /obj/item/hand_item/weapon/biter/creature
+	// for_creatures = /obj/item/hand_item/weapon/biter/creature
 
 /obj/item/hand_item/weapon/biter/on_successful_give(mob/living/user, reason)
-	to_chat(user, span_notice("You show your fangs and prepare to bite the mess out of something or someone!"))
+	to_chat(user, span_notice("You bare your fangs, ready to chomp through anything in your path!"))
 
-/obj/item/hand_item/weapon/biter/creature
-	force = 35
-	force_wielded = 45
-	force_unwielded = 35
+// /obj/item/hand_item/weapon/biter/creature
+// 	force = 35
+// 	force_wielded = 45
+// 	force_unwielded = 35
+// 	associated_trait = "trait_creature_bite"
 
 /obj/item/hand_item/weapon/biter/big
 	name = "Big Biter"
@@ -872,6 +936,9 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = CLICK_CD_MELEE
 	associated_trait = TRAIT_BIGBITE
 
+/obj/item/hand_item/weapon/biter/big/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("Your lips part, revealing a set of massive, razor-sharp fangs!"))
+
 /obj/item/hand_item/weapon/biter/sabre
 	name = "Sabre Toothed Biter"
 	desc = "Damn bitch, you eat with them teeth?"
@@ -881,6 +948,9 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 45
 	attack_speed = CLICK_CD_MELEE * 1.2
 	associated_trait = TRAIT_SABREBITE
+
+/obj/item/hand_item/weapon/biter/sabre/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You slide your long sabreteeth against your lower lip, ready to impale whatever crosses your path!"))
 
 /obj/item/hand_item/weapon/biter/fast
 	name = "Fast Biter"
@@ -892,6 +962,9 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = CLICK_CD_MELEE * 0.5
 	associated_trait = TRAIT_FASTBITE
 
+/obj/item/hand_item/weapon/biter/fast/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You click your teeth together, ready to strike with lightning speed!"))
+
 /obj/item/hand_item/weapon/biter/play
 	name = "Play Biter"
 	desc = "Someone really should just muzzle you."
@@ -901,6 +974,9 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 0
 	attack_speed = 1
 	associated_trait = TRAIT_PLAYBITE
+
+/obj/item/hand_item/weapon/biter/play/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You bare your teeth with such ferocity! Such a mighty killer!"))
 
 /obj/item/hand_item/weapon/biter/spicy
 	name = "Spicy Biter"
@@ -912,6 +988,9 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage = 30
 	extra_damage_type = STAMINA
 	associated_trait = TRAIT_SPICYBITE
+
+/obj/item/hand_item/weapon/biter/spicy/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You bare your fangs, dripping with venom!"))
 
 /// / / / ///
 /// CLAWS ///
@@ -932,17 +1011,21 @@ SUBSYSTEM_DEF(handitems)
 	item_flags = PERSONAL_ITEM | ABSTRACT | HAND_ITEM
 	weapon_special_component = /datum/component/weapon_special/single_turf
 	block_parry_data = /datum/block_parry_data/bokken
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "claw"
 	user_trait_can_spawn_associated_item = TRUE
+	associated_trait = TRAIT_CLAW
 	category_base_path = /obj/item/hand_item/weapon/clawer
-	for_creatures = /obj/item/hand_item/weapon/clawer/creature
+	// for_creatures = /obj/item/hand_item/weapon/clawer/creature
 
 /obj/item/hand_item/weapon/clawer/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your claws, ready to rip and tear at anything that gets in your way!"))
 
-/obj/item/hand_item/weapon/clawer/creature
-	force = 30
-	force_wielded = 40
-	force_unwielded = 30
+// /obj/item/hand_item/weapon/clawer/creature
+// 	force = 30
+// 	force_wielded = 40
+// 	force_unwielded = 30
+// 	associated_trait = "trait_creature_claw"
 
 /obj/item/hand_item/weapon/clawer/big
 	name = "Big Clawer"
@@ -954,6 +1037,9 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = CLICK_CD_MELEE * 1.5
 	associated_trait = TRAIT_BIGCLAW
 
+/obj/item/hand_item/weapon/clawer/big/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your long deadly claws! Goodness they're heavy!"))
+
 /obj/item/hand_item/weapon/clawer/razor
 	name = "Razor Sharp Clawers"
 	desc = "RIP AND TEAR."
@@ -963,6 +1049,9 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 40
 	attack_speed = CLICK_CD_MELEE * 1.2
 	associated_trait = TRAIT_RAZORCLAW
+
+/obj/item/hand_item/weapon/clawer/razor/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your razor sharp claws! The wind whistles through them."))
 
 /obj/item/hand_item/weapon/clawer/fast
 	name = "Fast Clawer"
@@ -974,6 +1063,9 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = CLICK_CD_MELEE * 0.5
 	associated_trait = TRAIT_FASTCLAW
 
+/obj/item/hand_item/weapon/clawer/fast/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your claws, light and agile!"))
+
 /obj/item/hand_item/weapon/clawer/play
 	name = "Play Clawer"
 	desc = "Basically just a bean thwapper."
@@ -983,6 +1075,9 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 0
 	attack_speed = 1
 	associated_trait = TRAIT_PLAYCLAW // you dont want to know how this claw plays
+
+/obj/item/hand_item/weapon/clawer/play/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your harmless claws, ready to play!"))
 
 /obj/item/hand_item/weapon/clawer/spicy
 	name = "Spicy Clawer"
@@ -994,6 +1089,9 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage = 30
 	extra_damage_type = STAMINA
 	associated_trait = TRAIT_SPICYCLAW
+
+/obj/item/hand_item/weapon/clawer/spicy/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your claws, dripping with venom!"))
 
 /// / / / / / / ///
 /// ARM BLADES  ///
@@ -1014,6 +1112,12 @@ SUBSYSTEM_DEF(handitems)
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 	sharpness = SHARP_EDGED
 	user_trait_can_spawn_associated_item = TRUE
+	associated_trait = TRAIT_ARMBLADE
+	required_trait = TRAIT_ARMBLADE
+	category_base_path = /obj/item/hand_item/weapon/arm_blade
+
+/obj/item/hand_item/weapon/arm_blade/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("Your arm crunches into a horrifying, deadly blade!"))
 
 /obj/item/hand_item/weapon/arm_blade/cyber
 	name = "Cyber blade"
@@ -1024,6 +1128,10 @@ SUBSYSTEM_DEF(handitems)
 	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
 	associated_trait = TRAIT_CYBERKNIFE
+	required_trait = TRAIT_CYBERKNIFE
+
+/obj/item/hand_item/weapon/arm_blade/cyber/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("Your arm re-forges itself into a sleek cybernetic blade!"))
 
 /// / / / / ///
 /// SHOVERS ///
@@ -1041,6 +1149,9 @@ SUBSYSTEM_DEF(handitems)
 	wound_bonus = 0
 	can_knockback = TRUE
 
+/obj/item/hand_item/weapon/shover/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You hold a hand up, ready to shove something around!"))
+
 /// / / / ///
 /// TAILS ///
 /obj/item/hand_item/weapon/tail
@@ -1057,8 +1168,14 @@ SUBSYSTEM_DEF(handitems)
 	spin_attack = TRUE
 	use_bodypart_image_slot = PHUD_TAIL
 	just_one = TRUE
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "tail"
 	category_base_path = /obj/item/hand_item/weapon/tail
 	user_trait_can_spawn_associated_item = TRUE
+	associated_trait = TRAIT_TAIL
+
+/obj/item/hand_item/weapon/tail/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You swish your tail, ready to smack it into something!"))
 
 /obj/item/hand_item/weapon/tail/playful
 	name = "playful tail"
@@ -1069,6 +1186,9 @@ SUBSYSTEM_DEF(handitems)
 	weapon_special_component = /datum/component/weapon_special/single_turf
 	associated_trait = TRAIT_TAILPLAY // yeah im into tailplay, what of it?
 
+/obj/item/hand_item/weapon/tail/playful/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You ready your soft, harmless tail, ready to give someone a cute lil whap!"))
+
 /obj/item/hand_item/weapon/tail/fast
 	name = "fast tail"
 	desc = "A speedy tail that's very good at whackin' fast."
@@ -1077,12 +1197,18 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = CLICK_CD_MELEE * 0.6
 	associated_trait = TRAIT_TAILWHIP
 
+/obj/item/hand_item/weapon/tail/fast/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You swish your tail! It moves gracefully through the air."))
+
 /obj/item/hand_item/weapon/tail/big
 	name = "big tail"
 	desc = "A big tail that whacks hard."
 	color = "#884444"
 	force = 25
 	associated_trait = TRAIT_TAILSMASH
+
+/obj/item/hand_item/weapon/tail/big/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You give your tail a wiggle, rippling with brute force!"))
 
 /obj/item/hand_item/weapon/tail/spicy
 	name = "spicy tail"
@@ -1093,6 +1219,9 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage_type = STAMINA
 	associated_trait = TRAIT_TAILSPICY
 
+/obj/item/hand_item/weapon/tail/spicy/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("You extend your tail's venomous tip, ready to inject."))
+
 /obj/item/hand_item/weapon/tail/thago
 	name = "dangerous tail"
 	desc = "A god damn mighty tail that would kill an allosaurus.  Maybe."
@@ -1100,6 +1229,9 @@ SUBSYSTEM_DEF(handitems)
 	force = 40
 	attack_speed = CLICK_CD_MELEE * 1.2
 	associated_trait = TRAIT_TAILTHAGO
+
+/obj/item/hand_item/weapon/tail/thago/on_successful_give(mob/living/user, reason)
+	to_chat(user, span_notice("Your mighty tail thumps against the ground with a dull thud, ready to pulverize anything in its path!"))
 
 /// / / / ///
 /// BEANS ///
@@ -1117,6 +1249,9 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = 0
 	extra_damage = 1 // its mildly annoying!
 	extra_damage_type = STAMINA
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "beans"
+	required_trait = TRAIT_BEANS
 
 /obj/item/hand_item/weapon/beans/on_successful_give(mob/user, reason)
 	to_chat(user, span_notice("You ready your beans for WAR!!"))
@@ -1126,9 +1261,10 @@ SUBSYSTEM_DEF(handitems)
 	name = "war beans"
 	desc = "Them's ya' war beans. Touch em' to things you want dead."
 	color = "#ff4444"
-	force = 6
-	force_wielded = 10
+	force = 4
+	force_wielded = 8
 	backstab_multiplier = 3 //OBLITERATE THEM, BOYKISSER. ~TK
+	required_trait = TRAIT_WARBEANS
 
 /obj/item/hand_item/weapon/beans/on_successful_give(mob/user, reason)
 	to_chat(user, span_notice("You ready your warbeans for REAL WAR!!"))
@@ -1149,6 +1285,33 @@ SUBSYSTEM_DEF(handitems)
 	spin_attack = TRUE
 	just_one = TRUE
 	category_base_path = /obj/item/hand_item/weapon/butt
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "butt"
+
+/obj/item/hand_item/weapon/butt/on_successful_give(mob/living/user, reason)
+	var/mob/living/carbon/human/H = user
+	if(!H.has_butt())
+		to_chat(user, span_notice("You give your rear end a wiggle, ready to thrust that thing into someone's face!"))
+		return
+	var/obj/item/organ/genital/butt/B = H.getorganslot(ORGAN_SLOT_BUTT)
+	if(!B)
+		to_chat(user, span_notice("You give your rear a wiggle, ready to thrust that thing into someone's face!"))
+		return
+	switch(B.size)
+		if(1 to 2) // tiny butt
+			to_chat(user, span_notice("You give your slender tushie a wiggle, ready to crack a few ribs!"))
+		if(3) // small butt
+			to_chat(user, span_notice("You give your modest behind a wiggle, ready to crack a few ribs!"))
+		if(4) // average butt
+			to_chat(user, span_notice("You give your ample backside a wiggle, ready to hip check something into the ground!"))
+		if(5) // thicc butt
+			to_chat(user, span_notice("You give your hefty booty a jiggle, ready to hip check something into the ground!"))
+		if(6 to 7) // huge butt
+			to_chat(user, span_notice("You give those massive wrecking balls of yours a powerful shake, ready to demolish anything that gets in their way!"))
+		if(8 to INFINITY) // gargantuan hyper butt
+			to_chat(user, span_notice("You give that colossal caboose of yours a thunderous quake, ready to flatten anything that gets in its way!"))
+		else // invalid quantum state of a butt
+			to_chat(user, span_notice("You give your rear end a wiggle, ready to thrust that thing into someone's face!"))
 
 /obj/item/hand_item/weapon/butt/equipped(mob/user, slot)
 	. = ..()
@@ -1233,6 +1396,9 @@ SUBSYSTEM_DEF(handitems)
 	desc = "Cup your hand to hold liquids. Kinda gross ngl. if you can read this, call 1-800-IM-CODER with error code: OBESE-AVALI-TOIR"
 	thing_to_spawn = /obj/item/reagent_containers/food/drinks/sillycup/handcup
 	del_on_ground = TRUE // its your hand, if you drop it, it goes back to being your hand!
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "cuphand"
+	hud_use = TRUE
 
 /obj/item/hand_item/spawner/cuphand/on_spawner_put_in_hands(mob/living/user, atom/movable/spawned)
 	to_chat(user, span_notice("You cup your hands, ready to hold some liquids!"))
@@ -1247,6 +1413,9 @@ SUBSYSTEM_DEF(handitems)
 	thing_to_spawn = /obj/item/ammo_casing/caseless/rock
 	cooldown_time = 2.5 SECONDS
 	cooldown_override_trait = TRAIT_MONKEYLIKE
+	hud_icon = 'icons/mob/screen_gen.dmi'
+	hud_icon_state = "rock"
+	hud_use = TRUE
 
 /obj/item/hand_item/spawner/rock/on_spawner_put_in_hands(mob/living/user, atom/movable/spawned)
 	to_chat(user, span_notice("You scoop up a hefty rock!"))
@@ -1255,7 +1424,7 @@ SUBSYSTEM_DEF(handitems)
 	to_chat(user, span_notice("You find a hefty rock on the ground! Your hands are too full to pick it up, but it's there!"))
 
 /obj/item/hand_item/spawner/rock/on_failed_give_message(mob/living/user, reason)
-	if(reason == "ON_COOLDOWN")
+	if(reason == HI_ON_COOLDOWN)
 		var/timeleft = SShanditems.get_cooldown_time_left(user, src)
 		to_chat(user, span_alert("You scared all the rocks away! They'll be back in [DisplayTimeText(timeleft)] though."))
 		return TRUE
@@ -1279,7 +1448,7 @@ SUBSYSTEM_DEF(handitems)
 	to_chat(user, span_notice("You find a sturdy brick on the ground! Your hands are too full to pick it up, but it's there!"))
 
 /obj/item/hand_item/spawner/brick/on_failed_give_message(mob/living/user, reason)
-	if(reason == "ON_COOLDOWN")
+	if(reason == HI_ON_COOLDOWN)
 		var/timeleft = SShanditems.get_cooldown_time_left(user, src)
 		to_chat(user, span_alert("You scared all the bricks away! They'll be back in [DisplayTimeText(timeleft)] though."))
 		return TRUE
@@ -1301,10 +1470,10 @@ SUBSYSTEM_DEF(handitems)
 	to_chat(user, span_notice("You nudge some snow on the gound into a snowball! Your hands are too full to pick it up, but it's there!"))
 
 /obj/item/hand_item/spawner/snowball/on_failed_give_message(mob/living/user, reason)
-	if(reason == "OUT_OF_SEASON")
+	if(reason == HI_OUT_OF_SEASON)
 		to_chat(user, span_alert("It's a little warm for snowballs, isn't it? You'll have to wait for the wintery months to get some!"))
 		return TRUE
-	if(reason == "ON_COOLDOWN")
+	if(reason == HI_ON_COOLDOWN)
 		var/timeleft = SShanditems.get_cooldown_time_left(user, src)
 		to_chat(user, span_alert("You scared all the snow away! They'll be back in [DisplayTimeText(timeleft)] though."))
 		return TRUE
