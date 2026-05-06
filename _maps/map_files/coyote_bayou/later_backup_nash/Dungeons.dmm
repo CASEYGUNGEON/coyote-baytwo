@@ -1570,7 +1570,6 @@
 /obj/structure/table{
 	layer = 2.9
 	},
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
 /obj/machinery/cell_charger{
 	pixel_y = 6
 	},
@@ -3028,7 +3027,6 @@
 "bsE" = (
 /obj/structure/closet/crate,
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
 /turf/open/floor/f13{
 	icon_state = "redrustyfull"
 	},
@@ -12886,7 +12884,6 @@
 "fSi" = (
 /obj/item/clothing/head/bomb_hood/security,
 /obj/structure/rack/shelf_metal,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
 /obj/item/clothing/under/f13/recon/outcast,
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /obj/item/card/midbounty,
@@ -15400,9 +15397,6 @@
 	color = "#363636"
 	},
 /obj/structure/closet/crate/coffin,
-/mob/living/simple_animal/hostile/ghoul/scorched{
-	faction = list("scorched","hostile","skeleton")
-	},
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/building)
@@ -21209,7 +21203,6 @@
 	color = "#363636"
 	},
 /obj/structure/closet/crate/coffin,
-/mob/living/simple_animal/hostile/ghoul/glowing/strong,
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /turf/open/indestructible/ground/inside/mountain,
 /area/f13/building)
@@ -31049,23 +31042,6 @@
 	icon_state = "tunnelchess"
 	},
 /area/f13/building)
-"oek" = (
-/obj/effect/decal/cleanable/dirt,
-/mob/living/simple_animal/hostile/ghoul/wyomingghost{
-	desc = "A happily proud Enclave commander, mutated and boiled alive by the forced evolutionary virus. His armor looks to be sunken into his flesh.";
-	faction = list("wastebot");
-	health = 1500;
-	maxHealth = 1500;
-	name = "Commander Dirsk";
-	speak = list("For  the  Enclave!","Long  live  America!","Die,  mutie!","AAAAAGGH!!","AUGUHGHHH!");
-	speak_chance = 10;
-	speed = -1;
-	unarmed_attack_speed = 2
-	},
-/turf/open/floor/f13{
-	icon_state = "reddirtyfull"
-	},
-/area/f13/building)
 "oel" = (
 /obj/structure/decoration/vent,
 /turf/closed/wall/r_wall,
@@ -37573,18 +37549,6 @@
 /obj/structure/simple_door/bunker/glass,
 /turf/open/floor/plasteel/f13/vault_floor/floor/floorsolid,
 /area/f13/building)
-"rcW" = (
-/obj/effect/decal/cleanable/dirt{
-	color = "#363636"
-	},
-/obj/effect/decal/cleanable/dirt{
-	color = "#363636"
-	},
-/mob/living/simple_animal/hostile/ghoul/glowing/strong{
-	faction = list("hostile","ghoul","skeleton")
-	},
-/turf/open/indestructible/ground/inside/mountain,
-/area/f13/building)
 "rdb" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -40392,7 +40356,6 @@
 	color = "#363636"
 	},
 /obj/structure/closet/locker/fridge,
-/mob/living/simple_animal/hostile/ghoul/coldferal,
 /turf/open/floor/wood_worn,
 /area/f13/building)
 "svh" = (
@@ -47758,9 +47721,6 @@
 /obj/item/folder/red{
 	pixel_x = -9;
 	pixel_y = 4
-	},
-/obj/item/book/granter/crafting_recipe/gunsmith_three{
-	pixel_x = 5
 	},
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /obj/effect/spawner/lootdrop/f13/uncommon,
@@ -131421,7 +131381,7 @@ tlI
 tlI
 fZi
 vFr
-oek
+oet
 vFr
 qbj
 oEx
@@ -152555,7 +152515,7 @@ aXU
 pBA
 mrO
 kem
-rcW
+mrO
 mrO
 mrO
 qpI
