@@ -2418,8 +2418,20 @@ GLOBAL_LIST_INIT(security_expert, list(
 	medical_record_text = "Patient has razor sharp claws instead of pawbeans."
 	human_only = FALSE
 
-
-
+/datum/quirk/butt
+	name = "Butt Combat"
+	desc = "You use your butt as a deadly weapon! Use *butt to strike with your rear end!"
+	value = 22
+	category = QUIRK_CATEGORY_BAWDY_QUIRKS
+	mechanics = "You can bludgeon your enemies with your butt! It uses the size of your Butt genital to \
+		determine damage and attack speed, with larger butts dealing more damage but slower, and smaller \
+		butts dealing less damage but quicker! Use *butt to ready your deadly derriere!"
+	conflicts = list()
+	mob_trait = TRAIT_BUTT
+	gain_text = span_notice("You've got a butt with a body count!")
+	lose_text = span_danger("Your butt is merely cute.")
+	medical_record_text = "Patient has a deadly butt instead of a normal one."
+	human_only = FALSE
 
 //Cantrips//
 /datum/quirk/shocking

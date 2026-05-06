@@ -914,6 +914,7 @@ SUBSYSTEM_DEF(handitems)
 	just_one = TRUE
 	user_trait_can_spawn_associated_item = TRUE
 	associated_trait = TRAIT_BITE
+	required_trait = TRAIT_BITE
 	category_base_path = /obj/item/hand_item/weapon/biter
 	// for_creatures = /obj/item/hand_item/weapon/biter/creature
 
@@ -935,6 +936,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 40
 	attack_speed = CLICK_CD_MELEE
 	associated_trait = TRAIT_BIGBITE
+	required_trait = TRAIT_BIGBITE
 
 /obj/item/hand_item/weapon/biter/big/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("Your lips part, revealing a set of massive, razor-sharp fangs!"))
@@ -948,6 +950,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 45
 	attack_speed = CLICK_CD_MELEE * 1.2
 	associated_trait = TRAIT_SABREBITE
+	required_trait = TRAIT_SABREBITE
 
 /obj/item/hand_item/weapon/biter/sabre/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You slide your long sabreteeth against your lower lip, ready to impale whatever crosses your path!"))
@@ -961,6 +964,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 25
 	attack_speed = CLICK_CD_MELEE * 0.5
 	associated_trait = TRAIT_FASTBITE
+	required_trait = TRAIT_FASTBITE
 
 /obj/item/hand_item/weapon/biter/fast/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You click your teeth together, ready to strike with lightning speed!"))
@@ -974,6 +978,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 0
 	attack_speed = 1
 	associated_trait = TRAIT_PLAYBITE
+	required_trait = TRAIT_PLAYBITE
 
 /obj/item/hand_item/weapon/biter/play/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You bare your teeth with such ferocity! Such a mighty killer!"))
@@ -988,6 +993,7 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage = 30
 	extra_damage_type = STAMINA
 	associated_trait = TRAIT_SPICYBITE
+	required_trait = TRAIT_SPICYBITE
 
 /obj/item/hand_item/weapon/biter/spicy/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You bare your fangs, dripping with venom!"))
@@ -1015,6 +1021,7 @@ SUBSYSTEM_DEF(handitems)
 	hud_icon_state = "claw"
 	user_trait_can_spawn_associated_item = TRUE
 	associated_trait = TRAIT_CLAW
+	required_trait = TRAIT_CLAW
 	category_base_path = /obj/item/hand_item/weapon/clawer
 	// for_creatures = /obj/item/hand_item/weapon/clawer/creature
 
@@ -1036,6 +1043,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 35
 	attack_speed = CLICK_CD_MELEE * 1.5
 	associated_trait = TRAIT_BIGCLAW
+	required_trait = TRAIT_BIGCLAW
 
 /obj/item/hand_item/weapon/clawer/big/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your long deadly claws! Goodness they're heavy!"))
@@ -1049,6 +1057,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 40
 	attack_speed = CLICK_CD_MELEE * 1.2
 	associated_trait = TRAIT_RAZORCLAW
+	required_trait = TRAIT_RAZORCLAW
 
 /obj/item/hand_item/weapon/clawer/razor/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your razor sharp claws! The wind whistles through them."))
@@ -1062,6 +1071,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 30
 	attack_speed = CLICK_CD_MELEE * 0.5
 	associated_trait = TRAIT_FASTCLAW
+	required_trait = TRAIT_FASTCLAW
 
 /obj/item/hand_item/weapon/clawer/fast/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your claws, light and agile!"))
@@ -1075,6 +1085,7 @@ SUBSYSTEM_DEF(handitems)
 	force_unwielded = 0
 	attack_speed = 1
 	associated_trait = TRAIT_PLAYCLAW // you dont want to know how this claw plays
+	required_trait = TRAIT_PLAYCLAW
 
 /obj/item/hand_item/weapon/clawer/play/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your harmless claws, ready to play!"))
@@ -1089,6 +1100,7 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage = 30
 	extra_damage_type = STAMINA
 	associated_trait = TRAIT_SPICYCLAW
+	required_trait = TRAIT_SPICYCLAW
 
 /obj/item/hand_item/weapon/clawer/spicy/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your claws, dripping with venom!"))
@@ -1173,6 +1185,7 @@ SUBSYSTEM_DEF(handitems)
 	category_base_path = /obj/item/hand_item/weapon/tail
 	user_trait_can_spawn_associated_item = TRUE
 	associated_trait = TRAIT_TAIL
+	required_trait = TRAIT_TAIL
 
 /obj/item/hand_item/weapon/tail/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You swish your tail, ready to smack it into something!"))
@@ -1185,6 +1198,7 @@ SUBSYSTEM_DEF(handitems)
 	attack_speed = 3
 	weapon_special_component = /datum/component/weapon_special/single_turf
 	associated_trait = TRAIT_TAILPLAY // yeah im into tailplay, what of it?
+	required_trait = TRAIT_TAILPLAY
 
 /obj/item/hand_item/weapon/tail/playful/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You ready your soft, harmless tail, ready to give someone a cute lil whap!"))
@@ -1196,6 +1210,7 @@ SUBSYSTEM_DEF(handitems)
 	force = 18
 	attack_speed = CLICK_CD_MELEE * 0.6
 	associated_trait = TRAIT_TAILWHIP
+	required_trait = TRAIT_TAILWHIP
 
 /obj/item/hand_item/weapon/tail/fast/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You swish your tail! It moves gracefully through the air."))
@@ -1206,6 +1221,7 @@ SUBSYSTEM_DEF(handitems)
 	color = "#884444"
 	force = 25
 	associated_trait = TRAIT_TAILSMASH
+	required_trait = TRAIT_TAILSMASH
 
 /obj/item/hand_item/weapon/tail/big/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You give your tail a wiggle, rippling with brute force!"))
@@ -1218,6 +1234,7 @@ SUBSYSTEM_DEF(handitems)
 	extra_damage = 30
 	extra_damage_type = STAMINA
 	associated_trait = TRAIT_TAILSPICY
+	required_trait = TRAIT_TAILSPICY
 
 /obj/item/hand_item/weapon/tail/spicy/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("You extend your tail's venomous tip, ready to inject."))
@@ -1229,6 +1246,7 @@ SUBSYSTEM_DEF(handitems)
 	force = 40
 	attack_speed = CLICK_CD_MELEE * 1.2
 	associated_trait = TRAIT_TAILTHAGO
+	required_trait = TRAIT_TAILTHAGO
 
 /obj/item/hand_item/weapon/tail/thago/on_successful_give(mob/living/user, reason)
 	to_chat(user, span_notice("Your mighty tail thumps against the ground with a dull thud, ready to pulverize anything in its path!"))
@@ -1273,7 +1291,7 @@ SUBSYSTEM_DEF(handitems)
 /// / / / ///
 /// BUTT  ///
 /obj/item/hand_item/weapon/butt
-	name = "your butt"
+	name = "butt"
 	desc = "Very smoochable."
 	icon = 'icons/ass/assfemale.png' // rofl
 	attack_verb = list("smecked", "bwapped", "bumped", "clapped", "quapped", "vooped", "whomped")
@@ -1287,6 +1305,7 @@ SUBSYSTEM_DEF(handitems)
 	category_base_path = /obj/item/hand_item/weapon/butt
 	hud_icon = 'icons/mob/screen_gen.dmi'
 	hud_icon_state = "butt"
+	required_trait = TRAIT_BUTT
 
 /obj/item/hand_item/weapon/butt/on_successful_give(mob/living/user, reason)
 	var/mob/living/carbon/human/H = user

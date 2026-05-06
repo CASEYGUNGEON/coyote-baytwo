@@ -197,6 +197,7 @@
 #define TRAIT_TAILTHAGO			"Tail Thago"
 #define TRAIT_BEANS				"Beans"
 #define TRAIT_WARBEANS			"War Beans"
+#define TRAIT_BUTT				"Butt"
 #define TRAIT_BITE				"Biter"
 #define TRAIT_BIGBITE			"Big Biter"
 #define TRAIT_FASTBITE			"Fast Biter"
