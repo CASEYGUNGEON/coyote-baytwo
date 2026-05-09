@@ -299,7 +299,7 @@
 	last_charge_tick = world.time // no skipping!
 	update_icon()
 
-/obj/item/gun/energy/do_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, stam_cost = 0)
+/obj/item/gun/energy/after_shooting(mob/living/user)
 	if(!chambered && can_shoot())
 		process_chamber()	// If the gun was drained and then recharged, load a new shot.
 	return ..()

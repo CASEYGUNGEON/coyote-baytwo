@@ -446,7 +446,7 @@
 	scope_state = "scope_long"
 	scope_x_offset = 4
 	scope_y_offset = 12
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
 	reskinnable_component = null // was /datum/component/reskinnable/hunting_rifle, please go through this list
 	init_firemodes = list(

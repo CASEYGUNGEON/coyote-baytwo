@@ -57,7 +57,7 @@
 	init_firemodes = list(
 		/datum/firemode/semi_auto
 	)
-	handedness = GUN_EJECTOR_ANY
+	ejector_side = GUN_EJECTOR_ANY
 	revolver = TRUE
 	var/kind = REVKIND_SWINGOUT_DOUBLE_ACTION
 	var/cock_method = REVCOCK_SINGLE_ACTION
@@ -74,8 +74,8 @@
 	/* sounds! */
 	var/rotate_forward_sound =       'sound/weapons/ba_revolver/rotate_forward.ogg'
 	var/rotate_backward_sound =      'sound/weapons/ba_revolver/rotate_backward.ogg'
-	var/cock_hammer_sound =          'sound/weapons/ba_revolver/singleaction_cock.ogg'
-	var/uncock_hammer_sound =        'sound/weapons/ba_revolver/singleaction_un_cock.ogg'
+	cock_hammer_sound =          'sound/weapons/ba_revolver/singleaction_cock.ogg'
+	uncock_hammer_sound =        'sound/weapons/ba_revolver/singleaction_un_cock.ogg'
 	/// for when we put the gun into a state where we can access the ammo, like swinging out the cylinder or half-cocking
 	var/open_gun_sound =             'sound/weapons/ba_revolver/cylinder_open.ogg'
 	/// for making it not accessible anymore
@@ -85,7 +85,6 @@
 	var/speedloader_sound =          'sound/weapons/ba_revolver/speedloader_act.ogg'
 	var/eject_all_sound =            'sound/weapons/ba_revolver/eject_multiple.ogg'
 	var/eject_all_no_shells_sound =  'sound/weapons/ba_revolver/eject_multiple_no_shells.ogg'
-	var/datum/weakref/listening_to = null // for knowing whose mousewheels to listen to
 	equipsound = 'sound/f13weapons/equipsounds/pistolequip.ogg'
 
 /obj/item/gun/ballistic/revolver/Initialize()
@@ -97,25 +96,6 @@
 /obj/item/gun/ballistic/revolver/generate_guntags()
 	..()
 	gun_tags |= GUN_REVOLVER
-
-/obj/item/gun/ballistic/revolver/equipped(mob/living/user, slot)
-	. = ..()
-	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
-	if(listening_to_mob)
-		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
-		listening_to = null
-	if(user.get_active_held_item() == src)
-		listening_to = WEAKREF(user)
-		RegisterSignal(user, COMSIG_MOB_MOUSEWHEEL, PROC_REF(mouse_wheel_signal_handler))
-		RegisterSignal(user, COMSIG_MOB_MIDDLECLICKED_SOMETHING, PROC_REF(middleclick_signal_handler))
-
-/obj/item/gun/ballistic/revolver/dropped(mob/user)
-	. = ..()
-	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
-	if(listening_to_mob)
-		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
-		UnregisterSignal(listening_to_mob, COMSIG_MOB_MIDDLECLICKED_SOMETHING)
-		listening_to = null
 
 /obj/item/gun/ballistic/revolver/proc/init_kind()
 	switch(kind)
@@ -170,30 +150,24 @@
 			eject_all_sound =            'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
 			eject_all_no_shells_sound =  'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
 
-/obj/item/gun/ballistic/revolver/proc/mouse_wheel_signal_handler(
+/obj/item/gun/ballistic/revolver/mouse_wheel_signal_handler(
 	mob/living/user,
 	atom/wheeled_on,
 	delta_x,
 	delta_y,
 	params,
 	)
-	SIGNAL_HANDLER
-	if(user != GET_WEAKREF(listening_to))
+	if(!..())
 		return
-	if(wheeled_on == src)
-		return // prevent double-doing
 	if(user.get_active_held_item() == src || user.get_inactive_held_item() == src)
 		advance_chamber(user, SIGN(-delta_y), TRUE)
 
-/obj/item/gun/ballistic/revolver/proc/middleclick_signal_handler(
+/obj/item/gun/ballistic/revolver/middleclick_signal_handler(
 	mob/living/user,
 	atom/clicked_on,
 	)
-	SIGNAL_HANDLER
-	if(user != GET_WEAKREF(listening_to))
+	if(!..())
 		return
-	if(clicked_on == src)
-		return // prevent double-doing
 	var/obj/item/in_active_hand = user.get_active_held_item()
 	// var/gun_is_in_active_hand = in_active_hand == src
 	var/obj/item/in_inactive_hand = user.get_inactive_held_item()
@@ -256,7 +230,7 @@
 		return
 	if(LAZYLEN(magazine.stored_ammo) < 2) // just one shoot hole, cant exactly change what you shoot
 		return
-	if(doing_something_with_guns(doer))
+	if(doing_something(doer))
 		to_chat(doer, span_warning("You're already doing something!"))
 		return
 	if(manually && how_rotatable == REV_BOTH_HALFCOCK_ONLY && !loader_exposed)
@@ -311,7 +285,7 @@
 	loader_exposed = TRUE
 	playsound(doer, open_gun_sound, 80, FALSE)
 	if(eject_style == REV_EJECT_ALL)
-		auto_eject_casings(doer, TRUE)
+		auto_eject_casings(doer, TRUE, nodelay = TRUE)
 	else
 		inform_user(doer, REV_INFO_OPENED_GUN)
 
@@ -325,7 +299,7 @@
 /// happens when you do something to automatically trigger the gun to open or close
 // such as using an ammo on it, without opening it manually
 /obj/item/gun/ballistic/revolver/proc/cause_delay(mob/doer, delay = (0.5 SECONDS))
-	if(doing_something_with_guns(doer))
+	if(doing_something(doer))
 		to_chat(doer, span_warning("You're already doing something!"))
 		return
 	var/datum/weakref/loader = WEAKREF(doer)
@@ -345,12 +319,13 @@
 		to_chat(doer, span_alert("You were interrupted!"))
 
 // ejects casings according to the gun's eject style!
-/obj/item/gun/ballistic/revolver/proc/auto_eject_casings(mob/doer, do_words, do_sound, force_all_of_them)
+/obj/item/gun/ballistic/revolver/proc/auto_eject_casings(mob/doer, do_words, do_sound, force_all_of_them, nodelay)
 	// indexes!
 	if(!can_interact_with_this(doer, do_words, REV_FLAG_NEEDS_MAGAZINE | REV_FLAG_NEEDS_LOADER_EXPOSED))
 		return
-	if(!cause_delay(doer, 0.5 SECONDS))
-		return
+	if(!nodelay)
+		if(!cause_delay(doer, 0.5 SECONDS))
+			return
 	var/list/toeject = list()
 	var/spew_everywhere = FALSE
 	var/what_ejected = "empties"
@@ -449,7 +424,7 @@
 		toggle_hammer(user, TRUE)
 	update_icon()
 
-/obj/item/gun/ballistic/revolver/shoot_live_shot(mob/living/user as mob|obj)
+/obj/item/gun/ballistic/revolver/after_shooting(mob/living/user as mob|obj)
 	..()
 	if(cock_method == REVCOCK_DOUBLE_ACTION)
 		toggle_hammer(user, TRUE)
@@ -725,13 +700,13 @@
 		if(do_words)
 			inform_user(user, REV_ALERT_NEED_LOADER_EXPOSED_TO_ROTATE)
 		return FALSE
-	if(doing_something_with_guns(user))
+	if(doing_something(user))
 		if(do_words)
 			to_chat(user, span_warning("You're already doing something!"))
 		return FALSE
 	return TRUE
 
-/obj/item/gun/ballistic/revolver/proc/toggle_hammer(mob/living/user, onlycock)
+/obj/item/gun/ballistic/revolver/toggle_hammer(mob/living/user, onlycock)
 	if(loader_exposed)
 		return
 	if(onlycock)
@@ -743,6 +718,7 @@
 			if(GHAMMER_COCKED)
 				hammer_state = GHAMMER_UNCOCKED
 	if(hammer_state == GHAMMER_COCKED)
+		can_click = TRUE
 		advance_chamber(user)
 	var/snd = hammer_state == GHAMMER_COCKED ? cock_hammer_sound : uncock_hammer_sound
 	playsound(user, snd, 80, FALSE)
@@ -940,7 +916,7 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/single_action/double_action
 	)
 	fire_sound = 'sound/f13weapons/357magnum.ogg'
 	kind = REVKIND_SWINGOUT_DOUBLE_ACTION

@@ -80,15 +80,15 @@
 	return ..()
 
 /mob/living/proc/ZImpactDamage(turf/T, levels)
-	if(levels <= 2 && HAS_TRAIT(src, TRAIT_FREERUNNING)) //levels is incremented prior to damage proc and is always >= 2
-		visible_message(span_danger("[src] slams into [T], rolling as they land and keeping their pace!"),
-						span_userdanger("You slam into [T], rolling and keeping your momentum!"))
+	if(levels <= 2 || HAS_TRAIT(src, TRAIT_FREERUNNING)) //levels is incremented prior to damage proc and is always >= 2
+		visible_message(span_danger("[src] falls down onto [T], rolling as they land and keeping their pace!"),
+						span_userdanger("You falls down onto [T], rolling and keeping your momentum!"))
 		adjustBruteLoss(5)
 	else
-		visible_message(span_danger("[src] crashes into [T] with a sickening noise!"),
-						span_userdanger("You crash into [T] with a sickening noise!"))
+		visible_message(span_danger("[src] falls onto [T] painfully!"),
+						span_userdanger("You fall onto [T] painfully!"))
 		adjustBruteLoss((levels * 5) ** 1.5)
-		DefaultCombatKnockdown(levels * 50)
+		DefaultCombatKnockdown(1)
 
 /mob/living/proc/OpenCraftingMenu()
 	return
@@ -1644,3 +1644,23 @@
 	if(do_after(src, 1 SECONDS, target = src))
 		for(var/i in 1 to 180)  //I know this is awful
 			src.tilt_left()
+
+/mob/living/proc/try_give_tip(tipkind, delay = 0)
+	if(!client)
+		return
+	if(helpful_tips[tipkind])
+		return
+	var/tiptext = GLOB.helpful_tip_texts[tipkind]
+	if(!tiptext)
+		return
+	helpful_tips[tipkind] = TRUE
+	INVOKE_ASYNC(src, PROC_REF(give_tip), tiptext, delay)
+
+/mob/living/proc/give_tip(tiptext, delay)
+	if(delay)
+		sleep(delay) //delay
+	to_chat(src, span_purple("<b>[safepick(GLOB.helpful_tip_prefixes)]</b> [tiptext]"))
+
+
+
+

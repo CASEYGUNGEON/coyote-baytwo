@@ -23,19 +23,53 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	var/cock_wording = "rack"
 	var/en_bloc = 0
 	/// Which direction do the casings fly out?
-	var/handedness = GUN_EJECTOR_RIGHT
-	var/cock_sound = "gun_slide_lock"
+	var/ejector_side = GUN_EJECTOR_RIGHT
 	var/insert_magazine_delay = 0.5 SECONDS
 	var/remove_magazine_delay = 0.5 SECONDS
 	var/revolver = FALSE // hack
 	fire_sound = null //null tells the gun to draw from the casing instead of the gun for sound
+	var/can_load_magazine_through_bolt = FALSE
+
+	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
+	var/manual_chamber_sound =       'sound/weapons/biblically_accurate_guns/manual_insert_casing_into_chamber.ogg'
+	/// sound for pulling bolt open manually
+	var/manual_bolt_open_sound =     'sound/weapons/biblically_accurate_guns/manual_bolt_back_pistol.ogg'
+	// sound for pushing bolt closed manually
+	var/manual_bolt_close_sound =    'sound/weapons/biblically_accurate_guns/manual_bolt_forward_pistol.ogg'
+	/// sound for when it ejects a loaded casing when you pull the bolt open manually
+	var/casing_eject_sound =         'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	/// sound for when it ejects an empty casing when you pull the bolt open manually
+	var/empty_casing_eject_sound =   'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
+	/// sound for when the gun automatically cycles the bolt closed after firing
+	var/auto_bolt_open_sound =       'sound/weapons/biblically_accurate_guns/auto_bolt_back.ogg'
+	var/auto_bolt_close_sound =      'sound/weapons/biblically_accurate_guns/auto_bolt_forward.ogg'
+	var/cock_hammer_sound =          'sound/weapons/biblically_accurate_guns/manual_hammer_back_normalgun.ogg'
+	var/uncock_hammer_sound =        'sound/weapons/biblically_accurate_guns/manual_hammer_forward_normalgun.ogg'
+	var/auto_cock_hammer_sound =     'sound/weapons/biblically_accurate_guns/auto_hammer_back.ogg'
+	var/auto_uncock_hammer_sound =   'sound/weapons/biblically_accurate_guns/auto_hammer_forward.ogg'
+
+	/// cutecool overlays to show what position the hammer and or bolt are in!
+	var/mutable_appearance/hammer_overlay
+	var/hammer_cocked_icon = 'icons/obj/guninfo.dmi'
+	var/hammer_cocked_icon_state = "hammer_up"
+	var/hammer_uncocked_icon = 'icons/obj/guninfo.dmi'
+	var/hammer_uncocked_icon_state = "hammer_down"
+
+	var/mutable_appearance/bolt_overlay
+	var/bolt_closed_icon = 'icons/obj/guninfo.dmi'
+	var/bolt_closed_icon_state = "bolt_closed"
+	var/bolt_open_icon = 'icons/obj/guninfo.dmi'
+	var/bolt_open_icon_state = "bolt_open"
 
 /obj/item/gun/ballistic/Initialize()
 	. = ..()
 	give_magazine()
 	handle_accepted_magazines()
 	register_magazines()
-	chamber_round()
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_shootable_state != GBOLT_OPEN)
+		chamber_round()
+	make_bolt_and_hammer_shootable()
 	update_icon()
 
 /obj/item/gun/ballistic/admin_fill_gun()
@@ -65,38 +99,65 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(LAZYLEN(disallowed_mags))
 		allowed_mags -= disallowed_mags
 
-/obj/item/gun/ballistic/UpdateAmmoCountOverlay()
-	// if(isturf(loc))//Only show th ammo count if the magazine is, like, in an inventory or something. Mags on the ground don't need a big number on them, that's ugly.
-	// 	maptext = ""
-	// else 
-	// 	var/ammos = get_ammo()
-	// 	var/ammomax = get_max_ammo()
-	// 	var/textt = ""
-	// 	var/culur = "#FF0000"
-	// 	if(ammomax == 0)
-	// 		culur = "#FFFFFF"
-	// 	else if(ammos == ammomax)
-	// 		culur = "#00FFFF"
-	// 	else if(ammos > ammomax * 0.75)
-	// 		culur = "#00FF00"
-	// 	else if(ammos > ammomax * 0.5)
-	// 		culur = "#FFFF00"
-	// 	else if(ammos > ammomax * 0.25)
-	// 		culur = "#FFA500"
-	// 	else if(ammos > 0)
-	// 		culur = "#FF0000"
-	// 	else
-	// 		culur = "#FF00FF"
-	// 	if(ammos > 0)
-	// 		textt = "[ammos]/[get_max_ammo()]"
-	// 	else
-	// 		textt = "0/[get_max_ammo()]"
-	// 	maptext = "<font color='[culur]'><b>[textt]</b></font>"
+/obj/item/gun/ballistic/proc/make_bolt_and_hammer_shootable()
+	var/datum/firemode/my_mode = get_current_firemode()
+	hammer_state = GHAMMER_COCKED
+	bolt_state = my_mode.bolt_shootable_state
+
+/obj/item/gun/ballistic/pickup(mob/living/user)
+	. = ..()
+	update_icon()
+
+/obj/item/gun/ballistic/dropped(mob/user)
+	. = ..()
+	update_icon()
+
+/obj/item/gun/ballistic/equipped(mob/living/user, slot)
+	. = ..()
+	update_icon()
 
 /obj/item/gun/ballistic/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
 	icon_state = "[initial(icon_state)][sawn_off ? "-sawn" : ""]"
+
+/obj/item/gun/ballistic/update_overlays()
+	. = ..()
+	if(!istype(loc, /mob))
+		return
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode)
+		if(!my_mode.hammer_ignore)
+			var/mutable_appearance/hoverlay
+			if(hammer_state == GHAMMER_COCKED)
+				if(hammer_cocked_icon && hammer_cocked_icon_state)
+					hoverlay = mutable_appearance(hammer_cocked_icon, hammer_cocked_icon_state)
+			else if(hammer_state == GHAMMER_UNCOCKED)
+				if(hammer_uncocked_icon && hammer_uncocked_icon_state)
+					hoverlay = mutable_appearance(hammer_uncocked_icon, hammer_uncocked_icon_state)
+			if(hoverlay)
+				hoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+				. += hoverlay
+		// bolt ignore doesnt really apply, cus you can still open and close the bolt
+		if(!revolver) // revolvers dont really have bolts, do they?
+			var/mutable_appearance/boltoverlay
+			if(bolt_state == GBOLT_OPEN)
+				if(my_mode.bolt_shootable_state == GBOLT_OPEN)
+					if(bolt_closed_icon && bolt_closed_icon_state)
+						boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
+				else
+					if(bolt_open_icon && bolt_open_icon_state)
+						boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
+			else if(bolt_state == GBOLT_CLOSED)
+				if(my_mode.bolt_shootable_state == GBOLT_OPEN)
+					if(bolt_open_icon && bolt_open_icon_state)
+						boltoverlay = mutable_appearance(bolt_open_icon, bolt_open_icon_state)
+				else
+					if(bolt_closed_icon && bolt_closed_icon_state)
+						boltoverlay = mutable_appearance(bolt_closed_icon, bolt_closed_icon_state)
+			if(boltoverlay)
+				boltoverlay.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+				. += boltoverlay
 
 /obj/item/gun/ballistic/proc/register_magazines()
 	if(LAZYACCESS(GLOB.gun_accepted_magazines, "[type]"))
@@ -117,33 +178,49 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 /// chamber_round wont load another one if something's still in the chamber
 /// this is how bolt-action guns require pumping
 /obj/item/gun/ballistic/process_chamber(mob/living/user, soft_eject = FALSE)
-	var/obj/item/ammo_casing/AC = chambered //Find chambered round
-	if(istype(AC)) //there's a chambered round
-		if(casing_ejector)
-			AC.forceMove(drop_location()) //Eject casing onto ground.
-			AC.bounce_away(TRUE, toss_direction = (soft_eject ? null : get_ejector_direction(user)))
-			chambered = null
+	eject_chambered(user, FALSE)
 	chamber_round()
 
 /obj/item/gun/ballistic/chamber_round(obj/item/ammo_casing/load_this)
-	if (chambered)
+	if(chambered)
 		return
-	if (load_this)
-		chambered = load_this
-	else if(magazine && magazine.fixed_mag)
-		chambered = magazine.get_round()
-	chambered.forceMove(src)
+	var/obj/item/ammo_casing/to_chamber = load_this
+	if(!to_chamber)
+		to_chamber = get_next_chamberable_round(TRUE)
+	if(to_chamber)
+		to_chamber.forceMove(src)
+		chambered = to_chamber
 	update_icon()
+
+/obj/item/gun/ballistic/proc/get_next_chamberable_round(take_it)
+	if(istype(magazine))
+		return magazine.get_round(!take_it)
+	return null
 
 /obj/item/gun/ballistic/can_shoot()
 	var/obj/item/ammo_casing/AC = get_chambered()
 	if(!!AC?.BB)
 		return TRUE
 	. = ..()
-/* 	if(!magazine || !magazine.ammo_count(0))
-		return FALSE
-	if(!casing_ejector)
-	return TRUE */
+
+/obj/item/gun/ballistic/attack_self(mob/living/user)
+	operate_bolt_manually(user)
+	update_icon()
+	return
+
+/obj/item/gun/ballistic/MiddleClick(mob/living/user)
+	if(!operate_hammer_manually(user))
+		return
+	update_icon()
+	return COMSIG_MOB_CANCEL_CLICKON
+
+/obj/item/gun/ballistic/AltClick(mob/living/user)
+	if(!magazine)
+		return
+	if(magazine.fixed_mag)
+		return
+	eject_magazine(user, !en_bloc, TRUE)
+	update_icon()
 
 /obj/item/gun/ballistic/attackby(obj/item/A, mob/user, params)
 	..()
@@ -164,10 +241,13 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return FALSE
 
 /obj/item/gun/ballistic/proc/use_casing_on_gun(obj/item/ammo_casing/A, mob/user)
+	// first try stuffing it into the chamber
 	if(try_load_chamber_with_casing(A, user))
 		return TRUE
-	if(!magazine.fixed_mag)
+	// if not, can we stuff it into the mazagine?
+	if(!can_insert_casings_into_gun(user))
 		return FALSE
+	// okay stuff it in
 	if(magazine.load_from_casing(
 		A,
 		user,
@@ -180,27 +260,24 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	return TRUE
 
 /obj/item/gun/ballistic/proc/try_load_chamber_with_casing(obj/item/ammo_casing/A, mob/user)
-	if (!istype(A))
-		return FALSE
-	if (!casing_probably_fits_in_chamber(A))
+	if(!can_insert_casing_into_chamber(user, A))
 		return FALSE
 	var/obj/item/ammo_casing/cbrd = get_chambered()
-	var/obj/item/ammo_casing/ejected
-	if(cbrd) // if its loaded with something, make it not be loaded with something
-		ejected = pump(cbrd, visible = FALSE, rechamber = FALSE, hard_eject = TRUE)
+	if(cbrd)
+		if(cbrd.BB)
+			return FALSE // somethings already in there..... maybe load the mag!
+		eject_chambered(user, FALSE)
+		if(get_chambered()) // its still in there!
+			to_chat(user, span_alert("There's still something in the chamber of \the [src]!"))
+			return FALSE
 	chamber_round(A)
-	playsound(src, manual_chamber_sound, 70, 1)
-	addtimer(CALLBACK(usr, GLOBAL_PROC_REF(playsound), src, 'sound/weapons/gun_chamber_round.ogg', 100, 1), 3)
+	if(chambered)
+		playsound(src, manual_chamber_sound, 70, 1)
+	// addtimer(CALLBACK(usr, GLOBAL_PROC_REF(playsound), src, 'sound/weapons/gun_chamber_round.ogg', 100, 1), 3)
 	update_icon()
 	if(!user)
 		return TRUE
-	if(ejected)
-		if (get_dist(user, ejected) <= 1 && user.put_in_hands(ejected))
-			to_chat(user, span_notice("You tactically swap \the [A] for \the [ejected] in the chamber of \the [src]."))
-		else
-			to_chat(user, span_notice("You load \the [A] into the chamber of \the [src], ejecting \the [ejected] onto the ground."))
-	else
-		to_chat(user, span_notice("You load \the [A] into the chamber of \the [src]."))
+	to_chat(user, span_notice("You load \the [A] into the chamber of \the [src]."))
 	return TRUE
 
 /obj/item/gun/ballistic/proc/load_internal_magazine(obj/item/ammo_box/A, mob/user)
@@ -208,42 +285,338 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		return FALSE
 	if(!magazine.fixed_mag)
 		return FALSE
+	if(!can_insert_casings_into_gun(user, TRUE))
+		return FALSE
 	if(magazine.load_from_box(A, user, FALSE))
 		chamber_round()
 	update_icon()
 	return TRUE
 
-/proc/doing_something_with_guns(mob/user)
-	var/datum/weakref/loader = WEAKREF(user)
-	if(GLOB.currently_loading_something[loader] > world.time)
+/// TG always said to make your procs and vars check for the *truth* of something, instead of a non-null meaning *no its not good*
+/obj/item/gun/ballistic/proc/can_insert_casings_into_gun(mob/user, loudly = FALSE)
+	if(!user)
 		return TRUE
-	if(GLOB.currently_loading_something[loader] < world.time)
-		GLOB.currently_loading_something -= loader
+	if(!istype(magazine))
+		return FALSE
+	if(!magazine.fixed_mag)
+		if(!can_load_magazine_through_bolt)
+			return FALSE
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE // load it anyway
+	if(isnull(my_mode.bolt_reloadable_state))
+		return TRUE // like how you can stuff shells into a shootgun
+	if(bolt_state != my_mode.bolt_reloadable_state)
+		if(my_mode.bolt_reloadable_state == GBOLT_CLOSED)
+			if(loudly)
+				to_chat(user, span_warning("The bolt of \the [src] is closed, you need to open it to load ammo!"))
+		else
+			if(loudly)
+				to_chat(user, span_warning("The bolt of \the [src] is open, you need to close it to load ammo!"))
+		return FALSE
+	return TRUE
+
+/// TG always said to make your procs and vars check for the *truth* of something, instead of a non-null meaning *no its not good*
+/obj/item/gun/ballistic/proc/can_insert_casing_into_chamber(mob/user, obj/item/ammo_casing/A, loudly = FALSE)
+	if(!istype(A))
+		return FALSE
+	if(!casing_probably_fits_in_chamber(A))
+		return FALSE
+	if(!user)
+		return TRUE
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE // load it anyway
+	if(isnull(my_mode.bolt_manually_chamberable_state))
+		return TRUE // like how you can stuff shells into a shootgun
+	if(bolt_state != my_mode.bolt_manually_chamberable_state)
+		if(my_mode.bolt_manually_chamberable_state == GBOLT_CLOSED)
+			if(loudly)
+				to_chat(user, span_warning("The bolt of \the [src] is closed, you need to open it to load ammo!"))
+		else
+			if(loudly)
+				to_chat(user, span_warning("The bolt of \the [src] is open, you need to close it to load ammo!"))
+		return FALSE
+	return TRUE
+
+////////////////////////////////////////////////////
+/// BOLTIE AND HAMMER STUFF
+////////////////////////////////////////////////////
+
+/obj/item/gun/ballistic/check_bolt_is_in_shootable_position(mob/living/user, tell_them)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE
+	var/shootable_state = my_mode.bolt_shootable_state
+	if(bolt_state == shootable_state)
+		return TRUE
+	// not working, let them know why
+	if(tell_them && user)
+		if(shootable_state == GBOLT_CLOSED)
+			to_chat(user, span_danger("The bolt of \the [src] isn't closed! Close it to shoot!!"))
+		else if(shootable_state == GBOLT_OPEN)
+			to_chat(user, span_danger("The bolt of \the [src] isn't open! Open it to shoot!!"))
+		else
+			to_chat(user, span_danger("The bolt of \the [src] is broken! It cant shoot"))
 	return FALSE
 
+/obj/item/gun/ballistic/check_hammer_is_in_shootable_position(mob/living/user, tell_them)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.hammer_ignore)
+		return TRUE
+	// shootable position is always cocked
+	if(hammer_state == GHAMMER_COCKED)
+		return TRUE
+	// not working, let them knof
+	if(tell_them && user)
+		to_chat(user, span_danger("The hammer of \the [src] isn't cocked! Cock it to shoot!!"))
+	return FALSE
+
+
+
+/// When the gun shoots, this happens automatically with the hammer
+/// typically just drops the hammer (striker, etc) after triggerpull
+/// FALSE means it couldnt do the thing
+/obj/item/gun/ballistic/operate_hammer_on_trigger(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.hammer_ignore)
+		hammer_state = GHAMMER_COCKED
+		return TRUE
+	if(hammer_state != GHAMMER_COCKED)
+		return FALSE
+	return set_hammer_state(user, GHAMMER_UNCOCKED, FALSE, FALSE)
+
+/obj/item/gun/ballistic/operate_hammer_post_fire(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.hammer_ignore)
+		hammer_state = GHAMMER_COCKED
+		return TRUE
+	if(my_mode.hammer_recock_on_fire)
+		set_hammer_state(user, GHAMMER_COCKED, FALSE, FALSE)
+	return TRUE
+
+/obj/item/gun/ballistic/operate_hammer_manually(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.hammer_ignore)
+		hammer_state = GHAMMER_COCKED
+		return TRUE
+	if(!my_mode.hammer_manually_operatable)
+		return FALSE // probably going to be handled by the bolt or something
+	return toggle_hammer(user, TRUE, TRUE)
+
+/obj/item/gun/ballistic/toggle_hammer(mob/living/user, manually, loudly)
+	if(hammer_state == GHAMMER_UNCOCKED)
+		return set_hammer_state(user, GHAMMER_COCKED, manually, loudly)
+	else
+		return set_hammer_state(user, GHAMMER_UNCOCKED, manually, loudly)
+
+/obj/item/gun/ballistic/set_hammer_state(mob/living/user, newstate, manually, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.hammer_ignore)
+		hammer_state = GHAMMER_COCKED
+		return
+	switch(newstate)
+		if(GHAMMER_COCKED)
+			. = hammer_cock(user, manually, loudly)
+		if(GHAMMER_UNCOCKED)
+			. = hammer_drop(user, manually, loudly)
+	update_icon()
+
+////
+/obj/item/gun/ballistic/hammer_cock(mob/living/user, manually, loudly)
+	if(hammer_state == GHAMMER_COCKED)
+		return
+	hammer_state = GHAMMER_COCKED
+	hammer_cock_effects(user, manually, loudly)
+	return TRUE
+
+/obj/item/gun/ballistic/hammer_drop(mob/living/user, manually, loudly)
+	if(hammer_state == GHAMMER_UNCOCKED)
+		return
+	hammer_state = GHAMMER_UNCOCKED
+	hammer_drop_effects(user, manually, loudly)
+	return TRUE
+
+////
+/obj/item/gun/ballistic/hammer_cock_effects(mob/living/user, manually, loudly)
+	if(loudly)
+		if(manually && cock_hammer_sound)
+			playsound(src, cock_hammer_sound, 50, FALSE)
+		else if (!manually && auto_cock_hammer_sound)
+			playsound(src, auto_cock_hammer_sound, 50, FALSE)
+	update_icon()
+	update_firemode()
+	do_squish(0.75,0.75,0.3 SECONDS)
+
+/obj/item/gun/ballistic/hammer_drop_effects(mob/living/user, manually, loudly)
+	if(loudly)
+		if(manually && uncock_hammer_sound)
+			playsound(src, uncock_hammer_sound, 50, FALSE)
+		else if (!manually && auto_uncock_hammer_sound)
+			playsound(src, auto_uncock_hammer_sound, 50, FALSE)
+	update_icon()
+	update_firemode()
+	do_squish(0.75,0.75,0.3 SECONDS)
+
+//////////////////////////////////////
+/// BOLT STUFF
+
+/// for when to do bolt things when you pull the trigger
+/// mainly for open bolts to quickly close n chamber a bullet before it shots
+/obj/item/gun/ballistic/operate_bolt_on_trigger(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_shootable_state != GBOLT_OPEN)
+		return
+	if(bolt_state != GBOLT_OPEN)
+		return
+	bolt_close(user, FALSE, FALSE)
+	return TRUE
+
+/// When the gun shoots, it does this to make it run through its bolt stuff
+/// In terms of timing, this is just after the bullet has been shot, now its time for the
+/// bolt to do a thing or two, if it should
+/obj/item/gun/ballistic/operate_bolt_on_shoot(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		bolt_simple_cycle(user)
+		return
+	if(!my_mode.bolt_cycles_on_shoot && !my_mode.bolt_cycles_to_shootable_state_on_shoot)
+		return // prolly a bolt action
+	// bolt gotta be in a shootable position to do all this stuff
+	if(my_mode.bolt_cycles_to_shootable_state_on_shoot)
+		if(my_mode.bolt_shootable_state == GBOLT_CLOSED)
+			if(bolt_state == GBOLT_OPEN)
+				bolt_close(user, FALSE, FALSE)
+			else if(bolt_state == GBOLT_CLOSED)
+				bolt_open(user, FALSE, FALSE)
+				bolt_close(user, FALSE, FALSE)
+		else if (my_mode.bolt_shootable_state == GBOLT_OPEN)
+			if(bolt_state == GBOLT_CLOSED)
+				bolt_open(user, FALSE, FALSE)
+	else if(my_mode.bolt_cycles_on_shoot)
+		if(my_mode.bolt_shootable_state == GBOLT_CLOSED)
+			bolt_open(user, FALSE, FALSE)
+		else
+			bolt_close(user, FALSE, FALSE)
+
+/obj/item/gun/ballistic/operate_bolt_manually(mob/living/user)
+	if(!user_can_physically_operate_this(user))
+		return
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		bolt_simple_cycle(user)
+		return
+	if(bolt_state == GBOLT_OPEN)
+		bolt_close(user, TRUE, TRUE)
+	else
+		bolt_open(user, TRUE, TRUE)
+
+/// For guns that dont really care about the bolt, simple guns for simple people
+/obj/item/gun/ballistic/proc/bolt_simple_cycle(mob/living/user)
+	if(revolver)
+		return
+	bolt_open(user, TRUE, TRUE)
+	bolt_close(user, TRUE, TRUE)
+
+//////
+/obj/item/gun/ballistic/bolt_open(mob/living/user, manually, loudly)
+	if(bolt_state == GBOLT_OPEN)
+		return
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_opening_delay)
+		if(!do_delay(user, my_mode.bolt_opening_delay))
+			to_chat(user, span_alert("You were interrupted!"))
+			return FALSE
+	bolt_state = GBOLT_OPEN
+	bolt_opened_effects(user, manually, loudly)
+	return TRUE
+
+/obj/item/gun/ballistic/bolt_close(mob/living/user, manually, loudly)
+	if(bolt_state == GBOLT_CLOSED)
+		return
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(!bolt_can_close(user, manually, loudly))
+		return
+	if(my_mode.bolt_closing_delay)
+		if(!do_delay(user, my_mode.bolt_closing_delay))
+			to_chat(user, span_alert("You were interrupted!"))
+			return FALSE
+	bolt_state = GBOLT_CLOSED
+	bolt_closed_effects(user, manually, loudly)
+	return TRUE
+
+// mainly for open bolt guns, to refuse to close the bolt if something is
+// somehow chambered when it shouldnt be
+// it checks if something is chambered, *and* there's another round that
+// could be chambered from the mag
+/obj/item/gun/ballistic/proc/bolt_can_close(mob/living/user, manually, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE
+	if(my_mode.bolt_shootable_state != GBOLT_OPEN)
+		return TRUE // open bolts are special
+	var/obj/item/ammo_casing/AC = get_chambered()
+	if(!AC)
+		return TRUE
+	var/obj/item/ammo_casing/nextup = get_next_chamberable_round()
+	if(!nextup)
+		return TRUE
+	if(user)
+		to_chat(user, span_alert("[src] can't close it's bolt! There's still a round in the chamber, and another one ready to go in the magazine!"))
+		to_chat(user, span_notice("Remove the magazine, then rack the bolt to eject the chambered round. Then you can put the magazine back in and close the bolt!"))
+	return FALSE
+
+/obj/item/gun/ballistic/can_still_shoot_after_operating(mob/living/user)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		return TRUE
+	return bolt_state == GBOLT_CLOSED
+
+///////
+/obj/item/gun/ballistic/bolt_opened_effects(mob/living/user, manually, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		eject_chambered(user, loudly) // ten lines
+		return
+	if(manually)
+		playsound(src, manual_bolt_open_sound, 70, FALSE)
+	else
+		playsound(src, auto_bolt_open_sound, 70, FALSE)
+	if(my_mode.bolt_cocks_hammer_on_this_state == GBOLT_OPEN)
+		set_hammer_state(user, GHAMMER_COCKED, manually, loudly)
+	if(my_mode.bolt_ejects_on_open)
+		eject_chambered(user, loudly) // ten lines
+	update_icon()
+	update_firemode()
+	do_squish(0.75,0.75,0.3 SECONDS)
+
+/obj/item/gun/ballistic/bolt_closed_effects(mob/living/user, manually, loudly)
+	var/datum/firemode/my_mode = get_current_firemode()
+	if(my_mode.bolt_ignore)
+		chamber_round()
+		return
+	if(manually)
+		playsound(src, manual_bolt_close_sound, 70, FALSE)
+	else
+		playsound(src, auto_bolt_close_sound, 70, FALSE)
+	if(my_mode.bolt_cocks_hammer_on_this_state == GBOLT_CLOSED)
+		set_hammer_state(user, GHAMMER_COCKED, manually, loudly)
+	if(my_mode.bolt_chambers_on_close)
+		chamber_round()
+	update_icon()
+	update_firemode()
+	do_squish(0.75,0.75,0.3 SECONDS)
+
+///////
 // gets the delay for you stuffing that ammobox into this gun
 /obj/item/gun/ballistic/proc/load_into_gun_delay(mob/user, obj/item/ammo_box/A)
 	if(insert_magazine_delay <= 0)
 		return TRUE
-	if(doing_something_with_guns(user))
+	if(doing_something(user))
 		to_chat(user, span_warning("You're already doing something!"))
 		return FALSE
-	var/datum/weakref/loader = WEAKREF(user)
 	var/insert_delay = insert_magazine_delay * A.magazine_load_delay_mult
-	GLOB.currently_loading_something[loader] = world.time + (insert_delay)
-	. = do_after(
-		user,
-		delay = insert_delay,
-		needhand = TRUE,
-		target = src,
-		progress = TRUE,
-		public_progbar = TRUE,
-		allow_movement = TRUE,
-		progbar_on_target = TRUE,
-		)
-	GLOB.currently_loading_something -= loader
-	if(!.)
-		to_chat(user, span_alert("You were interrupted!"))
+	return do_delay(user, insert_delay, src)
 
 // gets the delay for you removing the magazine from this gun
 /obj/item/gun/ballistic/proc/remove_magazine_delay(mob/user)
@@ -251,25 +624,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		return FALSE
 	if(remove_magazine_delay <= 0)
 		return TRUE
-	if(doing_something_with_guns(user))
-		to_chat(user, span_warning("You're already doing something!"))
-		return FALSE
-	var/datum/weakref/loader = WEAKREF(user)
 	var/insert_delay = remove_magazine_delay * magazine.magazine_load_delay_mult
-	GLOB.currently_loading_something[loader] = world.time + (insert_delay)
-	. = do_after(
-		user,
-		delay = insert_delay,
-		needhand = TRUE,
-		target = src,
-		progress = TRUE,
-		public_progbar = TRUE,
-		allow_movement = TRUE,
-		progbar_on_target = TRUE,
-		)
-	GLOB.currently_loading_something -= loader
-	if(!.)
-		to_chat(user, span_alert("You were interrupted!"))
+	return do_delay(user, insert_delay, src)
 
 /obj/item/gun/ballistic/proc/load_external_magazine(obj/item/ammo_box/A, mob/user)
 	if(!is_magazine_allowed(A, user)) // But only if the new mag would fit
@@ -297,12 +653,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 			to_chat(user, span_notice("You load \a [new_mag] into \the [src]."))
 
 	if(magazine.ammo_count())
-		playsound(src, "gun_insert_full_magazine", 70, 1)
-		if(!chambered)
-			chamber_round()
-			addtimer(CALLBACK(usr, GLOBAL_PROC_REF(playsound), src, 'sound/weapons/gun_chamber_round.ogg', 100, 1), 3)
+		playsound(src, "gun_insert_full_magazine", 70, FALSE)
 	else
-		playsound(src, "gun_insert_empty_magazine", 70, 1)
+		playsound(src, "gun_insert_empty_magazine", 70, FALSE)
 	new_mag.update_icon()
 	update_icon()
 	do_squish(0.75,0.75,0.25 SECONDS)
@@ -364,53 +717,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(user)
 		to_chat(user, span_alert("You can't seem to fit \the [mag_to_check] into \the [src]."))
 
-/obj/item/gun/ballistic/proc/pump(mob/living/M, visible = TRUE, rechamber = TRUE, hard_eject = FALSE)
-	if(visible)
-		M.visible_message(span_warning("[M] [cock_wording]\s \the [src]."), span_warning("You [cock_wording] \the [src]."))
-		playsound(M, cock_sound, 60, 1)
-	var/obj/item/ammo_casing/unloaded = pump_unload(M, hard_eject)
-	if (rechamber)
-		pump_reload(M)
-	update_icon()	//I.E. fix the desc
-	update_firemode()
-	do_squish(0.75,0.75,0.25 SECONDS)
-	return unloaded
-
-/obj/item/gun/ballistic/proc/pump_unload(mob/M, hard_eject = FALSE)
-	if(!chambered)//We have a shell in the chamber
-		return
-	chambered.forceMove(drop_location())//Eject casing
-	if(hard_eject)
-		chambered.bounce_away()
-	var/obj/item/ammo_casing/ejected = chambered
-	chambered = null
-	return ejected
-
-/obj/item/gun/ballistic/proc/pump_reload(mob/M)
-	if(chambered)
-		return FALSE
-	if(!magazine)
-		return FALSE
-	if(!magazine.ammo_count())
-		return FALSE
-	var/obj/item/ammo_casing/AC = magazine.get_round() //load next casing.
-	if(AC)
-		chambered = AC
-		return TRUE
-
-/obj/item/gun/ballistic/attack_self(mob/living/user)
-	pump(user, TRUE)
-	update_icon()
-	return
-
-/obj/item/gun/ballistic/AltClick(mob/living/user)
-	if(!magazine)
-		return
-	if(magazine.fixed_mag)
-		return
-	eject_magazine(user, !en_bloc, TRUE)
-	update_icon()
-
 /obj/item/gun/ballistic/proc/eject_magazine(mob/living/user, put_it_in_their_hand, makesound, maketext)
 	if(magazine.fixed_mag)
 		return FALSE
@@ -424,11 +730,11 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	var/obj/item/ammo_box/oldmag = magazine
 	if(makesound)
 		if(en_bloc)
-			playsound(src, "sound/f13weapons/garand_ping.ogg", 70, 1)
+			playsound(src, "sound/f13weapons/garand_ping.ogg", 70, FALSE)
 		else if(magazine.ammo_count())
-			playsound(src, 'sound/weapons/gun_magazine_remove_full.ogg', 70, 1)
+			playsound(src, 'sound/weapons/gun_magazine_remove_full.ogg', 70, FALSE)
 		else
-			playsound(src, "gun_remove_empty_magazine", 70, 1)
+			playsound(src, "gun_remove_empty_magazine", 70, FALSE)
 	if(maketext)
 		to_chat(user, span_notice("You eject \the [magazine] from \the [src]."))
 	magazine.update_icon()
@@ -439,24 +745,53 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 /// Pump if click with empty thing
 /obj/item/gun/ballistic/shoot_with_empty_chamber(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0)
-	if(!casing_ejector && chambered && HAS_TRAIT(user, TRAIT_FAST_PUMP) && !istype(magazine, /obj/item/ammo_box/magazine/internal/cylinder))
-		pump(user, TRUE)
-	else
-		..()
+	..()
 
-/obj/item/gun/ballistic/proc/eject_chambered_round(mob/living/user, sounds_and_words)
-	if(sounds_and_words)
-		to_chat(user, span_notice("You eject \a [chambered] from \the [src]'s chamber."))
-		playsound(src, "gun_slide_lock", 70, 1)
-	process_chamber(user, FALSE)
+/obj/item/gun/ballistic/eject_chambered(mob/living/user, sounds_and_words)
+	var/obj/item/ammo_casing/AC = chambered //Find chambered round
+	if(istype(AC)) //there's a chambered round
+		AC.forceMove(drop_location()) //Eject casing onto ground.
+		var/howfar = AC.BB ? 1 : rand(4, 6)
+		AC.bounce_away(TRUE, toss_direction = get_ejector_direction(user), max_dist = howfar)
+		chambered = null
+		if(sounds_and_words)
+			to_chat(user, span_notice("You eject \a [AC] from \the [src]'s chamber."))
+	return AC
 
 /obj/item/gun/ballistic/examine(mob/user)
 	. = ..()
+	var/datum/firemode/my_mode = get_current_firemode()
+	var/hammer_ok = check_hammer_is_in_shootable_position()
+	if(!my_mode.hammer_ignore)
+		if(hammer_ok)
+			. += "The hammer is currently [span_green("cocked")]."
+		else
+			. += "The hammer is currently [span_alert("uncocked")]."
+	var/bst = ""
+	if(bolt_state == GBOLT_OPEN)
+		bst = span_notice("open")
+	else if(bolt_state == GBOLT_CLOSED)
+		bst = span_love("closed")
+	else
+		bst = "broken"
+	var/ready = ""
+	var/bolt_ok = check_bolt_is_in_shootable_position()
+	if(!revolver)
+		if(bolt_ok)
+			ready = span_green("in shootable position")
+		else
+			ready = span_alert("not in shootable position")
+		. += "The bolt is currently [bst], and is [ready]."
+
 	if(istype(magazine) && magazine.fixed_mag && length(magazine.caliber))
 		. += "It accepts [span_notice(english_list(magazine.caliber))]"
 	. += "It has [span_notice("[get_ammo()]")] round\s remaining."
-	if (chambered && !casing_ejector)
+	if (chambered)
 		. += "A [chambered.BB ? span_green("live") : span_alert("spent")] one is in the chamber."
+	if(hammer_ok && bolt_ok && chambered && chambered.BB)
+		. += "It is currently " + span_green("ready to fire") + "!"
+	else
+		. += "It is currently " + span_alert("not ready to fire") + "!"
 
 /obj/item/gun/ballistic/proc/get_ammo(countchambered = 1)
 	var/boolets = 0 //mature var names for mature people
@@ -553,7 +888,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 
 /obj/item/gun/ballistic/proc/get_ejector_direction(mob/user)
 	if(user?.dir)
-		switch(handedness)
+		switch(ejector_side)
 			if(GUN_EJECTOR_RIGHT)
 				return turn(user.dir, -90)
 			if(GUN_EJECTOR_LEFT)
@@ -769,7 +1104,58 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	spawned += new /obj/item/ammo_box/tube/c4570(src)
 	spawned += new /obj/item/ammo_box/c4570box(src)
 
-
 	for(var/obj/item/thingy in spawned)
 		SEND_SIGNAL(thingy, COMSIG_GUN_MAG_ADMIN_RELOAD)
+
+/obj/item/gun/ballistic/rifle/debug_boltie
+	name = "Debug Boltie"
+	desc = "A gun for testing bolt actions!"
+	icon = 'modular_coyote/icons/objects/rifles.dmi'
+	icon_state = "308"
+	inhand_icon_state = "308"
+	mag_type = /obj/item/ammo_box/magazine/internal/boltaction/hunting
+	weapon_class = WEAPON_CLASS_RIFLE
+	weapon_weight = GUN_TWO_HAND_ONLY
+	damage_multiplier = GUN_EXTRA_DAMAGE_0
+	init_recoil = RIFLE_RECOIL(1, 1)
+	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
+	can_scope = TRUE
+	scope_state = "scope_long"
+	scope_x_offset = 4
+	scope_y_offset = 12
+	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
+	init_firemodes = list(
+		/datum/firemode/bolt_using/straight_pull
+	)
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_short.ogg'
+	casing_eject_sound =       'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	empty_casing_eject_sound = 'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
+
+/obj/item/gun/ballistic/rifle/debug_boltie/c_on_open
+	name = "Debug Boltie cack on open"
+	desc = "A gun for testing bolt actions! this oine has a delay on opening"
+	init_firemodes = list(
+		/datum/firemode/bolt_using/delay_on_open
+	)
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_long.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_short.ogg'
+
+/obj/item/gun/ballistic/rifle/debug_boltie/c_on_close
+	name = "Debug Boltie cack on close"
+	desc = "A gun for testing bolt actions! this oine has a delay on closing"
+	init_firemodes = list(
+		/datum/firemode/bolt_using/delay_on_close
+	)
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_long.ogg'
+
+/obj/item/gun/ballistic/automatic/smg/american180/debug_open_boltie
+	name = "Debug American 180 open boltie"
+	desc = "A gun for testing open bolt stuff actions!"
+	init_firemodes = list(
+		/datum/firemode/open_bolt/automatic
+	)
+
+
 

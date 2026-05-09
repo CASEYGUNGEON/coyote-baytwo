@@ -194,12 +194,17 @@
 /obj/item/gun/ballistic/bow/update_icon()
 	icon_state = "[initial(icon_state)]_[get_ammo() ? (chambered ? "firing" : "loaded") : "unloaded"]"
 
-/obj/item/gun/ballistic/bow/do_fire(atom/target, mob/living/user, message = TRUE, params, zone_override = "", bonus_spread = 0, stam_cost = 0)
+/obj/item/gun/ballistic/bow/after_shooting(mob/living/user)
 	..()
-	if(HAS_TRAIT(user, TRAIT_AUTO_DRAW) && !chambered && get_ammo(FALSE))
-		user.visible_message(span_warning("[user] instinctively draws the string on [src]!"), span_warning("You instinctively draw the string on [src]!"))
-		draw(user, FALSE)
-		recentdraw = world.time + 2
+	if(!HAS_TRAIT(user, TRAIT_AUTO_DRAW))
+		return
+	if(chambered)
+		return
+	if(!get_ammo(FALSE))
+		return
+	user.visible_message(span_warning("[user] instinctively draws the string on [src]!"), span_warning("You instinctively draw the string on [src]!"))
+	draw(user, FALSE)
+	recentdraw = world.time + 2
 
 //////////////////////////////
 //	Coyote Boyou Additions	//

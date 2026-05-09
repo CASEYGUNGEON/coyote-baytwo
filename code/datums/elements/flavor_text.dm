@@ -37,7 +37,7 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 	examine_no_preview = _examine_no_preview
 
 	RegisterSignal(target, COMSIG_PARENT_EXAMINE,PROC_REF(show_flavor))
-	RegisterSignal(target, COMSIG_FLIST,PROC_REF(show_flist))
+	// RegisterSignal(target, COMSIG_FLIST,PROC_REF(show_flist))
 
 	if(can_edit && ismob(target)) //but only mobs receive the proc/verb for the time being
 		var/mob/M = target
@@ -66,7 +66,7 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 			var/mob/living/carbon/C = L
 			unknown = !HAS_TRAIT(C, TRAIT_NOHIDEFACE) && ((C.wear_mask && (C.wear_mask.flags_inv & HIDEFACE)) || (C.head && (C.head.flags_inv & HIDEFACE)))
 		if(unknown)
-			if(!("...?" in examine_list)) //can't think of anything better in case of multiple flavor texts.
+			if(!("...?" in examine_list)) //can't think of anything better in case of multiple examine texts.
 				examine_list += "...?"
 			return
 	var/text = texts_by_atom[target]
@@ -80,7 +80,7 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 		examine_list += span_notice("<a href='?src=[REF(src)];show_flavor=[REF(target)]'>\[[flavor_name]\]</a>")
 		return
 	var/msg = replacetext(text, "\n", " ")
-	if(length_char(msg) <= 200)
+	if(length_char(msg) <= 20000)
 		examine_list += span_notice("[msg]")
 	else
 		examine_list += "<span class='notice'>[copytext_char(msg, 1, 197)]... <a href='?src=[REF(src)];show_flavor=[REF(target)]'>More...</span></a>"
@@ -134,7 +134,7 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 
 /mob/proc/manage_flavor_tests()
 	set name = "Manage Flavor Texts"
-	set desc = "Used to manage your various flavor texts."
+	set desc = "Used to manage your various examine texts."
 	set category = "IC"
 
 	var/list/L = GLOB.mobs_with_editable_flavor_text[src]
@@ -149,11 +149,19 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 	for(var/i in L)
 		var/datum/element/flavor_text/F = i
 		choices[F.flavor_name] = F
+	choices["Temperament"] = "AAA"
+	choices["Build"] = "BBB"
 
-	var/chosen = input(src, "Which flavor text would you like to modify?") as null|anything in choices
+	var/chosen = input(src, "Which examine text would you like to modify?") as null|anything in choices
 	if(!chosen)
 		return
+	if(chosen == "Temperament")
+		SStemperament.pose_modify_temperament(src)
+	else if(chosen == "Build")
+		SStemperament.pose_modify_build(src)
 	var/datum/element/flavor_text/F = choices[chosen]
+	if(!istype(F))
+		return
 	F.set_flavor(src)
 
 /datum/element/flavor_text/proc/set_flavor(mob/user)

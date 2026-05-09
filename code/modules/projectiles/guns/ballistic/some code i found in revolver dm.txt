@@ -173,3 +173,229 @@
 		user.drop_all_held_items()
 		user.DefaultCombatKnockdown(80)
 */
+
+
+
+///////////////////
+//GUNCODE ARCHIVE//
+///////////////////
+
+/*
+STICK GUN PICKUP WEIRDNESS
+/obj/item/gun/ballistic/automatic/pistol/stickman/pickup(mob/living/user)
+	. = ..()
+	to_chat(user, span_notice("As you try to pick up [src], it slips out of your grip.."))
+	if(prob(50))
+		to_chat(user, span_notice("..and vanishes from your vision! Where the hell did it go?"))
+		qdel(src)
+		user.update_icons()
+	else
+		to_chat(user, span_notice("..and falls into view. Whew, that was a close one."))
+		user.dropItemToGround(src)
+
+/obj/item/gun/ballistic/automatic/pistol/deagle/update_overlays()
+	. = ..()
+	if(magazine)
+		. += "deagle_magazine"
+
+CITADEL MODULAR PISTOL CODE
+/obj/item/gun/ballistic/automatic/pistol/modular
+	name = "modular pistol"
+	desc = "A small, easily concealable 10mm handgun. Has a threaded barrel for suppressors."
+	icon = 'modular_citadel/icons/obj/guns/cit_guns.dmi'
+	icon_state = "cde"
+	can_unsuppress = TRUE
+	automatic_burst_overlay = FALSE
+	obj_flags = UNIQUE_RENAME
+	unique_reskin = list("Default" = "cde",
+						"N-99" = "n99",
+						"Stealth" = "stealthpistol",
+						"HKVP-78" = "vp78",
+						"Luger" = "p08b",
+						"Mk.58" = "secguncomp",
+						"PX4 Storm" = "px4"
+						)
+
+/obj/item/gun/ballistic/automatic/pistol/modular/update_icon_state()
+	if(current_skin)
+		icon_state = "[unique_reskin[current_skin]][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
+	else
+		icon_state = "[initial(icon_state)][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
+
+/obj/item/gun/ballistic/automatic/pistol/modular/update_overlays()
+	. = ..()
+	if(magazine && suppressed)
+		. += "[unique_reskin[current_skin]]-magazine-sup"	//Yes, this means the default iconstate can't have a magazine overlay
+	else if (magazine)
+		. += "[unique_reskin[current_skin]]-magazine"
+
+
+SOME SORT OF  BOLT ACTION CODE UNUSED
+/obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
+	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
+	if(bolt_open)
+		pump_reload(M)
+	else
+		pump_unload(M)
+	bolt_open = !bolt_open
+	update_icon()	//I.E. fix the desc
+	return 1
+
+/obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
+	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
+	pump_unload(M)
+	pump_reload(M)
+	update_icon()	//I.E. fix the desc
+	return 1
+
+/obj/item/gun/ballistic/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
+	if(!bolt_open)
+		to_chat(user, span_notice("The bolt is closed!"))
+		return
+	. = ..()
+
+/obj/item/gun/ballistic/shotgun/boltaction/examine(mob/user)
+	. = ..()
+	. += "The bolt is [bolt_open ? "open" : "closed"]."
+
+
+CODE FOR RESKIN
+	unique_reskin = list("Tactical" = "cshotgun",
+						"Slick" = "cshotgun_slick"
+						)
+
+
+DUAL TUBE PUMP ACTION (seems redundant with neostead but why not keep it.)
+/obj/item/gun/ballistic/shotgun/automatic/dual_tube/examine(mob/user)
+	. = ..()
+	. += span_notice("Alt-click to pump it.")
+
+/obj/item/gun/ballistic/shotgun/automatic/dual_tube/attack_self(mob/living/user)
+	if(!chambered && magazine.contents.len)
+		pump()
+	else
+		toggle_tube(user)
+
+/obj/item/gun/ballistic/shotgun/automatic/dual_tube/AltClick(mob/living/user)
+	. = ..()
+	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
+		return
+	pump()
+	return TRUE
+
+
+ATTACHING SLING
+/obj/item/gun/ballistic/shotgun/boltaction/improvised/attackby(obj/item/A, mob/user, params)
+	..()
+	if(istype(A, /obj/item/stack/cable_coil) && !sawn_off)
+		if(A.use_tool(src, user, 0, 10, skill_gain_mult = EASY_USE_TOOL_MULT))
+			slot_flags = INV_SLOTBIT_BACK
+			to_chat(user, span_notice("You tie the lengths of cable to the rifle, making a sling."))
+			slung = TRUE
+			update_icon()
+		else
+			to_chat(user, span_warning("You need at least ten lengths of cable if you want to make a sling!"))
+
+/obj/item/gun/ballistic/shotgun/boltaction/improvised/update_overlays()
+	. = ..()
+	if(slung)
+		. += "[icon_state]sling"
+
+
+HOOK GUN CODE. Bizarre but could be made into something useful.
+/obj/item/gun/ballistic/shotgun/doublebarrel/hook
+	name = "hook modified sawn-off shotgun"
+	desc = "Range isn't an issue when you can bring your user to you."
+	icon_state = "hookshotgun"
+	inhand_icon_state = "shotgun"
+	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
+	w_class = WEIGHT_CLASS_BULKY
+	weapon_weight = GUN_ONE_HAND_ONLY
+	force = 16 //it has a hook on it
+	attack_verb = list("slashed", "hooked", "stabbed")
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	//our hook gun!
+	var/obj/item/gun/magic/hook/bounty/hook
+	var/toggled = FALSE
+
+CODE FOR ASSAULT RIFE WITH GRENADE LAUNCHER ATTACHED
+/obj/item/gun/ballistic/automatic/m90
+	name = "\improper M-90gl Carbine"
+	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
+	icon_state = "m90"
+	inhand_icon_state = "m90"
+	mag_type = /obj/item/ammo_box/magazine/m556
+	fire_sound = 'sound/weapons/gunshot_smg.ogg'
+	can_suppress = FALSE
+	automatic_burst_overlay = FALSE
+	var/obj/item/gun/ballistic/revolver/grenadelauncher/underbarrel
+
+/obj/item/gun/ballistic/automatic/m90/Initialize()
+	. = ..()
+	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher(src)
+	update_icon()
+
+/obj/item/gun/ballistic/automatic/m90/unrestricted
+	pin = /obj/item/firing_pin
+
+/obj/item/gun/ballistic/automatic/m90/unrestricted/Initialize()
+	. = ..()
+	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher/unrestricted(src)
+	update_icon()
+
+/obj/item/gun/ballistic/automatic/m90/afterattack(atom/target, mob/living/user, flag, params)
+	if(select == 2)
+		underbarrel.afterattack(target, user, flag, params)
+	else
+		. = ..()
+		return
+/obj/item/gun/ballistic/automatic/m90/attackby(obj/item/A, mob/user, params)
+	if(istype(A, /obj/item/ammo_casing))
+		if(istype(A, underbarrel.magazine.ammo_type))
+			underbarrel.attack_self()
+			underbarrel.attackby(A, user, params)
+	else
+		..()
+/obj/item/gun/ballistic/automatic/m90/update_overlays()
+	. = ..()
+	switch(select)
+		if(0)
+			. += "[initial(icon_state)]semi"
+		if(1)
+			. += "[initial(icon_state)]burst"
+		if(2)
+			. += "[initial(icon_state)]gren"
+
+/obj/item/gun/ballistic/automatic/m90/update_icon_state()
+	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
+
+LONG SCOPE
+	zoomable = TRUE
+	zoom_amt = 10 //Long range, enough to see in front of you, but no tiles behind you.
+	zoom_out_amt = 13
+
+
+MAG ICON CODE
+/obj/item/gun/ballistic/automatic/surplus/update_icon_state()
+	if(magazine)
+		icon_state = "surplus"
+	else
+		icon_state = "surplus-e"
+
+SPREAD UPON BURST TOGGLE
+/obj/item/gun/ballistic/automatic/wt550/enable_burst()
+	. = ..()
+	spread = 15
+
+/obj/item/gun/ballistic/automatic/wt550/disable_burst()
+	. = ..()
+	spread = 0
+
+ICON UPDATE FOR GRADUAL DEPLETION, PLASTIC MAGS ETC
+/obj/item/gun/ballistic/automatic/c20r/update_icon_state()
+	icon_state = "c20r[magazine ? "-[CEILING(get_ammo(0)/4, 1)*4]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
+
+/obj/item/gun/ballistic/automatic/wt550/update_icon_state()
+	icon_state = "wt550[magazine ? "-[CEILING(((get_ammo(FALSE) / magazine.max_ammo) * 20) /4, 1)*4]" : "-0"]" //Sprites only support up to 20.
+*/
+

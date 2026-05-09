@@ -42,7 +42,8 @@
 /obj/item/gun/ballistic/automatic/update_icon_state()
 	if(SEND_SIGNAL(src, COMSIG_ITEM_UPDATE_RESKIN))
 		return // all done!
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"]"
 
 /* /obj/item/gun/ballistic/automatic/attackby(obj/item/A, mob/user, params)
 	. = ..()
@@ -839,7 +840,8 @@
 	use_casing_sounds = TRUE
 
 /obj/item/gun/ballistic/automatic/smg/sidewinder/update_icon_state()
-	icon_state = "[initial(icon_state)][magazine ? "-[current_caliber]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[current_caliber]" : ""][bolt_closed ? "" : "-e"]"
 
 /obj/item/gun/ballistic/automatic/smg/sidewinder/proc/change_ammo(mob/user)
 	if(user)
@@ -1102,7 +1104,8 @@
 	update_icon()
 
 /obj/item/gun/ballistic/automatic/m1carbine/compact/update_icon_state()
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"][stock ? "" : "-f"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"][stock ? "" : "-f"]"
 
 /* * * * * * * * * * *
  * De Lisle Carbine
@@ -3804,7 +3807,7 @@
 	damage_multiplier = GUN_LESS_DAMAGE_C1
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC
 	casing_ejector = TRUE
-	handedness = GUN_EJECTOR_RIGHT
+	ejector_side = GUN_EJECTOR_RIGHT
 	cock_delay = GUN_COCK_RIFLE_BASE
 	draw_time = GUN_DRAW_NORMAL
 	init_recoil = CARBINE_RECOIL (1.7 , 1.2)

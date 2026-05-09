@@ -16,7 +16,7 @@ REVIVAL_BRAIN_LIFE -1
 
 ## OOC DURING ROUND ###
 ## Comment this out if you want OOC to be automatically disabled during the round, it will be enabled during the lobby and after the round end results.
-OOC_DURING_ROUND
+#OOC_DURING_ROUND
 
 ## EMOJI ###
 ## Comment this out if you want to disable emojis
@@ -32,17 +32,20 @@ OOC_DURING_ROUND
 ## To speed things up make the number negative, to slow things down, make the number positive.
 
 ## These modify the run/walk speed of all mobs before the mob-specific modifiers are applied.
-RUN_DELAY 3.4
-WALK_DELAY 4.4
+RUN_DELAY 3.5
+WALK_DELAY 4.5
+
+RUN_INITIAL_SLOWDOWN 1.5
+TILES_TO_REACH_MIN_RUN_DELAY 1
 
 ## This is subtracted from the run speed to get the final sprint speed.
 SPRINT_SPEED_INCREASE 1.5
 ## Size of sprint buffer, in tiles.
-SPRINT_BUFFER_MAX 15
+SPRINT_BUFFER_MAX 1
 ## Number of sprint buffer tiles regained per second.
-SPRINT_BUFFER_REGEN_PER_DS 5
+SPRINT_BUFFER_REGEN_PER_DS 0.08
 ## Cost in stamina per tile sprinted.
-SPRINT_STAMINA_COST 5
+SPRINT_STAMINA_COST 10
 
 ## The variables below affect the movement of specific mob types. THIS AFFECTS ALL SUBTYPES OF THE TYPE YOU CHOOSE!
 ## Entries completely override all subtypes. Later entries have precedence over earlier entries.
@@ -445,17 +448,17 @@ SILICON_MAX_LAW_AMOUNT 12
 
 ## You probably want humans on your space station, but technically speaking you can turn them off without any ill effect
 ROUNDSTART_RACES human
-ROUNDSTART_RACES ghoul
+#ROUNDSTART_RACES ghoul
 
 ## Races that are strictly worse than humans that could probably be turned on without balance concerns
 ROUNDSTART_RACES lizard
 ROUNDSTART_RACES synthliz
-ROUNDSTART_RACES fly
+#ROUNDSTART_RACES fly
 #ROUNDSTART_RACES insect
 #ROUNDSTART_RACES plasmaman
 #ROUNDSTART_RACES shadow
 ROUNDSTART_RACES felinid
-ROUNDSTART_RACES dwarf
+#ROUNDSTART_RACES dwarf
 #ROUNDSTART_RACES ethereal
 
 ## Races that are better than humans in some ways, but worse in others
@@ -486,13 +489,13 @@ ROUNDSTART_RACES insect
 #ROUNDSTART_RACES xeno
 ROUNDSTART_RACES slimeperson
 #ROUNDSTART_RACES guilmon
-ROUNDSTART_RACES ipc
+#ROUNDSTART_RACES ipc
 ROUNDSTART_RACES arachnid
 
 
 ## CUSTOM Races
 ROUNDSTART_RACES shadekin
-ROUNDSTART_RACES dragon
+#ROUNDSTART_RACES dragon
 
 
 ##-------------------------------------------------------------------------------------------

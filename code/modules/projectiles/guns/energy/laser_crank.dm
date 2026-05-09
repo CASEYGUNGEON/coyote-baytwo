@@ -115,7 +115,7 @@
 				recharge_queued = 0
 
 //if I'm shooting, reset few variables in the way it makes sense
-/obj/item/gun/shoot_live_shot(mob/living/user)
+/obj/item/gun/after_shooting(mob/living/user)
 	. = ..()
 	//we have to check if the gun is a cranklasergun type, otherwise ignore it
 	if(istype(src, /obj/item/gun/energy/laser/cranklasergun))

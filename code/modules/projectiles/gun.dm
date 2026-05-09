@@ -58,6 +58,10 @@ ATTACHMENTS
 	var/damage_multiplier = 1 //Multiplies damage of projectiles fired from this gun
 	var/penetration_multiplier = 1 //Multiplies armor penetration of projectiles fired from this gun
 
+	/// Baseline percent chance for a projectile from this gun to hit a mob before awareness scaling.
+	var/base_accuracy = 90
+	var/gun_archetype = "normal" //normal, swift, precise, heavy.
+
 	/// can we be put into a turret
 	var/can_turret = TRUE
 	/// can we be put in a circuit
@@ -154,8 +158,10 @@ ATTACHMENTS
 	var/list/firemodes = list()
 	var/list/init_firemodes = list(/datum/firemode/semi_auto)
 
-	/// What the hammer is currently in. Treated as always cocked if ignore_hammer is true on the firemode
+	/// What the hammer is currently in. Treated as always cocked if hammer_ignore is true on the firemode
 	var/hammer_state = GHAMMER_COCKED
+	/// what the bolt (or whatever) is currently in. Treated as whichever position it needs to be to fire if ignore_bolt is true on the firemode
+	var/bolt_state = GBOLT_CLOSED
 
 	var/list/gun_tags = list() //Attributes of the gun, used to see if an upgrade can be applied to this weapon.
 	var/gilded = FALSE
@@ -186,9 +192,7 @@ ATTACHMENTS
 	var/recharge_queued = TRUE
 	/// Cooldown between times the gun will tell you it shot, 0.5 seconds cus its not super duper important
 	COOLDOWN_DECLARE(shoot_message_antispam)
-
-	/// sound it plays when you manually put a casing into the chamber by using bullet on gun
-	var/manual_chamber_sound = 'sound/weapons/bulletinsert.ogg'
+	var/datum/weakref/listening_to = null // for knowing whose mousewheels to listen to
 
 	/// Is the player currently reloading this gun?
 	var/reloading = FALSE
@@ -197,6 +201,11 @@ ATTACHMENTS
 	maptext_width = 48 //prevents ammo count from wrapping down into two lines
 	maptext_x = 4
 	maptext_y = 2
+
+	var/loudness = 100
+	var/loud_range = 15
+
+	var/can_click = TRUE
 
 /obj/item/gun/Initialize()
 	recoil_tag = SSrecoil.give_recoil_tag(init_recoil)
@@ -294,6 +303,13 @@ ATTACHMENTS
 	if(chambered)
 		QDEL_NULL(chambered)
 	QDEL_LIST(firemodes)
+	UnregisterSignal(src, COMSIG_ATOM_POST_ADMIN_SPAWN,PROC_REF(admin_fill_gun))
+	if(listening_to)
+		var/mob/listening_to_mob = GET_WEAKREF(listening_to)
+		listening_to = null
+		if(listening_to_mob)
+			UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
+			UnregisterSignal(listening_to_mob, COMSIG_MOB_MIDDLECLICKED_SOMETHING)
 	return ..()
 
 /obj/item/gun/handle_atom_del(atom/A)
@@ -336,10 +352,11 @@ ATTACHMENTS
 //i.e if clicking would make it shoot
 // doesnt care if its loaded, just if pulling the trigger would do anything
 /obj/item/gun/proc/can_shoot()
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return TRUE // idk
-	return my_mode.try_hammer(FALSE)
+	if(!check_hammer_is_in_shootable_position())
+		return FALSE
+	if(!check_bolt_is_in_shootable_position())
+		return FALSE
+	return TRUE
 
 //Adds logging to the attack log whenever anyone draws a gun, adds a pause after drawing a gun before you can do anything based on it's size
 /obj/item/gun/pickup(mob/living/user)
@@ -352,6 +369,50 @@ ATTACHMENTS
 		for(var/obj/O in contents)
 			O.emp_act(severity)
 	update_icon()
+
+/obj/item/gun/equipped(mob/living/user, slot)
+	. = ..()
+	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
+	if(listening_to_mob)
+		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
+		listening_to = null
+	if(user.get_active_held_item() == src)
+		listening_to = WEAKREF(user)
+		RegisterSignal(user, COMSIG_MOB_MOUSEWHEEL, PROC_REF(mouse_wheel_signal_handler), TRUE)
+		RegisterSignal(user, COMSIG_MOB_MIDDLECLICKED_SOMETHING, PROC_REF(middleclick_signal_handler), TRUE)
+
+/obj/item/gun/dropped(mob/user)
+	. = ..()
+	var/mob/listening_to_mob = GET_WEAKREF(listening_to)
+	if(listening_to_mob)
+		UnregisterSignal(listening_to_mob, COMSIG_MOB_MOUSEWHEEL)
+		UnregisterSignal(listening_to_mob, COMSIG_MOB_MIDDLECLICKED_SOMETHING)
+		listening_to = null
+
+/obj/item/gun/proc/mouse_wheel_signal_handler(
+	mob/living/user,
+	atom/wheeled_on,
+	delta_x,
+	delta_y,
+	params,
+	)
+	SIGNAL_HANDLER
+	if(user != GET_WEAKREF(listening_to))
+		return
+	if(wheeled_on == src)
+		return // prevent double-doing
+	return TRUE
+
+/obj/item/gun/proc/middleclick_signal_handler(
+	mob/living/user,
+	atom/clicked_on,
+	)
+	SIGNAL_HANDLER
+	if(user != GET_WEAKREF(listening_to))
+		return
+	if(clicked_on == src)
+		return // prevent double-doing
+	return TRUE
 
 // these two are part of the Melee Attack Chain
 // used for melee attacks against mobs
@@ -405,37 +466,12 @@ ATTACHMENTS
 		if(!CheckAttackCooldown(user, target))
 			return
 
-	if(isliving(user))//Check if the user can use the gun, if the user isn't alive(turrets) assume it can.
-		var/mob/living/L = user
-		if(!can_trigger_gun(L))
-			return
-
-	if(user && user.incapacitated(allow_crit = TRUE))
-		to_chat(user, span_danger("You're too messed up to shoot [src]!"))
+	if(!user_can_physically_operate_this(user))
 		return
 
 	if(!can_shoot())
 		dont_shoot(user)
 		return
-
-	if(rigged)
-		user.visible_message(
-			span_danger("As \the [user] pulls the trigger on \the [src], a bullet fires backwards out of it"),
-			span_danger("Your \the [src] fires backwards, shooting you in the face!")
-		)
-		process_fire(user, user, FALSE, params, BODY_ZONE_HEAD)
-		if(rigged > TRUE)
-			explosion(get_turf(src),0,0,2,1)
-		return
-
-	if(clumsy_check)
-		if(istype(user, /mob/living/carbon/human))
-			if (HAS_TRAIT(user, TRAIT_CLUMSY) && prob(40))
-				to_chat(user, span_userdanger("You shoot yourself in the foot with [src]!"))
-				var/shot_leg = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-				process_fire(user, user, FALSE, params, shot_leg)
-				user.dropItemToGround(src, TRUE)
-				return
 
 	var/point_blank = flag // flag means we're adjacent to the target
 	if(point_blank) //It's adjacent, is the user, or is on the user's person
@@ -456,9 +492,23 @@ ATTACHMENTS
 
 	try_akimbo(target, user, flag, params, is_akimbo)
 
-	var/stam_cost = getstamcost(user)
-	process_fire(target, user, TRUE, params, null, stam_cost)
+	process_fire(target, user, TRUE, params, null)
 	update_icon()
+
+/obj/item/gun/proc/user_can_physically_operate_this(mob/living/user)
+	if(!user)
+		return FALSE
+	if(!isliving(user))
+		return TRUE // if it's not alive, it can operate it, because reasons (turrets)
+	if(user.incapacitated(allow_crit = TRUE))
+		to_chat(user, span_danger("You're too messed up to shoot [src]!"))
+		return FALSE
+	if(!can_trigger_gun(user))
+		return FALSE
+	if(!user.can_reach(src, INVENTORY_DEPTH, user.reach))
+		to_chat(user, span_danger("You can't reach [src]!"))
+		return FALSE
+	return TRUE
 
 /obj/item/gun/proc/dont_shoot(mob/living/user)
 	shoot_with_empty_chamber(user)
@@ -495,6 +545,18 @@ ATTACHMENTS
 	if(HAS_TRAIT(user, TRAIT_PACIFISM) && chambered?.harmful) // If the user has the pacifist trait, then they won't be able to fire [src] if the round chambered inside of [src] is lethal.
 		to_chat(user, span_notice(" [src] is lethally chambered! You don't want to risk harming anyone..."))
 		return FALSE
+	if(is_kelpwand && isliving(user))
+		var/badkelpwand = FALSE
+		if(type == /obj/item/gun/magic/wand/kelpmagic/magicmissile)
+			if(HAS_TRAIT(user, TRAIT_MARTIAL_A))
+				badkelpwand = TRUE
+		else
+			if(HAS_TRAIT(user, TRAIT_MARTIAL_A) || !HAS_TRAIT(user, TRAIT_WAND_PROFICIENT))
+				badkelpwand = TRUE
+		if(badkelpwand)
+			to_chat(user, span_danger("You don't know how to use magic wands!"))
+			return FALSE
+	return TRUE
 
 /obj/item/gun/CanItemAutoclick(object, location, params) // fuck you why wasnt this here to begin with
 	if(automatic)
@@ -537,46 +599,20 @@ ATTACHMENTS
 	if (!automatic)
 		return (last_fire + get_fire_delay(user)) > world.time
 
-/obj/item/gun/proc/drop_hammer()
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(my_mode)
-		return my_mode.try_hammer(TRUE) // this will drop the hammer if possible, but wont do anything if the gun doesnt have a hammer or something is wrong with the firemode
-
 // handles the theatrics of dryfiring; sound, messages, etc
 // also the hammer for some reason
-/obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user, drop_hammer = TRUE)
-	to_chat(user, span_danger("[dryfire_text]"))
-	playsound(src, dryfire_sound, 30, 1)
-	if(drop_hammer)
-		drop_hammer()
+/obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user, hammer_drop = TRUE)
+	if(can_click)
+		to_chat(user, span_danger("[dryfire_text]"))
+		playsound(src, dryfire_sound, 30, 1)
+		can_click = FALSE
+	if(hammer_drop)
+		hammer_drop()
 	update_firemode()
 	update_icon()
 
-// handles the theatrics of shooting; sound, recoil, etc
-// also the hammer for some reason
-// does NOT actually fire anything
+// handles the ... well nothing, now
 /obj/item/gun/proc/shoot_live_shot(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0, obj/item/projectile/P, casing_sound)
-	if(stam_cost && istype(user)) //CIT CHANGE - makes gun recoil cause staminaloss
-		var/safe_cost = clamp(stam_cost, 0, STAMINA_NEAR_CRIT - user.getStaminaLoss())*(firing && burst_size >= 2 ? 1/burst_size : 1)
-		user.adjustStaminaLossBuffered(safe_cost) //CIT CHANGE - ditto
-
-	var/datum/ammo_sound_properties/soundies = GLOB.casing_sound_properties[casing_sound]
-	if(!soundies)
-		return
-	var/list/shootprops = soundies.shootlist(silenced)
-	if(!isnull(fire_sound))
-		shootprops[CSP_INDEX_SOUND_OUT] = silenced ? fire_sound_silenced : fire_sound
-	playsound(
-		src,
-		shootprops[CSP_INDEX_SOUND_OUT],
-		shootprops[CSP_INDEX_VOLUME],
-		shootprops[CSP_INDEX_VARY],
-		shootprops[CSP_INDEX_DISTANCE],
-		ignore_walls = shootprops[CSP_INDEX_IGNORE_WALLS],
-		distant_sound = shootprops[CSP_INDEX_DISTANT_SOUND],
-		distant_range = shootprops[CSP_INDEX_DISTANT_RANGE]
-		)
-	drop_hammer()
 	update_firemode()
 	update_icon()
 
@@ -611,61 +647,87 @@ ATTACHMENTS
  */
 
 // Another wrapper proc for firing, more prechecks, and handles the cooldown and safety checks for guns
-/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", stam_cost = 0)
+// basically pulling the trigger
+/obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "")
 	add_fingerprint(user)
 
 	if(on_cooldown(user))
 		return
 	clear_cooldown_mods()
 
-	if(is_kelpwand)
-		if(isliving(user))
-			if(type == /obj/item/gun/magic/wand/kelpmagic/magicmissile)
-				if(HAS_TRAIT(user, TRAIT_MARTIAL_A))
-					to_chat(user, span_danger("You don't know how to use magic wands!"))
-					return
-			else
-				if(HAS_TRAIT(user, TRAIT_MARTIAL_A) || !HAS_TRAIT(user, TRAIT_WAND_PROFICIENT))
-					to_chat(user, span_danger("You don't know how to use magic wands!"))
-					return
+	if(rigged)
+		user.visible_message(
+			span_danger("As \the [user] pulls the trigger on \the [src], a bullet fires backwards out of it"),
+			span_danger("Your \the [src] fires backwards, shooting you in the face!")
+		)
+		zone_override = BODY_ZONE_HEAD
+		target = user
+		message = FALSE
+		if(rigged > TRUE)
+			explosion(get_turf(src),0,0,2,1)
+
+	var/durg = FALSE // Drop UR Gun
+	if(clumsy_check)
+		if(istype(user, /mob/living/carbon/human))
+			if (HAS_TRAIT(user, TRAIT_CLUMSY) && prob(40))
+				to_chat(user, span_userdanger("You shoot yourself in the foot with [src]!"))
+				var/shot_leg = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+				target = user
+				zone_override = shot_leg
+				message = FALSE
+				durg = TRUE
 
 	var/time_till_draw = user.AmountWeaponDrawDelay()
 	if(time_till_draw)
 		to_chat(user, span_notice("You're still drawing your [src]! It'll take another <u>[time_till_draw*0.1] seconds</u> until it's ready!"))
 		return
-	if(pre_fire(user, target, params, zone_override, stam_cost))
+	if(pre_fire(user, target, params, zone_override))
 		return TRUE // pre_fire will handle what comes next~ (like firing at your mouse cursor after a delay)
 	firing = TRUE
-	. = do_fire(target, user, message, params, zone_override, stam_cost)
+	. = do_fire(target, user, message, params, zone_override)
 	firing = FALSE
 	last_fire = world.time
 
 	if(user)
 		user.update_inv_hands()
-		SEND_SIGNAL(user, COMSIG_LIVING_GUN_PROCESS_FIRE, target, params, zone_override, stam_cost)
+		SEND_SIGNAL(user, COMSIG_LIVING_GUN_PROCESS_FIRE, target, params, zone_override, 0)
+	if(durg)
+		user.dropItemToGround(src, TRUE)
 
-/obj/item/gun/proc/pre_fire(mob/user, atom/target, params, zone_override, stam_cost, message = TRUE)
+/obj/item/gun/proc/pre_fire(mob/user, atom/target, params, zone_override, message = TRUE)
 	return FALSE
 
 // actually shoots the projectile, handles recoil, misfire, and all that stuff
 // also handles burst fire
-/obj/item/gun/proc/do_fire(atom/target, mob/living/user, message = TRUE, params, zone_override = "", stam_cost = 0)
+/obj/item/gun/proc/do_fire(atom/target, mob/living/user, message = TRUE, params, zone_override = "")
 	/// recoil is read before a burst, so all subsequent shots in a burst will have the same recoil
 	/// This is the mob shooting's aggregate recoil
 	var/sprd = SSrecoil.get_offset(user) /// its still *added* with each shot, so the next burst will be higher
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
+	var/datum/firemode/my_mode = get_current_firemode()
 	for(var/i in 1 to burst_size)
+		before_shooting(user, target, params, zone_override)
 		if(safety)
 			to_chat(user, span_danger("The gun's safety is on!"))
 			shoot_with_empty_chamber(user, FALSE)
 			return
-		misfire_act(user)
-		var/cooked = drop_hammer()
-		var/obj/item/ammo_casing/thing_in_chamber = get_chambered()
-		if(!thing_in_chamber || !istype(thing_in_chamber.BB) || !cooked)
+		if(!check_bolt_is_in_shootable_position(user, TRUE))
+			shoot_with_empty_chamber(user, FALSE)
+			return
+		if(!check_hammer_is_in_shootable_position(user, TRUE))
+			shoot_with_empty_chamber(user, FALSE)
+			return
+		operate_bolt_on_trigger(user)
+		operate_hammer_on_trigger(user)
+		if(!can_still_shoot_after_operating(user))
 			shoot_with_empty_chamber(user)
 			return
-		before_firing(target,user)
+		if(my_mode.trigger_to_shoot_delay > 0)
+			sleep(my_mode.trigger_to_shoot_delay)
+		misfire_act(user)
+		var/obj/item/ammo_casing/thing_in_chamber = get_chambered()
+		if(!thing_in_chamber || !istype(thing_in_chamber.BB))
+			shoot_with_empty_chamber(user)
+			return
 		var/recoil = thing_in_chamber.BB.recoil || 0
 		// if the bullet has a recoil value, use it, otherwise default to 0, which means the gun's recoil will be the only recoil
 		var/casing_sound = thing_in_chamber.sound_properties
@@ -689,24 +751,118 @@ ATTACHMENTS
 			update_icon()
 			return
 		// yeah!
-		var/pointblank = (get_dist(get_turf(src), target) <= 1)
-		shoot_live_shot(
-			user,
-			pointblank,
-			target,
-			message,
-			stam_cost,
-			thing_in_chamber.BB,
-			casing_sound)
+		// var/pointblank = (get_dist(get_turf(src), target) <= 1)
+		shoot_live_shot(user)
 		SSrecoil.kickback(user, src, recoil_tag, recoil)
-		if(!my_mode || my_mode.ignore_hammer || my_mode.ejector_behavior == GEJECTOR_AFTER_FIRING)
-			process_chamber(user)
-			chamber_round(user)
+		play_shoot_audio(user, casing_sound)
+		cause_attraction(user)
+		cost_stamina(user)
+		operate_bolt_on_shoot(user)
+		operate_hammer_post_fire(user)
+		after_shooting(user, target, params, zone_override)
 		user?.in_crit_HP_penalty = 25
+		can_click = TRUE // allow dryfire again after a successful shot
 		if(i < burst_size)
 			sleep(burst_shot_delay)
 		update_icon()
 	SSblackbox.record_feedback("tally", "gun_fired", 1, type)
+	return TRUE
+
+/obj/item/gun/proc/before_shooting(atom/target, mob/living/user, params, zone_override)
+	return
+
+/obj/item/gun/proc/after_shooting(atom/target, mob/living/user, params, zone_override)
+	return
+
+////////////////
+// BOLTIES AND HAMMER
+
+/obj/item/gun/proc/check_bolt_is_in_shootable_position()
+
+/obj/item/gun/proc/check_hammer_is_in_shootable_position()
+
+/obj/item/gun/proc/operate_hammer_on_trigger(mob/living/user)
+
+/obj/item/gun/proc/operate_hammer_post_fire(mob/living/user)
+
+/obj/item/gun/proc/operate_hammer_manually(mob/living/user)
+
+/obj/item/gun/proc/toggle_hammer(mob/living/user, loudly)
+	hammer_state = GHAMMER_COCKED
+
+/obj/item/gun/proc/set_hammer_state(mob/living/user, newstate, manually, loudly)
+	hammer_state = GHAMMER_COCKED
+
+/obj/item/gun/proc/hammer_cock(mob/living/user, dry, loudly)
+	hammer_state = GHAMMER_COCKED
+
+/obj/item/gun/proc/hammer_drop(mob/living/user, dry, loudly)
+	hammer_state = GHAMMER_COCKED
+
+/obj/item/gun/proc/hammer_cock_effects(mob/living/user, loudly)
+
+/obj/item/gun/proc/hammer_drop_effects(mob/living/user, dry, loudly)
+
+/obj/item/gun/proc/operate_bolt_on_trigger(mob/living/user)
+
+/obj/item/gun/proc/operate_bolt_on_shoot(mob/living/user)
+
+/obj/item/gun/proc/operate_bolt_manually(mob/living/user)
+
+/obj/item/gun/proc/toggle_bolt(mob/living/user, loudly, manually)
+	bolt_state = GBOLT_CLOSED
+
+/obj/item/gun/proc/bolt_open(mob/living/user, loudly)
+	bolt_state = GBOLT_OPEN
+
+/obj/item/gun/proc/bolt_opened_effects(mob/living/user, loudly)
+
+/obj/item/gun/proc/bolt_close(mob/living/user, loudly)
+	bolt_state = GBOLT_CLOSED
+
+/obj/item/gun/proc/bolt_closed_effects(mob/living/user, loudly)
+
+/obj/item/gun/proc/can_still_shoot_after_operating(mob/living/user)
+	return TRUE
+
+///////////////////////////////////////
+
+/obj/item/gun/proc/do_delay(mob/user, delay_in)
+	if(doing_something(user))
+		to_chat(user, span_warning("You're already doing something!"))
+		return FALSE
+	var/datum/weakref/loader = WEAKREF(user)
+	start_doing_something(loader, delay_in)
+	. = do_after(
+		user,
+		delay = delay_in,
+		needhand = TRUE,
+		target = src,
+		progress = TRUE,
+		public_progbar = TRUE,
+		allow_movement = TRUE,
+		progbar_on_target = TRUE,
+		)
+	stop_doing_something(loader)
+	if(!.)
+		to_chat(user, span_alert("You were interrupted!"))
+
+/obj/item/gun/proc/get_current_firemode()
+	var/datum/firemode/mymode = LAZYACCESS(firemodes, sel_mode)
+	if(mymode)
+		return mymode
+	mymode = LAZYACCESS(firemodes, 1)
+	if(mymode)
+		return mymode
+	stack_trace("Couldnt find any valid firemodes on [src] when trying to get current firemode! This should never happen, report it to the developers!")
+	initialize_firemodes()
+	for(var/i in 1 to LAZYLEN(firemodes))
+		mymode = LAZYACCESS(firemodes, i)
+		if(mymode)
+			return mymode
+	CRASH("SOMETHING IS SERIOUSLY WRONG WITH THE FIREMODES ON [src], COULD NOT FIND ANY VALID FIREMODES EVEN AFTER INITIALIZATION! THIS SHOULD NEVER HAPPEN, REPORT IT TO THE DEVELOPERS! PREPARE FOR A CASCADE OF RUNTIMES!!!!")
+
+/obj/item/gun/proc/eject_chambered(mob/living/user, loudly)
 	return TRUE
 
 /// If the chamber is empty, take a round from the magazine and put it in there
@@ -716,6 +872,47 @@ ATTACHMENTS
 
 /obj/item/gun/proc/get_chambered()
 	return chambered
+
+/obj/item/gun/proc/cost_stamina(mob/living/user)
+	return
+	// if(!istype(user))
+	// 	return
+	// var/stamcost = 0 //get_per_shot_recoil()
+	// var/safe_cost = clamp(stamcost, 0, STAMINA_NEAR_CRIT - user.getStaminaLoss())
+	// user.adjustStaminaLossBuffered(safe_cost) //CIT CHANGE - ditto
+
+/obj/item/gun/proc/play_shoot_audio(mob/living/user, casing_sound)
+	var/datum/ammo_sound_properties/soundies = LAZYACCESS(GLOB.casing_sound_properties, casing_sound)
+	if(!soundies)
+		for(var/ky in GLOB.casing_sound_properties)
+			soundies = GLOB.casing_sound_properties[ky]
+			if(istype(soundies, /datum/ammo_sound_properties))
+				break
+		if(!soundies)
+			CRASH("Couldn't find any sound properties for casing sound [casing_sound] on [src]! This should never happen, report it to the developers!")
+		return
+	var/list/shootprops = soundies.shootlist(silenced)
+	if(!silenced && !isnull(fire_sound))
+		shootprops[CSP_INDEX_SOUND_OUT] = fire_sound
+	if(silenced && !isnull(fire_sound_silenced))
+		shootprops[CSP_INDEX_SOUND_OUT] = fire_sound_silenced
+	playsound(
+		src,
+		shootprops[CSP_INDEX_SOUND_OUT],
+		shootprops[CSP_INDEX_VOLUME],
+		shootprops[CSP_INDEX_VARY],
+		shootprops[CSP_INDEX_DISTANCE],
+		ignore_walls = shootprops[CSP_INDEX_IGNORE_WALLS],
+		distant_sound = shootprops[CSP_INDEX_DISTANT_SOUND],
+		distant_range = shootprops[CSP_INDEX_DISTANT_RANGE]
+		)
+
+/obj/item/gun/proc/cause_attraction(mob/living/user)
+	if(loudness <= 0)
+		return
+	if(loud_range <= 0)
+		return
+	SSnpcpool.make_attraction(get_turf(src), loudness, loud_range)
 
 /obj/item/gun/attackby(obj/item/I, mob/user, params)
 	if(user.a_intent == INTENT_HARM)
@@ -971,11 +1168,6 @@ ATTACHMENTS
 	user.client.pixel_x = world.icon_size*_x
 	user.client.pixel_y = world.icon_size*_y
 
-/obj/item/gun/proc/getstamcost(mob/living/carbon/user)
-	. = 0 //get_per_shot_recoil()
-	if(user && !user.has_gravity())
-		. *= 5
-
 /obj/item/gun/proc/weapondraw(obj/item/gun/G, mob/living/user) // Eventually, this will be /obj/item/weapon and guns will be /obj/item/weapon/gun/etc. SOON.tm
 	user.visible_message(span_danger("[user] grabs \a [G]!")) // probably could code in differences as to where you're picking it up from and so forth. later.
 	var/time_till_gun_is_ready = max(draw_time,(user.AmountWeaponDrawDelay()))
@@ -1214,7 +1406,7 @@ ATTACHMENTS
 	data["gun_recoil_scoot_stats"] = scoot_stats
 	data["gun_spread"] = added_spread || 0
 
-	var/datum/firemode/my_firemode = LAZYACCESS(firemodes, sel_mode)
+	var/datum/firemode/my_firemode = get_current_firemode()
 	var/action_kind = "Unknown"
 	switch(my_firemode.fire_type)
 		if(GUN_FIREMODE_SEMIAUTO)
@@ -1382,9 +1574,7 @@ ATTACHMENTS
 	return ZONE_WEIGHT_SEMI_AUTO
 
 /obj/item/gun/proc/get_fire_delay(mob/user)
-	var/datum/firemode/my_mode = LAZYACCESS(firemodes, sel_mode)
-	if(!my_mode)
-		return fire_delay // shrug
+	var/datum/firemode/my_mode = get_current_firemode()
 	. = my_mode.get_fire_delay()
 	if(CHECK_BITFIELD(gun_skill_check, AFFECTED_BY_FAST_PUMP) && user)
 		if(HAS_TRAIT(user, TRAIT_FAST_PUMP))
@@ -1606,7 +1796,7 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 		// if(!gungun.eject_magazine(user, gungun.en_bloc, FALSE, FALSE))
 		// 	thing_2_yeet = null
 		//and your little chambered round as well! huahahaha!
-		gungun.eject_chambered_round(user, FALSE)
+		eject_chambered(user, FALSE)
 	if(!thing_2_yeet)
 		return FALSE
 	var/falls_or_flies = "falls"
@@ -1639,6 +1829,31 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 
 /obj/item/gun/proc/post_modify_projectile(obj/item/projectile/BB)
 	return
+
+
+
+
+/// important procs stuffed somewhere nobody will ever find them
+/proc/doing_something(mob/user)
+	var/datum/weakref/do_somethinger = WEAKREF(user)
+	if(GLOB.currently_loading_something[do_somethinger] > world.time)
+		return TRUE
+	if(GLOB.currently_loading_something[do_somethinger] < world.time)
+		GLOB.currently_loading_something -= do_somethinger
+	return FALSE
+
+/proc/start_doing_something(mob/user, delay)
+	var/datum/weakref/do_somethinger = WEAKREF(user)
+	GLOB.currently_loading_something[do_somethinger] = world.time + delay
+
+/proc/stop_doing_something(mob/user)
+	var/datum/weakref/do_somethinger = WEAKREF(user)
+	GLOB.currently_loading_something -= do_somethinger
+
+
+
+
+
 
 /obj/item/storage/backpack/debug_gun_hobo
 	name = "Bag of Gunstuff 4 hobos"
@@ -1744,226 +1959,3 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 	// if(get_inactive_held_item() == G2)//recheck this again because it might have changed since we reloaded the active hand gun.
 	// 	G2?.Reload(src)
 	// return TRUE
-
-///////////////////
-//GUNCODE ARCHIVE//
-///////////////////
-
-/*
-STICK GUN PICKUP WEIRDNESS
-/obj/item/gun/ballistic/automatic/pistol/stickman/pickup(mob/living/user)
-	. = ..()
-	to_chat(user, span_notice("As you try to pick up [src], it slips out of your grip.."))
-	if(prob(50))
-		to_chat(user, span_notice("..and vanishes from your vision! Where the hell did it go?"))
-		qdel(src)
-		user.update_icons()
-	else
-		to_chat(user, span_notice("..and falls into view. Whew, that was a close one."))
-		user.dropItemToGround(src)
-
-/obj/item/gun/ballistic/automatic/pistol/deagle/update_overlays()
-	. = ..()
-	if(magazine)
-		. += "deagle_magazine"
-
-CITADEL MODULAR PISTOL CODE
-/obj/item/gun/ballistic/automatic/pistol/modular
-	name = "modular pistol"
-	desc = "A small, easily concealable 10mm handgun. Has a threaded barrel for suppressors."
-	icon = 'modular_citadel/icons/obj/guns/cit_guns.dmi'
-	icon_state = "cde"
-	can_unsuppress = TRUE
-	automatic_burst_overlay = FALSE
-	obj_flags = UNIQUE_RENAME
-	unique_reskin = list("Default" = "cde",
-						"N-99" = "n99",
-						"Stealth" = "stealthpistol",
-						"HKVP-78" = "vp78",
-						"Luger" = "p08b",
-						"Mk.58" = "secguncomp",
-						"PX4 Storm" = "px4"
-						)
-
-/obj/item/gun/ballistic/automatic/pistol/modular/update_icon_state()
-	if(current_skin)
-		icon_state = "[unique_reskin[current_skin]][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
-	else
-		icon_state = "[initial(icon_state)][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
-
-/obj/item/gun/ballistic/automatic/pistol/modular/update_overlays()
-	. = ..()
-	if(magazine && suppressed)
-		. += "[unique_reskin[current_skin]]-magazine-sup"	//Yes, this means the default iconstate can't have a magazine overlay
-	else if (magazine)
-		. += "[unique_reskin[current_skin]]-magazine"
-
-
-SOME SORT OF  BOLT ACTION CODE UNUSED
-/obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
-	if(bolt_open)
-		pump_reload(M)
-	else
-		pump_unload(M)
-	bolt_open = !bolt_open
-	update_icon()	//I.E. fix the desc
-	return 1
-
-/obj/item/gun/ballistic/shotgun/boltaction/pump(mob/M)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
-	pump_unload(M)
-	pump_reload(M)
-	update_icon()	//I.E. fix the desc
-	return 1
-
-/obj/item/gun/ballistic/shotgun/boltaction/attackby(obj/item/A, mob/user, params)
-	if(!bolt_open)
-		to_chat(user, span_notice("The bolt is closed!"))
-		return
-	. = ..()
-
-/obj/item/gun/ballistic/shotgun/boltaction/examine(mob/user)
-	. = ..()
-	. += "The bolt is [bolt_open ? "open" : "closed"]."
-
-
-CODE FOR RESKIN
-	unique_reskin = list("Tactical" = "cshotgun",
-						"Slick" = "cshotgun_slick"
-						)
-
-
-DUAL TUBE PUMP ACTION (seems redundant with neostead but why not keep it.)
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/examine(mob/user)
-	. = ..()
-	. += span_notice("Alt-click to pump it.")
-
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/attack_self(mob/living/user)
-	if(!chambered && magazine.contents.len)
-		pump()
-	else
-		toggle_tube(user)
-
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/AltClick(mob/living/user)
-	. = ..()
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
-		return
-	pump()
-	return TRUE
-
-
-ATTACHING SLING
-/obj/item/gun/ballistic/shotgun/boltaction/improvised/attackby(obj/item/A, mob/user, params)
-	..()
-	if(istype(A, /obj/item/stack/cable_coil) && !sawn_off)
-		if(A.use_tool(src, user, 0, 10, skill_gain_mult = EASY_USE_TOOL_MULT))
-			slot_flags = INV_SLOTBIT_BACK
-			to_chat(user, span_notice("You tie the lengths of cable to the rifle, making a sling."))
-			slung = TRUE
-			update_icon()
-		else
-			to_chat(user, span_warning("You need at least ten lengths of cable if you want to make a sling!"))
-
-/obj/item/gun/ballistic/shotgun/boltaction/improvised/update_overlays()
-	. = ..()
-	if(slung)
-		. += "[icon_state]sling"
-
-
-HOOK GUN CODE. Bizarre but could be made into something useful.
-/obj/item/gun/ballistic/shotgun/doublebarrel/hook
-	name = "hook modified sawn-off shotgun"
-	desc = "Range isn't an issue when you can bring your user to you."
-	icon_state = "hookshotgun"
-	inhand_icon_state = "shotgun"
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
-	w_class = WEIGHT_CLASS_BULKY
-	weapon_weight = GUN_ONE_HAND_ONLY
-	force = 16 //it has a hook on it
-	attack_verb = list("slashed", "hooked", "stabbed")
-	hitsound = 'sound/weapons/bladeslice.ogg'
-	//our hook gun!
-	var/obj/item/gun/magic/hook/bounty/hook
-	var/toggled = FALSE
-
-CODE FOR ASSAULT RIFE WITH GRENADE LAUNCHER ATTACHED
-/obj/item/gun/ballistic/automatic/m90
-	name = "\improper M-90gl Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
-	icon_state = "m90"
-	inhand_icon_state = "m90"
-	mag_type = /obj/item/ammo_box/magazine/m556
-	fire_sound = 'sound/weapons/gunshot_smg.ogg'
-	can_suppress = FALSE
-	automatic_burst_overlay = FALSE
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/underbarrel
-
-/obj/item/gun/ballistic/automatic/m90/Initialize()
-	. = ..()
-	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher(src)
-	update_icon()
-
-/obj/item/gun/ballistic/automatic/m90/unrestricted
-	pin = /obj/item/firing_pin
-
-/obj/item/gun/ballistic/automatic/m90/unrestricted/Initialize()
-	. = ..()
-	underbarrel = new /obj/item/gun/ballistic/revolver/grenadelauncher/unrestricted(src)
-	update_icon()
-
-/obj/item/gun/ballistic/automatic/m90/afterattack(atom/target, mob/living/user, flag, params)
-	if(select == 2)
-		underbarrel.afterattack(target, user, flag, params)
-	else
-		. = ..()
-		return
-/obj/item/gun/ballistic/automatic/m90/attackby(obj/item/A, mob/user, params)
-	if(istype(A, /obj/item/ammo_casing))
-		if(istype(A, underbarrel.magazine.ammo_type))
-			underbarrel.attack_self()
-			underbarrel.attackby(A, user, params)
-	else
-		..()
-/obj/item/gun/ballistic/automatic/m90/update_overlays()
-	. = ..()
-	switch(select)
-		if(0)
-			. += "[initial(icon_state)]semi"
-		if(1)
-			. += "[initial(icon_state)]burst"
-		if(2)
-			. += "[initial(icon_state)]gren"
-
-/obj/item/gun/ballistic/automatic/m90/update_icon_state()
-	icon_state = "[initial(icon_state)][magazine ? "" : "-e"]"
-
-LONG SCOPE
-	zoomable = TRUE
-	zoom_amt = 10 //Long range, enough to see in front of you, but no tiles behind you.
-	zoom_out_amt = 13
-
-
-MAG ICON CODE
-/obj/item/gun/ballistic/automatic/surplus/update_icon_state()
-	if(magazine)
-		icon_state = "surplus"
-	else
-		icon_state = "surplus-e"
-
-SPREAD UPON BURST TOGGLE
-/obj/item/gun/ballistic/automatic/wt550/enable_burst()
-	. = ..()
-	spread = 15
-
-/obj/item/gun/ballistic/automatic/wt550/disable_burst()
-	. = ..()
-	spread = 0
-
-ICON UPDATE FOR GRADUAL DEPLETION, PLASTIC MAGS ETC
-/obj/item/gun/ballistic/automatic/c20r/update_icon_state()
-	icon_state = "c20r[magazine ? "-[CEILING(get_ammo(0)/4, 1)*4]" : ""][chambered ? "" : "-e"][suppressed ? "-suppressed" : ""]"
-
-/obj/item/gun/ballistic/automatic/wt550/update_icon_state()
-	icon_state = "wt550[magazine ? "-[CEILING(((get_ammo(FALSE) / magazine.max_ammo) * 20) /4, 1)*4]" : "-0"]" //Sprites only support up to 20.
-*/

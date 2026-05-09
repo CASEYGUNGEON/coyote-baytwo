@@ -26,16 +26,19 @@
 	cock_delay = GUN_COCK_RIFLE_BASE
 	init_recoil = RIFLE_RECOIL(1, 1)
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
+		/datum/firemode/bolt_using/straight_pull
 	)
 	can_bayonet = TRUE
+	manual_bolt_open_sound =        'sound/weapons/biblically_accurate_guns/bolt_rifle_open_short.ogg'
+	manual_bolt_close_sound =       'sound/weapons/biblically_accurate_guns/bolt_rifle_close_short.ogg'
+	casing_eject_sound =            'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
+	empty_casing_eject_sound =      'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 
-	gun_skill_check = AFFECTED_BY_FAST_PUMP | AFFECTED_BY_AUTO_PUMP
-	casing_ejector = FALSE // THIS makes it require manual cocking of the gun!!!
+	casing_ejector = FALSE // THIS makes it require manual cocking of the gun!!! // lol not anymore
 	spawnwithmagazine = TRUE
 	fire_sound = 'sound/f13weapons/shotgun.ogg'
-	cock_sound = 'sound/weapons/shotgunpump.ogg'
 	reloading_time = 0.5 SECONDS
+	can_load_magazine_through_bolt = TRUE
 
 /* /obj/item/gun/ballistic/rifle/process_chamber(mob/living/user, empty_chamber = 0)
 	return ..() //changed argument value
@@ -75,11 +78,11 @@
 	cock_delay = GUN_COCK_RIFLE_BASE
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/bolt_using/lever_action
 	)
 	scope_x_offset = 5
 	scope_y_offset = 13
-	cock_sound = 'sound/f13weapons/cowboyrepeaterreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/cowboyrepeaterreload.ogg'
 
 /* * * * * * * * * * *
  * Cowboy Repeater
@@ -98,9 +101,6 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = CARBINE_RECOIL(1, 0.8)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/cowboyrepeaterfire.ogg'
 
 /* * * * * * * * * * * * * * * *
@@ -131,7 +131,7 @@
 	suppressor_x_offset = 27
 	suppressor_y_offset = 29
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/bolt_using/lever_action/fast
 	)
 	fire_sound = 'sound/f13weapons/cowboyrepeaterfire.ogg'
 
@@ -145,7 +145,9 @@
 
 /obj/item/gun/ballistic/rifle/repeater/trainerator
 	name = ".22 Mares Leg"
-	desc = "A lever action rifle chambered in .22LR. This one has been cut down crudely, and probably named something like The Filly Buster because you're not just the peak of comedy, you're the whole damn circus and the laugh track, too."
+	desc = "A lever action rifle chambered in .22LR. This one has been cut down crudely, \
+		and probably named something like The Filly Buster because you're not just the peak \
+		of comedy, you're the whole damn circus and the laugh track, too."
 	icon_state = "lever22short" // Placeholder
 	inhand_icon_state = "lever22short"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/short22
@@ -163,7 +165,7 @@
 	suppressor_x_offset = 21 // FIRST TRY BAYEEEEEEE
 	suppressor_y_offset = 23
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/bolt_using/lever_action/fast
 	)
 	fire_sound = 'sound/f13weapons/cowboyrepeaterfire.ogg'
 
@@ -191,9 +193,6 @@
 	init_recoil = HANDGUN_RECOIL (1.2 , 1.2)
 	can_suppress = FALSE
 	can_scope = TRUE
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	reskinnable_component = /datum/component/reskinnable/volcanic
 
 /* * * * * * * * * * *
@@ -213,9 +212,6 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = CARBINE_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/cowboyrepeaterfire.ogg'
 
 /* * * * * * * * * * *
@@ -235,9 +231,6 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = CARBINE_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/44mag.ogg'
 
 /* * * * * * * * * * *
@@ -257,9 +250,6 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = RIFLE_RECOIL(1, 2)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/44mag.ogg'
 
 /* * * * * * * * * * *
@@ -280,9 +270,6 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = RIFLE_RECOIL(1, 1)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/brushgunfire.ogg'
 
 /* * * * * * * * * * *
@@ -303,9 +290,6 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = RIFLE_RECOIL(1, 2)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/brushgunfire.ogg'
 
 /* * * * * * * * * * *
@@ -326,9 +310,6 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = RIFLE_RECOIL(1, 0.9)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/brushgunfire.ogg'
 
 /* * * * * * * * * * *
@@ -349,9 +330,6 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	init_recoil = RIFLE_RECOIL(1, 2)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	fire_sound = 'sound/f13weapons/brushgunfire.ogg'
 
 /* * * * * * * * * * *
@@ -403,12 +381,12 @@
 	scope_state = "scope_long"
 	scope_x_offset = 4
 	scope_y_offset = 12
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
 	reskinnable_component = /datum/component/reskinnable/hunting_rifle
 
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
+		/datum/firemode/bolt_using/delay_on_open
 	)
 
 /obj/item/gun/ballistic/rifle/hunting/attackby(obj/item/A, mob/user, params)
@@ -435,12 +413,8 @@
 	scope_state = "scope_long"
 	scope_x_offset = 4
 	scope_y_offset = 12
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/hunting_rifle.ogg'
-
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 
 
 /* * * * * * * * * * *
@@ -531,11 +505,11 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
+		/datum/firemode/bolt_using/delay_on_close
 	)
 
 //lee speed
@@ -553,11 +527,11 @@
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 	can_scope = TRUE
 	can_bayonet = FALSE
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
 
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fastest
+		/datum/firemode/bolt_using/straight_pull/fast
 	)
 
 /obj/item/gun/ballistic/rifle/mosin/mini
@@ -568,7 +542,7 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_T5
 
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/bolt_using/delay_on_close/fast
 	)
 
 /obj/item/gun/ballistic/rifle/mosin/mini/Initialize()
@@ -623,11 +597,8 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 	reskinnable_component = /datum/component/reskinnable/enfield
 
 /obj/item/gun/ballistic/rifle/enfield/attackby(obj/item/A, mob/user, params)
@@ -657,13 +628,10 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 22
 	knife_y_offset = 21
-	cock_sound = 'sound/weapons/boltpump.ogg'
+	auto_bolt_open_sound = 'sound/weapons/boltpump.ogg'
 	fire_sound = 'sound/f13weapons/boltfire.ogg'
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
 
-	)
-
+// todo: reparent to revolver
 /obj/item/gun/ballistic/rifle/antique/gras
 	name = "Gras"
 	desc = "A very old black powder cartridge gun of French lineage. How has it gotten here? Or survived this long?"
@@ -686,7 +654,7 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 24
 	knife_y_offset = 25
-	cock_sound = 'sound/f13weapons/grasbolt.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/grasbolt.ogg'
 	fire_sound = 'sound/f13weapons/gras.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -718,7 +686,7 @@
 		/datum/firemode/semi_auto/slower
 	)
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/antique/tankgun/custom
 	name = "Custom TankGewehr M1918"
@@ -744,7 +712,7 @@
 		/datum/firemode/semi_auto/slower
 	)
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/antique/gross
 	name = "sawed off Gras"
@@ -765,7 +733,7 @@
 	scope_x_offset = 3
 	scope_y_offset = 13
 	can_bayonet = FALSE
-	cock_sound = 'sound/f13weapons/grasbolt.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/grasbolt.ogg'
 	fire_sound = 'sound/f13weapons/gras.ogg'
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
@@ -785,21 +753,25 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/lasmusket/mosin
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 
+// todo: end todo
+
 /* * * * * * * * * * *
  * Salvaged Eastern Rifle
- * Fixed-mag semi-auto rifle
+ * Fixed-mag boltie rifle
  * .223 / 5.56mm / 5mm
  * Loads 556 and 5mm!
  * loaded one at a time
+ * lots of bullets, slow to use
  *
  * Common
  * * * * * * * * * * */
 
 /obj/item/gun/ballistic/rifle/salvaged_eastern_rifle
 	name = "salvaged eastern rifle"
-	desc = "A clever design adapted out of salvaged surplus eastern rifles and wasteland scarcity. It features a complex loading mechanism \
-		and barrel capable of using both 5mm and 5.56mm rifle ammunition with reasonable success. \
-		The magazine is welded to the frame, and the loading port angled <i>just enough</i> to make stripper clips not work. \
+	desc = "A clever design adapted out of salvaged surplus eastern rifles and wasteland scarcity. \
+		It features a complex loading mechanism and barrel capable of using both 5mm and 5.56mm rifle \
+		ammunition with reasonable success. The magazine is welded to the frame, and the non-functional, \
+		non-present gas blowback system locks this rifle into being 'technically' bolt action. \
 		Apparently these 'features' to the design, being on every instance of this gun."
 	icon = 'icons/fallout/objects/guns/ballistic.dmi'
 	lefthand_file = 'icons/fallout/onmob/weapons/guns_lefthand.dmi'
@@ -812,9 +784,6 @@
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_LESS_DAMAGE_T2
 	init_recoil = RIFLE_RECOIL(1, 0.5)
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 
 	scope_state = "scope_short"
@@ -857,9 +826,6 @@
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = RIFLE_RECOIL(1, 1)
-	init_firemodes = list(
-		/datum/firemode/semi_auto
-	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 	scope_state = "scope_short"
 	scope_x_offset = 4
@@ -907,38 +873,37 @@
 	weapon_class = WEAPON_CLASS_RIFLE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
-	init_firemodes = list(
-		/datum/firemode/semi_auto
-	)
+
 /obj/item/gun/ballistic/rifle/mag/examine(mob/user)
 	. = ..()
 	. += span_notice("Alt-click to remove the magazine.")
 
-/obj/item/gun/ballistic/rifle/mag/AltClick(mob/living/user)
-	var/obj/item/ammo_casing/AC = chambered //Find chambered round
-	if(magazine)
-		magazine.forceMove(drop_location())
-		user.put_in_hands(magazine)
-		magazine.update_icon()
-		if(magazine.ammo_count())
-			playsound(src, 'sound/weapons/gun_magazine_remove_full.ogg', 70, 1)
-		else
-			playsound(src, "gun_remove_empty_magazine", 70, 1)
-		magazine = null
-		to_chat(user, span_notice("You pull the magazine out of \the [src]."))
-	else if(chambered)
-		AC.forceMove(drop_location())
-		AC.bounce_away()
-		chambered = null
-		to_chat(user, span_notice("You unload the round from \the [src]'s chamber."))
-		playsound(src, "gun_slide_lock", 70, 1)
-	else
-		to_chat(user, span_notice("There's no magazine in \the [src]."))
-	update_icon()
-	return
+// /obj/item/gun/ballistic/rifle/mag/AltClick(mob/living/user)
+// 	var/obj/item/ammo_casing/AC = chambered //Find chambered round
+// 	if(magazine)
+// 		magazine.forceMove(drop_location())
+// 		user.put_in_hands(magazine)
+// 		magazine.update_icon()
+// 		if(magazine.ammo_count())
+// 			playsound(src, 'sound/weapons/gun_magazine_remove_full.ogg', 70, 1)
+// 		else
+// 			playsound(src, "gun_remove_empty_magazine", 70, 1)
+// 		magazine = null
+// 		to_chat(user, span_notice("You pull the magazine out of \the [src]."))
+// 	else if(chambered)
+// 		AC.forceMove(drop_location())
+// 		AC.bounce_away()
+// 		chambered = null
+// 		to_chat(user, span_notice("You unload the round from \the [src]'s chamber."))
+// 		playsound(src, "gun_slide_lock", 70, 1)
+// 	else
+// 		to_chat(user, span_notice("There's no magazine in \the [src]."))
+// 	update_icon()
+// 	return
 
 /obj/item/gun/ballistic/rifle/mag/update_icon_state()
-	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][chambered ? "" : "-e"]"
+	var/bolt_closed = bolt_state == GBOLT_CLOSED
+	icon_state = "[initial(icon_state)][magazine ? "-[magazine.max_ammo]" : ""][bolt_closed ? "" : "-e"]"
 
 /* * * * * * * * * * *
  * Anti-Material Rifle
@@ -964,13 +929,10 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_T6
 	init_recoil = HMG_RECOIL(3, 3)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 	can_scope = FALSE
 	zoom_factor = 1
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/mag/antimaterial/loadout
 	desc = "The Hecate II is a heavy, high-powered bolt action sniper rifle chambered in .50 caliber ammunition. Not only lacks an iron sight, but due to unmaintained age it doesn't punch as hard."
@@ -991,15 +953,12 @@
 	damage_multiplier = GUN_LESS_DAMAGE_T4
 	init_recoil = HMG_RECOIL (1.4 , 1.5)
 	cock_delay = GUN_COCK_RIFLE_BASE
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	can_suppress = TRUE
 	can_bayonet = FALSE
 	can_flashlight = FALSE
 	can_scope = TRUE
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 
 
@@ -1019,14 +978,11 @@
 	init_recoil = RIFLE_RECOIL (1.4 , 0.9)
 	cock_delay = GUN_COCK_RIFLE_BASE
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	can_bayonet = FALSE
 	can_flashlight = FALSE
 	can_scope = TRUE
 	fire_sound = 'sound/f13weapons/fg42.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 /obj/item/gun/ballistic/rifle/gewehr88
 	name = "Model 1888 commission rifle"
@@ -1044,9 +1000,6 @@
 	init_recoil = RIFLE_RECOIL (1.2 , 0.7)
 	cock_delay = GUN_COCK_RIFLE_BASE
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
-	)
 	can_bayonet = FALSE
 	can_flashlight = FALSE
 	can_scope = TRUE
@@ -1074,12 +1027,9 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HMG_RECOIL(3, 3)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
-	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
-	)
 	can_scope = FALSE
 	fire_sound = 'sound/f13weapons/antimaterialfire.ogg'
-	cock_sound = 'sound/f13weapons/antimaterialreload.ogg'
+	auto_bolt_open_sound = 'sound/f13weapons/antimaterialreload.ogg'
 
 // BETA // Obsolete
 /obj/item/gun/ballistic/rifle/rifletesting

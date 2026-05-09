@@ -170,7 +170,17 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 	if(clear)
 		GLOB.roundstart_races = list()
 		GLOB.roundstart_race_names = list()
-	for(var/I in subtypesof(/datum/species))
+	var/list/speesh = subtypesof(/datum/species)
+	speesh -= /datum/species/feral
+	speesh -= /datum/species/adapted
+	speesh -= /datum/species/feral/pokemon
+	speesh -= /datum/species/adapted/simplebot
+	speesh -= /datum/species/adapted/dogborg
+	speesh -= /datum/species/adapted/dogborg/otieborg
+	speesh -= /datum/species/adapted/raptorborg
+	speesh -= /datum/species/adapted/drakeborg
+	speesh -= /datum/species/adapted/mechs
+	for(var/I in speesh)
 		var/datum/species/S = new I
 		if(S.check_roundstart_eligible())
 			GLOB.roundstart_races |= S.id
@@ -1817,8 +1827,8 @@ GLOBAL_LIST_EMPTY(roundstart_race_names)
 				if(HAS_TRAIT(user, TRAIT_KI_VAMPIRE) && !HAS_TRAIT(target, TRAIT_NOBREATH) && (punchedbrute < 100)) //If we're a ki vampire we also sap them of lifeforce, but only if they're not too beat up. Also living organics only.
 					user.adjustBruteLoss(-5)
 					user.adjustFireLoss(-5)
-					user.adjustStaminaLoss(-20)
-					target.adjustBruteLoss(20)
+					user.adjustStaminaLoss(-5)
+					target.adjustBruteLoss(10)
 
 		else if(!(target.mobility_flags & MOBILITY_STAND))
 			target.forcesay(GLOB.hit_appends)

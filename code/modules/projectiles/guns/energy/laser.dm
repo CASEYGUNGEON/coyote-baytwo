@@ -1218,7 +1218,7 @@ Phased out for /obj/item/projectile/beam/laser/cranklasergun/tg */
 		fail_tick--
 	..()
 
-/obj/item/gun/energy/laser/tg/recharger/nuclear/shoot_live_shot(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0)
+/obj/item/gun/energy/laser/tg/recharger/nuclear/after_shooting(mob/living/user, pointblank = FALSE, mob/pbtarget, message = 1, stam_cost = 0)
 	failcheck()
 	update_icon()
 	..()

@@ -4433,7 +4433,7 @@
 /area/f13/ruins)
 "dtk" = (
 /mob/living/simple_animal/hostile/renegade/meister{
-	aggro_vision_range = 7
+	aggroed_vision_range = 7
 	},
 /obj/item/card/highbounty,
 /turf/open/indestructible/ground/outside/roof,
@@ -15793,12 +15793,6 @@
 	},
 /turf/open/floor/carpet/cyan,
 /area/f13/building)
-"mKL" = (
-/obj/structure/rack/shelf_metal,
-/obj/effect/spawner/lootdrop/f13/gasmask_goner,
-/obj/item/storage/trash_stack/loot/uncommon,
-/turf/open/floor/plasteel/f13/vault_floor/dark,
-/area/f13/building/mall)
 "mKM" = (
 /obj/structure/barricade/wooden,
 /obj/structure/decoration/rag,
@@ -21025,7 +21019,6 @@
 /area/f13/building/abandoned)
 "rdA" = (
 /obj/structure/bookcase,
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
 /obj/item/storage/trash_stack/loot/uncommon,
 /turf/open/floor/f13/wood,
 /area/f13/building/mall)
@@ -25688,11 +25681,6 @@
 /obj/item/storage/trash_stack/loot/rare,
 /turf/open/indestructible/ground/outside/roof,
 /area/f13/building)
-"uXV" = (
-/obj/structure/closet,
-/obj/effect/spawner/lootdrop/f13/gasmask_goner,
-/turf/open/floor/wood_common,
-/area/f13/building/coyote/nash/school/groundfloor)
 "uYR" = (
 /obj/structure/pondlily_small,
 /turf/open/indestructible/ground/outside/water/running{
@@ -73382,7 +73370,7 @@ fzg
 mAM
 kqb
 lln
-mKL
+fzg
 mAM
 hoW
 dYb
@@ -90246,7 +90234,7 @@ qfM
 bvD
 bvD
 sWx
-uXV
+tyP
 bvD
 vtW
 bvD

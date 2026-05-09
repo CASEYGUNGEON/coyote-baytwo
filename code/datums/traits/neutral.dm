@@ -58,10 +58,9 @@
 	name = "Snob"
 	desc = "You care about the finer things, if a room doesn't look nice its just not really worth it, is it?"
 	value = 0
+	disabled = TRUE
 	category = QUIRK_CATEGORY_EMOTIONAL_QUIRKS
 	mechanics = "WIP In a perfect world this would adjust your mood on the beauty rating of the room you're in, in reality it does nearly nothing. Gives you a good reason to whine about the feng shui. WIP"
-	conflicts = list(
-	)
 	gain_text = span_notice("You feel like you understand what things should look like.")
 	lose_text = span_notice("Well who cares about deco anyways?")
 	medical_record_text = "Patient seems to be rather stuck up."
@@ -93,6 +92,7 @@
 	name = "Ananas Affinity"
 	desc = "You find yourself greatly enjoying fruits of the ananas genus. You can't seem to ever get enough of their sweet goodness!"
 	value = 0
+	disabled = TRUE
 	category = QUIRK_CATEGORY_FOOD_QUIRKS
 	mechanics = "You get a mood boost from eating pineapples."
 	conflicts = list(
@@ -119,6 +119,7 @@
 	name = "Ananas Aversion"
 	desc = "You find yourself greatly detesting fruits of the ananas genus. Serious, how the hell can anyone say these things are good? And what kind of madman would even dare putting it on a pizza!?"
 	value = 0
+	disabled = TRUE
 	category = QUIRK_CATEGORY_FOOD_QUIRKS
 	mechanics = "You really just hate eating pineapples."
 	conflicts = list(
@@ -479,25 +480,25 @@
 		H.remove_language(/datum/language/pokemon)
 
 /datum/quirk/in_heat
-	name = "ERP Receptive"
+	name = "In Heat"
 	desc = "Your character, for whatever reason, is PASSIVELY seeking out attention from those who match your OOC Prefences. Remember to set your OOC notes!"
 	value = 0
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
-	disabled = TRUE
+	disabled = FALSE
 	mechanics = "This trait is a flag for people who have ERP seeking to know that you, right now, are seeking ERP. It's a simple concept, if you just have this quirk you are not going out of our way to look for it, but if it stumbles into your lap well that'd be fine, right?"
 	conflicts = list()
 	mob_trait = TRAIT_IN_HEAT
-	human_only = FALSE
+
 
 /datum/quirk/heat
-	name = "ERP Seeking"
+	name = "In Rut"
 	desc = "Your character, for whatever reason, is ACTIVELY seeking out attention from those who match your OOC Preferences. Remember to check peoples OOC notes!"
 	value = 0
-	category = QUIRK_CATEGORY_PERCEPTIVE_QUIRKS
+	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	mechanics = "This Quirk allows you to see other players ERP related quirks when you examine them. Letting you know, at a glance, some of their prefs if they have them set."
 	conflicts = list()
 	mob_trait = TRAIT_HEAT_DETECT
-	human_only = FALSE
+
 
 /datum/quirk/shy
 	name = "OOCly Shy"
@@ -1041,7 +1042,7 @@
 	desc = "Whether you've got horns, wings, a big ass tail, or maybe just your general vibe, something about you cannot be concealed"
 	value = 0
 	category = QUIRK_CATEGORY_LIFEPATH_QUIRKS
-	mechanics = "Face coverings will not hide your identity from others, including flavor text and species"
+	mechanics = "Face coverings will not hide your identity from others, including examine text and species"
 	conflicts = list()
 	mob_trait = TRAIT_NOHIDEFACE
 	gain_text = span_notice("You feel seen!")
@@ -1073,6 +1074,7 @@
 	var/unfix_text = "Your clothes feel way too tight to breathe! You'll need to fix their fit using their context menu."
 	var/fix_text = "You feel like you can breathe again. That's much better."
 	var/drop_text = "Whew... free at last!"
+	disabled = TRUE
 
 /datum/status_effect/dan_nicki
 	id = "Constriction"
@@ -1170,6 +1172,7 @@
 	unfix_text = "Your clothes feel way too tight to move! You'll need to fix their fit using their context menu."
 	fix_text = "You feel like you can move your legs again. That's much better."
 	drop_text = "Whew... free at last!"
+	disabled = TRUE
 
 /datum/quirk/dan_nicki/wreckingballs/display_fix_text(obj/item/source, mob/user)
 	user.visible_message(span_info("[user] adjusts [user.p_their()] [source.name] a bit to give some room down south!"))
@@ -1211,6 +1214,7 @@
 	unfix_text = "Your clothes feel way too tight to reach into your pockets! You'll need to fix their fit using their context menu."
 	fix_text = "You feel like you can reach into your pockets again. That's much better."
 	drop_text = "Whew... free at last!"
+	disabled = TRUE
 
 /datum/status_effect/hotrod
 	id = "Constriction"
@@ -1254,6 +1258,7 @@
 	unfix_text = "Your clothes feel way too tight! You'll need to fix their fit using their context menu."
 	fix_text = "You feel more comfortable in your clothes again. That's much better."
 	drop_text = "Whew... free at last!"
+	disabled = TRUE
 
 /datum/status_effect/toomuchcake
 	id = "Constriction"
@@ -1285,10 +1290,7 @@
 	desc = "You do not want to be a part of erotic roleplay, and that's fine!"
 	value = 0
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
-	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_NOERP
 	gain_text = span_notice("You're just not horny, you have found peace.")
 	lose_text = span_notice("You can't remember the last time you touched grass.")
@@ -1300,8 +1302,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_VANILLAERP
 	gain_text = span_notice("You remember that sex makes babies.")
 	lose_text = span_notice("The american anti-pregnancy scheme worked on you after all.")
@@ -1313,8 +1313,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_ROUGHERP
 	gain_text = span_notice("HARDER. BETTER. FASTER. STRONGER.")
 	lose_text = span_notice("You just really want to hold someones hand.")
@@ -1326,8 +1324,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_EXTREMEERP
 	gain_text = span_notice("Why yes, I have spent too much time online. How did you know?")
 	lose_text = span_notice("Should have paid your internet bill.")
@@ -1340,8 +1336,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_SNUGGLER
 	gain_text = span_notice("You have a sudden need to be close to another.")
 	lose_text = span_notice("Cooties are real, your mom said so.")
@@ -1353,8 +1347,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_RISKY_BUSINESS
 	gain_text = span_notice("Your biological clock starts screaming that it's Sex O'clock.")
 	lose_text = span_notice("You decide cats are great pets.")
@@ -1366,8 +1358,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_FERALERP
 	gain_text = span_notice("There's a little white woman inside you.")
 	lose_text = span_notice("We ran out of dog treats yesterday.")
@@ -1379,8 +1369,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_ROBOTERP
 	gain_text = span_notice("Give me your USB-C, baby.")
 	lose_text = span_notice("You feel amish.")
@@ -1392,8 +1380,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_VOREERP
 	gain_text = span_notice("Boy, I could eat a whole ass horse.")
 	lose_text = span_notice("I finally feel full again.")
@@ -1405,8 +1391,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_VOREERP
 	gain_text = span_notice("DAMN BOY WE THICK.")
 	lose_text = span_notice("Weightloss time.")
@@ -1418,8 +1402,6 @@
 	category = QUIRK_CATEGORY_BAWDY_QUIRKS
 	disabled = TRUE
 	mechanics = "Shows your prefs in examine."
-	conflicts = list(
-	)
 	mob_trait = TRAIT_DANIMAL
 	gain_text = span_notice("You could use a little butter.")
 	lose_text = span_notice("Dinners over.")

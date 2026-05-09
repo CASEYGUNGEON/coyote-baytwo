@@ -262,6 +262,16 @@
 	var/datum/movespeed_modifier/config_walk_run/M = get_cached_movespeed_modifier(/datum/movespeed_modifier/config_walk_run/run)
 	M.sync()
 
+/datum/config_entry/number/movedelay/run_initial_slowdown
+
+/datum/config_entry/number/movedelay/run_initial_slowdown/ValidateAndSet()
+	. = ..()
+	var/datum/movespeed_modifier/config_walk_run/M = get_cached_movespeed_modifier(/datum/movespeed_modifier/config_walk_run/run/slowest)
+	M.sync()
+
+/datum/config_entry/number/tiles_to_reach_min_run_delay
+	config_entry_value = 3
+
 /datum/config_entry/number/movedelay/walk_delay
 
 /datum/config_entry/number/movedelay/walk_delay/ValidateAndSet()
@@ -279,7 +289,7 @@
 	config_entry_value = 1.4
 
 /datum/config_entry/number/movedelay/sprint_buffer_regen_per_ds
-	config_entry_value = 5
+	config_entry_value = 0.18
 
 /////////////////////////////////////////////////Outdated move delay
 /datum/config_entry/number/outdated_movedelay
@@ -470,7 +480,7 @@
 	min_val = 0
 
 /datum/config_entry/number/penis_max_inches_prefs
-	config_entry_value = 10
+	config_entry_value = 50
 	min_val = 0
 
 /datum/config_entry/number/butt_min_size_prefs

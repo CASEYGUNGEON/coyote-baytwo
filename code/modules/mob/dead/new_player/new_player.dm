@@ -52,16 +52,15 @@
 	if(client?.prefs)
 		output += "<center><p>Welcome, <b>[client.prefs.be_random_name ? "random name player" : client.prefs.real_name]</b></p>"
 		output += "<center><p><a href='byond://?src=[REF(src)];show_preferences=1'>Setup Character</a></p>"
-		if(SSquirks.initialized)
-			if(!(PMC_QUIRK_OVERHAUL_2K23 in client.prefs.current_version))
-				output += "<center><p>[span_alert("You have quirks from the old system that haven't been converted!")]</p>"
-				output += "<center><p><a href='byond://?src=[REF(src)];quirkconversion=1'>Click here to do something about that!</a></p>"
-			else
-				output += "<center><p><a href='byond://?src=[REF(src)];quirks=1'>Configure Quirks!</a></p>"
+		// if(SSquirks.initialized)
+		// 	if(!(PMC_QUIRK_OVERHAUL_2K23 in client.prefs.current_version))
+		// 		output += "<center><p>[span_alert("You have quirks from the old system that haven't been converted!")]</p>"
+		// 		output += "<center><p><a href='byond://?src=[REF(src)];quirkconversion=1'>Click here to do something about that!</a></p>"
+		// 	else
+		// 		output += "<center><p><a href='byond://?src=[REF(src)];quirks=1'>Configure Quirks!</a></p>"
 		// output += "<center><p><a href='byond://?src=[REF(src)];show_hornychat=1'>Configure Profile Pics!</a></p>"
 
 	if(SSticker.current_state <= GAME_STATE_PREGAME)
-		output += "<p>Please be patient, the game is starting soon!</p>"
 		output += "<p><a href='byond://?src=[REF(src)];refresh=1'>(Refresh)</a></p>"
 		output += "<p><a href='byond://?src=[REF(src)];refresh_chat=1)'>(Fix Chat Window)</a></p>"
 		output += "<p><a href='byond://?src=[REF(src)];fit_viewport_lobby=1)'>(Fit Viewport)</a></p>"
@@ -78,7 +77,7 @@
 
 	output += "</center>"
 
-	var/datum/browser/popup = new(src, "playersetup", "<div align='center'>Game Preferences</div>", 400, 600)
+	var/datum/browser/popup = new(src, "playersetup", "<div align='center'>Coy-Co Cryogenics Soul Selector</div>", 200, 280)
 	popup.set_window_options("can_close=0")
 	popup.set_content(output.Join())
 	popup.open(FALSE)
@@ -195,6 +194,8 @@
 		return 1
 
 	if(href_list["ready"])
+		if(!check_examine_and_ooc())
+			return
 		var/tready = text2num(href_list["ready"])
 		//Avoid updating ready if we're after PREGAME (they should use latejoin instead)
 		//This is likely not an actual issue but I don't have time to prove that this
@@ -218,6 +219,8 @@
 		client.fit_viewport()
 
 	if(href_list["late_join"])
+		if(!check_examine_and_ooc())
+			return
 		if(!SSticker || !SSticker.IsRoundInProgress())
 			to_chat(usr, span_danger("The round is either not ready, or has already finished..."))
 			return
@@ -246,6 +249,8 @@
 		PreLateChoices()
 
 	if(href_list["join_as_creature"])
+		if(!check_examine_and_ooc())
+			return
 		CreatureSpawn()
 	// if(href_list["manifest"])
 	// 	ViewManifest()
@@ -758,6 +763,8 @@
 
 
 /mob/dead/new_player/proc/create_character(transfer_after)
+	if(!check_examine_and_ooc())
+		return
 	spawning = 1
 	close_spawn_windows()
 
@@ -887,5 +894,72 @@
 
 	// Add verb for re-opening the interview panel, and re-init the verbs for the stat panel
 	add_verb(src, /mob/dead/new_player/proc/open_interview)
+
+/mob/dead/new_player/proc/check_examine_and_ooc()
+	var/datum/preferences/P = extract_prefs(src)
+	if(!P)
+		to_chat(src, span_phobia("You somehow lack a prefs datum! Call an admin!"))
+		return
+	var/ft_len = LAZYLEN(P.features["flavor_text"])
+	var/ft_long_enough = ft_len > MIN_FLAVOR_LEN
+	var/ft_short_enough = ft_len < MAX_FLAVOR_LEN
+	var/ooc_len = LAZYLEN(P.features["ooc_notes"])
+	var/ooc_long_enough = ooc_len > MIN_OOC_LEN 
+	var/ooc_short_enough = ooc_len < MAX_OOC_LEN
+
+	var/ft_too_long = ft_long_enough && !ft_short_enough
+	var/ft_too_short = !ft_long_enough
+	var/ooc_too_long = ooc_long_enough && !ooc_short_enough
+	var/ooc_too_short = !ooc_long_enough
+
+	if(ft_too_short && ooc_too_short)
+		if(check_rights(R_ADMIN, FALSE))
+			alert("Your examine text AND ooc notes are shorter than [MIN_FLAVOR_LEN] characters! But you're an admin so its okay =3 (be sure to change it!!!)", "Oh dear...", "Okay I'll do that!")
+			return TRUE
+		else
+			alert("Your examine text AND ooc notes are shorter than [MIN_FLAVOR_LEN] characters! Please make it longer!", "Oh dear...", "Okay I'll do that!")
+			return FALSE
+
+	if(ft_too_long && ooc_too_long)
+		if(check_rights(R_ADMIN, FALSE))
+			alert("Your examine text AND ooc notes are longer than than [MAX_FLAVOR_LEN] characters! But you're an admin so its okay =3 (be sure to change it!!!)", "Aw man...", "Okay I'll go do that!")
+			return TRUE
+		else
+			alert("Your examine text AND ooc notes are longer than than [MAX_FLAVOR_LEN] characters! Please make it shorter!", "Aw man...", "Okay I'll go do that!")
+			return FALSE
+
+	if(ft_too_long)
+		if(check_rights(R_ADMIN, FALSE))
+			alert("Your examine text is longer than than [MAX_FLAVOR_LEN] characters! But you're an admin so its okay =3 (be sure to change it!!!)", "Heck...", "Sure I'll do that!")
+			return TRUE
+		else
+			alert("Your examine text is longer than than [MAX_FLAVOR_LEN] characters! Please make it longer!", "Heck...", "Sure I'll do that!")
+			return FALSE
+
+	if(ft_too_short)
+		if(check_rights(R_ADMIN, FALSE))
+			alert("Your examine text is shorter than than [MIN_FLAVOR_LEN] characters! But you're an admin so its okay =3 (be sure to change it!!!)", "Rats...", "Yeah lemme go do that!")
+			return TRUE
+		else
+			alert("Your examine text is shorter than than [MIN_FLAVOR_LEN] characters! Please make it longer!", "Rats...", "Yeah lemme go do that!")
+			return FALSE
+
+	if(ooc_too_long)
+		if(check_rights(R_ADMIN, FALSE))
+			alert("Your ooc notes are longer than than [MAX_FLAVOR_LEN] characters! But you're an admin so its okay =3 (be sure to change it!!!)", "Oh phooey...", "Right lemme just go do that!")
+			return TRUE
+		else
+			alert("Your ooc notes are longer than than [MAX_FLAVOR_LEN] characters! Please make it longer!", "Oh phooey...", "Right lemme just go do that!")
+			return FALSE
+
+	if(ooc_too_short)
+		if(check_rights(R_ADMIN, FALSE))
+			alert("Your ooc notes are shorter than than [MIN_FLAVOR_LEN] characters! But you're an admin so its okay =3 (be sure to change it!!!)", "Stars and garters...", "Yeah I can do that!")
+			return TRUE
+		else
+			alert("Your ooc notes are shorter than than [MIN_FLAVOR_LEN] characters! Please make it shorter!", "Stars and garters...", "Yeah I can do that!")
+			return FALSE
+	return TRUE
+
 
 

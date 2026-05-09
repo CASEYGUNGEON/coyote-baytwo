@@ -141,13 +141,13 @@
 			force_modifier = (-force * 0.2) // You do 80% damage because you're in critical condition
 		else
 			if(HAS_TRAIT(user, TRAIT_BIG_LEAGUES))
-				force_modifier += 25
+				force_modifier += 15
 			if(HAS_TRAIT(user, TRAIT_LITTLE_LEAGUES))
-				force_modifier += 18
+				force_modifier += 10
 			if(HAS_TRAIT(user, TRAIT_GENTLE))
-				force_modifier += -18
+				force_modifier += -10
 			if(HAS_TRAIT(user, TRAIT_WIMPY))
-				force_modifier += -25
+				force_modifier += -15
 			if(HAS_TRAIT(user, TRAIT_BUFFOUT_BUFF))
 				force_modifier += 50
 			if(HAS_TRAIT(user, TRAIT_FEV))
@@ -206,6 +206,8 @@
 	if(damage_override)
 		var/dammod = min(damage_override / max(1, force), 1)
 		damage_override += (force_modifier * dammod)
+	var/bs_mult = try_backstab(user, M)
+	damage_override = damage_override * bs_mult
 	M.attacked_by(src, user, attackchain_flags, damage_multiplier, damage_addition = force_modifier, damage_override = damage_override)
 
 	log_combat(user, M, "attacked", src.name, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
@@ -231,8 +233,8 @@
 	if(!attacker.client || !hurted.client)
 		return TRUE // one of them lacks a clint
 	// now the real PVP check
-	if(attacker.enabled_combat_indicator && hurted.enabled_combat_indicator)
-		return TRUE
+	// if(attacker.enabled_combat_indicator && hurted.enabled_combat_indicator)
+	// 	return TRUE
 	return FALSE
 
 //the equivalent of the standard version of attack() but for object targets.

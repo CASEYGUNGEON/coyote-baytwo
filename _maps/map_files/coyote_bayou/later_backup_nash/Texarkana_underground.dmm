@@ -1273,12 +1273,6 @@
 /obj/effect/decal/cleanable/blood/splats,
 /turf/open/floor/plasteel/freezer,
 /area/f13/caves)
-"aUj" = (
-/obj/structure/rack,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/obj/item/storage/trash_stack/loot/uncommon,
-/turf/open/floor/plasteel/f13/vault_floor/dark,
-/area/f13/building/hospital)
 "aUF" = (
 /obj/machinery/light/small/broken{
 	dir = 1
@@ -3750,7 +3744,6 @@
 /turf/open/floor/plasteel/f13/vault_floor/misc/vaultrust,
 /area/f13/caves)
 "cQW" = (
-/obj/effect/spawner/lootdrop/f13/gasmask_goner,
 /obj/structure/sign/poster/official/work_for_a_future{
 	pixel_y = 32
 	},
@@ -10141,7 +10134,6 @@
 "hIG" = (
 /obj/machinery/autolathe/ammo,
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/item/book/granter/crafting_recipe/gunsmith_four,
 /turf/open/floor/f13{
 	icon_state = "reddirtyfull"
 	},
@@ -10904,7 +10896,6 @@
 /turf/open/indestructible/ground/inside/subway,
 /area/f13/tunnel)
 "ilD" = (
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
 /obj/structure/table/wasteland,
 /turf/open/floor/f13{
 	icon_state = "reddirtyfull"
@@ -12376,13 +12367,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/indestructible/ground/inside/subway,
 /area/f13/caves)
-"jxK" = (
-/obj/structure/table/wasteland,
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
-/turf/open/floor/f13{
-	icon_state = "yellowdirtyfull"
-	},
-/area/f13/caves)
 "jyf" = (
 /obj/machinery/conveyor/inverted,
 /obj/item/clothing/head/hardhat,
@@ -12624,11 +12608,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/item/storage/trash_stack/loot/uncommon,
 /turf/open/floor/f13/wood,
-/area/f13/tunnel)
-"jIt" = (
-/obj/structure/rack/shelf_metal,
-/obj/item/locked_box/misc/blueprints/tier2,
-/turf/open/indestructible/ground/inside/subway,
 /area/f13/tunnel)
 "jIG" = (
 /turf/open/indestructible/ground/outside/sidewalk,
@@ -13399,8 +13378,6 @@
 /area/f13/caves)
 "kjD" = (
 /obj/machinery/workbench/advanced,
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
-/obj/item/book/granter/crafting_recipe/gunsmith_two,
 /turf/open/floor/plasteel/f13/vault_floor/yellow,
 /area/f13/tunnel)
 "kkj" = (
@@ -13631,7 +13608,6 @@
 "krC" = (
 /obj/structure/table/wood/junk,
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
 /obj/item/storage/trash_stack/loot/uncommon,
 /turf/open/floor/wood_wide/wood_wide_dark,
 /area/f13/building/sewers)
@@ -17923,10 +17899,6 @@
 /obj/structure/sign/warning/electricshock,
 /turf/closed/indestructible/f13vaultrusted,
 /area/f13/tunnel)
-"nLJ" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/floor/plating/tunnel,
-/area/f13/building/sewers)
 "nLM" = (
 /obj/structure/table/wood/settler,
 /turf/open/floor/wood_common/wood_common_dark,
@@ -19301,8 +19273,6 @@
 /turf/open/floor/plasteel/grimy,
 /area/f13/tunnel)
 "oNv" = (
-/obj/item/book/granter/crafting_recipe/gunsmith_three,
-/obj/item/book/granter/crafting_recipe/gunsmith_two,
 /obj/structure/table/wood/settler,
 /turf/open/floor/plasteel/f13/vault_floor/yellow,
 /area/f13/caves)
@@ -19828,10 +19798,6 @@
 	icon_state = "greenrustyfull"
 	},
 /area/f13/building/sewers)
-"plQ" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/floor/plating/tunnel,
-/area/f13/tunnel)
 "plR" = (
 /obj/structure/table/wasteland,
 /obj/structure/barricade/bars,
@@ -25045,10 +25011,6 @@
 	icon_state = "greenrustyfull"
 	},
 /area/f13/tunnel)
-"tgz" = (
-/obj/effect/spawner/lootdrop/f13/armor/tier1,
-/turf/open/indestructible/ground/inside/subway,
-/area/f13/building/sewers)
 "tgV" = (
 /obj/structure/chair/wood{
 	dir = 4
@@ -25320,7 +25282,6 @@
 /area/f13/tunnel)
 "trj" = (
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/spawner/lootdrop/f13/gasmask_goner,
 /turf/open/floor/f13{
 	icon_state = "yellowrustychess"
 	},
@@ -58020,7 +57981,7 @@ jpT
 jpT
 oDE
 jpT
-nLJ
+asi
 asi
 jpT
 sCj
@@ -62004,7 +61965,7 @@ eZF
 eZF
 fhE
 dym
-plQ
+mCv
 fhE
 eZF
 mCv
@@ -79075,7 +79036,7 @@ hiR
 hiR
 fvw
 gai
-jxK
+xFi
 sPQ
 pdt
 rUs
@@ -102857,7 +102818,7 @@ nhW
 nhW
 pTf
 cRE
-tgz
+nhW
 nhW
 nhW
 nhW
@@ -102867,7 +102828,7 @@ wZN
 jpT
 yfR
 eZF
-jIt
+ekI
 fhE
 odz
 eZF
@@ -116016,7 +115977,7 @@ hvg
 erR
 egp
 uZa
-aUj
+uZa
 hvg
 npp
 mCA

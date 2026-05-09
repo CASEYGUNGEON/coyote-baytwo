@@ -33,12 +33,12 @@
 	emote_type = EMOTE_AUDIBLE
 	sound = 'modular_splurt/sound/voice/raptor_purr.ogg'
 
-/datum/emote/living/carbon/yippie
-	key = "yippie"
-	key_third_person = "yippie"
-	message = "is incredibly joyous!"
-	emote_type = EMOTE_AUDIBLE
-	sound = 'modular_splurt/sound/voice/yippee.ogg'
+// /datum/emote/living/carbon/yippie
+// 	key = "yippie"
+// 	key_third_person = "yippie"
+// 	message = "is incredibly joyous!"
+// 	emote_type = EMOTE_AUDIBLE
+// 	sound = 'modular_splurt/sound/voice/yippee.ogg'
 
 /datum/emote/living/carbon/mewo
 	key = "mewo"
@@ -160,20 +160,6 @@
 	key_third_person = "winks"
 	message = "winks."
 
-/datum/emote/living/carbon/erp
-	key = "erp"
-	key_third_person = "erps"
-
-/datum/emote/living/carbon/erp/run_emote(mob/user)
-	var/obj/item/hand_item/subtle_catapult/licky = SSchat.UnstashHornyThing(user)
-	if(!licky)
-		return
-	if(user.put_in_hands(licky))
-		to_chat(user, span_notice("You get ready to send someone a message."))
-	else
-		SSchat.StashHornyThing(user)
-
-
 /datum/emote/living/carbon/lick
 	key = "lick"
 	key_third_person = "licks"
@@ -181,36 +167,7 @@
 
 /datum/emote/living/carbon/lick/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't lick anything! Don't ask why!"))
-	// 	return
-	var/obj/item/hand_item/tactile/licker/licky = new(user)
-	if(user.put_in_hands(licky))
-		to_chat(user, span_notice("You extend your tongue and get ready to lick something."))
-	else
-		qdel(licky)
-
-/datum/emote/living/carbon/lick_horny
-	key = "lickhorny"
-	key_third_person = "licks"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/lick_horny/run_emote(mob/user)
-	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't lick anything! Don't ask why!"))
-	// 	return
-	var/obj/item/hand_item/tactile/licker/horny/licky = new(user)
-	if(user.put_in_hands(licky))
-		to_chat(user, span_notice("You extend your tongue and get ready to lick something."))
-	else
-		qdel(licky)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/licker)
 
 /datum/emote/living/carbon/touch
 	key = "touch"
@@ -219,36 +176,7 @@
 
 /datum/emote/living/carbon/touch/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't touch anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/toucher/touchy = new(user)
-	if(user.put_in_hands(touchy))
-		to_chat(user, span_notice("You get ready to touch something."))
-	else
-		qdel(touchy)
-
-/datum/emote/living/carbon/touch_horny
-	key = "touchhorny"
-	key_third_person = "touches"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/touch_horny/run_emote(mob/user)
-	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't touch anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/toucher/horny/touchy = new(user)
-	if(user.put_in_hands(touchy))
-		to_chat(user, span_notice("You get ready to touch something."))
-	else
-		qdel(touchy)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/toucher)
 
 /datum/emote/living/carbon/kiss
 	key = "kiss"
@@ -257,36 +185,7 @@
 
 /datum/emote/living/carbon/kiss/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("My active hand is full, and therefore you can't touch anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/kisser/touchy = new(user)
-	if(user.put_in_hands(touchy))
-		to_chat(user, span_notice("You get ready to smooch something."))
-	else
-		qdel(touchy)
-
-/datum/emote/living/carbon/kiss_horny
-	key = "kisshorny"
-	key_third_person = "kisses"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/kiss_horny/run_emote(mob/user)
-	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("My active hand is full, and therefore you can't touch anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/kisser/horny/touchy = new(user)
-	if(user.put_in_hands(touchy))
-		to_chat(user, span_notice("You get ready to smooch something."))
-	else
-		qdel(touchy)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/kisser)
 
 /datum/emote/living/carbon/tend
 	key = "tend"
@@ -295,17 +194,7 @@
 
 /datum/emote/living/carbon/tend/run_emote(mob/user)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/tactile/))
-		I.melee_attack_chain(user, user)
-	// else if(I)
-	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't tend anything!"))
-	// 	return
-	var/obj/item/hand_item/tactile/tender/tendy = new(user)
-	if(user.put_in_hands(tendy))
-		to_chat(user, span_notice("You retrieve your emergency kit and get ready to tend something."))
-	else
-		qdel(tendy)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/tactile/triage)
 
 //We are not naming this 'beaner' so help me god
 /datum/emote/living/carbon/bean
@@ -315,14 +204,7 @@
 
 /datum/emote/living/carbon/bean/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your beans are too full to bean the beans, what the hell are you doing???!?"))
-		return
-	var/obj/item/hand_item/beans/bean = new(user)
-	if(user.put_in_hands(bean))
-		to_chat(user, span_notice("You ready your beans for WAR!!"))
-	else
-		qdel(bean)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/beans)
 
 /datum/emote/living/carbon/bean_war
 	key = "warbean"
@@ -331,14 +213,7 @@
 
 /datum/emote/living/carbon/bean_war/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your beans are too full to bean the beans, what the hell are you doing???!?"))
-		return
-	var/obj/item/hand_item/beans_war/warbean = new(user)
-	if(user.put_in_hands(warbean))
-		to_chat(user, span_notice("You ready your warbeans for REAL WAR!!"))
-	else
-		qdel(warbean)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/beans/war)
 
 /datum/emote/living/carbon/cuphand
 	key = "cuphand"
@@ -347,14 +222,8 @@
 
 /datum/emote/living/carbon/cuphand/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your cup your hand to hold liquids."))
-		return
-	var/obj/item/reagent_containers/food/drinks/sillycup/handcup/handcup = new(user)
-	if(user.put_in_hands(handcup))
-		to_chat(user, span_notice("Your cuphand is ready!"))
-	else
-		qdel(handcup)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/spawner/cuphand)
+
 
 /*/datum/emote/living/carbon/human/magic/can_run_emote(mob/user, status_check = FALSE, intentional = TRUE)
 	. = ..()
@@ -391,32 +260,7 @@
 
 /datum/emote/living/carbon/bite/run_emote(mob/living/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to properly bite!  Don't ask!"))
-		return
-	var/which_biter_to_spawn
-	if(LAZYLEN(user.mob_quirks))//Check if we need to do all these expensive checks
-		if(HAS_TRAIT(user, TRAIT_BIGBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/big
-		else if(HAS_TRAIT(user, TRAIT_FASTBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/fast
-		else if(HAS_TRAIT(user, TRAIT_PLAYBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/play
-		else if(HAS_TRAIT(user, TRAIT_SPICYBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/spicy
-		else if(HAS_TRAIT(user, TRAIT_SABREBITE))
-			which_biter_to_spawn = /obj/item/hand_item/biter/sabre
-		else 
-			which_biter_to_spawn = /obj/item/hand_item/biter
-	else if(isanimal(user) && !isadvancedmob(user))
-		which_biter_to_spawn = /obj/item/hand_item/biter/creature
-	else//Fallback
-		which_biter_to_spawn = /obj/item/hand_item/biter
-	var/obj/item/hand_item/bite = new which_biter_to_spawn(user)
-	if(user.put_in_hands(bite)) 
-		to_chat(user, span_notice("You show your fangs and prepare to bite the mess out of something or someone!"))
-	else
-		qdel(bite)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/biter)
 
 //Tailer//
 /datum/emote/living/carbon/tailer
@@ -426,31 +270,7 @@
 
 /datum/emote/living/carbon/tailer/run_emote(mob/living/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too busy to use your tail right now, maybe empty up your hands a bit?"))
-		return
-	var/which_tail_to_spawn
-	if(LAZYLEN(user.mob_quirks))//Check if we need to do all these expensive checks
-		if(HAS_TRAIT(user, TRAIT_TAILWHIP))
-			which_tail_to_spawn = /obj/item/hand_item/tail/fast
-		else if(HAS_TRAIT(user, TRAIT_TAILSMASH))
-			which_tail_to_spawn = /obj/item/hand_item/tail/big
-		else if(HAS_TRAIT(user, TRAIT_TAILSPICY))
-			which_tail_to_spawn = /obj/item/hand_item/tail/spicy
-		else if(HAS_TRAIT(user, TRAIT_TAILTHAGO))
-			which_tail_to_spawn = /obj/item/hand_item/tail/thago
-		else if(HAS_TRAIT(user, TRAIT_TAILPLAY))
-			which_tail_to_spawn = /obj/item/hand_item/tail/playful
-		else 
-			which_tail_to_spawn = /obj/item/hand_item/tail
-	else
-		which_tail_to_spawn = /obj/item/hand_item/tail
-
-	var/obj/item/hand_item/tail = new which_tail_to_spawn(user)
-	if(user.put_in_hands(tail)) 
-		to_chat(user, span_notice("You swing your tail around, ready for action!"))
-	else
-		qdel(tail)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/tail)
 
 //Clawer//
 /datum/emote/living/carbon/claw 
@@ -460,32 +280,7 @@
 
 /datum/emote/living/carbon/claw/run_emote(mob/living/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to use your claws!"))
-		return
-	var/which_clawer_to_spawn
-	if(LAZYLEN(user.mob_quirks))//Check if we need to do all these expensive checks
-		if(HAS_TRAIT(user, TRAIT_BIGCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/big
-		else if(HAS_TRAIT(user, TRAIT_FASTCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/fast
-		else if(HAS_TRAIT(user, TRAIT_PLAYCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/play
-		else if(HAS_TRAIT(user, TRAIT_SPICYCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/spicy
-		else if(HAS_TRAIT(user, TRAIT_RAZORCLAW))
-			which_clawer_to_spawn = /obj/item/hand_item/clawer/razor
-		else 
-			which_clawer_to_spawn =  /obj/item/hand_item/clawer 
-	else if(isanimal(user) && !isadvancedmob(user))
-		which_clawer_to_spawn =  /obj/item/hand_item/clawer/creature
-	else//fallback
-		which_clawer_to_spawn =  /obj/item/hand_item/clawer
-	var/obj/item/hand_item/clawer/claw = new which_clawer_to_spawn(user)
-	if(user.put_in_hands(claw))
-		to_chat(user, span_notice("You get your claws ready to slice!"))
-	else
-		qdel(claw)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/clawer)
 
 //shocking grasp//
 /datum/emote/living/carbon/shocking
@@ -495,19 +290,7 @@
 
 /datum/emote/living/carbon/shocking/run_emote(mob/living/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to cast!"))
-		return
-	var/which_cantrip_to_spawn
-	if(HAS_TRAIT(user, TRAIT_SHOCKINGGRASP))
-		which_cantrip_to_spawn = /obj/item/hand_item/cantrip/godhand
-	else 
-		to_chat(user, span_notice("You don't know how to cast this spell!"))
-	var/obj/item/hand_item/cantrip/godhand/cantrip = new which_cantrip_to_spawn(user) 
-	if(user.put_in_hands(cantrip))
-		to_chat(user, span_notice("You are ready to zap"))
-	else
-		qdel(cantrip)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/cantrip/godhand)
 
 //booming blade//
 
@@ -532,25 +315,6 @@
 	//else
 		//qdel(cantrip)
 
-//Tackler//
-
-
-/datum/emote/living/carbon/tackle
-	key = "tackle"
-	key_third_person = "tackle"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/tackle/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to tackle!"))
-		return
-	var/obj/item/hand_item/tackler
-	if(user.put_in_hands(tackler))
-		to_chat(user, span_notice("You get ready to tackle!"))
-	else
-		qdel(tackler)
-
 //Shover//
 /datum/emote/living/carbon/shover
 	key = "shove"
@@ -559,91 +323,73 @@
 
 /datum/emote/living/carbon/shover/run_emote(mob/user)
 	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to really shove someone!"))
-		return
-	var/obj/item/hand_item/shover/shove = new(user)
-	if(user.put_in_hands(shove))
-		to_chat(user, span_notice("You get ready to shove someone back!"))
-	else
-		qdel(shove)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/shover)
 
 //armblade mutation//
-/datum/emote/living/carbon/armblade
-	key = "armblade"
-	key_third_person = "draws an arm blade!"
-	restraint_check = TRUE
+// /datum/emote/living/carbon/armblade
+// 	key = "armblade"
+// 	key_third_person = "draws an arm blade!"
+// 	restraint_check = TRUE
 
-/datum/emote/living/carbon/armblade/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to use your blade!"))
-		return
-	var/which_blade_to_spawn
-	if(HAS_TRAIT(user, TRAIT_ARMBLADE))
-		which_blade_to_spawn = /obj/item/hand_item/arm_blade/mutation
-	else 
-		to_chat(user, span_notice("You ain't got no arm blades!"))
-	var/obj/item/hand_item/arm_blade/mutation/blade = new which_blade_to_spawn(user) 
-	if(user.put_in_hands(blade))
-		to_chat(user, span_notice("You get your blades ready to slice!"))
-	else
-		qdel(blade)
+// /datum/emote/living/carbon/armblade/run_emote(mob/user)
+// 	. = ..()
+// 	if(user.get_active_held_item())
+// 		to_chat(user, span_warning("Your hands are too full to use your blade!"))
+// 		return
+// 	var/which_blade_to_spawn
+// 	if(HAS_TRAIT(user, TRAIT_ARMBLADE))
+// 		which_blade_to_spawn = /obj/item/hand_item/arm_blade/mutation
+// 	else 
+// 		to_chat(user, span_notice("You ain't got no arm blades!"))
+// 	var/obj/item/hand_item/arm_blade/mutation/blade = new which_blade_to_spawn(user) 
+// 	if(user.put_in_hands(blade))
+// 		to_chat(user, span_notice("You get your blades ready to slice!"))
+// 	else
+// 		qdel(blade)
 
-//cybernetic blade placeholder(?)
-/datum/emote/living/carbon/cyberarm
-	key = "cyber"
-	key_third_person = "draws an arm blade!"
-	restraint_check = TRUE
+// //cybernetic blade placeholder(?)
+// /datum/emote/living/carbon/cyberarm
+// 	key = "cyber"
+// 	key_third_person = "draws an arm blade!"
+// 	restraint_check = TRUE
 
-/datum/emote/living/carbon/cyberarm/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to use your blade!"))
-		return
-	var/which_blade_to_spawn
-	if(HAS_TRAIT(user, TRAIT_CYBERKNIFE))
-		which_blade_to_spawn = /obj/item/hand_item/arm_blade/mutation/cyber
-	else 
-		to_chat(user, span_notice("You ain't got no arm blades!"))
-	var/obj/item/hand_item/arm_blade/mutation/cyber/blade = new which_blade_to_spawn(user) 
-	if(user.put_in_hands(blade))
-		to_chat(user, span_notice("You get your blades ready to slice!"))
-	else
-		qdel(blade)
+// /datum/emote/living/carbon/cyberarm/run_emote(mob/user)
+// 	. = ..()
+// 	if(user.get_active_held_item())
+// 		to_chat(user, span_warning("Your hands are too full to use your blade!"))
+// 		return
+// 	var/which_blade_to_spawn
+// 	if(HAS_TRAIT(user, TRAIT_CYBERKNIFE))
+// 		which_blade_to_spawn = /obj/item/hand_item/arm_blade/mutation/cyber
+// 	else 
+// 		to_chat(user, span_notice("You ain't got no arm blades!"))
+// 	var/obj/item/hand_item/arm_blade/mutation/cyber/blade = new which_blade_to_spawn(user) 
+// 	if(user.put_in_hands(blade))
+// 		to_chat(user, span_notice("You get your blades ready to slice!"))
+// 	else
+// 		qdel(blade)
 
-//arm tentacle mutation//
-/datum/emote/living/carbon/tentarm
-	key = "tentarm"
-	key_third_person = "contorts their arm into a tentacle!"
-	restraint_check = TRUE
+// //arm tentacle mutation//
+// /datum/emote/living/carbon/tentarm
+// 	key = "tentarm"
+// 	key_third_person = "contorts their arm into a tentacle!"
+// 	restraint_check = TRUE
 
-/datum/emote/living/carbon/tentarm/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to use your tentacle arm!"))
-		return
-	var/which_tentacle_to_spawn
-	if(HAS_TRAIT(user, TRAIT_ARMTENT))
-		which_tentacle_to_spawn = /obj/item/gun/magic/tentacle
-	else 
-		to_chat(user, span_notice("You ain't got no arm tentacles, you goof!"))
-	var/obj/item/gun/magic/tentacle/tentacle = new which_tentacle_to_spawn(user) 
-	if(user.put_in_hands(tentacle))
-		to_chat(user, span_notice("You get your arm tentacle ready to grab!"))
-	else
-		qdel(tentacle)
-
-/datum/emote/living/carbon/butt/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to preform butt!"))
-		return
-	var/obj/item/hand_item/butt/butt = new(user) 
-	if(user.put_in_hands(butt))
-		to_chat(user, span_notice("You get your butt."))
-	else
-		qdel(butt)
+// /datum/emote/living/carbon/tentarm/run_emote(mob/user)
+// 	. = ..()
+// 	if(user.get_active_held_item())
+// 		to_chat(user, span_warning("Your hands are too full to use your tentacle arm!"))
+// 		return
+// 	var/which_tentacle_to_spawn
+// 	if(HAS_TRAIT(user, TRAIT_ARMTENT))
+// 		which_tentacle_to_spawn = /obj/item/gun/magic/tentacle
+// 	else 
+// 		to_chat(user, span_notice("You ain't got no arm tentacles, you goof!"))
+// 	var/obj/item/gun/magic/tentacle/tentacle = new which_tentacle_to_spawn(user) 
+// 	if(user.put_in_hands(tentacle))
+// 		to_chat(user, span_notice("You get your arm tentacle ready to grab!"))
+// 	else
+// 		qdel(tentacle)
 
 //Mage grab spell
 /datum/emote/living/carbon/magegrab
@@ -675,147 +421,69 @@
 
 /datum/emote/living/carbon/butt/run_emote(mob/user)
 	. = ..()
-	var/mob/living/carbon/human/H = user
-	if(!ishuman(H))
-		to_chat(H, span_alert("Hey! No dog butts allowed!"))
-		return
-	if(!H.has_butt())
-		to_chat(H, span_alert("[H], you have no butt!"))
-		return
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to preform butt!"))
-		return
-	var/obj/item/hand_item/butt/butt = new(user) 
-	if(user.put_in_hands(butt))
-		to_chat(user, span_notice("You get your butt."))
-	else
-		qdel(butt)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/weapon/butt)
 
 //Rock throw//
 /datum/emote/living/carbon/rocker
 	key = "rocks"
 	key_third_person = "rocks"
 	restraint_check = TRUE
-	COOLDOWN_DECLARE(rock_cooldown)
-	var/damageMult
-	var/hasPickedUp = FALSE
-	var/timerEnabled
-	var/damageNerf = 2.2
-
 
 /datum/emote/living/carbon/rocker/run_emote(mob/user)
 	. = ..()
-	if(!COOLDOWN_FINISHED(src, rock_cooldown) && !HAS_TRAIT(user, TRAIT_MONKEYLIKE))
-		to_chat(user, span_warning("You cant find any rocks yet!"))
-		return
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to go looking for rocks!"))
-		return
-	var/obj/item/ammo_casing/caseless/rock/rock = new(user)
-
-	if(hasPickedUp)
-		rock.throwforce = damageMult / damageNerf
-
-	if(user.put_in_hands(rock))
-		hasPickedUp = TRUE
-		damageMult = rock.throwforce
-		if(!timerEnabled)
-			addtimer(CALLBACK(src,PROC_REF(reset_damage)), 2.5 SECONDS)
-			timerEnabled = TRUE
-		COOLDOWN_START(src, rock_cooldown, 2.5 SECONDS)
-		to_chat(user, span_notice("You find a nice hefty throwing rock!"))
-	else
-		qdel(rock)
-
-/datum/emote/living/carbon/rocker/proc/reset_damage()
-	hasPickedUp = FALSE
-	timerEnabled = FALSE
-	damageMult = initial(damageMult)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/spawner/rock)
 
 //brick//
 /datum/emote/living/carbon/bricker
 	key = "brick"
 	key_third_person = "bricks"
 	restraint_check = TRUE
-	COOLDOWN_DECLARE(brick_cooldown)
-	var/damageMult
-	var/hasPickedUp = FALSE
-	var/timerEnabled
-	var/damageNerf = 2.2
+
 
 /datum/emote/living/carbon/bricker/run_emote(mob/user)
 	. = ..()
-	if(!COOLDOWN_FINISHED(src, brick_cooldown) && !HAS_TRAIT(user, TRAIT_QUICK_BUILD))
-		to_chat(user, span_warning("You cant find any bricks yet!"))
-		return
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your hands are too full to go looking for bricks!"))
-		return
-	var/obj/item/ammo_casing/caseless/brick/brick = new(user)
-
-	if(hasPickedUp)
-		brick.throwforce = damageMult / damageNerf
-
-	if(user.put_in_hands(brick))
-		hasPickedUp = TRUE
-		damageMult = brick.throwforce
-		if(!timerEnabled)
-			addtimer(CALLBACK(src,PROC_REF(reset_damage)), 2.5 SECONDS)
-			timerEnabled = TRUE
-		COOLDOWN_START(src, brick_cooldown, 2.5 SECONDS)
-		to_chat(user, span_notice("You find a nice weighty brick!"))
-	else
-		qdel(brick)
-
-/datum/emote/living/carbon/bricker/proc/reset_damage()
-	hasPickedUp = FALSE
-	timerEnabled = FALSE
-	damageMult = initial(damageMult)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/spawner/brick)
 
 //snowball//
 /datum/emote/living/carbon/snowballer
 	key = "snowball"
 	key_third_person = "snowball"
 	restraint_check = TRUE
-	COOLDOWN_DECLARE(snowball_cooldown)
-	var/damageMult
-	var/hasPickedUp = FALSE
-	var/timerEnabled
-	var/damageNerf = 2.2
 
 
 /datum/emote/living/carbon/snowballer/run_emote(mob/user)
 	. = ..()
-	var/MM = text2num(time2text(world.timeofday, "MM"))
-	if(MM == 12 || MM == 1 || MM == 2)
-		if(!COOLDOWN_FINISHED(src, snowball_cooldown) && !HAS_TRAIT(user, TRAIT_MONKEYLIKE))
-			to_chat(user, span_warning("You cant find any snowballs yet!"))
-			return
-		if(user.get_active_held_item())
-			to_chat(user, span_warning("Your hands are too full to go looking for snowballs!"))
-			return
-		var/obj/item/toy/snowball/snowball = new(user)
+	SShanditems.give_hand_item(user, /obj/item/hand_item/spawner/snowball)
+// 	var/MM = text2num(time2text(world.timeofday, "MM"))
+// 	if(MM == 12 || MM == 1 || MM == 2)
+// 		if(!COOLDOWN_FINISHED(src, snowball_cooldown) && !HAS_TRAIT(user, TRAIT_MONKEYLIKE))
+// 			to_chat(user, span_warning("You cant find any snowballs yet!"))
+// 			return
+// 		if(user.get_active_held_item())
+// 			to_chat(user, span_warning("Your hands are too full to go looking for snowballs!"))
+// 			return
+// 		var/obj/item/toy/snowball/snowball = new(user)
 
-		if(hasPickedUp)
-			snowball.throwforce = damageMult / damageNerf
+// 		if(hasPickedUp)
+// 			snowball.throwforce = damageMult / damageNerf
 
-		if(user.put_in_hands(snowball))
-			hasPickedUp = TRUE
-			damageMult = snowball.throwforce
-			if(!timerEnabled)
-				addtimer(CALLBACK(src,PROC_REF(reset_damage)), 2.5 SECONDS)
-				timerEnabled = TRUE
-			COOLDOWN_START(src, snowball_cooldown, 2.5 SECONDS)
-			to_chat(user, span_notice("You pack together a nice round snowball!"))
-		else
-			qdel(snowball)
-	else
-		to_chat(user, span_notice("It's the wrong season for snow..."))
+// 		if(user.put_in_hands(snowball))
+// 			hasPickedUp = TRUE
+// 			damageMult = snowball.throwforce
+// 			if(!timerEnabled)
+// 				addtimer(CALLBACK(src,PROC_REF(reset_damage)), 2.5 SECONDS)
+// 				timerEnabled = TRUE
+// 			COOLDOWN_START(src, snowball_cooldown, 2.5 SECONDS)
+// 			to_chat(user, span_notice("You pack together a nice round snowball!"))
+// 		else
+// 			qdel(snowball)
+// 	else
+// 		to_chat(user, span_notice("It's the wrong season for snow..."))
 
-/datum/emote/living/carbon/snowballer/proc/reset_damage()
-	hasPickedUp = FALSE
-	timerEnabled = FALSE
-	damageMult = initial(damageMult)
+// /datum/emote/living/carbon/snowballer/proc/reset_damage()
+// 	hasPickedUp = FALSE
+// 	timerEnabled = FALSE
+// 	damageMult = initial(damageMult)
 
 //snowblock//
 /datum/emote/living/carbon/snower
@@ -840,35 +508,35 @@
 	else
 		to_chat(user, span_notice("It's the wrong season for snow..."))
 
-/datum/emote/living/carbon/tsk
-	key = "tsk"
-	message = "tsks audibly."
-	emote_type = EMOTE_AUDIBLE
+// /datum/emote/living/carbon/tsk
+// 	key = "tsk"
+// 	message = "tsks audibly."
+// 	emote_type = EMOTE_AUDIBLE
 
-/datum/emote/living/carbon/braidpull
-	key = "braidpull"
-	message = "pulls their braid fitfully."
+// /datum/emote/living/carbon/braidpull
+// 	key = "braidpull"
+// 	message = "pulls their braid fitfully."
 
-/datum/emote/living/carbon/hairfix
-	key = "hairfix"
-	message = "is trying to fix their hair."
+// /datum/emote/living/carbon/hairfix
+// 	key = "hairfix"
+// 	message = "is trying to fix their hair."
 
-/datum/emote/living/carbon/handclasp
-	key = "clasp"
-	message = "clasps their hands in front of them."
+// /datum/emote/living/carbon/handclasp
+// 	key = "clasp"
+// 	message = "clasps their hands in front of them."
 
 /datum/emote/living/carbon/eyeroll
 	key = "eyeroll"
 	message = "rolls their eyes."
 
-/datum/emote/living/carbon/tongueclick
-	key = "tongueclick"
-	message = "clicks their tongue as if annoyed."
-	emote_type = EMOTE_AUDIBLE
+// /datum/emote/living/carbon/tongueclick
+// 	key = "tongueclick"
+// 	message = "clicks their tongue as if annoyed."
+// 	emote_type = EMOTE_AUDIBLE
 
-/datum/emote/living/carbon/kneel
-	key = "kneel"
-	message = "slowly drops to the ground, kneeling with their legs underneath them."
+// /datum/emote/living/carbon/kneel
+// 	key = "kneel"
+// 	message = "slowly drops to the ground, kneeling with their legs underneath them."
 
 /datum/emote/living/carbon/snicker
 	key = "snicker"
@@ -892,9 +560,9 @@
 	key = "halt"
 	message = "raises a hand palm out, motioning for someone or something to halt."
 
-/datum/emote/living/carbon/daydream
-	key = "daydream"
-	message = "seems lost in a daydream, their eyes slightly glazed over and giving a thousand yard stare."
+// /datum/emote/living/carbon/daydream
+// 	key = "daydream"
+// 	message = "seems lost in a daydream, their eyes slightly glazed over and giving a thousand yard stare."
 
 /datum/emote/living/carbon/drool
 	key = "drool"
@@ -905,22 +573,22 @@
 	message = "looks like they have no thoughts in their head."
 
 
-/datum/emote/living/carbon/snunch
-	key = "snunch"
-	message = "is lunching like a snake."
-//hahadorks
+// /datum/emote/living/carbon/snunch
+// 	key = "snunch"
+// 	message = "is lunching like a snake."
+// //hahadorks
 
 
-/datum/emote/living/carbon/powerpose
-	key = "powerpose"
-	message = "puts their hands on their hips and takes a steady pose."
-	message_param = "power poses like a super hero at %t."
-	restraint_check = TRUE
+// /datum/emote/living/carbon/powerpose
+// 	key = "powerpose"
+// 	message = "puts their hands on their hips and takes a steady pose."
+// 	message_param = "power poses like a super hero at %t."
+// 	restraint_check = TRUE
 
-/datum/emote/living/carbon/snaplook
-	key = "snaplook"
-	message = "snaps their gaze around!"
-	message_param = "snaps their gaze around, locking onto %t!"
+// /datum/emote/living/carbon/snaplook
+// 	key = "snaplook"
+// 	message = "snaps their gaze around!"
+// 	message_param = "snaps their gaze around, locking onto %t!"
 
 /datum/emote/living/carbon/peace
 	key = "peace"
@@ -937,177 +605,5 @@
 	message = "gives both barrels of the bird!"
 	message_param = "double barrels the birds at %t!"
 
-/datum/emote/living/carbon/vlick
-	key = "vlick"
-	message = "pretends to lick between their spread pointer and middle finger!"
 
-/datum/emote/living/carbon/cheekpoke
-	key = "cheekpoke"
-	message = "pushes their tongue into their cheek."
-
-/datum/emote/living/carbon/headbob
-	key = "headbob"
-	message = "is bobbing their head to something."
-
-/datum/emote/living/carbon/hairflick
-	key = "hairflick"
-	message = "flicks their hair back out of their face."
-
-/datum/emote/living/carbon/hairchew
-	key = "hairchew"
-	message = "chews on their bangs a little bit."
-
-/datum/emote/living/carbon/lewdintent
-	key = "lewdintent"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/lewdintent/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't wear your sleeve on your shoulder! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/heart/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("You're ready to make it clear to others what it is you REALLY want!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentlfg
-	key = "intentlfg"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/intentlfg/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/looking/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentmelee
-	key = "intentmelee"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/intentmelee/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/melee/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentranged
-	key = "intentranged"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/intentranged/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/ranged/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentnewplayer
-	key = "intentnewbie"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/intentnewplayer/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/newbsprout/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentmentor
-	key = "intentmentor"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/intentmentor/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/mentorcrown/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentsupport
-	key = "intentsupport"
-	restraint_check = TRUE
-
-/datum/emote/living/carbon/intentsupport/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/healer/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intentpvp
-	key = "intentpvp"
-	restraint_check = TRUE
-	
-/datum/emote/living/carbon/intentpvp/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/pvpindicator/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-
-/datum/emote/living/carbon/intenttank
-	key = "intenttank"
-	restraint_check = TRUE
-	
-/datum/emote/living/carbon/intenttank/run_emote(mob/user)
-	. = ..()
-	if(user.get_active_held_item())
-		to_chat(user, span_warning("Your active hand is full, you can't do this! Don't ask why!"))
-		return
-	var/obj/item/clothing/accessory/tank/dtf = new(user)
-	if(user.put_in_hands(dtf))
-		to_chat(user, span_notice("Place this on your uniform to show your intent!"))
-	else
-		qdel(dtf)
-	
-/datum/emote/living/carbon/pvp_opt_out
-	key = "nopvp"
-	restraint_check = FALSE
-
-/datum/emote/living/carbon/pvp_opt_out/run_emote(mob/user)
-	. = ..()
-	if(HAS_TRAIT(user, TRAIT_PVEFOC))
-		REMOVE_TRAIT(user, TRAIT_PVEFOC, ROUNDSTART_TRAIT)
-	else
-		ADD_TRAIT(user, TRAIT_PVEFOC, ROUNDSTART_TRAIT)
-
-	SSpornhud.update_visibility(user, PHUD_PVP_FLAG, HAS_TRAIT(user, TRAIT_PVEFOC))
-	if(HAS_TRAIT(user, TRAIT_PVEFOC))
-		log_consent("[user] ([user.ckey]) has opted OPTED OUT of PVP!")
-		to_chat(user, span_notice("You have opted out of PVP."))
-	else
-		log_consent("[user] ([user.ckey]) has OPTED BACK INTO PVP!")
-		to_chat(user, span_notice("You have opted back into PVP."))
 

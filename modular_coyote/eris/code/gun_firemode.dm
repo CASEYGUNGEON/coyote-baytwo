@@ -62,13 +62,33 @@
 	 *   - Bolt-action rifles: Ignore cocking, eject after racking
 	 */
 	/// Should we consult the hammer state when firing? If true, we defer to the hammer state to see if we can try to shoot
-	var/ignore_hammer          = TRUE
+	var/hammer_ignore          = TRUE
 	/// Should we automatically recock after firing, if the hammer is consulted? False means you have to click again to recock
 	var/hammer_recock_on_fire  = TRUE
-	/// When do we eject casings? Immediately after firing, or after racking, or only manually? (manually when you re/unload it)
-	var/ejector_behavior       = GEJECTOR_AFTER_FIRING
-	/// For flavoring, do we pull back the hammer, or rack the gun when we jerk off the gun?
-	var/rack_or_cock           = G_RACK
+	/// can you even mess with the hammer manually?
+	var/hammer_manually_operatable = FALSE
+	/// does the bolt cycle back, then forward on a shot?
+	var/bolt_cycles_on_shoot   = TRUE
+	/// when you click the gun, does it cycle until its in a position you can shoot it with?
+	var/bolt_cycles_to_shootable_state_on_shoot = TRUE
+	// so if it doesnt cycle on shoot, and doesnt cycle to a shootable state
+	// when u shoot, you gotta use it to *chunk* it back, then use it to *clack* it forward
+	var/bolt_ejects_on_open     = TRUE
+	var/bolt_chambers_on_close  = TRUE
+	var/bolt_opens_on_last_shot = TRUE
+	var/bolt_shootable_state = GBOLT_CLOSED
+	var/bolt_manually_chamberable_state = GBOLT_OPEN
+	/// sets what state you can load ammo into the *magazine*
+	/// set to null to load it from any state
+	/// one time on deviantart i found a pony who's special talent was peeing while having an erection
+	var/bolt_reloadable_state = GBOLT_OPEN
+	var/bolt_ignore = FALSE
+	var/bolt_cocks_hammer_on_this_state = GBOLT_CLOSED
+	var/bolt_opening_delay = 0
+	var/bolt_closing_delay = 0
+	/// to add a delay to between you pull trigger and the gun shoots
+	/// for stuff like open bolties
+	var/trigger_to_shoot_delay = 0
 
 /datum/firemode/New(obj/item/gun/_gun, atom/movable/_dependant)
 	..()
@@ -140,65 +160,13 @@
 /datum/firemode/proc/update()
 	return
 
-/* ACTION STUFF */
-// Called when the gun's trigger is pulled, to see if we can actually fire or not
-// Handles hammer state, returns boolean whether or not we can shoot the thing
-/datum/firemode/proc/try_hammer(drop_hammer = FALSE)
-	GET_GUN
-	if(ignore_hammer)
-		gun.hammer_state = GHAMMER_COCKED
-		return TRUE
-	if(gun.hammer_state == GHAMMER_COCKED)
-		if(drop_hammer)
-			if(!hammer_recock_on_fire)
-				gun.hammer_state = GHAMMER_UNCOCKED
-		return TRUE
-	return FALSE
-
-/datum/firemode/proc/toggle_hammer()
-	GET_GUN
-	if(ignore_hammer)
-		gun.hammer_state = GHAMMER_COCKED
-		return
-	if(gun.hammer_state == GHAMMER_COCKED)
-		gun.hammer_state = GHAMMER_UNCOCKED
-	else
-		gun.hammer_state = GHAMMER_COCKED
-
-// Called when the gun is shot, to see if we need to eject casings or not
-/datum/firemode/proc/eject_on_fire()
-	GET_GUN
-	if(ejector_behavior == GEJECTOR_AFTER_FIRING)
-		return TRUE
-	return FALSE
-
-// Called when the gun is racked, to see if we need to eject casings or not
-/datum/firemode/proc/eject_on_rack()
-	GET_GUN
-	if(ejector_behavior == GEJECTOR_AFTER_COCKING)
-		return TRUE
-	return FALSE
-
-// called when racked
-/datum/firemode/proc/on_rack()
-	GET_GUN
-	if(gun.hammer_state == GHAMMER_COCKED || ignore_hammer)
-		gun.hammer_state = GHAMMER_COCKED
-		return FALSE
-	gun.hammer_state = GHAMMER_COCKED
-	return TRUE
-
-/datum/firemode/semi_auto
-	name = "Semi Automatic"
-	desc = "Shoot one shot per trigger pull."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
-	icon_state = "semi"
-	fire_type_default = GUN_FIREMODE_SEMIAUTO
-	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
-	burst_count_default = 1
-
+/* *
+ * SINGLE ACTION FIREMODES
+ * For revolvers of various types, and break action guns
+ * HAMMER is important, BOLT is not
+ * For burstfire single-actions (DB shotguns or whatever), make the hammer recock on fire
+ * and ideally, have a burst count equal to the magazine capacity, to maintain the illusion
+ * */
 /datum/firemode/single_action
 	name = "Single Action"
 	desc = "Shoot one shot, pull back the hammer, repeat."
@@ -211,40 +179,142 @@
 	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
 	burst_count_default = 1
 	hammer_recock_on_fire = FALSE
-	ignore_hammer = FALSE
-	ejector_behavior = GEJECTOR_MANUAL_ONLY
-	rack_or_cock = G_COCK
+	hammer_ignore = FALSE
+	bolt_ignore = TRUE
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
+	bolt_cycles_on_shoot = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = FALSE
 
-/datum/firemode/single_action/pump_action
-	name = "Single Shot - Pump Action"
-	desc = "Shoot one shot, pump the pumper, repeat."
+/datum/firemode/single_action/double_action
+	name = "Double Action"
+	desc = "Shoot one shot, repeat."
 	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
-		Also, remember that you have to rack the gun manually after every shot!"
-	ejector_behavior = GEJECTOR_AFTER_COCKING
-	rack_or_cock = G_RACK
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	hammer_recock_on_fire = TRUE
 
-/datum/firemode/single_action/pump_action/bolt_action
-	name = "Single Shot - Bolt Action"
-	desc = "Shoot one shot, do the bolt thing, repeat."
+/* 
+ * BOLT ACTION FIREMODES
+ * For guns that require manual cycling of the bolt, like bolt action rifles and pump shotguns
+ * BOLT is important, HAMMER is (generally) not
+ * For burstfire bolt-actions... just use one of the automatic firemodes
+ */
+/datum/firemode/bolt_using
+	name = "Parent Bolt Using"
+	desc = "hi"
 	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
 		Also, remember that you have to bolt the gun manually after every shot!"
+	shoot_delay_default                     = GUN_FIRE_DELAY_SLOW
+	bolt_ignore                             = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = FALSE
+	bolt_cycles_on_shoot                    = FALSE
+	bolt_ejects_on_open                     = TRUE
+	bolt_opens_on_last_shot                 = FALSE
+	bolt_shootable_state                    = GBOLT_CLOSED
+	bolt_manually_chamberable_state         = GBOLT_OPEN
+	bolt_cocks_hammer_on_this_state         = GBOLT_CLOSED
+	bolt_opening_delay                      = 0
+	bolt_closing_delay                      = 0
+	bolt_reloadable_state                   = GBOLT_OPEN
 
-/datum/firemode/single_action/pump_action/lever_action
-	name = "Single Shot - Lever Action"
-	desc = "Shoot one shot, tweak the lever, repeat."
+/datum/firemode/bolt_using/straight_pull
+	name = "Straight-Pull Bolt Action"
+	desc = "Shoot one shot, pull the bolt straight back and forward, repeat."
+	extra_tip = "Uses a straight-pull bolt action, which means you just pull the bolt back, \
+		then push it forward, with no delay on either action."
+
+/datum/firemode/bolt_using/straight_pull/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+////////////////////
+/datum/firemode/bolt_using/delay_on_open
+	name = "Cock-On-Open Bolt Action"
+	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
+	extra_tip = "Uses a cock-on-open bolt action, which means that pulling the bolt open \
+		will have a short delay, but closing it will be instant."
+	bolt_opening_delay = 0.2 SECONDS
+
+/datum/firemode/bolt_using/delay_on_open/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+////////////////////
+/datum/firemode/bolt_using/delay_on_close
+	name = "Cock-On-Close Bolt Action"
+	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
+	extra_tip = "Uses a cock-on-close bolt action, which means that jorking the bolt closed \
+		will have a short delay, but opening it will be instant."
+	bolt_closing_delay = 0.2 SECONDS
+
+/datum/firemode/bolt_using/delay_on_close/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+/datum/firemode/bolt_using/pump_action
+	name = "Pump Action"
+	desc = "Shoot one shot, pull the pump back, push it forward, repeat."
+	extra_tip = "Uses a pump action, which means that you just pull the pump back, \
+		then push it forward, with no delay on either action."
+	bolt_reloadable_state = null
+
+/datum/firemode/bolt_using/lever_action
+	name = "Lever Action"
+	desc = "Shoot one shot, jork the lever, repeat."
+	extra_tip = "Uses a lever action, which means that you just jork the lever, \
+		with no delay on either action."
+	bolt_reloadable_state = null
+
+/datum/firemode/bolt_using/lever_action/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+/datum/firemode/open_bolt
+	name = "Open Bolt"
+	desc = "Shoot one shot per trigger pull."
 	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
 		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
-		Also, remember that you have to lever the gun manually after every shot!"
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	icon_state = "semi"
+	fire_type_default = GUN_FIREMODE_SEMIAUTO
+	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
+	burst_count_default = 1
+	bolt_ignore                             = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = TRUE
+	bolt_ejects_on_open                     = TRUE
+	bolt_opens_on_last_shot                 = FALSE
+	bolt_shootable_state                    = GBOLT_OPEN
+	bolt_manually_chamberable_state         = GBOLT_OPEN
+	bolt_cocks_hammer_on_this_state         = GBOLT_OPEN
+	// trigger_to_shoot_delay = 0.1 SECONDS
+
+/datum/firemode/open_bolt/automatic
+	name = "Open Bolt Automatic"
+	desc = "Spray and pray, but with an open bolt design."
+	icon_state = "auto"
+	extra_tip = "Fires as long as you hold the mouse click down. Careful when clicking things, \
+		it will rapidly click them."
+	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_1200
+
+/* 
+ * SEMI-AUTOMATIC FIREMODES
+ * For guns that fire one shot per trigger pull without having to mess with anything... generally
+ * */
+/// basic firemode for firemoding, its a firemode thats boring and works
+/datum/firemode/semi_auto
+	name = "Semi Automatic"
+	desc = "Shoot one shot per trigger pull."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	icon_state = "semi"
+	fire_type_default = GUN_FIREMODE_SEMIAUTO
+	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
+	burst_count_default = 1
 
 /datum/firemode/semi_auto/shotgun_fixed
 	name = "Single-Barrel Shot"
 	desc = "Blast 'em with one of those barrels!"
-	ejector_behavior = GEJECTOR_MANUAL_ONLY
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 
 /datum/firemode/semi_auto/fastest
 	shoot_delay_default = GUN_FIRE_DELAY_FASTEST
@@ -264,6 +334,12 @@
 /datum/firemode/semi_auto/slowest
 	shoot_delay_default = GUN_FIRE_DELAY_SLOWEST
 
+/*
+ * FULLY AUTOMATIC FIREMODES
+ * For guns that keep shooting as long as you hold the trigger down
+ * Assumes a closed-bolt design, where the gun chambers a round, then fires it, then ejects the casing, then repeats
+ * sugma
+ */
 /datum/firemode/automatic
 	name = "Fully Automatic"
 	desc = "Spray and pray."
@@ -346,6 +422,11 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_100
 
+/* 
+ * BURST FIREMODES
+ * For guns that fire a set number of shots per trigger pull
+ * Assumes a closed-bolt
+ */
 /datum/firemode/burst
 	name = "Burstfire"
 	desc = "Shoot multiple shots per triggerpull."
@@ -368,7 +449,7 @@
 	desc = "Fire both barrels at once!"
 	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
 	burst_count_default = 2
-	ejector_behavior = GEJECTOR_MANUAL_ONLY
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 
 /datum/firemode/burst/two/slower
 	name = "2-Round Burst"
@@ -499,5 +580,6 @@
 	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
 	burst_count_default = 20
 
+// yes there are a lot of them 
 
 

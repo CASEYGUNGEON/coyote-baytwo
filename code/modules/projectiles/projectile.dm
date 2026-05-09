@@ -382,12 +382,70 @@
 	var/status = 0  //basically if the number increases it means that the projectile for some reason has to miss
 
 	status += check_pacifism_lesser(src, firer, target)
+	status += check_hitormiss_by_archetype(target)
 	status += multichance_projectile_hit_behaviour(src, firer, target, status)
 
 	if(!status)
 		return TRUE
 	else
 		return FALSE
+
+/obj/item/projectile/proc/check_hitormiss_by_archetype(atom/target)
+	if(!istype(fired_from, /obj/item/gun))
+		return FALSE
+
+	var/obj/item/gun/firing_gun = fired_from
+	switch(firing_gun.gun_archetype)
+		if("precise")
+			return check_hitormiss_precise(target)
+		if("heavy")
+			return check_hitormiss_heavy(target)
+		else
+			return check_hitormiss_swift(target)
+
+/obj/item/projectile/proc/check_hitormiss_swift(atom/target)
+	if(!isliving(firer))
+		return check_hitormiss_gun_archetype(target)
+
+	var/mob/living/living_firer = firer
+	var/deftness = isnull(living_firer.stat_agility) ? 0 : max(0, living_firer.stat_agility)
+	return check_hitormiss_gun_archetype(target, deftness)
+
+/obj/item/projectile/proc/check_hitormiss_precise(atom/target)
+	if(!isliving(firer))
+		return check_hitormiss_gun_archetype(target)
+
+	var/mob/living/living_firer = firer
+	var/awareness = isnull(living_firer.stat_perception) ? 0 : max(0, living_firer.stat_perception)
+	return check_hitormiss_gun_archetype(target, awareness, 2)
+
+/obj/item/projectile/proc/check_hitormiss_heavy(atom/target)
+	if(!isliving(firer))
+		return check_hitormiss_gun_archetype(target)
+
+	var/mob/living/living_firer = firer
+	var/strength = isnull(living_firer.stat_strength) ? 0 : max(0, living_firer.stat_strength)
+	return check_hitormiss_gun_archetype(target, strength)
+
+/obj/item/projectile/proc/check_hitormiss_gun_archetype(atom/target, stat_value = null, stat_weight = 1)
+	if(!isliving(target))
+		return FALSE
+	if(!istype(fired_from, /obj/item/gun))
+		return FALSE
+	if(!isliving(firer))
+		return FALSE
+
+	var/obj/item/gun/firing_gun = fired_from
+	var/mob/living/living_firer = firer
+
+	if(isnull(stat_value))
+		stat_value = isnull(living_firer.stat_perception) ? 0 : max(0, living_firer.stat_perception)
+
+	var/hit_chance = clamp(firing_gun.base_accuracy + (stat_value * 5 * stat_weight), 10, 95)
+
+	if(prob(hit_chance))
+		return FALSE
+	return TRUE
 
 /obj/item/projectile/proc/on_hit(atom/target, blocked = FALSE)
 	if(fired_from)
@@ -467,7 +525,7 @@
 				playsound(loc, hitsound, volume, 1, -1)
 			if(COOLDOWN_FINISHED(L, projectile_message_antispam))
 				COOLDOWN_START(L, projectile_message_antispam, ATTACK_MESSAGE_ANTISPAM_TIME)
-				// L.visible_message(span_danger("[L] is hit by \a [src][organ_hit_text]!"), 
+				// L.visible_message(span_danger("[L] is hit by \a [src][organ_hit_text]!"),
 				// 		span_userdanger("[L] is hit by \a [src][organ_hit_text]!"), null, COMBAT_MESSAGE_RANGE)
 		// if(candink && def_zone == BODY_ZONE_HEAD) //fortuna edit
 		// 	var/playdink = rand(1, 10)
@@ -609,10 +667,10 @@
 			return FALSE // so, turrets and livings dont share the same faction var
 		if(!maybehit.client && target == original)
 			return FALSE // We're trying to shoot that thing, and since it isnt a player, hit it!
-		if(isliving(firer))
-			var/mob/living/hootreshootre = firer
-			if(hootreshootre.enabled_combat_indicator && maybehit.enabled_combat_indicator)
-				return FALSE // if they're both in combat, they're not friends, get shootabie
+		// if(isliving(firer))
+		// 	var/mob/living/hootreshootre = firer
+		// 	if(hootreshootre.enabled_combat_indicator && maybehit.enabled_combat_indicator)
+		// 		return FALSE // if they're both in combat, they're not friends, get shootabie
 	return LAZYLEN(maybehit.faction & faction) // but they're named the same so its just fine
 
 
@@ -1152,7 +1210,7 @@
 		var/newdam = rand(damage_low, damage_high)
 		if(newdam > dam_out)
 			dam_out = newdam
-	
+
 
 /obj/item/projectile/proc/prep_list_crits()
 	var/highest = 0
