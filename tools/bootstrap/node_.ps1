@@ -50,7 +50,7 @@ if ($Args.length -eq 1 -and $Args[0] -eq "Download-Node") {
 Download-Node
 
 ## Set PATH so that recursive calls find it
-$Env:PATH += ";$NodeTargetDir"
+$Env:PATH = "$NodeTargetDir;$ENV:Path"
 
 ## Invoke Node with all command-line arguments
 $ErrorActionPreference = "Continue"

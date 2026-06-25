@@ -2,7 +2,6 @@ const Juke = require('../juke');
 const { stat } = require('./fs');
 const { regQuery } = require('./winreg');
 const fs = require('fs');
-const os = require('os');
 
 /**
  * Cached path to DM compiler
@@ -22,7 +21,6 @@ const dm = async (dmeFile, options = {}) => {
       // Search in array of paths
       const paths = [
         ...((process.env.DM_EXE && process.env.DM_EXE.split(',')) || []),
-        os.homedir() + "\\BYOND\\bin\\dm.exe",
         'C:\\Program Files\\BYOND\\bin\\dm.exe',
         'C:\\Program Files (x86)\\BYOND\\bin\\dm.exe',
         ['reg', 'HKLM\\Software\\Dantom\\BYOND', 'installpath'],
