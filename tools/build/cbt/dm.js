@@ -1,9 +1,8 @@
-import os from 'os';
-
 const Juke = require('../juke');
 const { stat } = require('./fs');
 const { regQuery } = require('./winreg');
 const fs = require('fs');
+const os = require('os');
 
 /**
  * Cached path to DM compiler
