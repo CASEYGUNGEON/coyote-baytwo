@@ -27,13 +27,15 @@
 	var/stealth_active = 0
 	var/combat_cooldown = 10
 	var/datum/icon_snapshot/disguise
+	var/datum/armor/stealth_armor
+	var/datum/armor/combat_armor
 	var/stealth_armor_list = ARMOR_VALUE_LIGHT
 	var/combat_armor_list = ARMOR_VALUE_HEAVY
 
 /obj/item/clothing/suit/armor/abductor/vest/Initialize()
 	. = ..()
-	stealth_armor = getArmor(arglist(stealth_armor))
-	combat_armor = getArmor(arglist(combat_armor))
+	stealth_armor = getArmor(arglist(stealth_armor_list))
+	combat_armor = getArmor(arglist(combat_armor_list))
 
 /obj/item/clothing/suit/armor/abductor/vest/proc/toggle_nodrop()
 	if(HAS_TRAIT_FROM(src, TRAIT_NODROP, ABDUCTOR_VEST_TRAIT))
