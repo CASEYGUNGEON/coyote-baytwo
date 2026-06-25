@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es3",
     "noEmit": true,
     "strict": false,
     "allowJs": true,
@@ -18,7 +18,6 @@
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "ignoreDeprecations":"6.0",
     "resolveJsonModule": true,
     "isolatedModules": false
   },
