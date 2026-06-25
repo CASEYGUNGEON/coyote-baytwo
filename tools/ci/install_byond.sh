@@ -3,9 +3,16 @@ set -euo pipefail
 
 source dependencies.sh
 
-sudo dpkg --add-architecture i386
-sudo apt-get update
-sudo apt install libcurl4:i386
+
+if [[ "$OSTYPE" == "msys"* ]] then
+	dpkg --add-architecture i386
+	apt-get update
+	apt install libcurl4:i386
+else
+	sudo dpkg --add-architecture i386
+	sudo apt-get update
+	sudo apt install libcurl4:i386
+fi
 
 if [ -d "$HOME/BYOND/byond/bin" ] && grep -Fxq "${BYOND_MAJOR}.${BYOND_MINOR}" $HOME/BYOND/version.txt;
 then
