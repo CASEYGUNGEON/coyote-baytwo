@@ -13,7 +13,7 @@
 	icon_state = "vest_stealth"
 	inhand_icon_state = "armor"
 	blood_overlay_type = "armor"
-	armor = ARMOR_VALUE_LIGHT
+	armor_list = ARMOR_VALUE_LIGHT
 	actions_types = list(/datum/action/item_action/hands_free/activate)
 	allowed = list(
 		/obj/item/abductor,
@@ -27,8 +27,8 @@
 	var/stealth_active = 0
 	var/combat_cooldown = 10
 	var/datum/icon_snapshot/disguise
-	var/stealth_armor = ARMOR_VALUE_LIGHT
-	var/combat_armor = ARMOR_VALUE_HEAVY
+	var/stealth_armor_list = ARMOR_VALUE_LIGHT
+	var/combat_armor_list = ARMOR_VALUE_HEAVY
 
 /obj/item/clothing/suit/armor/abductor/vest/Initialize()
 	. = ..()
@@ -852,5 +852,5 @@
 	name = "polymer jumpsuit" //End Fortuna edit
 	icon_state = "abductor"
 	inhand_icon_state = "bl_suit"
-	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 10, bio = 10, rad = 0, fire = 0, acid = 0)
+	armor_list = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 10, bio = 10, rad = 0, fire = 0, acid = 0)
 	can_adjust = 0
