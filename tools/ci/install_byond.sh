@@ -4,7 +4,7 @@ set -euo pipefail
 source dependencies.sh
 
 
-if [[ "$OSTYPE" == "msys"* ]]; then
+if [[ "$OSTYPE" == "msys" ]]; then
 	dpkg --add-architecture i386
 	apt-get update
 	apt install libcurl4:i386
