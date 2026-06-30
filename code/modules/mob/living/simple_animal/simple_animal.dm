@@ -1629,7 +1629,7 @@ GLOBAL_VAR_INIT(last_attraction_time, 0)
 		return
 	if(length(mob_armor_tokens) < 1)
 		return // all done!
-	var/list/armorlist = alist(armor_list)
+	var/list/armorlist = list(armor_list)
 	
 	for(var/list/token in mob_armor_tokens)
 		for(var/modifier in token)
