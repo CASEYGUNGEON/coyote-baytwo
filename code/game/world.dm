@@ -235,7 +235,9 @@ GLOBAL_LIST(topic_status_cache)
 		text2file("Success!", "[GLOB.log_directory]/clean_run.lk")
 	else
 		log_world("Test run failed!\n[fail_reasons.Join("\n")]")
+	log_world("Test run before sleep: [time2text(time, "YYYY-MM-DD")]T[time2text(time, "hh:mm:ss")]")
 	sleep(0)	//yes, 0, this'll let Reboot finish and prevent byond memes
+	log_world("Test run after sleep: [time2text(time, "YYYY-MM-DD")]T[time2text(time, "hh:mm:ss")]")
 	qdel(src)	//shut it down
 
 /world/Reboot(reason = 0, fast_track = FALSE)
