@@ -5,7 +5,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	desc = "Now comes in flavors like GUN. Uses 10mm ammo, for some reason."
 	name = "projectile gun"
 	icon_state = "pistol"
-	weapon_class = WEAPON_CLASS_RIFLE
+	weapon_class = null
 	var/spawnwithmagazine = TRUE
 	var/mag_type = /obj/item/ammo_box/magazine/m10mm/adv //Removes the need for max_ammo and caliber 
 	var/init_mag_type = null

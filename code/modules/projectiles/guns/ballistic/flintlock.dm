@@ -1,3 +1,4 @@
+/*
 /obj/item/gun/flintlock
 	name = "flintlock pistol"
 	desc = "An ancient but well kept blackpowder pistol."
@@ -248,6 +249,8 @@
 		if(prob(50)) // throw a bit further
 			toss_thisways = get_step(toss_thisways, shootdir)
 		throw_at(toss_thisways, 4, 1, null, TRUE, TRUE)
+
+*/
 
 /obj/item/gun/flintlock/laser
 	name = "flintlock laser pistol"

@@ -1,7 +1,7 @@
-//.357 peacemaker (single action army) is baseline
+// coach gun is baseline
 
-/obj/item/gun/ballistic/revolver/sa_revolver
-	name = "single action revolver template"						// use a simple common name. do NOT go overly esoteric or extravagant
+/obj/item/gun/ballistic/revolver/break_shotgun
+	name = "break-action shotgun template"								// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
 	icon_state = "mp5"												// the object's sprite name
@@ -76,12 +76,12 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/revolver/sa_revolver/peacemaker
-	name = " worn .357 Peacemaker"
-	desc = "A single action revolver chambered in .357 mag. Because they don't make a .358"
-/obj/item/gun/ballistic/revolver/sa_revolver/peacemaker/q2
-	name = ".357 Peacemaker"
+/obj/item/gun/ballistic/revolver/break_shotgun/coach
+	name = " worn coach gun"
+	desc = "A break-action shotgun chambered in 12 gauge."
+/obj/item/gun/ballistic/revolver/break_shotgun/coach/q2
+	name = "coach gun"
 	max_upgrades = 4
-/obj/item/gun/ballistic/revolver/sa_revolver/peacemaker/q3
-	name = "unrusted .357 Peacemaker"
+/obj/item/gun/ballistic/revolver/break_shotgun/coach/q3
+	name = "unrusted coach gun"
 	max_upgrades = 5

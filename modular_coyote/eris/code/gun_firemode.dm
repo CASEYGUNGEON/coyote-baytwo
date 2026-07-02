@@ -355,10 +355,16 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_1200
 
+/datum/firemode/semi_auto/rpm1200
+	shoot_delay_default = GUN_FIRE_RATE_1200
+
 /datum/firemode/automatic/rpm1000
 	name = "Fully Automatic"
 	desc = "Automatic - 1000 RPM."
 	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_1000
+
+/datum/firemode/semi_auto/rpm1000
 	shoot_delay_default = GUN_FIRE_RATE_1000
 
 /datum/firemode/automatic/rpm800
@@ -367,16 +373,34 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_800
 
+/datum/firemode/semi_auto/rpm800
+	shoot_delay_default = GUN_FIRE_RATE_800
+
 /datum/firemode/automatic/rpm600
 	name = "Fully Automatic"
 	desc = "Automatic - 600 RPM."
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_600
 
+/datum/firemode/semi_auto/rpm600
+	shoot_delay_default = GUN_FIRE_RATE_600
+
+/datum/firemode/automatic/rpm500
+	name = "Fully Automatic"
+	desc = "Automatic - 500 RPM."
+	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_500
+
+/datum/firemode/semi_auto/rpm500
+	shoot_delay_default = GUN_FIRE_RATE_500
+
 /datum/firemode/automatic/rpm400
 	name = "Fully Automatic"
 	desc = "Automatic - 400 RPM."
 	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_400
+
+/datum/firemode/semi_auto/rpm400
 	shoot_delay_default = GUN_FIRE_RATE_400
 
 /datum/firemode/automatic/rpm300
@@ -385,11 +409,8 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_300
 
-/datum/firemode/automatic/rpm200
-	name = "Fully Automatic"
-	desc = "Automatic - 200 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_200
+/datum/firemode/semi_auto/rpm300
+	shoot_delay_default = GUN_FIRE_RATE_300
 
 /datum/firemode/automatic/rpm250
 	name = "Fully Automatic"
@@ -397,17 +418,44 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_250
 
+/datum/firemode/semi_auto/rpm250
+	shoot_delay_default = GUN_FIRE_RATE_250
+
+
+/datum/firemode/automatic/rpm200
+	name = "Fully Automatic"
+	desc = "Automatic - 200 RPM."
+	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_200
+
+/datum/firemode/semi_auto/rpm200
+	shoot_delay_default = GUN_FIRE_RATE_200
+
 /datum/firemode/automatic/rpm150
 	name = "Fully Automatic"
 	desc = "Automatic - 150 RPM."
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_150
 
+/datum/firemode/semi_auto/rpm150
+	shoot_delay_default = GUN_FIRE_RATE_150
+
+/datum/firemode/automatic/rpm100
+	name = "fully automatic"
+	desc = "Automatic - 100rpm"
+	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_100
+
+/datum/firemode/semi_auto/rpm100
+	shoot_delay_default = GUN_FIRE_RATE_100
 
 /datum/firemode/automatic/rpm75
 	name = "fully automatic"
 	desc = "Automatic - 75rpm"
 	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_75
+
+/datum/firemode/semi_auto/rpm75
 	shoot_delay_default = GUN_FIRE_RATE_75
 
 /datum/firemode/automatic/rpm40
@@ -416,11 +464,8 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_40
 
-/datum/firemode/automatic/rpm100
-	name = "fully automatic"
-	desc = "Automatic - 100rpm"
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_100
+/datum/firemode/semi_auto/rpm40
+	shoot_delay_default = GUN_FIRE_RATE_40
 
 /* 
  * BURST FIREMODES

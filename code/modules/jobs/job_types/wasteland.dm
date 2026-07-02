@@ -460,7 +460,7 @@ Raider
 	..()
 	if(visualsOnly)
 		return
-	for(var/datum/crafting_recipe/recipe as() in GLOB.tribal_job_recipes)
+	for(var/datum/crafting_recipe/recipe in GLOB.tribal_job_recipes)
 		H.mind.teach_crafting_recipe(recipe)
 	H.grant_language(/datum/language/tribal)
 	add_verb(H, /mob/living/proc/create_tribe)

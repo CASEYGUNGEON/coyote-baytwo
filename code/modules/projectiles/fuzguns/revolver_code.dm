@@ -1,5 +1,3 @@
-/* moved to another file
-
 // In this document: Revolvers, Needlers, Weird revolvers
 // See gun.dm for keywords and the system used for gun balance
 
@@ -967,7 +965,7 @@
 	sawn_desc = "Someone took the time to chop the last few inches off the barrel and stock of this shotgun. Now, the wide spread of this hand-cannon's short-barreled shots makes it perfect for short-range crowd control."
 	fire_sound = 'sound/f13weapons/max_sawn_off.ogg'
 
-*/
+
 
 
 

@@ -1,7 +1,6 @@
-//.357 peacemaker (single action army) is baseline
-
-/obj/item/gun/ballistic/revolver/sa_revolver
-	name = "single action revolver template"						// use a simple common name. do NOT go overly esoteric or extravagant
+// MP5 is baseline
+/obj/item/gun/ballistic/automatic/smg
+	name = "submachine gun template"								// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
 	icon_state = "mp5"												// the object's sprite name
@@ -19,7 +18,8 @@
 	extra_mag_types = list()										// extra familes of magazines it can fit
 	disallowed_mags = list()										// members of magazine family it cannot fit
 	init_firemodes = list(											// fire modes and fire rate
-		/datum/firemode/bolt_using/straight_pull
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)
 	init_recoil = AUTOCARBINE_RECOIL(1, 1)							// recoil: first number modifies 1h recoil. second number modifies 2h recoil
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION					// determines chance of the gun hitting its intended limb
@@ -39,18 +39,11 @@
 	slowdown = GUN_SLOWDOWN_PISTOL_HEAVY							// move speed penalty when drawn
 	weapon_weight = GUN_ONE_HAND_ONLY								// akimbo, one handed, or two handed
 	restrict_safety = FALSE											// setting to true disables safety
+	auto_eject = 0													// auto-ejects empty magazine
+	auto_eject_sound = null
 	insert_magazine_delay = 0.5 SECONDS								// time to insert new mag
 	remove_magazine_delay = 0.5 SECONDS								// time to remove mag
-	can_load_magazine_through_bolt = FALSE							// Load with the bolt closed, like hatch loaded lever actions
-//revolver handling vars
-	kind = REVKIND_SWINGOUT_DOUBLE_ACTION							// loading style
-	cock_method = REVCOCK_SINGLE_ACTION								// determines double or single action
-	load_index_offset = 0 											// which chamber the loading gate opens to
-	rotate_direction = REV_ADVANCE_FORWARD 							// defines for 1 or -1. see combat.dm
-	single_load = FALSE												// for revolvers you can only load one bullet at a time
-	can_speedload = TRUE											// speedloader compatible
-	how_rotatable = REV_BOTH_ALWAYS
-	eject_style = REV_EJECT_ADVANCED
+	can_load_magazine_through_bolt = FALSE
 // accessory vars
 	gun_tags = list(GUN_FA_MODDABLE, GUN_SCOPE)						// special weapon attachment tags
 
@@ -76,12 +69,12 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/revolver/sa_revolver/peacemaker
-	name = " worn .357 Peacemaker"
-	desc = "A single action revolver chambered in .357 mag. Because they don't make a .358"
-/obj/item/gun/ballistic/revolver/sa_revolver/peacemaker/q2
-	name = ".357 Peacemaker"
+/obj/item/gun/ballistic/automatic/smg/mp5
+	name = " worn MP5"
+	desc = "A submachine gun chambered in 9x19mm."
+/obj/item/gun/ballistic/automatic/smg/mp5/q2
+	name = "MP5"
 	max_upgrades = 4
-/obj/item/gun/ballistic/revolver/sa_revolver/peacemaker/q3
-	name = "unrusted .357 Peacemaker"
+/obj/item/gun/ballistic/automatic/smg/mp5/q3
+	name = "unrusted MP5"
 	max_upgrades = 5

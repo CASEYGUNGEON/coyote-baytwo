@@ -41,7 +41,7 @@ ATTACHMENTS
 	item_flags = NEEDS_PERMIT | SLOWS_WHILE_IN_HAND
 	attack_verb = list("struck", "hit", "bashed")
 	hud_actions = list()
-	var/weapon_class = null //assigns w_class, slot_flags, draw_time, slowdown, and force, based on a template
+	var/weapon_class = null //assigns w_class, slot_flags, draw_time, slowdown, and force, based on a template //now defunct in favor of specificity
 	var/fire_sound = "gunshot"
 	/// Time it takes between drawing the gun and shooting the gun
 	var/draw_time = null
