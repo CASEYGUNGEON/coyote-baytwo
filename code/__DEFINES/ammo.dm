@@ -53,6 +53,12 @@
 #define CALIBER_ANY "anything even remotely ammolike"
 #define CALIBER_BRICK "bricks"
 #define CALIBER_FLINTLOCK "blackpowder charges"
+
+//new defines
+#define CALIBER_223 ".223 rounds"
+#define CALIBER_38 ".38 rounds"
+#define CALIBER_12G "12 gauge shells"
+
 /// Caliber POW levels
 /// for hobo guns scaling their explodiness to the casing fired
 /// Heavier rounds than the gun can handle? more chance to POW

@@ -11,7 +11,7 @@
 /obj/item/gun/ballistic/automatic
 	name = "automatic gun template"
 	desc = "should not be here, bugreport."
-	weapon_class = WEAPON_CLASS_RIFLE
+	weapon_class = null
 	weapon_weight = GUN_ONE_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	cock_delay = GUN_COCK_RIFLE_BASE

@@ -20,7 +20,7 @@
 	ADD_TRAIT(H, TRAIT_GENERIC, src)
 	ADD_TRAIT(H, TRAIT_MACHINE_SPIRITS, src)
 	H.grant_language(/datum/language/tribal)
-	for(var/datum/crafting_recipe/recipe as() in GLOB.tribal_job_recipes)
+	for(var/datum/crafting_recipe/recipe in GLOB.tribal_job_recipes)
 		H.mind.teach_crafting_recipe(recipe)
 
 /*
