@@ -23,9 +23,11 @@
 	init_recoil = HANDGUN_RECOIL(1, 1)								// recoil: first number modifies 1h recoil. second number modifies 2h recoil
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION					// determines chance of the gun hitting its intended limb
 	added_spread = GUN_SPREAD_NONE									// adds extra inaccuracy
+// melee vars
 	force = GUN_MELEE_FORCE_PISTOL_LIGHT							// melee damage
 	force_unwielded = GUN_MELEE_FORCE_PISTOL_LIGHT					// must be same as force. spaghet code
 	force_wielded = GUN_MELEE_FORCE_PISTOL_HEAVY 					// melee damage wielding in two hands
+	attack_speed = CLICK_CD_MELEE * 0.9								// delay between attacks
 	backstab_multiplier = 4											// bonus for pistolwhipping from behind
 	throwforce = GUN_MELEE_FORCE_PISTOL_LIGHT													// damage when thrown
 	throw_speed = 1													// speed of throw
@@ -40,8 +42,8 @@
 	restrict_safety = FALSE											// setting to true disables safety
 	auto_eject = 0													// auto-ejects empty magazine
 	auto_eject_sound = null
+	remove_magazine_delay = 0.5 SECONDS								// time to remove mag
 	insert_magazine_delay = 1 SECONDS								// time to insert new mag
-	remove_magazine_delay = 1 SECONDS								// time to remove mag
 	can_load_magazine_through_bolt = FALSE
 // accessory vars
 	gun_tags = list(GUN_FA_MODDABLE)						// special weapon attachment tags

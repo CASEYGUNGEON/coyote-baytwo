@@ -9,6 +9,8 @@
 /obj/item/ammo_casing/a223
 	name = "handloaded .223 bullet casing"
 	desc = "A low-grade .223 bullet casing."
+	icon = 'modular_coyote/icons/objects/c13ammo.dmi'
+	icon_state = "small-casing"
 	caliber = CALIBER_223
 	projectile_type = /obj/item/projectile/bullet/a223
 	material_class = BULLET_IS_LIGHT_RIFLE

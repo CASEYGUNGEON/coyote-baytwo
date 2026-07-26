@@ -29,3 +29,13 @@
 	materials = list(/datum/material/iron = 4000)
 	build_path = /obj/item/ammo_box/magazine/a9mm/fifteen/empty
 	category = list("initial", "Simple Magazines")
+
+/obj/item/ammo_box/magazine/a9mm/thirty
+	name = "smg magazine (9mm)"
+	icon = 'modular_coyote/icons/objects/c13ammo.dmi'
+	icon_state = "mp5"
+	max_ammo = 30
+	custom_materials = list(/datum/material/iron = MATS_SMG)
+
+/obj/item/ammo_box/magazine/a9mm/thirty/empty
+	start_empty = 1
