@@ -1,3 +1,5 @@
+/* deprecated, fuzguns
+
 /datum/design/bolt_clip
 	name = "Surplus Rifle Clip"
 	desc = "A stripper clip used to quickly load bolt action rifles. Contains 5 rounds."
@@ -36,3 +38,4 @@
 	build_path = /obj/item/ammo_box/a357
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+*/

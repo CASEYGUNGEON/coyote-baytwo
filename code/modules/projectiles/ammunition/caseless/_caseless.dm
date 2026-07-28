@@ -22,6 +22,8 @@
 /obj/item/ammo_casing/caseless/update_icon_state()
 	icon_state = "[initial(icon_state)]"
 
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 /obj/item/ammo_casing/caseless/needle
 	name = "A needler round."
 	desc = "A dart for use in needler pistols."
@@ -72,3 +74,5 @@
 	icon_state = "plasmacan"
 	projectile_type = /obj/item/projectile/f13plasma/plasmacaster
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/energy
+
+*/

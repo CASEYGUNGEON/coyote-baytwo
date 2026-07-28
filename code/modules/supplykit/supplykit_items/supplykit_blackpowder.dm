@@ -28,14 +28,14 @@
 	item = /obj/item/ammo_box/flintlock/minie
 	cost = 10
 	important = TRUE
-
+/*
 /datum/supplykit_item/blackpowder/super
 	name = "Powderbag and Super Balls"
 	desc = "A bag containing 16 super balls, high power but nonlethal."
 	item = /obj/item/ammo_box/flintlock/rubber
 	cost = 10
 	important = TRUE
-
+*/
 // /datum/supplykit_item/blackpowder/culverin
 // 	name = "Culverin"
 // 	desc = "A sturdy musket that is just as effective at being used as a cudgel."

@@ -1,3 +1,5 @@
+/* deprecated, fuzguns
+
 /obj/item/ammo_box/magazine/internal/cylinder/rev38
 	name = "detective revolver cylinder"
 	ammo_type = /obj/item/ammo_casing/a357
@@ -227,3 +229,4 @@
 	ammo_type = /obj/item/ammo_casing/a556
 	caliber = list(CALIBER_556)
 	max_ammo = 20
+*/

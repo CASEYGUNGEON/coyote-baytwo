@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 //Tesla Cannon
 /obj/item/gun/energy/tesla/teslacannon
 	name = "Tesla Cannon"
@@ -14,3 +16,5 @@
 	init_firemodes = list(
 		/datum/firemode/semi_auto/slower
 	)
+
+*/

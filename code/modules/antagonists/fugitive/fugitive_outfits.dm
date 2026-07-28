@@ -67,14 +67,13 @@
 	name = "Spacepol Officer"
 	uniform = /obj/item/clothing/under/rank/security/officer/spacepol
 	suit = /obj/item/clothing/suit/armor/medium/vest/blueshirt
-	belt = /obj/item/gun/ballistic/automatic/pistol/m1911
 	head = /obj/item/clothing/head/helmet/police
 	gloves = /obj/item/clothing/gloves/tackler/combat
 	shoes = /obj/item/clothing/shoes/jackboots
 	mask = /obj/item/clothing/mask/gas/sechailer/swat/spacepol
 	glasses = /obj/item/clothing/glasses/sunglasses
 	ears = /obj/item/radio/headset
-	l_pocket = /obj/item/ammo_box/magazine/m45
+//	l_pocket = /obj/item/ammo_box/magazine/m45
 	r_pocket = /obj/item/restraints/handcuffs
 	id = /obj/item/card/id
 
@@ -128,9 +127,6 @@
 	r_pocket = /obj/item/restraints/handcuffs/cable
 	id = /obj/item/card/id
 
-	backpack_contents = list(
-		/obj/item/ammo_casing/shotgun/incapacitate = 6
-		)
 
 /datum/outfit/bountygrapple/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)

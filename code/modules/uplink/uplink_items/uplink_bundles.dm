@@ -6,7 +6,7 @@
 	Unlike categories, uplink item entries are automatically sorted alphabetically on server init in a global list,
 	When adding new entries to the file, please keep them sorted by category.
 */
-
+/* deprecated, fuzguns
 /datum/uplink_item/bundles_TC/chemical
 	name = "Bioterror bundle"
 	desc = "For the madman: Contains a handheld Bioterror chem sprayer, a Bioterror foam grenade, a box of lethal chemicals, a dart pistol, \
@@ -29,7 +29,7 @@
 	item = /obj/item/storage/backpack/duffelbag/syndie/c20rbundle
 	cost = 14 // normally 16
 	include_modes = list(/datum/game_mode/nuclear)
-
+*/
 /datum/uplink_item/bundles_TC/contract_kit
 	name = "Contract Kit"
 	desc = "The Syndicate have offered you the chance to become a contractor, take on kidnapping contracts for TC and cash payouts. Upon purchase,  \
@@ -68,7 +68,7 @@
 	item = /obj/item/storage/box/cyber_implants
 	cost = 40
 	include_modes = list(/datum/game_mode/nuclear)
-
+/* deprecated, fuzguns
 /datum/uplink_item/bundles_TC/medical
 	name = "Medical bundle"
 	desc = "The support specialist: Aid your fellow operatives with this medical bundle. Contains a tactical medkit, \
@@ -76,7 +76,7 @@
 	item = /obj/item/storage/backpack/duffelbag/syndie/med/medicalbundle
 	cost = 15 // normally 20
 	include_modes = list(/datum/game_mode/nuclear)
-
+*/
 /datum/uplink_item/bundles_TC/modular
 	name = "Modular Pistol Kit"
 	desc = "A heavy briefcase containing one modular pistol (chambered in 10mm), one supressor, and spare ammunition, including a box of soporific ammo. \

@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 // .357
 /obj/item/ammo_casing/a357
 	name = ".357 FMJ bullet casing"
@@ -199,3 +201,4 @@
 		/datum/material/blackpowder = MATS_PISTOL_MEDIUM_POWDER * MATS_AMMO_POWDER_HANDLOAD_MULT)
 	fire_power = CASING_POWER_HEAVY_PISTOL * CASING_POWER_MOD_SURPLUS
 
+*/

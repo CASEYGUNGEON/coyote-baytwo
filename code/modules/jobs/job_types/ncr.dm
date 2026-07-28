@@ -1,3 +1,5 @@
+/* PATROLLING THE MOJAVE ALMOST MAKES YOU WISH FOR A DEPRECATED FUZGUN
+
 /*
 NCR Design notes:
 Standard issue stuff to keep the theme visually and gameplay and avoid watering down.
@@ -1520,3 +1522,5 @@ Weapons		Service Rifle, Grease Gun, 9mm pistol, all good.
 	backpack_contents = list(
 		/obj/item/ammo_box/magazine/m556/rifle=2,
 		)
+
+*/

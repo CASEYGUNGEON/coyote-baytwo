@@ -677,7 +677,7 @@
 			/obj/item/stack/ore/blackpowder = 2,
 			/obj/item/assembly/prox_sensor = 2,
 			/obj/item/stack/cable_coil = 20,
-			/obj/item/gun/ballistic/automatic/sportcarbine = 1
+			/obj/item/gun/ballistic/automatic/smg/mp5 = 1
 	)
 	time = 5 SECONDS
 	subcategory = CAT_MISCELLANEOUS

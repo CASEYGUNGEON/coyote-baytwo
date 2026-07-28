@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 //IN THIS DOCUMENT: Rifle template, Lever-action rifles, Bolt-action rifles, Magazine-fed bolt-action rifles
 // See gun.dm for keywords and the system used for gun balance
 
@@ -1037,3 +1039,4 @@
 	mag_type = /obj/item/ammo_box/magazine/testbullet
 	damage_multiplier = 30
 
+*/

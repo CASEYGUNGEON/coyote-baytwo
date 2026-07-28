@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 /obj/item/ammo_casing/caseless/magnetic
 	desc = "A large ferromagnetic slug intended to be launched out of a compatible weapon."
 	caliber = CALIBER_MAGNETIC
@@ -38,3 +40,4 @@
 	pellets = 1
 	variance = 0
 
+*/

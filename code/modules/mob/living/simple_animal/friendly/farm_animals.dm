@@ -1367,7 +1367,6 @@
 	new /obj/item/brahminsaddle(src)
 	new /obj/item/brahminbrand(src)
 	new /obj/item/choice_beacon/pet(src)
-	new /obj/item/gun/ballistic/rifle/mag/antimaterial(src)
 
 /*
 /datum/crafting_recipe/brahminbags

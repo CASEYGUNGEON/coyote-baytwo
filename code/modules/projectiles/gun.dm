@@ -1854,7 +1854,7 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 
 
 
-
+/* deprecated, fuzguns
 /obj/item/storage/backpack/debug_gun_hobo
 	name = "Bag of Gunstuff 4 hobos"
 	desc = "Cool shit for testing various guns!"
@@ -1932,6 +1932,7 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 	new /obj/item/gun/ballistic/automatic/shotgun/pancor(src)
 	new /obj/item/ammo_box/magazine/d12g/buck(src)
 	new /obj/item/ammo_box/magazine/d12g/buck(src)
+*/
 
 //Reload hotkey stuff
 /obj/item/gun/proc/Reload(mob/user)

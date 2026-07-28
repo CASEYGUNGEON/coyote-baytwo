@@ -463,9 +463,7 @@
 	loot = list()
 	healable = 1
 	ranged = 1
-	projectiletype = /obj/item/projectile/bullet/a556/simple
 	projectilesound = 'sound/f13weapons/varmint_rifle.ogg'
-	casingtype = /obj/item/ammo_casing/a556
 	projectile_sound_properties = list(
 		SP_VARY(FALSE),
 		SP_VOLUME(RIFLE_LIGHT_VOLUME),
@@ -491,9 +489,7 @@
 	health = 160
 	healable = 1
 	ranged = 1
-	projectiletype = /obj/item/projectile/bullet/m44/simple
 	projectilesound = 'sound/f13weapons/44mag.ogg'
-	casingtype = /obj/item/ammo_casing/m44
 	projectile_sound_properties = list(
 		SP_VARY(FALSE),
 		SP_VOLUME(PISTOL_HEAVY_VOLUME),

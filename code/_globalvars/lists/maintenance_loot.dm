@@ -185,7 +185,7 @@ GLOBAL_LIST_INIT(trash_clothing, list(
 	/obj/item/clothing/suit/armor/light/kit = 5,
 	/obj/item/clothing/head/welding = 5
 ))
-
+/* deprecated, fuzguns
 GLOBAL_LIST_INIT(trash_ammo, list(
 	/obj/item/ammo_box/a308box/improvised = 2,
 	/obj/item/ammo_box/a3006box/improvised = 2,
@@ -203,7 +203,7 @@ GLOBAL_LIST_INIT(trash_ammo, list(
 	/obj/item/ammo_box/m22 = 3,
 	/obj/item/ammo_box/rock/improvised = 3
 ))
-
+*/
 GLOBAL_LIST_INIT(trash_chem, list(
 	/obj/item/storage/pill_bottle/chem_tin/radx = 10,
 	/obj/item/reagent_containers/food/drinks/bottle/orangejuice = 20,
@@ -219,32 +219,14 @@ GLOBAL_LIST_INIT(trash_chem, list(
 	/obj/item/reagent_containers/pill/patch/medx = 5,
 	/obj/item/storage/pill_bottle/chem_tin/buffout = 5,
 	/obj/item/reagent_containers/pill/patch/steady = 5,
-	/obj/item/reagent_containers/pill/patch/psycho = 5,
-	/obj/item/storage/pill_bottle/chem_tin/mentats = 5,
-	/obj/item/storage/pill_bottle/chem_tin/mentats/grape = 1,
-	/obj/item/storage/pill_bottle/chem_tin/mentats/orange = 1,
-	/obj/item/storage/pill_bottle/chem_tin/mentats/berry = 1,
-	/obj/item/reagent_containers/pill/random = 20,
-	/obj/item/reagent_containers/pill/patch/random = 5,
-	/obj/item/reagent_containers/pill/healingpowder/random = 10,
-	/obj/item/reagent_containers/hypospray/medipen/stimpak/random = 20,
-	/obj/item/reagent_containers/syringe/random = 20,
-	/obj/item/reagent_containers/glass/bottle/random = 10,
-	/obj/item/storage/pill_bottle/random = 1,
+	//fenny was here and ate half this list :3
 ))
 
 GLOBAL_LIST_INIT(trash_craft, list(
-	/obj/item/crafting/duct_tape = 5,
-	/obj/item/crafting/abraxo = 5,
-	/obj/item/circuitboard/machine/autolathe/ammo/improvised = 5,
-	/obj/item/crafting/lunchbox = 5,
-	/obj/item/stack/crafting/metalparts/three = 5,
-	/obj/item/stack/crafting/electronicparts/three = 5,
-	/obj/item/stack/crafting/goodparts = 5
+
 ))
 
 GLOBAL_LIST_INIT(trash_gun, list(
-	/obj/item/melee/onehanded/machete/scrapsabre = 5,
 	/obj/item/melee/onehanded/knife/cosmicdirty = 5,
 	/obj/item/melee/onehanded/club/tireiron = 10,
 	/obj/item/twohanded/fireaxe/bmprsword = 5,
@@ -312,8 +294,7 @@ GLOBAL_LIST_INIT(trash_misc, list(
 	/obj/item/laser_pointer = 5
 ))
 
-GLOBAL_LIST_INIT(trash_mob_loot, GLOB.trash_ammo +\
-	GLOB.trash_chem +\
+GLOBAL_LIST_INIT(trash_mob_loot, GLOB.trash_chem +\
 	GLOB.trash_clothing +\
 	GLOB.trash_craft +\
 	GLOB.trash_gun +\
@@ -531,7 +512,7 @@ GLOBAL_LIST_INIT(loot_t5_melee, list(
 	/obj/item/twohanded/chainsaw,
 	/obj/item/melee/powered/ripper,
 	/obj/item/twohanded/sledgehammer/rockethammer,
-	/obj/item/gun/ballistic/revolver/ballisticfist,
+//	/obj/item/gun/ballistic/revolver/ballisticfist,
 	/obj/item/twohanded/sledgehammer/supersledge,
 	/obj/item/shishkebabpack,
 	/obj/item/melee/unarmed/powerfist,
@@ -539,6 +520,7 @@ GLOBAL_LIST_INIT(loot_t5_melee, list(
 	/obj/item/melee/unarmed/powerfist/moleminer
 ))
 
+/* DEPRECATED, FUZGUNS
 GLOBAL_LIST_INIT(loot_t1_range, list(
 	/obj/effect/spawner/lootdrop/f13/common_guns,
 	/obj/effect/spawner/lootdrop/f13/common_guns,
@@ -599,6 +581,7 @@ GLOBAL_LIST_INIT(loot_unique_range, list(
 	/obj/effect/spawner/lootdrop/f13/rare_guns,
 	/obj/effect/spawner/lootdrop/f13/rare_guns
 ))
+*/
 
 GLOBAL_LIST_INIT(loot_t1_ammo, list(
 	/obj/item/salvage/ammo

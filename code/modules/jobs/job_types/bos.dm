@@ -1,3 +1,5 @@
+/* DEPRECATED, FUZGUNS, FUCK YOU FALLOUT 13
+
 /*
 BoS access:
 Main doors: ACCESS_CAPTAIN 20
@@ -24,7 +26,7 @@ Main doors: ACCESS_CAPTAIN 20
 	name = "bosdatums"
 	jobtype = 	/datum/job/bos
 	backpack = 	/obj/item/storage/backpack/explorer
-	belt = /obj/item/kit_spawner/bos
+//	belt = /obj/item/kit_spawner/bos
 	satchel = 	/obj/item/storage/backpack/satchel/explorer
 	ears = 		/obj/item/radio/headset/headset_bos
 	uniform =	/obj/item/clothing/under/syndicate/brotherhood
@@ -102,7 +104,7 @@ Elder
 	name = "Elder"
 	jobtype = /datum/job/bos/f13elder
 	pa_wear = TRUE
-	belt = /obj/item/kit_spawner/bos/boss
+//	belt = /obj/item/kit_spawner/bos/boss
 	suit =	/obj/item/clothing/suit/armor/light/duster/bos/scribe/elder
 	glasses =	/obj/item/clothing/glasses/night
 	accessory =	/obj/item/clothing/accessory/bos/elder
@@ -184,25 +186,18 @@ Head Paladin
 	uniform = 		/obj/item/clothing/under/f13/recon
 	accessory = 	/obj/item/clothing/accessory/bos/sentinel
 	glasses =       /obj/item/clothing/glasses/sunglasses
-	belt = /obj/item/kit_spawner/bos/combat
+
 	mask =			/obj/item/clothing/mask/gas/sechailer
 	ears =			/obj/item/radio/headset/headset_bos/command
 	id = 			/obj/item/card/id/dogtag
 	neck = 			/obj/item/clothing/neck/mantle/bos/paladin
-	backpack_contents = list(
-		/obj/item/melee/onehanded/knife/hunting = 1,
-		/obj/item/melee/powerfist/f13 = 1,
-		/obj/item/gun/ballistic/automatic/pistol/n99/crusader = 1,
-		/obj/item/ammo_box/magazine/m10mm/adv/simple = 2,
-		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
-		/obj/item/storage/belt/army/assault = 1
-		)
+
 
 /datum/outfit/loadout/sentstand
 	name = "Shock Head Paladin"
 	suit = /obj/item/clothing/suit/armor/power_armor/midwest/hardened
 	head = /obj/item/clothing/head/helmet/f13/power_armor/midwest/hardened
-	l_hand = /obj/item/gun/energy/laser/scatter
+//	l_hand = /obj/item/gun/energy/laser/scatter
 	backpack_contents = list(
 		/obj/item/stock_parts/cell/ammo/mfc = 3,
 	)
@@ -212,9 +207,9 @@ Head Paladin
 	suit = /obj/item/clothing/suit/armor/power_armor/midwest/hardened
 	head = /obj/item/clothing/head/helmet/f13/power_armor/midwest/hardened
 	backpack_contents = list(
-		/obj/item/gun/ballistic/automatic/m72 = 1,
+//		/obj/item/gun/ballistic/automatic/m72 = 1,
 		/obj/item/ammo_box/magazine/m2mm = 3,
-		/obj/item/gun/energy/laser/plasma/glock = 1,
+//		/obj/item/gun/energy/laser/plasma/glock = 1,
 		/obj/item/stock_parts/cell/ammo/ec = 2,
 	)
 
@@ -223,7 +218,7 @@ Head Paladin
 	suit = /obj/item/clothing/suit/armor/power_armor/midwest/hardened
 	head = /obj/item/clothing/head/helmet/f13/power_armor/midwest/hardened
 	backpack_contents = list(
-		/obj/item/minigunpack=1,
+//		/obj/item/minigunpack=1,
 	)
 
 /datum/outfit/loadout/sentmini
@@ -231,8 +226,8 @@ Head Paladin
 	suit = /obj/item/clothing/suit/armor/power_armor/midwest/hardened
 	head = /obj/item/clothing/head/helmet/f13/power_armor/midwest/hardened
 	backpack_contents = list(
-		/obj/item/minigunpackbal5mm=1,
-		/obj/item/gun/energy/laser/pistol=1,
+//		/obj/item/minigunpackbal5mm=1,
+//		/obj/item/gun/energy/laser/pistol=1,
 		/obj/item/stock_parts/cell/ammo/ec=2,
 	)
 
@@ -295,17 +290,13 @@ Head Scribe
 	name = "Head Scribe"
 	jobtype = /datum/job/bos/f13headscribe
 	chemwhiz = TRUE
-	belt = /obj/item/kit_spawner/bos/scientist
+//	belt = /obj/item/kit_spawner/bos/scientist
 	uniform = 		/obj/item/clothing/under/syndicate/brotherhood
 	accessory = 	/obj/item/clothing/accessory/bos/headscribe
 	glasses =       /obj/item/clothing/glasses/sunglasses
 	suit = 			/obj/item/clothing/suit/armor/light/duster/bos/scribe/headscribe
 	belt = 			/obj/item/storage/belt/utility/full/engi
 	id = 			/obj/item/card/id/dogtag
-	backpack_contents = list(
-		/obj/item/melee/onehanded/knife/survival = 1,
-		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
-		)
 
 /datum/outfit/loadout/hsstand
 	name = "Medicinal Expert"
@@ -317,7 +308,7 @@ Head Scribe
 /datum/outfit/loadout/hspract
 	name = "Administrative Leader"
 	backpack_contents = list(
-		/obj/item/gun/energy/laser/plasma/pistol = 1,
+//		/obj/item/gun/energy/laser/plasma/pistol = 1,
 		/obj/item/stock_parts/cell/ammo/ec = 2,
 		)
 
@@ -372,16 +363,12 @@ Head Knight
 	glasses =		/obj/item/clothing/glasses/night
 	uniform =		/obj/item/clothing/under/syndicate/brotherhood
 	accessory =		/obj/item/clothing/accessory/bos/knightcaptain
-	belt = /obj/item/kit_spawner/bos/combat
+//	belt = /obj/item/kit_spawner/bos/combat
 	l_pocket =			/obj/item/storage/belt/shoulderholster
 	mask =			/obj/item/clothing/mask/gas/sechailer
 	head =			/obj/item/clothing/head/helmet/f13/combat/brotherhood/captain
 	id =			/obj/item/card/id/dogtag
-	backpack_contents = list(
-		/obj/item/melee/onehanded/knife/hunting = 1,
-		/obj/item/reagent_containers/hypospray/medipen/stimpak = 2,
-		/obj/item/storage/belt/army/security/full = 1
-		)
+
 
 /*
 /datum/outfit/loadout/capstand
@@ -461,7 +448,7 @@ Star Paladin
 	accessory =	/obj/item/clothing/accessory/bos/seniorpaladin
 	uniform =	/obj/item/clothing/under/f13/recon
 	mask =	/obj/item/clothing/mask/gas/sechailer
-	belt = /obj/item/kit_spawner/bos/combat
+//	belt = /obj/item/kit_spawner/bos/combat
 	neck =	/obj/item/clothing/neck/mantle/bos/paladin
 
 	backpack_contents = list(
@@ -472,39 +459,19 @@ Star Paladin
 
 /datum/outfit/loadout/spaladina
 	name = "Senior Firesupport Paladin"
-	backpack_contents = list(
-		/obj/item/minigunpackbal5mm = 1,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		/obj/item/clothing/accessory/bos/paladin=1,
-	)
+
 
 /datum/outfit/loadout/spaladinb
 	name = "Senior Tactical Paladin"
-	backpack_contents = list(
-		/obj/item/gun/ballistic/automatic/wt550 = 1,
-		/obj/item/ammo_box/magazine/m473/small = 3,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		)
+
 
 /datum/outfit/loadout/spaladinc
 	name = "Senior Frontline Paladin"
-	backpack_contents = list(
-		/obj/item/gun/energy/laser/aer9 = 1,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/mfc = 2,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		)
+
 
 /datum/outfit/loadout/spaladind
 	name = "Senior Melee Specialist"
-	backpack_contents = list(
-		/obj/item/melee/powerfist/f13 = 1,
-		/obj/item/twohanded/sledgehammer/supersledge =1,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		)
+
 
 
 /*
@@ -562,7 +529,7 @@ Paladin
 	head =	/obj/item/clothing/head/helmet/f13/power_armor/midwest
 	uniform =	/obj/item/clothing/under/f13/recon
 	mask =	/obj/item/clothing/mask/gas/sechailer
-	belt = /obj/item/kit_spawner/bos/combat
+//	belt = /obj/item/kit_spawner/bos/combat
 	neck =	/obj/item/clothing/neck/mantle/bos/paladin
 	backpack_contents = list(
 		/obj/item/reagent_containers/hypospray/medipen/stimpak= 1,
@@ -572,42 +539,16 @@ Paladin
 
 /datum/outfit/loadout/paladina
 	name = "Firesupport Paladin"
-	backpack_contents = list(
-		/obj/item/minigunpackbal5mm = 1,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		/obj/item/clothing/accessory/bos/paladin=1,
-	)
+
 
 /datum/outfit/loadout/paladinb
 	name = "Tactical Paladin"
-	backpack_contents = list(
-		/obj/item/gun/ballistic/automatic/wt550 = 1,
-		/obj/item/ammo_box/magazine/m473/small = 3,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		/obj/item/clothing/accessory/bos/paladin=1,
-		)
 
 /datum/outfit/loadout/paladinc
 	name = "Frontline Paladin"
-	backpack_contents = list(
-		/obj/item/gun/energy/laser/aer9 = 1,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/mfc = 2,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		/obj/item/clothing/accessory/bos/paladin=1
-		)
 
 /datum/outfit/loadout/paladind
 	name = "Melee Specialist"
-	backpack_contents = list(
-		/obj/item/melee/powerfist/f13 = 1,
-		/obj/item/twohanded/sledgehammer/supersledge =1,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		/obj/item/clothing/accessory/bos/paladin=1
-		)
 
 /*
 Senior Scribe
@@ -671,19 +612,12 @@ Senior Scribe
 	chemwhiz =	TRUE
 	uniform =	/obj/item/clothing/under/syndicate/brotherhood
 	shoes =	/obj/item/clothing/shoes/combat
-	belt = /obj/item/kit_spawner/bos/scientist
+//	belt = /obj/item/kit_spawner/bos/scientist
 	belt =	/obj/item/storage/belt/utility/full/engi
 	accessory =	/obj/item/clothing/accessory/bos/seniorscribe
 	suit =	/obj/item/clothing/suit/armor/light/duster/bos/scribe/seniorscribe
 	id =	/obj/item/card/id/dogtag
 	glasses =	/obj/item/clothing/glasses/sunglasses/big
-	backpack_contents = list(
-		/obj/item/stock_parts/cell/ammo/ec = 2,
-		/obj/item/gun/energy/laser/pistol = 1,
-		/obj/item/melee/onehanded/knife/survival = 1,
-		/obj/item/storage/firstaid/regular = 1,
-		/obj/item/reagent_containers/hypospray/CMO = 1,
-	)
 
 /*
 Scribe
@@ -732,17 +666,11 @@ Scribe
 	chemwhiz = TRUE
 	uniform =		/obj/item/clothing/under/syndicate/brotherhood
 	shoes = 		/obj/item/clothing/shoes/combat
-	belt = /obj/item/kit_spawner/bos/scientist
+//	belt = /obj/item/kit_spawner/bos/scientist
 	suit = 			/obj/item/clothing/suit/armor/light/duster/bos/scribe
 	id = 			/obj/item/card/id/dogtag
 	glasses =		/obj/item/clothing/glasses/sunglasses/big
-	backpack_contents = list(
-//		/obj/item/stock_parts/cell/ammo/ec=2,
-//		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/storage/belt/utility/full/engi = 1,
-		/obj/item/melee/onehanded/knife/survival=1,
-		/obj/item/storage/firstaid/regular=1,
-		)
+
 
 /*
 /datum/outfit/job/bos/f13scribe/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -822,7 +750,7 @@ Senior Knight
 	uniform =		/obj/item/clothing/under/syndicate/brotherhood
 	glasses =       /obj/item/clothing/glasses/night
 	mask =			/obj/item/clothing/mask/gas/sechailer
-	belt = /obj/item/kit_spawner/bos/combat
+//	belt = /obj/item/kit_spawner/bos/combat
 	l_pocket =			/obj/item/storage/belt/shoulderholster
 	head = 			/obj/item/clothing/head/helmet/f13/combat/brotherhood/senior
 	id = 			/obj/item/card/id/dogtag
@@ -830,13 +758,6 @@ Senior Knight
 	gunsmith_two = TRUE
 	gunsmith_three = TRUE
 	gunsmith_four = TRUE
-	backpack_contents = list(
-		/obj/item/melee/onehanded/knife/hunting=1,
-		/obj/item/storage/belt/army/assault = 1,
-		/obj/item/reagent_containers/hypospray/medipen/stimpak=2,
-		// /obj/item/book/granter/crafting_recipe/gunsmith_one=1,
-		// /obj/item/book/granter/crafting_recipe/gunsmith_two=1
-		)
 /*
 /datum/outfit/loadout/sknighta
 	name = "Footknight"
@@ -851,18 +772,18 @@ Senior Knight
 /datum/outfit/loadout/sknightb
 	name = "Knight-Defender"
 	backpack_contents = list(
-		/obj/item/gun/ballistic/shotgun/police=1,
+//		/obj/item/gun/ballistic/shotgun/police=1,
 		/obj/item/ammo_box/shotgun/buck=2,
-		/obj/item/gun/energy/laser/pistol=1,
+//		/obj/item/gun/energy/laser/pistol=1,
 		/obj/item/stock_parts/cell/ammo/ec=2,
 		)
 
 /datum/outfit/loadout/sknightc
 	name = "Recon"
 	backpack_contents = list(
-		/obj/item/gun/ballistic/automatic/r93=1,
+//		/obj/item/gun/ballistic/automatic/r93=1,
 		/obj/item/ammo_box/magazine/m556/rifle=2,
-		/obj/item/gun/energy/laser/pistol=1,
+//		/obj/item/gun/energy/laser/pistol=1,
 		/obj/item/stock_parts/cell/ammo/ec=2,
 		)
 
@@ -934,7 +855,7 @@ Knight
 	suit = 			/obj/item/clothing/suit/armor/medium/combat/brotherhood
 	uniform =		/obj/item/clothing/under/syndicate/brotherhood
 	mask =			/obj/item/clothing/mask/gas/sechailer
-	belt = /obj/item/kit_spawner/bos/combat
+//	belt = /obj/item/kit_spawner/bos/combat
 	l_pocket =			/obj/item/storage/belt/shoulderholster
 	head = 			/obj/item/clothing/head/helmet/f13/combat/brotherhood
 	id = 			/obj/item/card/id/dogtag
@@ -942,70 +863,29 @@ Knight
 	gunsmith_two = TRUE
 	gunsmith_three = TRUE
 	gunsmith_four = TRUE
-	backpack_contents = list(
-		/obj/item/melee/onehanded/knife/survival=1,
-		/obj/item/storage/belt/army/assault = 1,
-		/obj/item/reagent_containers/hypospray/medipen/stimpak=1,
-		// /obj/item/book/granter/crafting_recipe/gunsmith_one=1,
-		// /obj/item/book/granter/crafting_recipe/gunsmith_two=1
-		)
+	
 
 /datum/outfit/loadout/knighta
 	name = "Junior Footknight"
-	backpack_contents = list(
-		/obj/item/clothing/accessory/bos/juniorknight=1,
-		/obj/item/gun/energy/laser/aer9=1,
-		/obj/item/stock_parts/cell/ammo/mfc=2,
-		/obj/item/gun/ballistic/automatic/pistol/mk23 = 1,
-		/obj/item/ammo_box/magazine/m45/socom = 2,
-		)
 
 /datum/outfit/loadout/knightb
-	name = "Junior Knight-Defender"
-	backpack_contents = list(
-		/obj/item/clothing/accessory/bos/juniorknight=1,
-		/obj/item/gun/ballistic/automatic/r93=1,
-		/obj/item/ammo_box/magazine/m556/rifle=2,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		)
-
+//	name = "Junior Knight-Defender"
+	
+//
 /datum/outfit/loadout/knightc
 	name = "Junior Knight-Cavalry"
-	backpack_contents = list(
-		/obj/item/clothing/accessory/bos/juniorknight=1,
-		/obj/item/melee/powered/ripper=1,
-		/obj/item/shield/riot/bullet_proof=1,
-		)
 
 
 /datum/outfit/loadout/knightd
 	name = "Footknight"
-	backpack_contents = list(
-		/obj/item/clothing/accessory/bos/knight=1,
-		/obj/item/gun/energy/laser/aer9=1,
-		/obj/item/stock_parts/cell/ammo/mfc=2,
-		/obj/item/gun/ballistic/automatic/pistol/mk23 = 1,
-		/obj/item/ammo_box/magazine/m45/socom = 2,
-		)
 
 /datum/outfit/loadout/knighte
 	name = "Knight-Defender"
-	backpack_contents = list(
-		/obj/item/clothing/accessory/bos/knight=1,
-		/obj/item/gun/ballistic/automatic/smg/mp5sd=1,
-		/obj/item/ammo_box/magazine/uzim9mm=2,
-		/obj/item/gun/energy/laser/pistol=1,
-		/obj/item/stock_parts/cell/ammo/ec=2,
-		)
+//
 
 /datum/outfit/loadout/knightf
 	name = "Knight-Cavalry"
-	backpack_contents = list(
-		/obj/item/clothing/accessory/bos/knight=1,
-		/obj/item/melee/powered/ripper=1,
-		/obj/item/shield/riot/bullet_proof=1,
-		)
+
 /*
 Initiate
 */
@@ -1072,11 +952,7 @@ Initiate
 	belt = 			/obj/item/storage/belt/utility
 	suit = 			/obj/item/clothing/suit/armor/light/duster/bos/outcast
 	head = 			/obj/item/clothing/head/helmet/f13/combat/brotherhood/initiate
-	backpack_contents = list(
-//		/obj/item/gun/energy/laser/wattz=1,
-//		/obj/item/stock_parts/cell/ammo/ec=2,
-		/obj/item/clothing/accessory/bos/initiateK=1,
-		)
+
 
 /datum/outfit/loadout/initiates
 	name = "Scribe-Aspirant"
@@ -1089,3 +965,5 @@ Initiate
 		/obj/item/book/granter/trait/chemistry=1,
 		/obj/item/clothing/accessory/bos/initiateS=1,
 		)
+
+*/

@@ -1,3 +1,5 @@
+/* fuzguns, disabled for renovations
+
 /*
 #define LOADOUT_FLAG_TOOL_WASTER (1<<5)
 
@@ -626,3 +628,4 @@
 	new /obj/item/huntinghorn/healing(src) //for horn
 	new /obj/item/bikehorn(src) //for HONK 
 
+*/

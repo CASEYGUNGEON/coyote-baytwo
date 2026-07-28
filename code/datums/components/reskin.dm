@@ -1596,7 +1596,7 @@ GLOBAL_LIST_INIT(pda_skins, list(
 	icon_state = "pda-explore"
 
 
-
+/* deprecated, fuzguns
 /// GUN ///
 /datum/reskin/gun
 	skin = "Gun"
@@ -2537,9 +2537,9 @@ GLOBAL_LIST_INIT(pda_skins, list(
 	desc = "its a service rifle that turns into other shit. if you see this, call 1-800-IMC-ODER"
 	icon_state = "service_rifle"
 	inhand_icon_state = "servicerifle"
-	mag_type = /obj/item/ammo_box/magazine/m556/rifle
-	init_mag_type = /obj/item/ammo_box/magazine/m556/rifle
-	extra_mag_types = list(/obj/item/ammo_box/magazine/m22smg)
+	mag_type = /obj/item/ammo_box/magazine/a223/thirty
+	init_mag_type = /obj/item/ammo_box/magazine/a223/thirty
+	extra_mag_types = list()
 	reskinnable_component = /datum/component/reskinnable/service_rifle/debug
 
 
@@ -2561,6 +2561,6 @@ GLOBAL_LIST_INIT(pda_skins, list(
 	new /obj/item/clothing/head/f13/ncr(src)
 	new /obj/item/pda(src)
 	new /obj/item/pda(src)
-	new /obj/item/gun/ballistic/rifle/antique/gras(src)
+//	new /obj/item/gun/ballistic/rifle/antique/gras(src)
 
-
+*/

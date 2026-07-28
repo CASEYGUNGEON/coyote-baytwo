@@ -655,8 +655,8 @@
 			new /obj/item/stack/medical/gauze(S)//Give them some gauze for healing
 			new /obj/item/flashlight(S)//Give them a flashlight for seeing
 			new /obj/item/melee/onehanded/knife/hunting(S)//And a knife for crafting/gutting
-			new /obj/item/kit_spawner/townie(S)//And a weapon so they can play the game :tm:
-			new /obj/item/kit_spawner/tools(S)//And a toolkit for job stuffs
+//			new /obj/item/kit_spawner/townie(S)//And a weapon so they can play the game :tm:
+//			new /obj/item/kit_spawner/tools(S)//And a toolkit for job stuffs
 			new /obj/item/pda(S)//And a PDA since everyone else spawns with one, too
 			new /obj/item/card/id/selfassign(S)//And an ID card to swipe into the PDA
 		//Assign the mob's information based on the player's client preferences

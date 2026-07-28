@@ -773,7 +773,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/item/gun/energy/e_gun/stun,
 /turf/open/floor/plasteel/dark,
 /area/centcom/evac)
 "di" = (
@@ -895,7 +894,6 @@
 /area/f13/underground/mountain)
 "dN" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ballistic/automatic/autopipe,
 /obj/item/flashlight,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -1589,7 +1587,6 @@
 "gz" = (
 /obj/structure/closet/secure_closet/security,
 /obj/item/storage/belt/army/security/full,
-/obj/item/gun/ballistic/automatic/autopipe,
 /obj/item/clothing/head/helmet/swat/nanotrasen,
 /obj/item/crowbar/red,
 /obj/effect/turf_decal/stripes/line{
@@ -1706,7 +1703,6 @@
 /obj/item/clothing/shoes/sneakers/brown,
 /obj/item/clothing/suit/armor/medium/vest,
 /obj/item/clothing/head/helmet/swat,
-/obj/item/gun/energy/laser/aer9,
 /turf/open/floor/plasteel,
 /area/tdome/arena)
 "gV" = (
@@ -1892,8 +1888,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
 	},
-/obj/item/gun/energy/laser/aer9,
-/obj/item/gun/energy/laser/aer9,
 /turf/open/floor/plasteel/dark,
 /area/centcom/evac)
 "hE" = (
@@ -2446,7 +2440,6 @@
 /area/holodeck/rec_center/pet_lounge)
 "ka" = (
 /obj/structure/table/glass,
-/obj/item/gun/energy/e_gun/mini/practice_phaser,
 /turf/open/floor/holofloor/plating,
 /area/holodeck/rec_center/kobayashi)
 "kb" = (
@@ -5621,9 +5614,6 @@
 	pixel_y = 28
 	},
 /obj/effect/turf_decal/stripes/line,
-/obj/item/gun/energy/laser/wattz/magneto,
-/obj/item/gun/energy/laser/wattz/magneto,
-/obj/item/gun/energy/laser/wattz/magneto,
 /turf/open/floor/plasteel/dark,
 /area/centcom/evac)
 "wL" = (
@@ -6712,7 +6702,6 @@
 "Bc" = (
 /obj/structure/closet/secure_closet/security,
 /obj/item/storage/belt/army/security/full,
-/obj/item/gun/ballistic/automatic/autopipe,
 /obj/item/clothing/head/helmet/swat/nanotrasen,
 /obj/item/crowbar/red,
 /obj/effect/turf_decal/stripes/line{
@@ -7601,10 +7590,6 @@
 /area/centcom/evac)
 "ET" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ballistic/automatic/m72,
-/obj/item/ammo_box/magazine/m2mm,
-/obj/item/ammo_box/magazine/m2mm,
-/obj/item/ammo_box/magazine/m2mm,
 /turf/open/floor/plasteel/grimy,
 /area/centcom/evac)
 "EU" = (
@@ -7750,7 +7735,6 @@
 /obj/item/clothing/shoes/sneakers/brown,
 /obj/item/clothing/suit/armor/medium/vest,
 /obj/item/clothing/head/helmet/swat,
-/obj/item/gun/energy/laser/aer9,
 /turf/open/floor/plasteel,
 /area/tdome/arena)
 "Fz" = (
@@ -8296,7 +8280,6 @@
 /area/centcom/evac)
 "Ij" = (
 /obj/structure/table/wood,
-/obj/effect/spawner/lootdrop/armory_contraband,
 /turf/open/floor/wood_common,
 /area/centcom/evac)
 "Il" = (
@@ -8451,7 +8434,6 @@
 /area/f13/building)
 "IR" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ballistic/automatic/autopipe,
 /obj/item/flashlight,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8

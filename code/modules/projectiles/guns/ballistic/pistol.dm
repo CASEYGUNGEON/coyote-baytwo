@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 //IN THIS DOCUMENT: Pistol template, Light pistols, Heavy pistols
 // See gun.dm for keywords and the system used for gun balance
 
@@ -1214,3 +1216,5 @@
 	name = "pistol"
 	damage_multiplier = 18
 	mag_type = /obj/item/ammo_box/magazine/testbullet
+
+*/

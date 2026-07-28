@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 /obj/item/ammo_casing/caseless/g11
 	name = "4.73mm caseless cartridge"
 	desc = "An 4.73 self-contained caseless rifle cartridge."
@@ -53,3 +55,5 @@
 	name = "4.73mm highvelocity cartridge"
 	projectile_type  = /obj/item/projectile/bullet/a473/hv
 	fire_power = CASING_POWER_LIGHT_RIFLE * CASING_POWER_MOD_MATCH
+
+*/

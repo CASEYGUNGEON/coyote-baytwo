@@ -70,11 +70,7 @@
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	belt = /obj/item/storage/belt/army/security/full
 	back = /obj/item/storage/backpack/security
-	backpack_contents = list(/obj/item/storage/box/engineer=1,\
-		/obj/item/storage/box/handcuffs=1,\
-		/obj/item/clothing/mask/gas/sechailer=1,\
-		/obj/item/gun/energy/e_gun/stun=1,\
-		/obj/item/melee/baton/loaded=1)
+
 
 /datum/outfit/ert/security/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	..()
@@ -93,16 +89,11 @@
 	backpack_contents = list(/obj/item/storage/box/engineer=1,\
 		/obj/item/storage/box/handcuffs=1,\
 		/obj/item/clothing/mask/gas/sechailer/swat=1,\
-		/obj/item/melee/baton/loaded=1,\
-		/obj/item/gun/energy/e_gun/stun=1)
+		/obj/item/melee/baton/loaded=1)
 
 /datum/outfit/ert/security/alert/red
 	name = "ERT Security - Red Alert"
-	backpack_contents = list(/obj/item/storage/box/engineer=1,\
-		/obj/item/storage/box/handcuffs=1,\
-		/obj/item/clothing/mask/gas/sechailer/swat=1,\
-		/obj/item/melee/baton/loaded=1,\
-		/obj/item/gun/energy/pulse/carbine/loyalpin=1)
+
 
 /datum/outfit/ert/medic
 	name = "ERT Medic"
@@ -270,9 +261,7 @@
 
 	backpack_contents = list(/obj/item/storage/box/engineer=1,
 		/obj/item/storage/box/handcuffs=1,
-		/obj/item/clothing/mask/gas/sechailer=1,
-		/obj/item/gun/energy/e_gun/stun=1,
-		/obj/item/melee/baton/loaded=1)
+		/obj/item/clothing/mask/gas/sechailer=1)
 //		/obj/item/construction/rcd/loaded=1
 
 /datum/outfit/ert/medic/inquisitor
@@ -280,13 +269,7 @@
 
 	suit = /obj/item/clothing/suit/space/hardsuit/ert/paranormal/inquisitor
 
-	backpack_contents = list(/obj/item/storage/box/engineer=1,
-		/obj/item/melee/baton/loaded=1,
-		/obj/item/clothing/mask/gas/sechailer=1,
-		/obj/item/gun/energy/e_gun=1,
-		/obj/item/reagent_containers/hypospray/combat=1,
-		/obj/item/reagent_containers/hypospray/combat/heresypurge=1,
-		/obj/item/gun/medbeam=1)
+
 
 /datum/outfit/ert/chaplain/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
 	..()

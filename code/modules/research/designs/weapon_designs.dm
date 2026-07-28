@@ -138,7 +138,7 @@
 //////////////
 //Ammo Shells/
 //////////////
-
+/*
 /datum/design/shell_clip
 	name = "stripper clip (shotgun shells)"
 	id = "sec_shellclip"
@@ -148,7 +148,7 @@
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
-/*
+
 /datum/design/beanbag_slug/sec
 	id = "sec_beanbag"
 	build_type = PROTOLATHE
@@ -184,7 +184,7 @@
 	build_type = PROTOLATHE
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
-*/
+
 
 /datum/design/stunshell
 	name = "Stun Shell"
@@ -215,7 +215,7 @@
 	build_path = /obj/item/ammo_casing/shotgun/dart/noreact
 	category = list("Ammo")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
-
+*/
 //////////////
 //Firing Pins/
 //////////////
@@ -482,7 +482,7 @@
 	build_path = /obj/item/shield/riot/bullet_proof
 	category = list("Weapons")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
-
+/* deprecated, fuzguns
 /datum/design/disablerrcw
 	name = "Disabler RCW"
 	desc = "A rapid-fire laser rifle modeled after the familiar \"Thompson\" SMG. It features high-accuracy burst fire that will whittle down targets in a matter of seconds. This one seems to be modified with special capacitors that make it non lethal!"
@@ -492,7 +492,7 @@
 	build_path = /obj/item/gun/energy/laser/stunrcw
 	category = list("Weapons")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
-
+*/
 //////////
 //MISC////
 //////////

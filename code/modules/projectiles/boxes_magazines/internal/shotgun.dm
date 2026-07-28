@@ -1,3 +1,5 @@
+/* deprecated, fuzguns
+
 /obj/item/ammo_box/magazine/internal/shot
 	name = "shotgun internal magazine"
 	ammo_type = /obj/item/ammo_casing/shotgun/buckshot
@@ -171,3 +173,4 @@
 	max_ammo = 8
 	multiload = 0
 
+*/

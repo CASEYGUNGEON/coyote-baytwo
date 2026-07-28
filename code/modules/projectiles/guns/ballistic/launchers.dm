@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 //KEEP IN MIND: These are different from gun/grenadelauncher. These are designed to shoot premade rocket and grenade projectiles, not flashbangs or chemistry casings etc.
 //Put handheld rocket launchers here if someone ever decides to make something so hilarious ~Paprika
 
@@ -219,3 +221,5 @@
 		icon_state = "[initial(icon_state)]-e"
 	else
 		icon_state = "[initial(icon_state)]"
+
+*/
