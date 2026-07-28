@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 /* * * * * * * * * *
  * LIGHT REVOLVERS *
  * * * * * * * * * */
@@ -975,3 +977,5 @@
 		qdel(SS)
 		return
 	user.visible_message(span_danger("[user.name]'s soul is captured by \the [src]!"), span_userdanger("You've lost the gamble! Your soul is forfeit!"))
+
+*/

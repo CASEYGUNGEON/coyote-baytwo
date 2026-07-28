@@ -43,16 +43,19 @@ GLOBAL_LIST_INIT(tier_three_parts, list(
 	/datum/crafting_recipe/super_capacitor,
 	/datum/crafting_recipe/ultra_micro_laser))
 
+/* DEPRECATED CAUSE FUZGUNS
 GLOBAL_LIST_INIT(energyweapon_cell_crafting, list(
 	/datum/crafting_recipe/enhancedenergycell,
 	/datum/crafting_recipe/enhancedmfcell,
 	/datum/crafting_recipe/enhancedecp))
+*/
 
 	// armored_hazard_suit is going to get SEVA Mk. 2 and Explorer Mk. 2 in the future. Might tie it to Hardsuits as well.
 GLOBAL_LIST_INIT(armored_hazard_suit, list(
 	/datum/crafting_recipe/combathazardsuit,
 	/datum/crafting_recipe/combathazardhood))
 
+/* DEPRECATED CAUSE FUZGUNS
 GLOBAL_LIST_INIT(weaponcrafting_gun_recipes, list(
 	/datum/crafting_recipe/ninemil,
 	/datum/crafting_recipe/huntingrifle,
@@ -73,6 +76,7 @@ GLOBAL_LIST_INIT(weaponcrafting_gun_recipes, list(
 	/datum/crafting_recipe/gun/flintlock,
 	/datum/crafting_recipe/gun/flintlock_laser,
 	/datum/crafting_recipe/sharpener))
+*/
 
 GLOBAL_LIST_INIT(former_tribal_recipes, list(
 	///datum/crafting_recipe/tribal/bonetalisman, //broken item, unneeded
@@ -110,8 +114,10 @@ GLOBAL_LIST_INIT(eighties_traditions_recipes, list(
 	/datum/crafting_recipe/tribalwar/eighties/garb,
 	/datum/crafting_recipe/tribalwar/eighties/femalegarb))
 
+/*
 GLOBAL_LIST_INIT(energyweapon_crafting, list(
 	/datum/crafting_recipe/aer9_hotwired))
+*/
 
 GLOBAL_LIST_INIT(pa_repair, list(
 	/datum/crafting_recipe/repair_t45,
@@ -121,7 +127,7 @@ GLOBAL_LIST_INIT(pa_repair, list(
 	/datum/crafting_recipe/repair_t45/hotrod,
 	/datum/crafting_recipe/repair_t45_helm/hotrod))
 
-
+/* DEPRECATED CAUSE FUZGUNS
 GLOBAL_LIST_INIT(weapons_of_texarkana, list(
 	/datum/crafting_recipe/policepistol,
 	/datum/crafting_recipe/durathread_vest,
@@ -129,6 +135,7 @@ GLOBAL_LIST_INIT(weapons_of_texarkana, list(
 	/datum/crafting_recipe/steelbib/heavy,
 	/datum/crafting_recipe/armyhelmetheavy,
 	/datum/crafting_recipe/huntingshotgun))
+*/
 
 GLOBAL_LIST_INIT(security_expert, list(
 	/datum/crafting_recipe/lockpick_basic,
@@ -599,8 +606,8 @@ GLOBAL_LIST_INIT(security_expert, list(
 	if(!H.mind.learned_recipes)
 		H.mind.learned_recipes = list()
 	H.mind.learned_recipes |= GLOB.tier_three_parts
-	H.mind.learned_recipes |= GLOB.energyweapon_cell_crafting
-	H.mind.learned_recipes |= GLOB.energyweapon_crafting
+//	H.mind.learned_recipes |= GLOB.energyweapon_cell_crafting
+//	H.mind.learned_recipes |= GLOB.energyweapon_crafting
 	H.mind.learned_recipes |= GLOB.pa_repair
 	H.mind.learned_recipes |= GLOB.armored_hazard_suit
 
@@ -608,8 +615,8 @@ GLOBAL_LIST_INIT(security_expert, list(
 	var/mob/living/carbon/human/H = quirk_holder
 	if(H)
 		H.mind.learned_recipes -= GLOB.tier_three_parts
-		H.mind.learned_recipes -= GLOB.energyweapon_cell_crafting
-		H.mind.learned_recipes -= GLOB.energyweapon_crafting
+//		H.mind.learned_recipes -= GLOB.energyweapon_cell_crafting
+//		H.mind.learned_recipes -= GLOB.energyweapon_crafting
 		H.mind.learned_recipes -= GLOB.pa_repair
 		H.mind.learned_recipes -= GLOB.armored_hazard_suit
 
@@ -640,6 +647,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	lose_text = span_danger("You seem to have forgotten how to craft makeshift weapons...")
 	medical_record_text = "Patient appears to enjoy tinkering with custom guns."
 
+/* DEPRECATED CAUSE FUZGUNS
 /datum/quirk/gunsmith/add()
 	var/mob/living/carbon/human/H = quirk_holder
 	// I made the quirks add the same recipes as the trait books. Feel free to nerf this
@@ -652,6 +660,7 @@ GLOBAL_LIST_INIT(security_expert, list(
 	var/mob/living/carbon/human/H = quirk_holder
 	if(H)
 		H.mind.learned_recipes -= GLOB.weaponcrafting_gun_recipes
+*/
 
 /datum/quirk/masterworksmith
 	name = "Weaponsmith - Masterwork"

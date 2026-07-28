@@ -1,3 +1,5 @@
+/* deprecated, fuzgunds
+
 /obj/item/ammo_box/magazine/internal/boltaction
 	name = "bolt action rifle internal magazine"
 	desc = "Oh god, this shouldn't be here"
@@ -205,3 +207,4 @@
 	caliber = list(CALIBER_50MG)
 	max_ammo = 2 // +1 = 3!
 	multiload = 0 // One at a time, honey.
+*/

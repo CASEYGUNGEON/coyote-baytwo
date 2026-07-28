@@ -2,7 +2,7 @@
 	name = "power pack"
 	desc = "A rechargeable, detachable battery that serves as a magazine for laser rifles."
 	icon_state = "oldrifle-20"
-	ammo_type = /obj/item/ammo_casing/caseless/laser
+	//ammo_type = /obj/item/ammo_casing/caseless/laser
 	caliber = list(CALIBER_LASER)
 	max_ammo = 20
 	w_class = WEIGHT_CLASS_SMALL

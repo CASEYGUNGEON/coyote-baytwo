@@ -117,21 +117,23 @@
 			new /obj/item/clothing/shoes/chameleon/noslip(src) //because slipping while being a dark lord sucks
 			new /obj/item/book/granter/spell/summonitem(src)
 
-		if("sniper") //This shit is unique so can't really balance it around tc, also no silencer because getting killed without ANY indicator on what killed you sucks
-			new /obj/item/gun/ballistic/rifle/mosin(src) // 12 tc
-			new /obj/item/clothing/glasses/thermal/syndi(src)
-			new /obj/item/clothing/gloves/color/latex/nitrile(src)
-			new /obj/item/clothing/under/suit/black_really(src)
+	// deprecated, fuzguns
+		// if("sniper") //This shit is unique so can't really balance it around tc, also no silencer because getting killed without ANY indicator on what killed you sucks
+		// 	new /obj/item/gun/ballistic/rifle/mosin(src) // 12 tc
+		// 	new /obj/item/clothing/glasses/thermal/syndi(src)
+		// 	new /obj/item/clothing/gloves/color/latex/nitrile(src)
+		// 	new /obj/item/clothing/under/suit/black_really(src)
 
-		if("metaops") // 30 tc
-			new /obj/item/clothing/suit/space/hardsuit/syndi(src) // 8 tc
-			new /obj/item/gun/ballistic/shotgun/trench(src) // 8 tc
-			new /obj/item/implanter/explosive(src) // 2 tc
-			new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
-			new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
-			new /obj/item/grenade/plastic/c4 (src) // 1 tc
-			new /obj/item/grenade/plastic/c4 (src) // 1 tc
-			new /obj/item/card/emag(src) // 6 tc
+	// deprecated, fuzguns
+		// if("metaops") // 30 tc
+		// 	new /obj/item/clothing/suit/space/hardsuit/syndi(src) // 8 tc
+		// 	new /obj/item/gun/ballistic/shotgun/trench(src) // 8 tc
+		// 	new /obj/item/implanter/explosive(src) // 2 tc
+		// 	new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
+		// 	new /obj/item/ammo_box/magazine/m12g(src) // 2 tc
+		// 	new /obj/item/grenade/plastic/c4 (src) // 1 tc
+		// 	new /obj/item/grenade/plastic/c4 (src) // 1 tc
+		// 	new /obj/item/card/emag(src) // 6 tc
 
 		if("ninja") // 40~ tc worth
 			new /obj/item/melee/onehanded/machete(src)

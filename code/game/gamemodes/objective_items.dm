@@ -25,6 +25,7 @@
 	GLOB.possible_items -= src
 	return ..()
 
+/* DEPRECATED CAUSE FUZGUNS
 /datum/objective_item/steal/caplaser
 	name = "the captain's antique laser gun."
 	targetitem = /obj/item/gun/energy/laser/captain
@@ -37,6 +38,7 @@
 	difficulty = 10
 	excludefromjob = list("Head Of Security")
 	altitems = list(/obj/item/gun/ballistic/revolver) //We now look for either the alt verson of the hos gun or the beacon picker.
+*/
 
 /datum/objective_item/steal/handtele
 	name = "a hand teleporter."
@@ -200,10 +202,12 @@
 	targetitem = /obj/item/pinpointer
 	difficulty = 10
 
+/* DEPRECATED CAUSE FUZGUNS
 /datum/objective_item/special/aegun
 	name = "an advanced energy gun."
 	targetitem = /obj/item/gun/energy/e_gun/nuclear
 	difficulty = 10
+*/
 
 /datum/objective_item/special/ddrill
 	name = "a diamond drill."

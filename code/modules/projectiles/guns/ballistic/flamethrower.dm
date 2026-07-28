@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 //The ammo/gun is stored in a back slot item
 /obj/item/m2flamethrowertank
 	name = "backpack fuel tank"
@@ -154,3 +156,5 @@
 /obj/item/gun/ballistic/m2flamethrower/dropped(mob/living/user)
 	. = ..()
 	ammo_pack.attach_gun(user)
+
+*/

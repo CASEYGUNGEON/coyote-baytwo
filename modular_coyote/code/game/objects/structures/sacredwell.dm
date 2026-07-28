@@ -34,11 +34,11 @@ GLOBAL_LIST_EMPTY(sacred_well_items)
 	lootcount = 1
 	lootdoubles = FALSE
 	loot = list(/obj/item/clothing/suit/armor/heavy/salvaged_pa/t45b/tribal,
-				/obj/item/gun/energy/laser/wattz/sacredpistol,
-				/obj/item/gun/energy/laser/wattz/sacred,
-				/obj/item/gun/energy/laser/wattz2k/extended/blessed,
-				/obj/item/gun/ballistic/shotgun/automatic/combat/auto5/sacred,
-				/obj/item/gun/ballistic/automatic/smg/tommygun/whitelegs,
+//				/obj/item/gun/energy/laser/wattz/sacredpistol,
+//				/obj/item/gun/energy/laser/wattz/sacred,
+//				/obj/item/gun/energy/laser/wattz2k/extended/blessed,
+//				/obj/item/gun/ballistic/shotgun/automatic/combat/auto5/sacred,
+//				/obj/item/gun/ballistic/automatic/smg/tommygun/whitelegs,
 				/obj/item/gun/ballistic/bow/composite/masterwork,
 				/obj/item/gun/ballistic/bow/longbow,
 				/obj/item/clothing/suit/armor/medium/tribal/tribe_heavy_armor,
@@ -116,14 +116,15 @@ GLOBAL_LIST_EMPTY(sacred_well_items)
 
 /obj/structure/sacredwell/proc/init_well_shit()
 	var/list/high = typecacheof(list(
-		/obj/item/gun/energy/laser/plasma,
+//		/obj/item/gun/energy/laser/plasma,
 		/obj/item/clothing/suit/armor/power_armor,
 		/obj/item/clothing/head/helmet/f13/power_armor))
 	var/list/mid = typecacheof(list(
-		/obj/item/gun/energy/laser,
-		/obj/item/gun/ballistic/automatic/service))
+		/obj/item/gun/energy/laser
+//		/obj/item/gun/ballistic/automatic/service
+		))
 	var/list/low = typecacheof(list(
-		/obj/item/gun/energy/laser/pistol,
+//		/obj/item/gun/energy/laser/pistol,
 		/obj/item/stock_parts/cell/ammo,
 		/obj/item/gun/ballistic))
 	var/list/misc = typecacheof(list(
@@ -245,7 +246,7 @@ GLOBAL_LIST_EMPTY(sacred_well_items)
 	playsound(src, 'sound/effects/well_wake.ogg', 70, TRUE)
 	audible_message("[src] lets out a well-rested hum.")
 
-
+/* deprecated, fuzguns
 /obj/item/storage/debug/debug_well
 	name = "Bag of Debug Well Stuff"
 	desc = "A cool bag of well stuff!"
@@ -276,7 +277,7 @@ GLOBAL_LIST_EMPTY(sacred_well_items)
 	new /obj/item/clothing/head/helmet/f13/power_armor(src)
 	new /obj/item/clothing/head/helmet/f13/power_armor(src)
 	new /obj/item/clothing/head/helmet/f13/power_armor(src)
-
+*/
 
 
 

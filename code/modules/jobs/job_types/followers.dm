@@ -12,7 +12,7 @@
 	name =		"FOLLOWERSdatums"
 	jobtype =	/datum/job/followers/
 	shoes =		/obj/item/clothing/shoes/sneakers/black
-	belt = /obj/item/kit_spawner/follower
+//	belt = /obj/item/kit_spawner/follower
 	id =		null
 	ears =		/obj/item/radio/headset/headset_town/medical
 	uniform =	/datum/outfit/job/followers/f13followers
@@ -76,7 +76,7 @@ Administrator
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/superstimpak5)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/buffout)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/steady)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/rechargerpistol)
+//	H.mind.teach_crafting_recipe(/datum/crafting_recipe/rechargerpistol)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/pico_manip)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/super_matter_bin)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/phasic_scanning)
@@ -97,21 +97,10 @@ Administrator
 	uniform =	/obj/item/clothing/under/f13/followers
 	suit=	/obj/item/clothing/suit/toggle/labcoat/followers
 	shoes =	/obj/item/clothing/shoes/f13/brownie
-	belt = /obj/item/kit_spawner/follower/admin
 	backpack =	/obj/item/storage/backpack/medic
 	satchel =	/obj/item/storage/backpack/satchel/med
 	duffelbag =	/obj/item/storage/backpack/duffelbag/med
 	suit_store = /obj/item/gun/medbeam
-	backpack_contents = list(
-		/obj/item/storage/firstaid/ancient = 1,
-		/obj/item/storage/survivalkit/medical/follower = 1,
-		/obj/item/reagent_containers/medspray/synthflesh = 2,
-		/obj/item/pda = 1,
-		/obj/item/book/granter/trait/techno = 1,
-		/obj/item/healthanalyzer/advanced = 1,
-		/obj/item/storage/wallet/stash/high = 1,
-		/obj/item/hypospray/mkii/CMO = 1,
-	)
 
 //Professor
 
@@ -253,7 +242,6 @@ Administrator
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/superstimpak5)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/buffout)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/steady)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/rechargerpistol)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/pico_manip)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/super_matter_bin)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/phasic_scanning)
@@ -272,19 +260,10 @@ Administrator
 	uniform =	/obj/item/clothing/under/f13/followers
 	suit=	/obj/item/clothing/suit/toggle/labcoat/followers
 	shoes =	/obj/item/clothing/shoes/f13/brownie
-	belt = /obj/item/kit_spawner/follower/admin
 	backpack =	/obj/item/storage/backpack/science
 	satchel =	/obj/item/storage/backpack/satchel/tox
 	glasses = /obj/item/clothing/glasses/science
 	duffelbag =	/obj/item/storage/backpack/duffelbag/med
-	backpack_contents = list(
-		/obj/item/pda = 1,
-		/obj/item/book/granter/trait/techno = 1,
-		/obj/item/storage/wallet/stash/high = 1,
-		/obj/item/storage/belt/utility/full/engi = 1,
-		/obj/item/disk/xenobio_console_upgrade/monkey = 1,
-		/obj/item/disk/xenobio_console_upgrade/slimeadv = 1,
-		)
 
 /*
 Practitioner
@@ -452,7 +431,6 @@ Follower Volunteer
 	name = "Nurse"
 	jobtype = /datum/job/followers/f13followervolunteer
 	id = 		/obj/item/card/id/silver
-	belt = /obj/item/kit_spawner/follower
 	uniform = 	/obj/item/clothing/under/f13/followers
 	shoes = 	/obj/item/clothing/shoes/f13/explorer
 	backpack = 	/obj/item/storage/backpack/explorer
@@ -534,7 +512,6 @@ Follower Volunteer
 /datum/outfit/job/followers/f13followerguard
 	name =	"Town Paramedic"
 	jobtype =	/datum/job/followers/f13followerguard
-	belt = /obj/item/kit_spawner/follower/guard
 	id =	/obj/item/card/id/silver
 	uniform =	/obj/item/clothing/under/f13/bodyguard
 	suit =	/obj/item/clothing/suit/armor/medium/vest/bulletproof/big
@@ -544,16 +521,7 @@ Follower Volunteer
 	l_pocket =	/obj/item/storage/belt/shoulderholster
 	backpack =	/obj/item/storage/backpack/explorer
 	satchel =	/obj/item/storage/backpack/satchel/explorer
-	backpack_contents = list(
-		/obj/item/pda = 1,
-		/obj/item/storage/survivalkit/medical/follower = 1,
-		/obj/item/gun/energy/laser/complianceregulator = 1,
-		/obj/item/flashlight/seclite = 1,
-		/obj/item/storage/firstaid/ancient = 1,
-		/obj/item/stock_parts/cell/ammo/ec = 2,
-		/obj/item/storage/belt/army/followers = 1,
-		/obj/item/storage/wallet/stash/mid = 1,
-	)
+
 
 /*
 /datum/outfit/loadout/guard_ranged

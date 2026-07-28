@@ -708,39 +708,40 @@
 	icon_state = "12g_box"
 	illustration = null
 
-/obj/item/storage/box/lethalslugs/PopulateContents()
-	for(var/i in 1 to 7)
-		new /obj/item/ammo_casing/shotgun(src)
+// deprecated, fuzguns
+// /obj/item/storage/box/lethalslugs/PopulateContents()
+// 	for(var/i in 1 to 7)
+// 		new /obj/item/ammo_casing/shotgun(src)
 
-/obj/item/storage/box/stunslug
-	name = "box of stun slugs"
-	desc = "A box full of stun 12g slugs."
-	icon_state = "stunslug_box"
-	illustration = null
+// /obj/item/storage/box/stunslug
+// 	name = "box of stun slugs"
+// 	desc = "A box full of stun 12g slugs."
+// 	icon_state = "stunslug_box"
+// 	illustration = null
 
-/obj/item/storage/box/stunslug/PopulateContents()
-	for(var/i in 1 to 7)
-		new /obj/item/ammo_casing/shotgun/stunslug(src)
+// /obj/item/storage/box/stunslug/PopulateContents()
+// 	for(var/i in 1 to 7)
+// 		new /obj/item/ammo_casing/shotgun/stunslug(src)
 
-/obj/item/storage/box/techsslug
-	name = "box of tech shotgun shells"
-	desc = "A box full of tech shotgun shells."
-	icon_state = "techslug_box"
-	illustration = null
+// /obj/item/storage/box/techsslug
+// 	name = "box of tech shotgun shells"
+// 	desc = "A box full of tech shotgun shells."
+// 	icon_state = "techslug_box"
+// 	illustration = null
 
-/obj/item/storage/box/techsslug/PopulateContents()
-	for(var/i in 1 to 7)
-		new /obj/item/ammo_casing/shotgun/techshell(src)
+// /obj/item/storage/box/techsslug/PopulateContents()
+// 	for(var/i in 1 to 7)
+// 		new /obj/item/ammo_casing/shotgun/techshell(src)
 
-/obj/item/storage/box/fireshot
-	name = "box of incendiary ammo"
-	desc = "A box full of incendiary ammo."
-	icon_state = "fireshot_box"
-	illustration = null
+// /obj/item/storage/box/fireshot
+// 	name = "box of incendiary ammo"
+// 	desc = "A box full of incendiary ammo."
+// 	icon_state = "fireshot_box"
+// 	illustration = null
 
-/obj/item/storage/box/fireshot/PopulateContents()
-	for(var/i in 1 to 7)
-		new /obj/item/ammo_casing/shotgun/incendiary(src)
+// /obj/item/storage/box/fireshot/PopulateContents()
+// 	for(var/i in 1 to 7)
+// 		new /obj/item/ammo_casing/shotgun/incendiary(src)
 
 /obj/item/storage/box/actionfigure
 	name = "box of action figures"
@@ -1388,26 +1389,27 @@ list(/obj/item/stack/sheet/metal = 20,
 	new /obj/item/weldingtool(src)
 	new /obj/item/stack/f13Cash/random/med(src)
 	new /obj/item/stack/f13Cash/random/med(src)
+// deprecated, fuzguns
 
-/obj/item/storage/box/shopkeeper
-	name = "Shopkeeper's blueprints"
-	desc = "a box of the shopkeeper's blueprints"
+// /obj/item/storage/box/shopkeeper
+// 	name = "Shopkeeper's blueprints"
+// 	desc = "a box of the shopkeeper's blueprints"
 	
-
-/obj/item/storage/box/shopkeeper/PopulateContents()
-	for(var/i in 1 to 4)
-		var/randomgun = pick(
-							/obj/item/book/granter/crafting_recipe/blueprint/am_rifle,
-							/obj/item/book/granter/crafting_recipe/blueprint/citykiller,
-							/obj/item/book/granter/crafting_recipe/blueprint/rangemaster,
-							/obj/item/book/granter/crafting_recipe/blueprint/neostead,
-							/obj/item/book/granter/crafting_recipe/blueprint/riotshotgun,
-							/obj/item/book/granter/crafting_recipe/blueprint/aer9,
-							/obj/item/book/granter/crafting_recipe/blueprint/r91,
-							/obj/item/book/granter/crafting_recipe/blueprint/combatrifle,
-							/obj/item/book/granter/crafting_recipe/blueprint/brushgun,
-							)
-		new randomgun(src)
+// deprecated, fuzguns
+// /obj/item/storage/box/shopkeeper/PopulateContents()
+// 	for(var/i in 1 to 4)
+// 		var/randomgun = pick(
+// 							/obj/item/book/granter/crafting_recipe/blueprint/am_rifle,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/citykiller,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/rangemaster,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/neostead,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/riotshotgun,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/aer9,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/r91,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/combatrifle,
+// 							/obj/item/book/granter/crafting_recipe/blueprint/brushgun,
+// 							)
+// 		new randomgun(src)
 	
 /obj/item/storage/box/debug/huge_volume_four_item
 	name = "debug box"

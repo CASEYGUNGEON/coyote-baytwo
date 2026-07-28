@@ -224,6 +224,8 @@
 	subcategory = CAT_MELEE
 	always_available = FALSE
 
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 ////////////////
 ///POWER CELLS//
 ///////////////
@@ -2161,3 +2163,5 @@ Not implemented due to balance at the moment
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
 	always_available = FALSE
+
+*/

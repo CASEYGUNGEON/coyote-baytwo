@@ -35,8 +35,8 @@
 	minimum_distance = 5
 	icon_state = "stickmanranged"
 	icon_living = "stickmanranged"
-	casingtype = /obj/item/ammo_casing/c10mm
-	projectilesound = 'sound/misc/bang.ogg'
+	// casingtype = /obj/item/ammo_casing/c10mm
+	// projectilesound = 'sound/misc/bang.ogg'
 
 /mob/living/simple_animal/hostile/stickman/dog
 	name = "Angry Stick Dog"

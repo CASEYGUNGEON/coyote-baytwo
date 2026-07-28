@@ -1,3 +1,5 @@
+/* deprecated, fuzguns
+
 //////////////////////
 // PISTOL MAGAZINES //
 //////////////////////
@@ -15,7 +17,7 @@
 	name = "pistol magazine (.22lr)"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
 	icon_state = "pistol22"
-	ammo_type = /obj/item/ammo_casing/a22
+	// ammo_type = /obj/item/ammo_casing/a22
 	caliber = list(CALIBER_22LR)
 	max_ammo = 16
 	multiple_sprites = 2
@@ -30,7 +32,7 @@
 	name = "carbine magazine (.22lr)"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
 	icon_state = "22carbine"
-	ammo_type = /obj/item/ammo_casing/a22
+	// ammo_type = /obj/item/ammo_casing/a22
 	caliber = list(CALIBER_22LR)
 	max_ammo = 32
 	multiple_sprites = 2
@@ -62,7 +64,7 @@
 	name = "pistol hive (9mm)"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
 	icon_state = "9mmp"
-	ammo_type = /obj/item/ammo_casing/bee
+	// ammo_type = /obj/item/ammo_casing/bee
 	caliber = list(CALIBER_BEE, CALIBER_9MM)
 	max_ammo = 10
 	multiple_sprites = 2
@@ -293,3 +295,4 @@
 	custom_materials = list(/datum/material/iron = MATS_LIGHT_RIFLE_MAGAZINE)
 	w_class = WEIGHT_CLASS_TINY
 	multiload = TRUE
+*/

@@ -184,10 +184,6 @@ here's a tip, go search DEFINES/access.dm
 	..()
 	if(visualsOnly)
 		return
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/rechargerpistol)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/enhancedenergycell)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/enhancedmfcell)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/enhancedecp)
 	ADD_TRAIT(H, TRAIT_TECHNOPHREAK, src)
 	ADD_TRAIT(H, TRAIT_GENERIC, src)
 	ADD_TRAIT(H, TRAIT_DNAWHIZ, src)
@@ -248,7 +244,7 @@ here's a tip, go search DEFINES/access.dm
 	backpack_contents = list(
 		/obj/item/pda = 1,
 		/obj/item/storage/wallet/stash/mid = 1,
-		/obj/item/gun/energy/laser/complianceregulator = 1,
+//		/obj/item/gun/energy/laser/complianceregulator = 1,
 		/obj/item/cool_book/reclaimerguide
 		)
 

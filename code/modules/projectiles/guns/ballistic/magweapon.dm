@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 /obj/item/gun/ballistic/automatic/magrifle
 	name = "magnetic rifle"
 	desc = "A simple upscalling of the technologies used in the magpistol, the magrifle is capable of firing slightly larger slugs in bursts. Compatible with the magpistol's slugs."
@@ -94,3 +96,5 @@
 /obj/item/gun/ballistic/automatic/magrifle/pistol/nopin
 	pin = null
 	spawnwithmagazine = FALSE
+
+*/

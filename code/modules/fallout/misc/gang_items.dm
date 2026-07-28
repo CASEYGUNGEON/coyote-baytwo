@@ -170,29 +170,30 @@
 	cost = 75
 	item_path = /obj/item/melee/unarmed/sappers
 
-/datum/gang_item/weapon/greasegun
-	name = "Grease Gun"
-	id = "greasegun"
-	cost = 300
-	item_path = /obj/item/gun/ballistic/automatic/smg/greasegun
+// deprecated, fuzguns
+// /datum/gang_item/weapon/greasegun
+// 	name = "Grease Gun"
+// 	id = "greasegun"
+// 	cost = 300
+// 	item_path = /obj/item/gun/ballistic/automatic/smg/greasegun
 
-/datum/gang_item/weapon/uzi
-	name = "Uzi"
-	id = "uzi"
-	cost = 300
-	item_path = /obj/item/gun/ballistic/automatic/smg/mini_uzi
+// /datum/gang_item/weapon/uzi
+// 	name = "Uzi"
+// 	id = "uzi"
+// 	cost = 300
+// 	item_path = /obj/item/gun/ballistic/automatic/smg/mini_uzi
 
-/datum/gang_item/weapon/type17
-	name = "Type 17 Pistol"
-	id = "type17"
-	cost = 50
-	item_path = /obj/item/gun/ballistic/automatic/pistol/type17
+// /datum/gang_item/weapon/type17
+// 	name = "Type 17 Pistol"
+// 	id = "type17"
+// 	cost = 50
+// 	item_path = /obj/item/gun/ballistic/automatic/pistol/type17
 
-/datum/gang_item/weapon/type93
-	name = "Worn Type 93"
-	id = "worntype93"
-	cost = 500
-	item_path = /obj/item/gun/ballistic/automatic/type93/worn
+// /datum/gang_item/weapon/type93
+// 	name = "Worn Type 93"
+// 	id = "worntype93"
+// 	cost = 500
+// 	item_path = /obj/item/gun/ballistic/automatic/type93/worn
 
 
 ///////////////////
@@ -269,7 +270,6 @@
 	desc = "Rule the underworld like the Den Mob of old."
 
 /obj/item/storage/box/bundledenboss/PopulateContents()
-	new /obj/item/gun/ballistic/automatic/assault_carbine/worn(src)
 	new /obj/item/reagent_containers/pill/patch/medx(src)
 	new /obj/item/reagent_containers/pill/patch/medx(src)
 	new /obj/item/reagent_containers/pill/patch/medx(src)
@@ -307,12 +307,9 @@
 	desc = "This wasteland needs a classier kind of raider. Back in my day, we walked uphill both ways to find some victims. "
 
 /obj/item/storage/box/bundlegunner/PopulateContents()
-	new /obj/item/gun/ballistic/automatic/smg/greasegun(src)
-	new /obj/item/ammo_box/magazine/greasegun(src)
 	new /obj/item/clothing/head/helmet/armyhelmet(src)
 	new /obj/item/storage/belt/fannypack(src)
 	new /obj/item/clothing/under/f13/army(src)
-	new /obj/item/gun/ballistic/automatic/pistol/m1911(src)
 	new /obj/item/grenade/frag(src)
 
 /datum/gang_item/equipment/bundleelguapo
@@ -326,8 +323,6 @@
 	desc = "You burned the Village, raped the horses, and rode off on their women. It was a long time ago, so the details got mixed up, but you get the point. "
 
 /obj/item/storage/box/bundleelguapo/PopulateContents()
-	new /obj/item/gun/ballistic/rifle/repeater/cowboy(src)
-	new /obj/item/ammo_box/a357box/ricochet(src)
-	new /obj/item/gun/ballistic/revolver/colt357(src)
+//	new /obj/item/gun/ballistic/rifle/repeater/cowboy(src)
 	new /obj/item/clothing/head/f13/ranger_hat(src)
 	new /obj/item/clothing/suit/armor/light/leather/leathercoat(src)

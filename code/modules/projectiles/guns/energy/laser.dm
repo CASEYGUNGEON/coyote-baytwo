@@ -1,3 +1,9 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+/*
+/*
+/*
+/*
+/*
 //Fallout
 
 
@@ -56,7 +62,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/practice)
 	clumsy_check = 0
 	item_flags = NONE
-
+*/
 /obj/item/gun/energy/laser/practice/hyperburst
 	name = "toy hyper-burst launcher"
 	desc = "A toy laser with a unique beam shaping lens that projects harmless bolts capable of going through objects. Compatible with existing laser tag systems."
@@ -68,7 +74,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/magtag)
 	charge_delay = 2
 	cell_type = /obj/item/stock_parts/cell/toymagburst
-
+/*
 /obj/item/gun/energy/laser/retro //lets see if these changes don't break horribly
 	name ="retro laser gun"
 	icon_state = "retro"
@@ -1486,3 +1492,7 @@ Phased out for /obj/item/projectile/beam/laser/cranklasergun/tg */
 //// BETA /// Obsolete
 /obj/item/gun/energy/laser/lasertesting
 	ammo_type = list(/obj/item/ammo_casing/energy/laser/pistol/lasertest)
+
+
+*/
+

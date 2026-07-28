@@ -96,8 +96,8 @@
 	init_firemodes = list(
 		/datum/firemode/bolt_using/pump_action
 	)
-		spawnwithmagazine = TRUE
-	can_load_magazine_through_bolt = TRUE
+	spawnwithmagazine = TRUE
+	can_load_magazine_through_bolt = TRUE 
 
 /obj/item/gun/ballistic/shotgun/blow_up(mob/user)
 	. = 0

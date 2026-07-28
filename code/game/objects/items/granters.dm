@@ -587,7 +587,7 @@
 		blind_message = span_notice("You hear something crumble."))
 		qdel(src)
 
-
+/* DEPRECATED, FUZGUNS
 /obj/item/book/granter/crafting_recipe/threads //Durathread crafting book
 	name = "Credible Threads"
 	desc = "A simple book about sewing and usefull clothing crafting with cloth and durathreads."
@@ -611,6 +611,7 @@
 	icon_state = "cooking_learing_ice"
 	oneuse = FALSE
 	remarks = list("Looks like these would sell much better in a plasma fire...", "Using glass bowls rather then cones?", "Mixing soda and ice-cream?", "Tall glasses with of liquids and solids...", "Just add a bit of icecream and cherry on top?")
+*/
 
 /obj/item/book/granter/crafting_recipe/bone_bow //Bow crafting for non-ashwalkers
 	name = "bowyery sandstone slab" // this is an actual word
@@ -691,6 +692,7 @@
 	oneuse = TRUE
 	remarks = list()
 
+/* DEPRECATED, FUZGUNS
 /obj/item/book/granter/crafting_recipe/blueprint/r82
 	name = "r82 heavy service rifle blueprint"
 	icon_state = "blueprint2"
@@ -875,6 +877,7 @@
 	name = "ranger repeater carbine"
 	icon_state = "blueprint2"
 	crafting_recipe_types = list(/datum/crafting_recipe/rangerlever)
+*/
 /*
 /obj/item/book/granter/crafting_recipe/blueprint/schmeisser
 	name = "schmeisser blueprint"
@@ -896,7 +899,6 @@
 	name = "h&k caws blueprint"
 	icon_state = "blueprint2"
 	crafting_recipe_types = list(/datum/crafting_recipe/caws)
-*/
 
 /obj/item/book/granter/crafting_recipe/blueprint/scoutcarbine
 	name = "scout carbine blueprint"
@@ -925,7 +927,7 @@
 	oneuse = TRUE
 	crafting_recipe_types = list(/datum/crafting_recipe/policepistol, /datum/crafting_recipe/durathread_vest, /datum/crafting_recipe/policerifle, /datum/crafting_recipe/steelbib/heavy, /datum/crafting_recipe/armyhelmetheavy, /datum/crafting_recipe/huntingshotgun)
 	remarks = list("Looks like Nash hand-crafts replicas from a Pre-Fall police armory", "Some of these weapons are more than 200 years old....", "Duct tape really can hold it together!", "So that is how you laminate armor sheets together", "Looks like you can beat metal into just the right shape to replace the bits")
-
+*/
 
 /obj/item/book/granter/trait/tagger
 	name = "Picket Fences"
@@ -993,6 +995,7 @@
 		return TRUE
 	return ..()
 
+/* DEPRICATED, FUZGUNS
 /obj/item/book/granter/trait/techno
 	name = "Dean's Electronics"
 	desc = "A study book on the field of electronics. A note on the cover says that it is for the budding young electrician in everyone!"
@@ -1001,7 +1004,7 @@
 	traitname = "craftsmanship"
 	crafting_recipe_types = list(/datum/crafting_recipe/tribalradio, /datum/crafting_recipe/durathread_vest, /datum/crafting_recipe/enhancedecp, /datum/crafting_recipe/enhancedenergycell, /datum/crafting_recipe/enhancedmfcell)
 	remarks = list("Troubleshooting is a systematic approach to problem solving, do not skip any steps in the process.", "Ensure you have all the required parts before you begin.", "Always wear personal protective equipment, electric shock can be fatal.", "Combustibles and sparks do not mix, store welding fuel in a safe location.", "Don't lose track of your tools, or you have a new problem to deal with.")
-
+*/
 /obj/item/book/granter/trait/wirevision
 	name = "Popular Electronics"
 	desc = "An issue of Popular Electronics, dated January 1975. This one has a wiring guide for the Altair 8800 computer, and a few other projects to boot!"

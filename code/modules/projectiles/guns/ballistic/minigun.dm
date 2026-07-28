@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 /obj/item/minigunpackbal5mm
 	name = "CZ53 personal minigun ammo belt"
 	desc = "The massive ammo belt for the CZ53 personal minigun."
@@ -180,3 +182,5 @@
 	ammo_type = /obj/item/ammo_casing/a22
 	caliber = list(CALIBER_22LR)
 	max_ammo = 60
+
+*/

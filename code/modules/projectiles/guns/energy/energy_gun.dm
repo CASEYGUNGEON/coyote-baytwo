@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 /obj/item/gun/energy/e_gun
 	name = "energy gun"
 	desc = "A basic hybrid energy gun with two settings: disable and kill."
@@ -140,3 +142,5 @@
 				. += "[icon_state]_fail_1"
 			if(151 to INFINITY)
 				. += "[icon_state]_fail_2"
+
+*/

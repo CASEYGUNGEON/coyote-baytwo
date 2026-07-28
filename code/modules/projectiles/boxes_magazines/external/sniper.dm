@@ -1,3 +1,4 @@
+/* deprecated, fuzguns
 /obj/item/ammo_box/magazine/amr
 	name = "Anti-material rifle magazine (.50)"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
@@ -92,3 +93,4 @@
 	max_ammo = 5
 */
 
+*/

@@ -1,3 +1,5 @@
+/* DEPRECATED, FUZGUNS, FUCK YOU AND YOUR TELESCOPING ANTITANK SCYTHE YOU ABSOLUTE MONGOWEEB HIPPIE
+
 /datum/job/khan //do NOT use this for anything, it's just to store faction datums
 	department_flag = KHAN
 	selection_color = "#ff915e"
@@ -37,17 +39,7 @@
 	//	/obj/item/storage/bag/money/small/khan = 1
 		)
 
-/datum/outfit/job/khan/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-	if(visualsOnly)
-		return
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/set_vrboard/den)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/trail_carbine)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/varmintrifle)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/combatrifle)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/uzi)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/smg10mm)
-	H.mind.teach_crafting_recipe(/datum/crafting_recipe/gate_khanate)
+
 
 /datum/outfit/job/khan/mangudai
 	jobtype = /datum/job/khan/mangudai
@@ -134,18 +126,14 @@
 
 /datum/outfit/loadout/enforcer
 	name = "Enforcer"
-	r_hand = /obj/item/twohanded/baseball/spiked
 	belt = /obj/item/storage/belt/bandolier
 	backpack_contents = list(
-		/obj/item/restraints/legcuffs/bola/tactical = 1,
 		/obj/item/book/granter/trait/bigleagues = 1,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3)
 
 /datum/outfit/loadout/khanskirmisher
 	name = "Skirmisher"
-	r_hand = /obj/item/gun/ballistic/automatic/smg/mini_uzi
 	backpack_contents = list(
-		/obj/item/ammo_box/magazine/uzim9mm = 3,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 1,
 		/obj/item/storage/belt/shoulderholster = 1)
 
@@ -153,7 +141,6 @@
 	name = "Drug Pusher"
 	belt = /obj/item/storage/belt/bandolier
 	backpack_contents = list(
-		/obj/item/book/granter/trait/midsurgery = 1,
 		/obj/item/book/granter/trait/chemistry = 1,
 		/obj/item/reagent_containers/pill/patch/turbo = 2)
 
@@ -171,7 +158,6 @@
 
 /datum/outfit/loadout/guard
 	name = "Guard"
-	r_hand = /obj/item/gun/ballistic/shotgun/trench
 	belt = /obj/item/storage/belt/bandolier
 	head = /obj/item/clothing/head/helmet/f13/khan
 	backpack_contents = list(
@@ -181,7 +167,6 @@
 
 /datum/outfit/loadout/protector
 	name = "protector"
-	r_hand = /obj/item/gun/ballistic/automatic/pistol/n99
 	l_hand = /obj/item/shield/riot/scrapshield
 	belt = /obj/item/storage/belt/bandolier
 	head = /obj/item/clothing/head/helmet/f13/khan
@@ -196,28 +181,23 @@
 /datum/outfit/loadout/veteran
 	name = "Veteran Fighter"
 	belt = /obj/item/storage/belt/bandolier
-	r_hand = /obj/item/gun/ballistic/automatic/m1garand
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
 	head = /obj/item/clothing/head/helmet/f13/khan
 	backpack_contents = list(
-		/obj/item/ammo_box/magazine/garand3006 = 3,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
 		/obj/item/book/granter/trait/bigleagues = 1)
 
 /datum/outfit/loadout/sprayer
 	name = "Sprayer"
-	belt = /obj/item/storage/belt/bandolier
 	r_hand = /obj/item/gun/ballistic/automatic/smg/smg10mm
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
 	head = /obj/item/clothing/head/helmet/f13/khan
 	backpack_contents = list(
-		/obj/item/ammo_box/magazine/m10mm/adv/ext = 3,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
 		/obj/item/book/granter/trait/bigleagues = 1)
 
 /datum/outfit/loadout/pusher
 	name = "Pusher"
-	belt = /obj/item/storage/backpack/spearquiver
 	l_hand = /obj/item/shield/riot/tower
 	r_hand = /obj/item/melee/onehanded/machete/scrapsabre
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
@@ -244,7 +224,6 @@
 /datum/outfit/loadout/taxcollector
 	name = "Tax Collector"
 	glasses = /obj/item/clothing/glasses/sunglasses
-	r_hand = /obj/item/gun/ballistic/revolver/hunting
 	neck = /obj/item/storage/belt/shoulderholster
 	backpack_contents = list(
 		/obj/item/ammo_box/c4570 = 3,
@@ -263,13 +242,11 @@
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
 	glasses = /obj/item/clothing/glasses/sunglasses
 	backpack_contents = list(
-		/obj/item/ammo_box/magazine/m14mm = 3,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
 		/obj/item/book/granter/trait/bigleagues = 1)
 
 /datum/outfit/loadout/ironfist
 	name = "Iron Fist"
-	gloves = /obj/item/melee/powerfist/f13
 	belt = /obj/item/storage/belt/bandolier
 	head = /obj/item/clothing/head/helmet/f13/khan/fullhelm
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
@@ -282,26 +259,20 @@
 
 /datum/outfit/loadout/peopleleader
 	name = "People's leader"
-	r_hand = /obj/item/gun/ballistic/revolver/revolver45
 	head = /obj/item/clothing/head/helmet/f13/khan/fullhelm
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
 	glasses = /obj/item/clothing/glasses/sunglasses
 	neck = /obj/item/storage/belt/shoulderholster
 	backpack_contents = list(
-		/obj/item/ammo_box/c45rev = 3,
-		/obj/item/restraints/legcuffs/bola/tactical = 1,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
 		/obj/item/book/granter/trait/bigleagues = 1)
 
 /datum/outfit/loadout/pacifier
 	name = "Pacifier"
-	r_hand = /obj/item/gun/ballistic/automatic/shotgun/riot
 	head = /obj/item/clothing/head/helmet/f13/khan/fullhelm
 	suit = /obj/item/clothing/suit/toggle/labcoat/khan_jacket/coat
 	glasses = /obj/item/clothing/glasses/sunglasses
 	backpack_contents = list(
-		/obj/item/ammo_box/magazine/d12g = 2,
-		/obj/item/ammo_box/shotgun/buck = 2,
 		/obj/item/restraints/legcuffs/bola/tactical = 1,
 		/obj/item/reagent_containers/hypospray/medipen/stimpak = 3,
 		/obj/item/book/granter/trait/bigleagues = 1)
@@ -383,3 +354,4 @@
 	exp_type = EXP_TYPE_KHAN
 	outfit = /datum/outfit/job/khanleader/noyan
 
+*/

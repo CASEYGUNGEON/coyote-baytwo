@@ -759,7 +759,7 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 		// new /datum/data/wasteland_equipment("Buckshot BP Box (60 Bullets)",					/obj/item/ammo_box/bbuckshot,					275),
 		// new /datum/data/wasteland_equipment("Buckshot SL Crate (240 Bullets)",				/obj/item/ammo_box/sbuckshot/crate,				550),
 		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/ammo_casing/caseless/arrow/field,		100),
-		new /datum/data/wasteland_equipment("Minie Ball Ammo",								/obj/item/ammo_box/flintlock/minie,				500),
+		// new /datum/data/wasteland_equipment("Minie Ball Ammo",								/obj/item/ammo_box/flintlock/minie,				500),
 		)
 	highpop_list = list(
 		// new /datum/data/wasteland_equipment(".22lr BP Box (120 Bullets)",					/obj/item/ammo_box/b22,							120),
@@ -783,61 +783,61 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 		// new /datum/data/wasteland_equipment("Buckshot BP Box (60 Bullets)",					/obj/item/ammo_box/bbuckshot,					275),
 		// new /datum/data/wasteland_equipment("Buckshot SL Crate (240 Bullets)",				/obj/item/ammo_box/sbuckshot/crate,				550),
 		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/ammo_casing/caseless/arrow/field,		100),
-		new /datum/data/wasteland_equipment("Minie Ball Ammo",								/obj/item/ammo_box/flintlock/minie,				500),
+		// new /datum/data/wasteland_equipment("Minie Ball Ammo",								/obj/item/ammo_box/flintlock/minie,				500),
 		)
 
-/obj/machinery/mineral/wasteland_vendor/badammo
-	name = "Wasteland Vending Machine - Handloaded Ammunition"
-	icon_state = "nuammo_idle"
-	color = "#653800"
-	prize_list = list(
-		new /datum/data/wasteland_equipment(".22lr Box",									/obj/item/ammo_box/m22,									30),
-		new /datum/data/wasteland_equipment("9mm Bag",										/obj/item/ammo_box/c9mm/improvised,						30),
-		new /datum/data/wasteland_equipment("10mm Bag",										/obj/item/ammo_box/c10mm/improvised,					30),
-		new /datum/data/wasteland_equipment(".45 Bag",										/obj/item/ammo_box/c45/improvised,						30),
-		new /datum/data/wasteland_equipment(".357 Bag",										/obj/item/ammo_box/a357box/improvised,					30),
-		new /datum/data/wasteland_equipment(".44 Bag",										/obj/item/ammo_box/m44box/improvised,					30),
-		new /datum/data/wasteland_equipment("5mm Bag",										/obj/item/ammo_box/m5mmbox/improvised,					30),
-		new /datum/data/wasteland_equipment("5.56x45 Bag",									/obj/item/ammo_box/a556/improvised,						30),
-		new /datum/data/wasteland_equipment(".308 Bag",										/obj/item/ammo_box/a308box/improvised,					30),
-		new /datum/data/wasteland_equipment("14mm Bag",										/obj/item/ammo_box/m14mm/improvised,					30),
-		new /datum/data/wasteland_equipment(".30-06 Bag",									/obj/item/ammo_box/a3006box/improvised,					30),
-		new /datum/data/wasteland_equipment("45-70 Bag",									/obj/item/ammo_box/c4570box/improvised,					30),
-		new /datum/data/wasteland_equipment("12 Gauge Buckshot box (12 shells)",			/obj/item/ammo_box/shotgun/buck,						30),
-		new /datum/data/wasteland_equipment("12 Gauge Slug box  (12 shells)",				/obj/item/ammo_box/shotgun/slug,						30),
-		new /datum/data/wasteland_equipment("Shoddy Energy Cell",							/obj/item/stock_parts/cell/ammo/ec/bad,					30),
-		new /datum/data/wasteland_equipment("Shoddy Microfusion Cell",						/obj/item/stock_parts/cell/ammo/mfc/bad,				30),
-		new /datum/data/wasteland_equipment("Shoddy Electron Charge Pack",					/obj/item/stock_parts/cell/ammo/ecp/bad,				30),
-		new /datum/data/wasteland_equipment("Laser Batteries (18 batteries)",				/obj/item/ammo_box/lasmusket,							30),
-		new /datum/data/wasteland_equipment("Plasma Canisters (6 canisters)",				/obj/item/ammo_box/plasmamusket,						30),
-		new /obj/item/ammo_box/flintlock("Black Powder Ammo",								/obj/item/ammo_box/flintlock,							30),
-		new /datum/data/wasteland_equipment("Portable Cell Charger",						/obj/item/storage/battery_box,							60),
-		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/ammo_casing/caseless/arrow/field,		7),
-		)
-	highpop_list = list(
-		new /datum/data/wasteland_equipment(".22lr Box",									/obj/item/ammo_box/m22,									30),
-		new /datum/data/wasteland_equipment("9mm Bag",										/obj/item/ammo_box/c9mm/improvised,						30),
-		new /datum/data/wasteland_equipment("10mm Bag",										/obj/item/ammo_box/c10mm/improvised,					30),
-		new /datum/data/wasteland_equipment(".45 Bag",										/obj/item/ammo_box/c45/improvised,						30),
-		new /datum/data/wasteland_equipment(".357 Bag",										/obj/item/ammo_box/a357box/improvised,					30),
-		new /datum/data/wasteland_equipment(".44 Bag",										/obj/item/ammo_box/m44box/improvised,					30),
-		new /datum/data/wasteland_equipment("5mm Bag",										/obj/item/ammo_box/m5mmbox/improvised,					30),
-		new /datum/data/wasteland_equipment("5.56x45 Bag",									/obj/item/ammo_box/a556/improvised,						30),
-		new /datum/data/wasteland_equipment(".308 Bag",										/obj/item/ammo_box/a308box/improvised,					30),
-		new /datum/data/wasteland_equipment("14mm Bag",										/obj/item/ammo_box/m14mm/improvised,					30),
-		new /datum/data/wasteland_equipment("45-70 Bag",									/obj/item/ammo_box/c4570box/improvised,					30),
-		new /datum/data/wasteland_equipment(".30-06 Bag",									/obj/item/ammo_box/a3006box/improvised,					30),
-		new /datum/data/wasteland_equipment("12 Gauge Buckshot box (12 shells)",			/obj/item/ammo_box/shotgun/buck,						30),
-		new /datum/data/wasteland_equipment("12 Gauge Slug box  (12 shells)",				/obj/item/ammo_box/shotgun/slug,						30),
-		new /datum/data/wasteland_equipment("Shoddy Energy Cell",							/obj/item/stock_parts/cell/ammo/ec/bad,					30),
-		new /datum/data/wasteland_equipment("Shoddy Microfusion Cell",						/obj/item/stock_parts/cell/ammo/mfc/bad,				30),
-		new /datum/data/wasteland_equipment("Shoddy Electron Charge Pack",					/obj/item/stock_parts/cell/ammo/ecp/bad,				30),
-		new /datum/data/wasteland_equipment("Laser Batteries (18 batteries)",				/obj/item/ammo_box/lasmusket,							30),
-		new /datum/data/wasteland_equipment("Plasma Canisters (6 canisters)",				/obj/item/ammo_box/plasmamusket,						30),
-		new /obj/item/ammo_box/flintlock("Black Powder Ammo",								/obj/item/ammo_box/flintlock,							30),
-		new /datum/data/wasteland_equipment("Portable Cell Charger",						/obj/item/storage/battery_box,							60),
-		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/ammo_casing/caseless/arrow/field,		7),
-		)
+// /obj/machinery/mineral/wasteland_vendor/badammo
+// 	name = "Wasteland Vending Machine - Handloaded Ammunition"
+// 	icon_state = "nuammo_idle"
+// 	color = "#653800"
+// 	prize_list = list(
+// 		new /datum/data/wasteland_equipment(".22lr Box",									/obj/item/ammo_box/m22,									30),
+// 		new /datum/data/wasteland_equipment("9mm Bag",										/obj/item/ammo_box/c9mm/improvised,						30),
+// 		new /datum/data/wasteland_equipment("10mm Bag",										/obj/item/ammo_box/c10mm/improvised,					30),
+// 		new /datum/data/wasteland_equipment(".45 Bag",										/obj/item/ammo_box/c45/improvised,						30),
+// 		new /datum/data/wasteland_equipment(".357 Bag",										/obj/item/ammo_box/a357box/improvised,					30),
+// 		new /datum/data/wasteland_equipment(".44 Bag",										/obj/item/ammo_box/m44box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("5mm Bag",										/obj/item/ammo_box/m5mmbox/improvised,					30),
+// 		new /datum/data/wasteland_equipment("5.56x45 Bag",									/obj/item/ammo_box/a556/improvised,						30),
+// 		new /datum/data/wasteland_equipment(".308 Bag",										/obj/item/ammo_box/a308box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("14mm Bag",										/obj/item/ammo_box/m14mm/improvised,					30),
+// 		new /datum/data/wasteland_equipment(".30-06 Bag",									/obj/item/ammo_box/a3006box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("45-70 Bag",									/obj/item/ammo_box/c4570box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("12 Gauge Buckshot box (12 shells)",			/obj/item/ammo_box/shotgun/buck,						30),
+// 		new /datum/data/wasteland_equipment("12 Gauge Slug box  (12 shells)",				/obj/item/ammo_box/shotgun/slug,						30),
+// 		new /datum/data/wasteland_equipment("Shoddy Energy Cell",							/obj/item/stock_parts/cell/ammo/ec/bad,					30),
+// 		new /datum/data/wasteland_equipment("Shoddy Microfusion Cell",						/obj/item/stock_parts/cell/ammo/mfc/bad,				30),
+// 		new /datum/data/wasteland_equipment("Shoddy Electron Charge Pack",					/obj/item/stock_parts/cell/ammo/ecp/bad,				30),
+// 		new /datum/data/wasteland_equipment("Laser Batteries (18 batteries)",				/obj/item/ammo_box/lasmusket,							30),
+// 		new /datum/data/wasteland_equipment("Plasma Canisters (6 canisters)",				/obj/item/ammo_box/plasmamusket,						30),
+// 		new /obj/item/ammo_box/flintlock("Black Powder Ammo",								/obj/item/ammo_box/flintlock,							30),
+// 		new /datum/data/wasteland_equipment("Portable Cell Charger",						/obj/item/storage/battery_box,							60),
+// 		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/ammo_casing/caseless/arrow/field,		7),
+// 		)
+// 	highpop_list = list(
+// 		new /datum/data/wasteland_equipment(".22lr Box",									/obj/item/ammo_box/m22,									30),
+// 		new /datum/data/wasteland_equipment("9mm Bag",										/obj/item/ammo_box/c9mm/improvised,						30),
+// 		new /datum/data/wasteland_equipment("10mm Bag",										/obj/item/ammo_box/c10mm/improvised,					30),
+// 		new /datum/data/wasteland_equipment(".45 Bag",										/obj/item/ammo_box/c45/improvised,						30),
+// 		new /datum/data/wasteland_equipment(".357 Bag",										/obj/item/ammo_box/a357box/improvised,					30),
+// 		new /datum/data/wasteland_equipment(".44 Bag",										/obj/item/ammo_box/m44box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("5mm Bag",										/obj/item/ammo_box/m5mmbox/improvised,					30),
+// 		new /datum/data/wasteland_equipment("5.56x45 Bag",									/obj/item/ammo_box/a556/improvised,						30),
+// 		new /datum/data/wasteland_equipment(".308 Bag",										/obj/item/ammo_box/a308box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("14mm Bag",										/obj/item/ammo_box/m14mm/improvised,					30),
+// 		new /datum/data/wasteland_equipment("45-70 Bag",									/obj/item/ammo_box/c4570box/improvised,					30),
+// 		new /datum/data/wasteland_equipment(".30-06 Bag",									/obj/item/ammo_box/a3006box/improvised,					30),
+// 		new /datum/data/wasteland_equipment("12 Gauge Buckshot box (12 shells)",			/obj/item/ammo_box/shotgun/buck,						30),
+// 		new /datum/data/wasteland_equipment("12 Gauge Slug box  (12 shells)",				/obj/item/ammo_box/shotgun/slug,						30),
+// 		new /datum/data/wasteland_equipment("Shoddy Energy Cell",							/obj/item/stock_parts/cell/ammo/ec/bad,					30),
+// 		new /datum/data/wasteland_equipment("Shoddy Microfusion Cell",						/obj/item/stock_parts/cell/ammo/mfc/bad,				30),
+// 		new /datum/data/wasteland_equipment("Shoddy Electron Charge Pack",					/obj/item/stock_parts/cell/ammo/ecp/bad,				30),
+// 		new /datum/data/wasteland_equipment("Laser Batteries (18 batteries)",				/obj/item/ammo_box/lasmusket,							30),
+// 		new /datum/data/wasteland_equipment("Plasma Canisters (6 canisters)",				/obj/item/ammo_box/plasmamusket,						30),
+// 		new /obj/item/ammo_box/flintlock("Black Powder Ammo",								/obj/item/ammo_box/flintlock,							30),
+// 		new /datum/data/wasteland_equipment("Portable Cell Charger",						/obj/item/storage/battery_box,							60),
+// 		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/ammo_casing/caseless/arrow/field,		7),
+// 		)
 
 /obj/machinery/mineral/wasteland_vendor/clothing
 	name = "Wasteland Vending Machine - Clothing"

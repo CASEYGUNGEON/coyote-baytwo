@@ -40,9 +40,9 @@ GLOBAL_DATUM_INIT(denmob, /datum/gang/denmob, new)
 		/datum/gang_item/weapon/shuriken,
 		/datum/gang_item/weapon/switchblade,
 		/datum/gang_item/weapon/slugger,
-		/datum/gang_item/weapon/type17,
-		/datum/gang_item/weapon/uzi,
-		/datum/gang_item/weapon/type93,
+//		/datum/gang_item/weapon/type17,
+//		/datum/gang_item/weapon/uzi,
+//		/datum/gang_item/weapon/type93,
 		/datum/gang_item/equipment/stinger,
 		/datum/gang_item/equipment/he,
 
@@ -69,8 +69,8 @@ GLOBAL_DATUM_INIT(denmob, /datum/gang/denmob, new)
 	round_start = TRUE
 	boss_items = list(
 		/datum/gang_item/weapon/spikedbaseball,
-		/datum/gang_item/weapon/greasegun,
-		/datum/gang_item/weapon/uzi,
+//		/datum/gang_item/weapon/greasegun,
+//		/datum/gang_item/weapon/uzi,
 		/datum/gang_item/weapon/brass,
 
 		/datum/gang_item/equipment/emp,
@@ -96,10 +96,10 @@ GLOBAL_DATUM_INIT(denmob, /datum/gang/denmob, new)
 
 		/datum/gang_item/weapon/shuriken,
 		/datum/gang_item/weapon/switchblade,
-		/datum/gang_item/weapon/greasegun,
+//		/datum/gang_item/weapon/greasegun,
 		/datum/gang_item/clothing/glasses/sunglasses,
-		/datum/gang_item/weapon/type17,
-		/datum/gang_item/weapon/type93
+//		/datum/gang_item/weapon/type17,
+//		/datum/gang_item/weapon/type93
 	)
 
 /datum/gang/New(starting_members, starting_leader)

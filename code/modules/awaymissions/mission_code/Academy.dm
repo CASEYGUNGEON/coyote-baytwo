@@ -255,9 +255,6 @@
 					var/obj/item/storage/bag/money/M = new(T)
 					for(var/i in 1 to rand(5,50))
 						new /obj/item/coin/gold(M)
-		if(14)
-			//Free Gun
-			new /obj/item/gun/ballistic/revolver/m29/snub(drop_location())
 		if(15)
 			//Random One-use spellbook
 			new /obj/item/book/granter/spell/random(drop_location())

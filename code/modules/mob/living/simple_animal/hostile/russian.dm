@@ -38,25 +38,25 @@
 /mob/living/simple_animal/hostile/russian/ranged
 	icon_state = "russianranged"
 	icon_living = "russianranged"
-	loot = /obj/item/gun/ballistic/rifle/mosin
+	// loot = /obj/item/gun/ballistic/rifle/mosin
 	ranged = 1
 	retreat_distance = 5
 	minimum_distance = 5
 	projectilesound = 'sound/weapons/gunshot.ogg'
-	casingtype = /obj/item/ammo_casing/a357
+	// casingtype = /obj/item/ammo_casing/a357
 
 
 /mob/living/simple_animal/hostile/russian/ranged/mosin
-	loot = /obj/item/gun/ballistic/rifle/mosin
-	casingtype = /obj/item/ammo_casing/a308
+	// loot = /obj/item/gun/ballistic/rifle/mosin
+	// casingtype = /obj/item/ammo_casing/a308
 
 /mob/living/simple_animal/hostile/russian/ranged/trooper
 	icon_state = "russianrangedelite"
 	icon_living = "russianrangedelite"
 	maxHealth = 150
 	health = 150
-	casingtype = /obj/item/ammo_casing/shotgun/buckshot
-	loot = /obj/item/gun/ballistic/rifle/mosin
+	// casingtype = /obj/item/ammo_casing/shotgun/buckshot
+	// loot = /obj/item/gun/ballistic/rifle/mosin
 
 /mob/living/simple_animal/hostile/russian/ranged/officer
 	name = "Russian Officer"
@@ -65,8 +65,8 @@
 	maxHealth = 65
 	health = 65
 	rapid = 3
-	casingtype = /obj/item/ammo_casing/c9mm
-	loot = /obj/item/gun/ballistic/rifle/mosin
+	// casingtype = /obj/item/ammo_casing/c9mm
+	// loot = /obj/item/gun/ballistic/rifle/mosin
 
 /mob/living/simple_animal/hostile/russian/ranged/officer/Aggro()
 	..()

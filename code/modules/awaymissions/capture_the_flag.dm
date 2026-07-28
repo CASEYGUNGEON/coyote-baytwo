@@ -1,3 +1,5 @@
+/* deprecated, fuzguns: disabling the guns broke more stuff
+
 #define WHITE_TEAM "White"
 #define RED_TEAM "Red"
 #define BLUE_TEAM "Blue"
@@ -377,7 +379,7 @@
 /proc/ctf_floor_vanish(atom/target)
 	if(isturf(target.loc))
 		qdel(target)
-
+/* deprecated, fuzguns
 /obj/item/gun/ballistic/automatic/pistol/deagle/ctf
 	desc = "This looks like it could really hurt in melee."
 	force = 75
@@ -550,7 +552,7 @@
 	R.freqlock = TRUE
 	R.independent = TRUE
 	H.dna.species.stunmod = 0
-
+*/
 
 
 /obj/structure/trap/ctf
@@ -702,3 +704,4 @@
 #undef DEFAULT_RESPAWN
 #undef AMMO_DROP_LIFETIME
 #undef CTF_REQUIRED_PLAYERS
+*/

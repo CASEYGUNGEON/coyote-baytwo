@@ -880,7 +880,7 @@ GLOBAL_LIST_EMPTY(gun_balance_list)
 
 /// Numbers only! The sorting algorithm won't accept text inputs.
 #define GUN_BALANCE_SORTING_TPYES list("dps", "dps_with_bane", "avg_dam", "mode_dam", "draw_time_sec", "burst_length_sec", "dam_per_mag", "rpm", "bonus_bane_dam", "loot_chance_%")
-
+/* deprecated, fuzguns
 GLOBAL_LIST_INIT(gun_loot_tables, list(/obj/effect/spawner/lootdrop/f13/common_guns,
 										/obj/effect/spawner/lootdrop/f13/uncommon_guns,
 										/obj/effect/spawner/lootdrop/f13/rare_guns,
@@ -891,12 +891,12 @@ GLOBAL_LIST_INIT(gun_loot_tables, list(/obj/effect/spawner/lootdrop/f13/common_g
 										/obj/effect/spawner/lootdrop/f13/uncommon_energy,
 										/obj/effect/spawner/lootdrop/f13/rare_energy
 										))
-
+*/
 /client/proc/print_gun_debug_information()
 	set category = "Debug"
 	set name = "Gun Debug Info"
 	set desc = "(LAG & MEMORY WARNING) Makes an enormous list of every gun and its stats. Only intended to be used on a local server."
-	
+/* deprecated, fuzguns
 	if(!check_rights(R_DEBUG))
 		return
 
@@ -1203,3 +1203,4 @@ GLOBAL_LIST_INIT(gun_loot_tables, list(/obj/effect/spawner/lootdrop/f13/common_g
 	to_chat(usr, span_notice("Output saved to global list \"gun_balance_list\". To access, press \"Edit\" next to \"Globals\" in your MC tab \
 							and use the search bar. It will also open automatically in 1 second for your convenience, so if it never opens then something broke!"))
 	spawn(10) debug_variables(GLOB.gun_balance_list)
+*/

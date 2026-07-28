@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 // IN THIS DOCUMENT: Improvised/home made, rebuilt whacky guns
 // See gun.dm for keywords and the system used for gun balance
 
@@ -501,3 +503,5 @@
 		icon_state = "[initial(icon_state)]-e"
 	else
 		icon_state = "[initial(icon_state)]"
+
+*/

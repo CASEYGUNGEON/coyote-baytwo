@@ -114,7 +114,7 @@
 	ranged = 1
 	retreat_distance = 6
 	minimum_distance = 6
-	casingtype = /obj/item/ammo_casing/c10mm
+	// casingtype = /obj/item/ammo_casing/c10mm
 	projectilesound = 'sound/weapons/gunshot.ogg'
 	dodging = FALSE
 	rapid_melee = 1
@@ -137,7 +137,7 @@
 	retreat_distance = 6
 	minimum_distance = 6
 	rapid = 5
-	casingtype = /obj/item/ammo_casing/c45
+	// casingtype = /obj/item/ammo_casing/c45
 	projectilesound = 'sound/weapons/gunshot_smg.ogg'
 
 /mob/living/simple_animal/hostile/renegade/syndicate/ranged/smg/pilot //caravan ambush ruin
@@ -158,7 +158,7 @@
 	rapid_fire_delay = 6
 	icon_state = "syndicate_shotgun"
 	icon_living = "syndicate_shotgun"
-	casingtype = /obj/item/ammo_casing/shotgun/buckshot //buckshot (up to 72.5 brute) fired in a two-round burst
+	// casingtype = /obj/item/ammo_casing/shotgun/buckshot //buckshot (up to 72.5 brute) fired in a two-round burst
 
 /mob/living/simple_animal/hostile/renegade/syndicate/civilian
 	minimum_distance = 10
@@ -251,7 +251,7 @@
 	maxHealth = 170
 	health = 170
 	speed = 1
-	casingtype = /obj/item/ammo_casing/c45
+	// casingtype = /obj/item/ammo_casing/c45
 	projectilesound = 'sound/weapons/gunshot.ogg'
 	light_system = MOVABLE_LIGHT
 	light_range = 4
@@ -343,7 +343,7 @@
 	melee_damage_upper = 45
 	maxHealth = 250
 	health = 250
-	casingtype = /obj/item/ammo_casing/c4570
+	// casingtype = /obj/item/ammo_casing/c4570
 	projectilesound = 'sound/f13weapons/sequoia.ogg'
 
 /mob/living/simple_animal/hostile/renegade/syndicate/ranged/smg/space/stormtrooper
@@ -358,7 +358,7 @@
 	melee_damage_upper = 45
 	maxHealth = 250
 	health = 250
-	casingtype = /obj/item/ammo_casing/a45lc
+	// casingtype = /obj/item/ammo_casing/a45lc
 	projectilesound = 'sound/f13weapons/cyberbang.ogg'
 
 /mob/living/simple_animal/hostile/renegade/syndicate/ranged/shotgun/space/stormtrooper

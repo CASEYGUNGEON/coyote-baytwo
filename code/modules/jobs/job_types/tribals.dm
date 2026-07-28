@@ -307,7 +307,6 @@ Hunter
 	suit = /obj/item/clothing/suit/armor/light/tribal/strips
 	id = /obj/item/card/id/tribetattoo
 	backpack_contents = list(
-		/obj/item/storage/box/tools/ranching =1,
 		/obj/item/pda = 1,
 		/obj/item/card/id/selfassign,
 		// /obj/item/cool_book/warriorguide = 1

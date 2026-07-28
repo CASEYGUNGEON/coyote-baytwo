@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	icon_state = "pistol"
 	weapon_class = null
 	var/spawnwithmagazine = TRUE
-	var/mag_type = /obj/item/ammo_box/magazine/m10mm/adv //Removes the need for max_ammo and caliber 
+	var/mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen //Removes the need for max_ammo and caliber 
 	var/init_mag_type = null
 	var/list/extra_mag_types = list()
 	/// List of mags accepted by the gun
@@ -1049,7 +1049,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 // 	return TRUE
 
 /////////// DEBUG STUFF
-
+/* deprecated, fuzguns
 /obj/item/storage/debug/debug_ballistic_clutch
 	name = "Bag of Debug Ballistic Stuff"
 	desc = "A cool bag of guns to test guns and gun stuff!!!"
@@ -1158,6 +1158,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	init_firemodes = list(
 		/datum/firemode/open_bolt/automatic
 	)
-
+*/
 
 

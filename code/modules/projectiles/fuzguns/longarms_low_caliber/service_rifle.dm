@@ -15,8 +15,8 @@
 	ejector_side = GUN_EJECTOR_RIGHT								// direction casings are ejected
 // performance vars
 	damage_multiplier = GUN_EXTRA_DAMAGE_0							// weapon damage modifier
-	mag_type = /obj/item/ammo_box/magazine/uzim9mm					// family of magazines it can fit
-	init_mag_type = /obj/item/ammo_box/magazine/uzim9mm				// specific mag it starts with 
+	mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen					// family of magazines it can fit
+	init_mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen				// specific mag it starts with 
 	extra_mag_types = list()										// extra familes of magazines it can fit
 	disallowed_mags = list()										// members of magazine family it cannot fit
 	init_firemodes = list(											// fire modes and fire rate

@@ -911,7 +911,7 @@
 	desc = "This is a really cool gun! Its here to test revolvery things! Dan is cool!"
 	icon_state = "357colt"
 	inhand_icon_state = "357colt"
-	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/rev357
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/a38
 	weapon_class = WEAPON_CLASS_SMALL
 	weapon_weight = GUN_ONE_HAND_AKIMBO
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
@@ -920,14 +920,14 @@
 	)
 	fire_sound = 'sound/f13weapons/357magnum.ogg'
 	kind = REVKIND_SWINGOUT_DOUBLE_ACTION
-
+/* deprecated, fuzguns
 /obj/item/gun/ballistic/revolver/debug/Initialize()
 	. = ..()
 	new /obj/item/ammo_box/a357box(get_turf(src))
 	new /obj/item/ammo_box/a357(get_turf(src))
 	new /obj/item/ammo_box/a357(get_turf(src))
 	new /obj/item/ammo_box/a357(get_turf(src))
-
+*/
 /obj/item/gun/ballistic/revolver/debug/single_action
 	name = "Debug Single-Action Revolver"
 	desc = "This is a single action gun that demonstrates the single-load style of revolver. Fuzzy's got a cute butt!"
@@ -953,7 +953,7 @@
 	righthand_file = 'icons/fallout/onmob/weapons/guns_righthand.dmi'
 	icon_state = "widowmaker"
 	inhand_icon_state = "shotgundouble"
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/dual
+	mag_type = /obj/item/ammo_box/magazine/internal/cylinder/a38
 	weapon_class = WEAPON_CLASS_CARBINE
 	weapon_weight = GUN_TWO_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0

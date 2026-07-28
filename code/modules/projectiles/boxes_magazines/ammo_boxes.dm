@@ -1,3 +1,5 @@
+/* deprecated, fuzguns
+
 //In this document: Ammo boxes, speed loaders, stripper clips.
 
 
@@ -117,7 +119,7 @@
 	desc = "A box full of trainshot shells. For hunting trains, you suppose."
 	ammo_type = /obj/item/ammo_casing/shotgun/trainshot
 	icon_state = "trainshotbox"
-
+*/
 /obj/item/ammo_box/flintlock
 	name = "powderbag and musket balls"
 	desc = "A sack full of musket balls and blackpowder."
@@ -142,7 +144,7 @@
 	multiple_sprites = 0
 	caliber = list(CALIBER_FLINTLOCK)
 	w_class = WEIGHT_CLASS_SMALL
-
+/*
 /obj/item/ammo_box/flintlock/rubber
 	name = "powderbag and superballs"
 	desc = "A sack full of superballs and blackpowder."
@@ -1704,6 +1706,7 @@
 	name = "speed loader (.44) (+FIRE!)"
 	ammo_type = /obj/item/ammo_casing/F13/m44/fire
 
+*/
 */
 
 //rockbag

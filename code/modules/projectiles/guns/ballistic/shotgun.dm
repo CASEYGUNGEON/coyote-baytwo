@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 //IN THIS DOCUMENT: Shotgun template, Double barrel shotguns, Pump-action shotguns, Semi-auto shotgun
 // See gun.dm for keywords and the system used for gun balance
 
@@ -640,3 +642,5 @@
 	inhand_icon_state = "shotgunpolice"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/lethal/test
 	damage_multiplier = 7
+
+*/

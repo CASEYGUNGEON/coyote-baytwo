@@ -498,14 +498,14 @@
 					W.req_access = list()
 			message_admins("[key_name_admin(usr)] activated Egalitarian Station mode")
 			priority_announce("CentCom airlock control override activated. Please take this time to get acquainted with your coworkers.", null, "commandreport")
-
+/* deprecated, fuzguns
 		if("ak47s")
 			if(!check_rights(R_FUN))
 				return
 			message_admins("[key_name_admin(usr)] activated AK-47s for Everyone!")
 			usr.client.ak47s()
 			sound_to_playing_players('sound/misc/ak47s.ogg')
-
+*/
 		if("ancap")
 			if(!check_rights(R_FUN))
 				return
@@ -610,13 +610,14 @@
 			J.total_positions = -1
 			J.spawn_positions = -1
 			message_admins("[key_name_admin(usr)] has removed the cap on security officers.")
-
+/* deprecated, fuzguns
 		if("ctfbutton")
 			if(!check_rights(R_ADMIN))
 				message_admins("[ADMIN_TPMONTY(usr)] tried to use Secrets_topic(), item: ctfbutton, without admin perms.")
 				log_admin("INVALID ADMIN PROC ACCESS: [key_name(usr)] tried to use Secrets_topic(), item: ctfbutton, without admin perms.")
 				return
 			toggle_all_ctf(usr)
+*/
 		if("masspurrbation")
 			if(!check_rights(R_FUN))
 				return

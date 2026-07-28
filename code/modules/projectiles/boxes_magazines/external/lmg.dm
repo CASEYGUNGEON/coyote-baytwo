@@ -1,21 +1,23 @@
+/* deprecated, fuzguns
+
 /obj/item/ammo_box/magazine/mm195x129
 	name = "box magazine (1.95x129mm)"
 	icon_state = "a762-50"
-	ammo_type = /obj/item/ammo_casing/mm195x129
+	// ammo_type = /obj/item/ammo_casing/mm195x129
 	caliber = list(CALIBER_195)
 	max_ammo = 50
 
 /obj/item/ammo_box/magazine/mm195x129/hollow
 	name = "box magazine (Hollow-Point 1.95x129mm)"
-	ammo_type = /obj/item/ammo_casing/mm195x129/hollow
+	// ammo_type = /obj/item/ammo_casing/mm195x129/hollow
 
 /obj/item/ammo_box/magazine/mm195x129/ap
 	name = "box magazine (Armor Penetrating 1.95x129mm)"
-	ammo_type = /obj/item/ammo_casing/mm195x129/ap
+	// ammo_type = /obj/item/ammo_casing/mm195x129/ap
 
 /obj/item/ammo_box/magazine/mm195x129/incen
 	name = "box magazine (Incendiary 1.95x129mm)"
-	ammo_type = /obj/item/ammo_casing/mm195x129/incen
+	// ammo_type = /obj/item/ammo_casing/mm195x129/incen
 
 /obj/item/ammo_box/magazine/mm195x129/update_icon()
 	..()
@@ -23,13 +25,13 @@
 
 /obj/item/ammo_box/magazine/mm712x82/match
 	name = "box magazine (Match 7.12x82mm)"
-	ammo_type = /obj/item/ammo_casing/mm712x82/match
+	// ammo_type = /obj/item/ammo_casing/mm712x82/match
 	caliber = list(CALIBER_712)
 
 /obj/item/ammo_box/magazine/w3006
 	name = "sniper rifle magazine (.30-06)"
 	icon_state = "sniper_mag"
-	ammo_type = /obj/item/ammo_casing/a3006
+	// ammo_type = /obj/item/ammo_casing/a3006
 	caliber = list(CALIBER_3006)
 	max_ammo = 7
 	multiple_sprites = 2
@@ -42,7 +44,7 @@
 /obj/item/ammo_box/magazine/lmg
 	name = "ammo box (5.56)"
 	icon_state = "r80"
-	ammo_type = /obj/item/ammo_casing/a556
+	// ammo_type = /obj/item/ammo_casing/a556
 	caliber = list(CALIBER_556)
 	max_ammo = 60
 	w_class = WEIGHT_CLASS_NORMAL // suffer
@@ -57,7 +59,7 @@
 	name = "rpd drum magazine"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
 	icon_state = "rpdm"
-	ammo_type = /obj/item/ammo_casing/a308
+	// ammo_type = /obj/item/ammo_casing/a308
 	caliber = list(CALIBER_308)
 	max_ammo = 40
 	w_class = WEIGHT_CLASS_NORMAL
@@ -73,7 +75,7 @@
 	name = "Ratling box"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
 	icon_state = "ammobox"
-	ammo_type = /obj/item/ammo_casing/caseless/flintlock
+	// ammo_type = /obj/item/ammo_casing/caseless/flintlock
 	caliber = list(CALIBER_FLINTLOCK)
 	max_ammo = 100
 	w_class = WEIGHT_CLASS_NORMAL
@@ -171,3 +173,4 @@
 /obj/item/ammo_box/magazine/mm308/update_icon()
 	..()
 	icon_state = "762belt-[round(ammo_count(),20)]"
+*/
