@@ -10,6 +10,8 @@
 /obj/item/ammo_casing/a9mm
 	name = "handloaded 9mm bullet casing"
 	desc = "A low-grade 9mm bullet casing."
+	icon = 'icons/obj/ammo.dmi'
+	icon_state = "s-casing"
 	caliber = CALIBER_9MM
 	projectile_type = /obj/item/projectile/bullet/a9mm
 	material_class = BULLET_IS_LIGHT_PISTOL
@@ -155,6 +157,8 @@
 /obj/item/ammo_casing/a38
 	name = "handloaded .38 bullet casing"
 	desc = "A low-grade .38 bullet casing."
+	icon = 'icons/obj/ammo.dmi'
+	icon_state = "s-casing"
 	caliber = CALIBER_38
 	projectile_type = /obj/item/projectile/bullet/a38
 	material_class = BULLET_IS_LIGHT_PISTOL
