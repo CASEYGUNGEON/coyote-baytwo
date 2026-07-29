@@ -16,9 +16,9 @@
 	item_flags = NONE
 	casing_ejector = FALSE
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm200,
-		/datum/firemode/burst/three,
-		/datum/firemode/semi_auto
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)
 
 /obj/item/gun/ballistic/automatic/toy/unrestricted
@@ -96,9 +96,9 @@
 	casing_ejector = FALSE
 	clumsy_check = FALSE
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm200,
-		/datum/firemode/burst/three,
-		/datum/firemode/semi_auto
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)
 
 /obj/item/gun/ballistic/automatic/c20r/toy/unrestricted //Use this for actual toys
@@ -121,9 +121,9 @@
 	casing_ejector = FALSE
 	clumsy_check = FALSE
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm200,
-		/datum/firemode/burst/three,
-		/datum/firemode/semi_auto
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)
 
 /obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted //Use this for actual toys
@@ -146,9 +146,9 @@
 	can_suppress = FALSE
 	weapon_weight = GUN_ONE_HAND_ONLY
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm200,
-		/datum/firemode/burst/three,
-		/datum/firemode/semi_auto
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)
 
 /obj/item/gun/ballistic/shotgun/toy/mag
@@ -160,7 +160,7 @@
 	fire_sound = 'sound/weapons/magpistol.ogg'
 	weapon_weight = GUN_ONE_HAND_ONLY
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm200,
-		/datum/firemode/burst/three,
-		/datum/firemode/semi_auto
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)

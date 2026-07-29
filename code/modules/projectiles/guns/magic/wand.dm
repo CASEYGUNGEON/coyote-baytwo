@@ -222,7 +222,7 @@
 	draw_time = GUN_DRAW_QUICK
 	is_kelpwand = TRUE
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/semi_auto
 	)
 	// NOTE: max_charges is the number of shots, recharge_rate is time to recharge a single charge.
 
@@ -254,7 +254,7 @@
 	recharge_rate = 4 SECONDS
 	init_recoil = AUTOCARBINE_RECOIL(1, 1)
 	init_firemodes = list(
-		/datum/firemode/semi_auto/faster
+		/datum/firemode/semi_auto
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/magicmissile/weak
@@ -283,7 +283,7 @@
 	max_charges = 3
 	recharge_rate = 1 SECONDS // It used to fire 3 shots, this just makes it a bit like how it was before
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm300
+		/datum/firemode/automatic/rpm800
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/sparks/weak
@@ -307,7 +307,7 @@
 	recharge_rate = 6 SECONDS
 	init_recoil = AUTOCARBINE_RECOIL(1, 1)
 	init_firemodes = list(
-	/datum/firemode/semi_auto/faster
+	/datum/firemode/semi_auto
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/magicmissile/average
@@ -342,7 +342,7 @@
 	max_charges = 4
 	recharge_rate = 2 SECONDS
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm300
+		/datum/firemode/automatic/rpm800
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/sparks

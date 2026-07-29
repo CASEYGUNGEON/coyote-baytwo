@@ -24,14 +24,13 @@
 	name = "handloaded 12 gauge buckshot shell"
 	desc = "A low-power 12 gauge buckshot shell."
 	icon_state = "bbshell"
-	caliber = CALIBER_12G
 	projectile_type = /obj/item/projectile/bullet/a12g/buck
 	material_class = BULLET_IS_SHOTGUN
 	custom_materials = list(
 		/datum/material/iron = MATS_SHOTGUN_CASING + MATS_SHOTGUN_BULLET,
 		/datum/material/blackpowder = MATS_SHOTGUN_POWDER)
-	fire_power = CASING_POWER_SHOTGUN * CASING_POWER_MOD_HANDLOAD
-	sound_properties = CSP_SHOTGUN
+	pellets = SHOTGUN_PELLET_BASE
+	variance = SHOTGUN_SPREAD_BASE
 
 /obj/item/ammo_casing/a12g/q2
 	name = "12 gauge slug shell"
@@ -73,49 +72,63 @@
 
 /obj/item/projectile/bullet/a12g
 	name = "12 gauge slug"
-	damage = BULLET_DAMAGE_SHOTGUN_SLUG_HANDLOAD
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_SHOTGUN_SLUG // needs a proper define later
+	damage = BULLET_DAMAGE_SHOTGUN_SLUG_HANDLOAD // 80
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_SHOTGUN_SLUG
 	spread = BULLET_SPREAD_HANDLOAD
-	recoil = BULLET_RECOIL_SHOTGUN_SLUG
+	recoil = BULLET_RECOIL_SHOTGUN_SLUG_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_SHOTGUN_SLUG
+	wound_bonus = BULLET_WOUND_SHOTGUN_SLUG_HANDLOAD
 	bare_wound_bonus = BULLET_WOUND_SHOTGUN_SLUG_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_SHOTGUN_SLUG
 
-	pixels_per_second = BULLET_SPEED_SHOTGUN_SLUG
+	pixels_per_second = BULLET_SPEED_SHOTGUN_SLUG_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_SHOTGUN_SLUG
 
 /obj/item/projectile/bullet/a12g/q2
-	damage = BULLET_DAMAGE_SHOTGUN_SLUG_SURPLUS
+	damage = BULLET_DAMAGE_SHOTGUN_SLUG_STANDARD
 	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_SHOTGUN_SLUG_STANDARD
+	wound_bonus = BULLET_WOUND_SHOTGUN_SLUG_STANDARD
+	pixels_per_second = BULLET_SPEED_SHOTGUN_SLUG_STANDARD
 
 /obj/item/projectile/bullet/a12g/q3
 	damage = BULLET_DAMAGE_SHOTGUN_SLUG_MATCH
 	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_SHOTGUN_SLUG_MATCH
+	wound_bonus = BULLET_WOUND_SHOTGUN_SLUG_MATCH
+	pixels_per_second = BULLET_SPEED_SHOTGUN_SLUG_MATCH
 
 /obj/item/projectile/bullet/a12g/buck
 	name = "12 gauge buckshot"
-	damage = BULLET_DAMAGE_SHOTGUN_PELLET_HANDLOAD
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_SHOTGUN_PELLET // needs a proper define later
+	damage = BULLET_DAMAGE_SHOTGUN_BUCK_HANDLOAD // 9 * 9 = 81
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_SHOTGUN_BUCK
 	spread = BULLET_SPREAD_HANDLOAD
-	recoil = BULLET_RECOIL_SHOTGUN_PELLET
+	recoil = BULLET_RECOIL_SHOTGUN_BUCK_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_SHOTGUN_PELLET
-	bare_wound_bonus = BULLET_WOUND_SHOTGUN_PELLET_NAKED_MULT
+	wound_bonus = BULLET_WOUND_SHOTGUN_BUCK_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_SHOTGUN_BUCK_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_SHOTGUN_PELLET
 
-	pixels_per_second = BULLET_SPEED_SHOTGUN_PELLET
+	pixels_per_second = BULLET_SPEED_SHOTGUN_BUCK_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_SHOTGUN_PELLET
 
 /obj/item/projectile/bullet/a12g/buck/q2
-	damage = BULLET_DAMAGE_SHOTGUN_PELLET_SURPLUS
+	damage = BULLET_DAMAGE_SHOTGUN_BUCK_STANDARD
 	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_SHOTGUN_BUCK_STANDARD
+	wound_bonus = BULLET_WOUND_SHOTGUN_BUCK_STANDARD
+	pixels_per_second = BULLET_SPEED_SHOTGUN_BUCK_STANDARD
 
 /obj/item/projectile/bullet/a12g/buck/q3
-	damage = BULLET_DAMAGE_SHOTGUN_PELLET_MATCH
+	damage = BULLET_DAMAGE_SHOTGUN_BUCK_MATCH
 	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_SHOTGUN_BUCK_MATCH
+	wound_bonus = BULLET_WOUND_SHOTGUN_BUCK_MATCH
+	pixels_per_second = BULLET_SPEED_SHOTGUN_BUCK_MATCH
 
 ///////////////ammo box///////////////
 

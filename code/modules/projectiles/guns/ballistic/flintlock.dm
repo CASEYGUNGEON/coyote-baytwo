@@ -301,7 +301,7 @@
 	trigger_guard = TRIGGER_GUARD_NORMAL //hate to break it to ya, flintlocks require more technical skill to operate than a cartridge loaded firearm
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = FLINTLOCK_MUSKET_RELOAD_TIME
@@ -327,7 +327,7 @@
 	trigger_guard = TRIGGER_GUARD_NORMAL //hate to break it to ya, flintlocks require more technical skill to operate than a cartridge loaded firearm
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = FLINTLOCK_MINIMUSKET_RELOAD_TIME
@@ -354,7 +354,7 @@
 	dryfire_text = "*not loaded*"
 	can_scope = TRUE
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	weapon_special_component = /datum/component/weapon_special/single_turf
@@ -382,7 +382,7 @@
 	trigger_guard = TRIGGER_GUARD_NORMAL //hate to break it to ya, flintlocks require more technical skill to operate than a cartridge loaded firearm
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	weapon_special_component = /datum/component/weapon_special/single_turf
@@ -402,7 +402,7 @@
 	trigger_guard = TRIGGER_GUARD_NORMAL //hate to break it to ya, flintlocks require more technical skill to operate than a cartridge loaded firearm
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 
@@ -421,7 +421,7 @@
 	trigger_guard = TRIGGER_GUARD_NORMAL //hate to break it to ya, flintlocks require more technical skill to operate than a cartridge loaded firearm
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 
@@ -448,7 +448,7 @@
 	trigger_guard = TRIGGER_GUARD_NONE
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = MATCHLOCK_PISTOL_RELOAD_TIME
@@ -500,7 +500,7 @@
 	trigger_guard = TRIGGER_GUARD_NONE
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = MATCHLOCK_MUSKET_RELOAD_TIME
@@ -525,7 +525,7 @@
 	trigger_guard = TRIGGER_GUARD_NONE
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = MATCHLOCK_MUSKET_RELOAD_TIME
@@ -550,7 +550,7 @@
 	trigger_guard = TRIGGER_GUARD_NONE
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = MATCHLOCK_MINIMUSKET_RELOAD_TIME
@@ -609,7 +609,7 @@
 	trigger_guard = TRIGGER_GUARD_NONE
 	dryfire_text = "*not loaded*"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow //slow for the sake of macros, but not toooo slow
+		/datum/firemode/semi_auto/rpm800 //slow for the sake of macros, but not toooo slow
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_AUTOMATIC //smoothbore short barrel round ball
 	load_time = MATCHLOCK_BOMBARD_RELOAD_TIME

@@ -40,26 +40,33 @@
 
 /obj/item/projectile/bullet/a308
 	name = ".308 bullet"
-	damage = BULLET_DAMAGE_RIFLE_308_HANDLOAD //36
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_RIFLE_308
+	damage = BULLET_DAMAGE_RIFLE_LARGE_HANDLOAD // 80
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_RIFLE_LARGE
 	spread = BULLET_SPREAD_HANDLOAD
-	recoil = BULLET_RECOIL_RIFLE_308
+	recoil = BULLET_RECOIL_RIFLE_LARGE_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_RIFLE_308
-	bare_wound_bonus = BULLET_WOUND_RIFLE_308_NAKED_MULT
+	wound_bonus = BULLET_WOUND_RIFLE_LARGE_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_RIFLE_LARGE_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_RIFLE_HEAVY
 
-	pixels_per_second = BULLET_SPEED_RIFLE_308
+	pixels_per_second = BULLET_SPEED_RIFLE_LARGE_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_RIFLE_HEAVY
 
 /obj/item/projectile/bullet/a308/q2
-	damage = BULLET_DAMAGE_RIFLE_308_SURPLUS
+	damage = BULLET_DAMAGE_RIFLE_LARGE_STANDARD
 	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_RIFLE_LARGE_STANDARD
+	wound_bonus = BULLET_WOUND_RIFLE_LARGE_STANDARD
+	pixels_per_second = BULLET_SPEED_RIFLE_LARGE_STANDARD
 
 /obj/item/projectile/bullet/a308/q3
-	damage = BULLET_DAMAGE_RIFLE_308_MATCH
+	damage = BULLET_DAMAGE_RIFLE_LARGE_MATCH
 	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_RIFLE_LARGE_MATCH
+	wound_bonus = BULLET_WOUND_RIFLE_LARGE_MATCH
+	pixels_per_second = BULLET_SPEED_RIFLE_LARGE_MATCH
 
 ///////////////ammo box///////////////
 

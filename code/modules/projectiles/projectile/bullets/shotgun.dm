@@ -1,3 +1,5 @@
+/* DEPRECATED, FUZGUNS
+
 /* buckshot pellet
  * DAMAGE: 11
  * STAMIN: 1
@@ -145,7 +147,7 @@
 	if(prob(50))
 		do_sparks(1, FALSE, get_turf(target))
 	..()
-
+*/
 /* simplemob pellet
  * DAMAGE: 8
  * STAMIN: 1
@@ -163,7 +165,7 @@
 /obj/item/projectile/bullet/pellet/simplemob/Initialize()
 	. = ..()
 	range = abs(floor(gaussian(5, 2))) // yeah suck it cpu
-
+/*
 /* 12g slug
  * DAMAGE: 50
  * STAMIN: 10
@@ -316,7 +318,7 @@
 
 	sharpness = SHARP_NONE
 	zone_accuracy_type = ZONE_WEIGHT_SHOTGUN
-
+*/
 /* 12g pellet fire
  * DAMAGE: 5
  * STAMIN: 5
@@ -353,7 +355,7 @@
 		var/mob/living/carbon/M = target
 		M.adjust_fire_stacks(3)
 		M.IgniteMob()
-
+/*
 /* 12g slug stun
  * DAMAGE: 5
  * STAMIN: 100
@@ -477,11 +479,11 @@
 	light_range = 1.5
 	light_power = 0.3
 	light_color = "#FF7F01"
-
+*/
 /obj/item/projectile/bullet/seed
 	damage = 6
 	stamina = 1
-
+/*
 /obj/item/projectile/bullet/pellet/shotgun_incapacitate
 	name = "incapacitating pellet"
 	damage = 1
@@ -497,3 +499,5 @@
 /obj/item/projectile/bullet/pellet/shotgun_buckshot/test
 	name = "buckshot pellet"
 	damage = 0
+
+*/

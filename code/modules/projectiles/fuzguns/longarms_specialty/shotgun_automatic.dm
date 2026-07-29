@@ -18,8 +18,8 @@
 	extra_mag_types = list()										// extra familes of magazines it can fit
 	disallowed_mags = list()										// members of magazine family it cannot fit
 	init_firemodes = list(											// fire modes and fire rate
-		/datum/firemode/automatic/rpm250,
-		/datum/firemode/semi_auto/rpm250
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/semi_auto/rpm800
 	)
 	init_recoil = AUTOSHOTGUN_RECOIL(1, 0.8)							// recoil: first number modifies 1h recoil. second number modifies 2h recoil
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION					// determines chance of the gun hitting its intended limb

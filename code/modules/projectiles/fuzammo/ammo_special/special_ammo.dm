@@ -101,61 +101,80 @@
 /obj/item/projectile/bullet/a40mm
 	name = "40mm slug"
 	icon_state= "bolter"
-	damage = BULLET_DAMAGE_SHOTGUN_SLUG_HANDLOAD
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_SHOTGUN_SLUG // needs a proper define later
-	spread = BULLET_SPREAD_MATCH // High precision, low velocity: what 40mm was designed for
-	recoil = BULLET_RECOIL_SHOTGUN_SLUG
+	damage = BULLET_DAMAGE_GRENADE_SLUG_HANDLOAD // 120
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_GRENADE_SLUG
+	spread = BULLET_SPREAD_HANDLOAD
+	recoil = BULLET_RECOIL_GRENADE_SLUG_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_SHOTGUN_SLUG
-	bare_wound_bonus = BULLET_WOUND_SHOTGUN_SLUG_NAKED_MULT
+	wound_bonus = BULLET_WOUND_GRENADE_SLUG_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_GRENADE_SLUG_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_SHOTGUN_SLUG
 
-	pixels_per_second = BULLET_SPEED_SHOTGUN_SLUG
+	pixels_per_second = BULLET_SPEED_GRENADE_SLUG_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_SHOTGUN_SLUG
 
 /obj/item/projectile/bullet/a40mm/q2
-	damage = BULLET_DAMAGE_SHOTGUN_SLUG_SURPLUS
+	damage = BULLET_DAMAGE_GRENADE_SLUG_STANDARD
+	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_GRENADE_SLUG_STANDARD
+	wound_bonus = BULLET_WOUND_GRENADE_SLUG_STANDARD
+	pixels_per_second = BULLET_SPEED_GRENADE_SLUG_STANDARD
 
 /obj/item/projectile/bullet/a40mm/q3
-	damage = BULLET_DAMAGE_SHOTGUN_SLUG_MATCH
+	damage = BULLET_DAMAGE_GRENADE_SLUG_MATCH
+	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_GRENADE_SLUG_MATCH
+	wound_bonus = BULLET_WOUND_GRENADE_SLUG_MATCH
+	pixels_per_second = BULLET_SPEED_GRENADE_SLUG_MATCH
 
 /obj/item/projectile/bullet/a40mm/buck
 	name = "buckshot pellet"
 	icon_state= "bullet"
-	damage = BULLET_DAMAGE_SHOTGUN_PELLET_HANDLOAD
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_SHOTGUN_PELLET // needs a proper define later
-	spread = BULLET_SPREAD_MATCH // High precision, low velocity: what 40mm was designed for
-	recoil = BULLET_RECOIL_SHOTGUN_PELLET
+	damage = BULLET_DAMAGE_GRENADE_BUCK_HANDLOAD // 7 * 18 = 126
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_GRENADE_BUCK
+	spread = BULLET_SPREAD_HANDLOAD
+	recoil = BULLET_RECOIL_GRENADE_BUCK_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_SHOTGUN_PELLET
-	bare_wound_bonus = BULLET_WOUND_SHOTGUN_PELLET_NAKED_MULT
+	wound_bonus = BULLET_WOUND_GRENADE_BUCK_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_GRENADE_BUCK_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_SHOTGUN_PELLET
 
-	pixels_per_second = BULLET_SPEED_SHOTGUN_PELLET
+	pixels_per_second = BULLET_SPEED_GRENADE_BUCK_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_SHOTGUN_PELLET
 
 /obj/item/projectile/bullet/a40mm/buck/q2
-	damage = BULLET_DAMAGE_SHOTGUN_PELLET_SURPLUS
+	damage = BULLET_DAMAGE_GRENADE_BUCK_STANDARD
+	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_GRENADE_BUCK_STANDARD
+	wound_bonus = BULLET_WOUND_GRENADE_BUCK_STANDARD
+	pixels_per_second = BULLET_SPEED_GRENADE_BUCK_STANDARD
 
 /obj/item/projectile/bullet/a40mm/buck/q3
-	damage = BULLET_DAMAGE_SHOTGUN_PELLET_MATCH
+	damage = BULLET_DAMAGE_GRENADE_BUCK_MATCH
+	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_GRENADE_BUCK_MATCH
+	wound_bonus = BULLET_WOUND_GRENADE_BUCK_MATCH
+	pixels_per_second = BULLET_SPEED_GRENADE_BUCK_MATCH
 
 /obj/item/projectile/bullet/a40mm/exp
 	name = "40mm grenade"
 	icon_state= "bolter"
 	damage = 60 // bonus damage because handmade are only light explosion
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_SHOTGUN_SLUG // needs a proper define later
-	spread = BULLET_SPREAD_MATCH // High precision, low velocity: what 40mm was designed for
-	recoil = BULLET_RECOIL_SHOTGUN_SLUG
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_GRENADE_SLUG
+	spread = BULLET_SPREAD_HANDLOAD
+	recoil = BULLET_RECOIL_GRENADE_SLUG_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_SHOTGUN_SLUG
-	bare_wound_bonus = BULLET_WOUND_SHOTGUN_SLUG_NAKED_MULT
+	wound_bonus = BULLET_WOUND_GRENADE_SLUG_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_GRENADE_SLUG_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_SHOTGUN_SLUG
 
-	pixels_per_second = TILES_TO_PIXELS(10) //slower than bullets
+	pixels_per_second = TILES_TO_PIXELS(6) //slower than bullets
 	damage_falloff = BULLET_FALLOFF_DEFAULT_SHOTGUN_SLUG
 
 /obj/item/projectile/bullet/a40mm/he/on_hit(atom/target, blocked = FALSE)
@@ -165,7 +184,11 @@
 	return BULLET_ACT_HIT
 
 /obj/item/projectile/bullet/a40mm/exp/q2
-	damage = 10 // 10 direct damage plus a heavy blast at ground zero
+	damage = 10 // a little direct damage plus a heavy blast at ground zero
+	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_GRENADE_BUCK_STANDARD
+	wound_bonus = BULLET_WOUND_GRENADE_BUCK_STANDARD
+	pixels_per_second = TILES_TO_PIXELS(9)
 
 /obj/item/projectile/bullet/a40mm/exp/q2/on_hit(atom/target, blocked = FALSE)
 	..()
@@ -175,6 +198,10 @@
 
 /obj/item/projectile/bullet/a40mm/exp/q3
 	damage = 10
+	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_GRENADE_BUCK_MATCH
+	wound_bonus = BULLET_WOUND_GRENADE_BUCK_MATCH
+	pixels_per_second = TILES_TO_PIXELS(12)
 
 /obj/item/projectile/bullet/a40mm/exp/q3/on_hit(atom/target, blocked = FALSE)
 	..()

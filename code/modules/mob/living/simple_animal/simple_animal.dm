@@ -603,10 +603,9 @@ GLOBAL_VAR_INIT(last_attraction_time, 0)
 	if(world.time < last_wander_time + (seconds_per_wander SECONDS))
 		return FALSE
 	last_wander_time = world.time
-	spawn(rand(1, 30))
-		var/anydir = pick(GLOB.cardinals)
-		if(Process_Spacemove(anydir))
-			Move(get_step(src, anydir), anydir)
+	var/anydir = pick(GLOB.cardinals)
+	if(Process_Spacemove(anydir))
+		Move(get_step(src, anydir), anydir)
 	return TRUE
 
 /mob/living/simple_animal/proc/handle_automated_speech(override)

@@ -10,6 +10,8 @@
 /obj/item/ammo_casing/a45
 	name = "handloaded .45ACP bullet casing"
 	desc = "A low-grade .45ACP bullet casing."
+	icon = 'icons/obj/newcasings.dmi'
+	icon_state = "s-fatcasing"
 	caliber = CALIBER_45ACP
 	projectile_type = /obj/item/projectile/bullet/a45
 	material_class = BULLET_IS_HEAVY_PISTOL
@@ -41,26 +43,33 @@
 
 /obj/item/projectile/bullet/a45
 	name = ".45ACP bullet"
-	damage = BULLET_DAMAGE_PISTOL_45ACP_HANDLOAD //36
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_PISTOL_45ACP
+	damage = BULLET_DAMAGE_PISTOL_LARGE_HANDLOAD // 40
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_PISTOL_LARGE
 	spread = BULLET_SPREAD_HANDLOAD
-	recoil = BULLET_RECOIL_PISTOL_45ACP
+	recoil = BULLET_RECOIL_PISTOL_LARGE_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_PISTOL_45ACP
-	bare_wound_bonus = BULLET_WOUND_PISTOL_45ACP_NAKED_MULT
+	wound_bonus = BULLET_WOUND_PISTOL_LARGE_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_PISTOL_LARGE_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_PISTOL_HEAVY
 
-	pixels_per_second = BULLET_SPEED_PISTOL_45ACP
+	pixels_per_second = BULLET_SPEED_PISTOL_LARGE_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_HEAVY
 
 /obj/item/projectile/bullet/a45/q2
-	damage = BULLET_DAMAGE_PISTOL_45ACP_SURPLUS
+	damage = BULLET_DAMAGE_PISTOL_LARGE_STANDARD
 	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_PISTOL_LARGE_STANDARD
+	wound_bonus = BULLET_WOUND_PISTOL_LARGE_STANDARD
+	pixels_per_second = BULLET_SPEED_PISTOL_LARGE_STANDARD
 
 /obj/item/projectile/bullet/a45/q3
-	damage = BULLET_DAMAGE_PISTOL_45ACP_MATCH
+	damage = BULLET_DAMAGE_PISTOL_LARGE_MATCH
 	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_PISTOL_LARGE_MATCH
+	wound_bonus = BULLET_WOUND_PISTOL_LARGE_MATCH
+	pixels_per_second = BULLET_SPEED_PISTOL_LARGE_MATCH
 
 ///////////////ammo box///////////////
 
@@ -93,7 +102,7 @@
 	icon_state = "wood_ammobox"
 	w_class = WEIGHT_CLASS_HUGE // don't you dare make this any smaller!
 	multiple_sprites = 4
-	max_ammo = 120 // don't change this for new calibers
+	max_ammo = 300 // don't change this for new calibers
 	load_behavior = AMMOB_CRATE
 
 /obj/item/ammo_box/a45/crate/q2
@@ -156,6 +165,8 @@
 /obj/item/ammo_casing/a357
 	name = "handloaded .357mag bullet casing"
 	desc = "A low-grade .357mag bullet casing."
+	icon = 'icons/obj/newcasings.dmi'
+	icon_state = "s-longcasing"
 	caliber = CALIBER_357
 	projectile_type = /obj/item/projectile/bullet/a357
 	material_class = BULLET_IS_LIGHT_PISTOL

@@ -334,7 +334,7 @@
 	sight_shoot_delay_time = 0 SECONDS
 	ranged_cooldown_time = 1 SECONDS
 	auto_fire_delay = GUN_AUTOFIRE_DELAY_NORMAL
-	projectiletype = /obj/item/projectile/bullet/incendiary/shotgun
+	projectiletype = /obj/item/projectile/bullet/a12g/buck
 	projectilesound = 'sound/f13weapons/shotgun.ogg'
 	maxHealth = 200 //bit beefier since his arena is significantly shittier for him and he's more of an annoyance
 	health = 200
@@ -750,7 +750,7 @@
 	vision_range = 8 //will see the player at max view range, and communicate that they've been seen but won't aggro unless they get closer.
 	ranged_cooldown_time = 4 SECONDS
 	auto_fire_delay = GUN_AUTOFIRE_DELAY_SLOW
-	projectiletype = /obj/item/projectile/bullet/pellet/shotgun_buckshot
+	projectiletype = /obj/item/projectile/bullet/a12g/buck
 	projectilesound = 'sound/f13weapons/shotgun.ogg'
 	sound_after_shooting = 'sound/weapons/shotguninsert.ogg'
 	extra_projectiles = 1
