@@ -2186,7 +2186,7 @@
 
 /// dumps loot all over the place
 /obj/machinery/porta_turret/f13/nash/drop_loot(obj/item/I, mob/user)
-	new /obj/item/gun/ballistic/automatic/smg/mp5(get_turf(src))
+	new /obj/item/gun/ballistic/automatic/submachine_gun/mp5(get_turf(src))
 	..()
 
 /obj/item/ammo_box/magazine/internal/turret

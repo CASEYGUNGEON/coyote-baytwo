@@ -1,5 +1,5 @@
 // MP5 is baseline
-/obj/item/gun/ballistic/automatic/smg
+/obj/item/gun/ballistic/automatic/submachine_gun
 	name = "submachine gun template"								// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
@@ -72,7 +72,7 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/automatic/smg/mp5
+/obj/item/gun/ballistic/automatic/submachine_gun/mp5
 	name = " worn MP5"
 	desc = "A submachine gun chambered in 9x19mm."
 	can_suppress = TRUE
@@ -83,9 +83,9 @@
 	gunlight_state = "flight"
 	flight_x_offset = 0
 	flight_y_offset = 0
-/obj/item/gun/ballistic/automatic/smg/mp5/q2
+/obj/item/gun/ballistic/automatic/submachine_gun/mp5/q2
 	name = "MP5"
 	max_upgrades = 4
-/obj/item/gun/ballistic/automatic/smg/mp5/q3
+/obj/item/gun/ballistic/automatic/submachine_gun/mp5/q3
 	name = "unrusted MP5"
 	max_upgrades = 5

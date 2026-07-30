@@ -385,7 +385,7 @@
 /datum/firemode/open_bolt/rpm1000
 	desc = "Open bolt semi-auto - 1000 RPM."
 	shoot_delay_default = GUN_FIRE_RATE_1000
-/datum/firemode/open_bolt/automatic/rpm1000
+/datum/firemode/open_bolt/automatic/rpm1000after_shooting
 	desc = "Open bolt automatic - 1000 RPM."
 	shoot_delay_default = GUN_FIRE_RATE_1000
 
@@ -425,3 +425,38 @@
 	desc = "Open bolt automatic - 600 RPM."
 	shoot_delay_default = GUN_FIRE_RATE_600
 
+// 450 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm450
+	desc = "Semi-automatic - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/automatic/rpm450
+	desc = "Automatic - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/burst/rpm450
+	desc = "Burst fire - 450 RPM."
+	burst_delay_default = GUN_FIRE_RATE_450
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/open_bolt/rpm450
+	desc = "Open bolt semi-auto - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/open_bolt/automatic/rpm450
+	desc = "Open bolt automatic - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+
+// 400 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm400
+	desc = "Semi-automatic - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/automatic/rpm400
+	desc = "Automatic - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/burst/rpm400
+	desc = "Burst fire - 400 RPM."
+	burst_delay_default = GUN_FIRE_RATE_400
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/open_bolt/rpm400
+	desc = "Open bolt semi-auto - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/open_bolt/automatic/rpm400
+	desc = "Open bolt automatic - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
