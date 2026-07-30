@@ -91,7 +91,6 @@
 	casing_eject_sound =            'sound/weapons/biblically_accurate_guns/bolt_casing_eject.ogg'
 	empty_casing_eject_sound =      'sound/weapons/biblically_accurate_guns/bolt_casing_eject_empty.ogg'
 
-	fire_sound = 'sound/f13weapons/shotgun.ogg'
 	init_recoil = SHOTGUN_RECOIL(1, 1)
 	init_firemodes = list(
 		/datum/firemode/bolt_using/pump_action

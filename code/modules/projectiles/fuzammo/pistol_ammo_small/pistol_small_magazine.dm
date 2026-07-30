@@ -1,11 +1,13 @@
 /obj/item/ammo_box/magazine/internal/cylinder/a38
 	name = ".38 cylinder"
+	desc = "should not be here, bugreport."
 	ammo_type = /obj/item/ammo_casing/a38
 	caliber = list(CALIBER_38)
 
 /obj/item/ammo_box/magazine/internal/cylinder/a38/six
 	max_ammo = 6
 
+//9mm magazine parent
 /obj/item/ammo_box/magazine/a9mm
 	name = "magazine template (9mm)"
 	desc = "should not be here, bugreport."
@@ -14,8 +16,11 @@
 	caliber = list(CALIBER_9MM)
 	multiple_sprites = 2
 
+
+// standard 15rnd pistol magazine
 /obj/item/ammo_box/magazine/a9mm/fifteen
 	name = "pistol magazine (9mm)"
+	desc = "A standard 15 round pistol magazine."
 	icon_state = "m9mmds"
 	max_ammo = 15
 	custom_materials = list(/datum/material/iron = MATS_MEDIUM_PISTOL_MAGAZINE)
@@ -30,8 +35,10 @@
 	build_path = /obj/item/ammo_box/magazine/a9mm/fifteen/empty
 	category = list("initial", "Simple Magazines")
 
+// standard 30rnd smg banana magazine
 /obj/item/ammo_box/magazine/a9mm/thirty
 	name = "smg magazine (9mm)"
+	desc = "A standard 30 round smg magazine."
 	icon = 'modular_coyote/icons/objects/c13ammo.dmi'
 	icon_state = "mp5"
 	max_ammo = 30
@@ -39,3 +46,10 @@
 
 /obj/item/ammo_box/magazine/a9mm/thirty/empty
 	start_empty = 1
+
+/datum/design/ammolathe/a9mm_15
+	name = "smg magazine (9mm)"
+	id = "a9mm_30"
+	materials = list(/datum/material/iron = 4000)
+	build_path = /obj/item/ammo_box/magazine/a9mm/thirty/empty
+	category = list("initial", "Simple Magazines")

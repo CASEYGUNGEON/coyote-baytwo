@@ -1,5 +1,5 @@
 // browning hi-power is baseline
-/obj/item/gun/ballistic/automatic/pistol/ap
+/obj/item/gun/ballistic/automatic/pistol/autopistol
 	name = "autopistol template"									// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
@@ -21,7 +21,7 @@
 		/datum/firemode/semi_auto/rpm600
 	)
 	init_recoil = HANDGUN_RECOIL(1, 1)								// recoil: first number modifies 1h recoil. second number modifies 2h recoil
-	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION					// determines chance of the gun hitting its intended limb
+	gun_accuracy_zone_type = ZONE_WEIGHT_SEMI_AUTO					// determines chance of the gun hitting its intended limb
 	added_spread = GUN_SPREAD_NONE									// adds extra inaccuracy
 // melee vars
 	force = GUN_MELEE_FORCE_PISTOL_LIGHT							// melee damage
@@ -29,7 +29,7 @@
 	force_wielded = GUN_MELEE_FORCE_PISTOL_HEAVY 					// melee damage wielding in two hands
 	attack_speed = CLICK_CD_MELEE * 0.9								// delay between attacks
 	backstab_multiplier = 4											// bonus for pistolwhipping from behind
-	throwforce = GUN_MELEE_FORCE_PISTOL_LIGHT													// damage when thrown
+	throwforce = GUN_MELEE_FORCE_PISTOL_LIGHT						// damage when thrown
 	throw_speed = 1													// speed of throw
 	throw_range = 10												// range of throw
 	block_parry_data = /datum/block_parry_data/bokken				// parrying properties
@@ -70,16 +70,16 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/automatic/pistol/ap/hipower
+/obj/item/gun/ballistic/automatic/pistol/autopistol/hipower
 	name = "worn Hi-Power"
 	desc = "An autopistol chambered in 9x19mm. Affectionately called the BAP (Browning Automatic Pistol), this is one of the most widely used military pistols in history."
 	can_suppress = TRUE
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 30
 	suppressor_y_offset = 19
-/obj/item/gun/ballistic/automatic/pistol/ap/hipower/q2
+/obj/item/gun/ballistic/automatic/pistol/autopistol/hipower/q2
 	name = "Hi-Power"
 	max_upgrades = 4
-/obj/item/gun/ballistic/automatic/pistol/ap/hipower/q3
+/obj/item/gun/ballistic/automatic/pistol/autopistol/hipower/q3
 	name = "unrusted Hi-Power"
 	max_upgrades = 5

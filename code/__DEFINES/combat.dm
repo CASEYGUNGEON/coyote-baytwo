@@ -1250,7 +1250,7 @@ GLOBAL_LIST_INIT(main_body_parts2words, list(
 #define SHOTGUN_RECOIL(x,y)     list(2   * x, 0.5 * y, SCOOT_FACTOR(0)   , SPRAY_FACTOR(2)   )
 #define RIFLE_RECOIL(x,y)       list(5   * x, 0.5 * y, SCOOT_FACTOR(2)   , SPRAY_FACTOR(2)   )
 #define AUTORIFLE_RECOIL(x,y)   list(5   * x, 0.7 * y, SCOOT_FACTOR(0.5) , SPRAY_FACTOR(1)   )
-#define AUTOSHOTGUN_RECOIL(x,y) list(10  * x, 1   * y, SCOOT_FACTOR(-2)  , SPRAY_FACTOR(1)   )
+#define AUTOSHOTGUN_RECOIL(x,y) list(10  * x, 2   * y, SCOOT_FACTOR(-2)  , SPRAY_FACTOR(1)   )
 #define LMG_RECOIL(x,y)         list(5   * x, 0.5 * y, SCOOT_FACTOR(10)  , SPRAY_FACTOR(-0.3)) // Everyone grab a negev, we rushin B
 #define HMG_RECOIL(x,y)         list(10  * x, 0.3 * y, SCOOT_FACTOR(20)  , SPRAY_FACTOR(-0.5))
 
@@ -1290,20 +1290,21 @@ GLOBAL_LIST_INIT(main_body_parts2words, list(
 /// Converts rounds per minute to deciseconds per shot
 #define RPM_TO_FIRE_DELAY(rpm) ((60 / rpm) * 10)
 
-#define GUN_FIRE_RATE_20 RPM_TO_FIRE_DELAY(40) // 40 RPM = 15 deciseconds per shot
-#define GUN_FIRE_RATE_40 RPM_TO_FIRE_DELAY(80) // 80 RPM = 7.5 deciseconds per shot | Fenny said to double them all! - Jaeger
-#define GUN_FIRE_RATE_75 RPM_TO_FIRE_DELAY(150) // 150 RPM = 4 deciseconds per shot
-#define GUN_FIRE_RATE_100 RPM_TO_FIRE_DELAY(200) // 200 RPM = 3 deciseconds per shot
-#define GUN_FIRE_RATE_150 RPM_TO_FIRE_DELAY(300) // 300 RPM = 2 deciseconds per shot
-#define GUN_FIRE_RATE_250 RPM_TO_FIRE_DELAY(350) // 350 RPM = 2,5 deciseconds probably ---> Tox RPM, adjust if needed.
-#define GUN_FIRE_RATE_200 RPM_TO_FIRE_DELAY(400) // 400 RPM = 1.5 deciseconds per shot
-#define GUN_FIRE_RATE_300 RPM_TO_FIRE_DELAY(600) // 600 RPM = 1 deciseconds per shot
-#define GUN_FIRE_RATE_400 RPM_TO_FIRE_DELAY(800) // 800 RPM = 0.75 deciseconds per shot
-#define GUN_FIRE_RATE_500 RPM_TO_FIRE_DELAY(1000) //1000 RPM = 0.6 deciseconds per shot
-#define GUN_FIRE_RATE_600 RPM_TO_FIRE_DELAY(1200) // 1200 RPM = 0.5 decisecond per shot
-#define GUN_FIRE_RATE_800 RPM_TO_FIRE_DELAY(1600) // 1600 RPM = 0.375 deciseconds per shot
-#define GUN_FIRE_RATE_1000 RPM_TO_FIRE_DELAY(2000) // 2000 RPM = 0.3 deciseconds per shot
-#define GUN_FIRE_RATE_1200 RPM_TO_FIRE_DELAY(2400) // 2400 RPM = 0.25 deciseconds per shot
+#define GUN_FIRE_RATE_20 RPM_TO_FIRE_DELAY(20)
+#define GUN_FIRE_RATE_40 RPM_TO_FIRE_DELAY(40)
+#define GUN_FIRE_RATE_75 RPM_TO_FIRE_DELAY(75)
+#define GUN_FIRE_RATE_100 RPM_TO_FIRE_DELAY(100)
+#define GUN_FIRE_RATE_150 RPM_TO_FIRE_DELAY(150)
+#define GUN_FIRE_RATE_250 RPM_TO_FIRE_DELAY(250)
+#define GUN_FIRE_RATE_200 RPM_TO_FIRE_DELAY(200)
+#define GUN_FIRE_RATE_300 RPM_TO_FIRE_DELAY(300)
+#define GUN_FIRE_RATE_400 RPM_TO_FIRE_DELAY(400)
+#define GUN_FIRE_RATE_450 RPM_TO_FIRE_DELAY(450)
+#define GUN_FIRE_RATE_500 RPM_TO_FIRE_DELAY(500)
+#define GUN_FIRE_RATE_600 RPM_TO_FIRE_DELAY(600)
+#define GUN_FIRE_RATE_800 RPM_TO_FIRE_DELAY(800)
+#define GUN_FIRE_RATE_1000 RPM_TO_FIRE_DELAY(100)
+#define GUN_FIRE_RATE_1200 RPM_TO_FIRE_DELAY(1200)
 
 /// Gun fire delay Base
 #define GUN_FIRE_DELAY_BASE (1 SECONDS)
