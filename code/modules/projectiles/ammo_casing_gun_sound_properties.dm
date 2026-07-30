@@ -69,7 +69,7 @@ GLOBAL_LIST_EMPTY(casing_sound_properties)
 
 /datum/ammo_sound_properties/light_pistol
 	category = CSP_PISTOL_LIGHT
-	shoot_sound = list('sound/f13weapons/9mm.ogg')
+	shoot_sound = list('sound/f13weapons/ninemil.ogg')
 	distance_close = PISTOL_LIGHT_RANGE
 	distance_silenced = PISTOL_LIGHT_RANGE
 	distant_sound = PISTOL_LIGHT_DISTANT_SOUND
@@ -142,7 +142,7 @@ GLOBAL_LIST_EMPTY(casing_sound_properties)
 
 /datum/ammo_sound_properties/light_rifle
 	category = CSP_RIFLE_LIGHT
-	shoot_sound = list('sound/f13weapons/varmint_rifle.ogg')
+	shoot_sound = list('sound/f13weapons/assault_carbine.ogg')
 	distance_close = RIFLE_LIGHT_RANGE
 	distance_silenced = RIFLE_LIGHT_RANGE
 	distant_sound = RIFLE_LIGHT_DISTANT_SOUND

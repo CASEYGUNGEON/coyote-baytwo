@@ -10,7 +10,7 @@
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_recoil = HANDGUN_RECOIL(0.8, 0.8)
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fastest
+		/datum/firemode/semi_auto
 	)
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 30

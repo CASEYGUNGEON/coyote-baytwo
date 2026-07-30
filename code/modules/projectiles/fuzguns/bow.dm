@@ -27,7 +27,7 @@
 	safety = 0
 	restrict_safety = 1
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slowest
+		/datum/firemode/semi_auto/rpm800
 	)
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 

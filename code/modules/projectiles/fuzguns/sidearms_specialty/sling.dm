@@ -37,5 +37,5 @@
 	init_recoil = LASER_CARBINE_RECOIL(2, 1)
 	damage_multiplier = GUN_EXTRA_DAMAGE_T5
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
+		/datum/firemode/semi_auto/rpm800
 	)

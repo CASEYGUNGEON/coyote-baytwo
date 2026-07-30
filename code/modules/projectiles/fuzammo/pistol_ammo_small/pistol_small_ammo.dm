@@ -43,26 +43,33 @@
 
 /obj/item/projectile/bullet/a9mm
 	name = "9mm bullet"
-	damage = BULLET_DAMAGE_PISTOL_9MM_HANDLOAD //36
-	damage_list = list("30" = 30, "36" = 30, "40" = 30, "41" = 2, "42" = 2, "43" = 2, "44" = 2, "45" = 1, "50" = 0.5, "55" = 0.5)
-	stamina = BULLET_STAMINA_PISTOL_9MM
+	damage = BULLET_DAMAGE_PISTOL_SMALL_HANDLOAD // 20
+	damage_list_is_mult = TRUE
+	damage_list = list("1" = 30, "0.9" = 30, "1.1" = 30, "1.5" = 2, "1.45" = 2, "1.3" = 2, "1.4" = 2, "1.55" = 1, "2" = 0.5, "3" = 0.5)
+	stamina = BULLET_STAMINA_PISTOL_SMALL
 	spread = BULLET_SPREAD_HANDLOAD
-	recoil = BULLET_RECOIL_PISTOL_9MM
+	recoil = BULLET_RECOIL_PISTOL_SMALL_HANDLOAD
 
-	wound_bonus = BULLET_WOUND_PISTOL_9MM
-	bare_wound_bonus = BULLET_WOUND_PISTOL_9MM_NAKED_MULT
+	wound_bonus = BULLET_WOUND_PISTOL_SMALL_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_PISTOL_SMALL_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_PISTOL_LIGHT
 
-	pixels_per_second = BULLET_SPEED_PISTOL_9MM
+	pixels_per_second = BULLET_SPEED_PISTOL_SMALL_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 
 /obj/item/projectile/bullet/a9mm/q2
-	damage = BULLET_DAMAGE_PISTOL_9MM_SURPLUS
+	damage = BULLET_DAMAGE_PISTOL_SMALL_STANDARD
 	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_PISTOL_SMALL_STANDARD
+	wound_bonus = BULLET_WOUND_PISTOL_SMALL_STANDARD
+	pixels_per_second = BULLET_SPEED_PISTOL_SMALL_STANDARD
 
 /obj/item/projectile/bullet/a9mm/q3
-	damage = BULLET_DAMAGE_PISTOL_9MM_MATCH
+	damage = BULLET_DAMAGE_PISTOL_SMALL_MATCH
 	spread = BULLET_SPREAD_MATCH
+	recoil = BULLET_RECOIL_PISTOL_SMALL_MATCH
+	wound_bonus = BULLET_WOUND_PISTOL_SMALL_MATCH
+	pixels_per_second = BULLET_SPEED_PISTOL_SMALL_MATCH
 
 ///////////////ammo box///////////////
 

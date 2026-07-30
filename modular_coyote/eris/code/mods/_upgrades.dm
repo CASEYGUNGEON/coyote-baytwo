@@ -231,7 +231,7 @@
 
 /datum/component/item_upgrade/proc/add_values_gun(obj/item/gun/G)
 	if(weapon_upgrades[GUN_UPGRADE_FULLAUTO])
-		G.firemodes.Add(new /datum/firemode/automatic/rpm200(G, parent))
+		G.firemodes.Add(new /datum/firemode/automatic/rpm800(G, parent))
 
 /datum/component/item_upgrade/proc/on_examine(atom/source, mob/user, list/examine_list)
 	if(tool_upgrades[UPGRADE_SANCTIFY])

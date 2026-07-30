@@ -21,6 +21,7 @@
 	disallowed_mags = list()										// members of magazine family it cannot fit
 	init_firemodes = list(											// fire modes and fire rate
 		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst/rpm800,
 		/datum/firemode/semi_auto/rpm800
 	)
 	init_recoil = AUTOCARBINE_RECOIL(1, 1)							// recoil: first number modifies 1h recoil. second number modifies 2h recoil

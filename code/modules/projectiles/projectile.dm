@@ -119,6 +119,7 @@
 	/// If a projectile is supposed to have a random damage picked from a weighted list, use this
 	/// If not set, it'll use the normal damage
 	/// Format: list(3 = 2, 4 = 10, 100 = 0.1)
+	var/damage_list_is_mult = FALSE
 	var/list/damage_list = list()
 	/// If a projectile is supposed to have a random damage from a rand proc, use this
 	var/damage_low
@@ -1217,6 +1218,8 @@
 	var/second_highest = 0
 	for(var/damnum in damage_list)
 		var/numb = text2num(damnum)
+		if(damage_list_is_mult)
+			numb *= damage
 		if(numb > highest)
 			second_highest = highest
 			highest = numb
@@ -1234,6 +1237,8 @@
 			num_rolls += bonus_crit_rolls
 	for(var/i in 1 to num_rolls)
 		var/newdam = text2num(pickweight(damage_list))
+		if (damage_list_is_mult)
+			newdam *= damage
 		if(!isnum(newdam))
 			continue
 		if(newdam > damage_out)

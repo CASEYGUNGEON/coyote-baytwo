@@ -821,8 +821,8 @@
 	added_spread = GUN_SPREAD_POOR
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast,
-		/datum/firemode/burst/three/fast
+		/datum/firemode/semi_auto/rpm800,
+		/datum/firemode/burst/rpm800
 	)
 
 	can_scope = TRUE
@@ -915,7 +915,7 @@
 			button on the top left corner of your screen."
 	icon_state = "sidewinder"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/semi_auto/rpm800
 	)
 
 /// multical-magnum
@@ -933,7 +933,7 @@
 	init_mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
 	current_caliber = "44"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/semi_auto/rpm800
 	)
 	//fire_sound = 'sound/f13weapons/44mag.ogg'
 

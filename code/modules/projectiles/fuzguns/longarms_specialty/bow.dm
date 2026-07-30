@@ -11,5 +11,5 @@
 	inhand_icon_state = "bow"
 	damage_multiplier = GUN_EXTRA_DAMAGE_T3 //Now actually worth taking over the longbow.
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower // Fires faster, more accurate.
+		/datum/firemode/semi_auto/rpm800 // Fires faster, more accurate.
 	)

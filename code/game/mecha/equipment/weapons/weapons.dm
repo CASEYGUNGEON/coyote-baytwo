@@ -233,7 +233,7 @@
 	icon_state = "mecha_scatter"
 	fire_sound = 'sound/weapons/sound_weapons_mech_shotgun.ogg'
 	equip_cooldown = 20
-	projectile = /obj/item/projectile/bullet/scattershot
+	projectile = /obj/item/projectile/bullet/a12g/buck
 	projectiles = 40
 	projectiles_cache = 40
 	projectiles_cache_max = 160
