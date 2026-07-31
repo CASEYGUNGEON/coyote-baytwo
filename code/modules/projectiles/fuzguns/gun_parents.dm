@@ -104,11 +104,7 @@
 		process_fire(user, user, FALSE)
 		. = 1
 
-////////////////////////////////
-// AUTOMATIC SHOTGUN TEMPLATE //
-////////////////////////////////
-
-/obj/item/gun/ballistic/shotgun/automatic/update_icon_state()
+/obj/item/gun/ballistic/shotgun/update_icon_state()
 	var/bolt_open = bolt_state == GBOLT_OPEN
 	if(bolt_open)
 		icon_state = "[initial(icon_state)]-e"

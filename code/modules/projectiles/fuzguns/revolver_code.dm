@@ -85,6 +85,7 @@
 	var/speedloader_sound =          'sound/weapons/ba_revolver/speedloader_act.ogg'
 	var/eject_all_sound =            'sound/weapons/ba_revolver/eject_multiple.ogg'
 	var/eject_all_no_shells_sound =  'sound/weapons/ba_revolver/eject_multiple_no_shells.ogg'
+	var/break_action = FALSE
 	equipsound = 'sound/f13weapons/equipsounds/pistolequip.ogg'
 
 /obj/item/gun/ballistic/revolver/Initialize()
@@ -149,6 +150,7 @@
 			speedloader_sound =          'sound/weapons/ba_revolver/speedloader_act.ogg'
 			eject_all_sound =            'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
 			eject_all_no_shells_sound =  'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
+			break_action = TRUE
 
 /obj/item/gun/ballistic/revolver/mouse_wheel_signal_handler(
 	mob/living/user,
@@ -903,8 +905,9 @@
 	. += "( ) - Chambered round"
 	if(eject_style == REV_EJECT_SINGLE)
 		. += ", \[ \] - Round that can be ejected."
-
-
+/obj/item/gun/ballistic/revolver/update_icon_state()
+	if(break_action)
+		icon_state = "[initial(icon_state)][loader_exposed ? "-e" : ""]"
 
 /obj/item/gun/ballistic/revolver/debug
 	name = "Debug Revolver"

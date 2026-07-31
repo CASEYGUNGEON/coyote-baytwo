@@ -1,5 +1,5 @@
 // model 7188 is baseline
-/obj/item/gun/ballistic/automatic/auto_shotgun
+/obj/item/gun/ballistic/shotgun/auto_shotgun
 	name = "automatic shotgun template"								// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
@@ -41,8 +41,6 @@
 	slowdown = GUN_SLOWDOWN_SHOTGUN_AUTO							// move speed penalty when drawn
 	weapon_weight = GUN_ONE_HAND_ONLY								// akimbo, one handed, or two handed
 	restrict_safety = FALSE											// setting to true disables safety
-	auto_eject = 0													// auto-ejects empty magazine
-	auto_eject_sound = null
 	insert_magazine_delay = 0.5 SECONDS								// time to insert new mag
 	remove_magazine_delay = 0.5 SECONDS								// time to remove mag
 	can_load_magazine_through_bolt = TRUE
@@ -71,12 +69,12 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/automatic/auto_shotgun/m7188
+/obj/item/gun/ballistic/shotgun/auto_shotgun/m7188
 	name = "worn Model 7188"
 	desc = "An automatic shotgun chambered in 12 gauge. A favored shotgun of the Navy SEALs."
-/obj/item/gun/ballistic/automatic/auto_shotgun/m7188/q2
+/obj/item/gun/ballistic/shotgun/auto_shotgun/m7188/q2
 	name = "Model 7188"
 	max_upgrades = 4
-/obj/item/gun/ballistic/automatic/auto_shotgun/m7188/q3
+/obj/item/gun/ballistic/shotgun/auto_shotgun/m7188/q3
 	name = "unrusted Model 7188"
 	max_upgrades = 5

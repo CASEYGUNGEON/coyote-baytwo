@@ -134,9 +134,9 @@
 
 /obj/item/ammo_box/a12g
 	name = "12 gauge slug box (handload)"
-	icon = 'icons/fallout/objects/guns/ammo.dmi'
-	icon_state = "gbox"
-	multiple_sprites = 3 // I think this is right?
+	icon = 'icons/obj/ammo.dmi'
+	icon_state = "lbox"
+	multiple_sprites = 5
 	caliber = list(CALIBER_12G)
 	ammo_type = /obj/item/ammo_casing/a12g
 	max_ammo = 20 // don't change this for new calibers
@@ -154,7 +154,7 @@
 
 /obj/item/ammo_box/a12g/buck
 	name = "12 gauge buckshot box (handload)"
-	icon_state = "lbox"
+	icon_state = "gbox"
 	ammo_type = /obj/item/ammo_casing/a12g/buck
 
 /obj/item/ammo_box/a12g/buck/q2

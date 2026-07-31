@@ -1,5 +1,5 @@
 // glock 18 is baseline
-/obj/item/gun/ballistic/automatic/machine_pistol
+/obj/item/gun/ballistic/automatic/pistol/machine_pistol
 	name = "machine pistol template"								// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
@@ -71,16 +71,16 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/automatic/machine_pistol/g18
+/obj/item/gun/ballistic/automatic/pistol/machine_pistol/g18
 	name = "worn G18"
 	desc = "A machine pistol chambered in 9x19mm."
 	can_suppress = TRUE
 	suppressor_state = "pistol_suppressor"
 	suppressor_x_offset = 28
 	suppressor_y_offset = 20
-/obj/item/gun/ballistic/automatic/machine_pistol/g18/q2
+/obj/item/gun/ballistic/automatic/pistol/machine_pistol/g18/q2
 	name = "G18"
 	max_upgrades = 4
-/obj/item/gun/ballistic/automatic/machine_pistol/g18/q3
+/obj/item/gun/ballistic/automatic/pistol/machine_pistol/g18/q3
 	name = "unrusted G18"
 	max_upgrades = 5
