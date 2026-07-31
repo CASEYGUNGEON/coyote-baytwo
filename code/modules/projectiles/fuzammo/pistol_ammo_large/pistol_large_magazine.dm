@@ -13,6 +13,7 @@
 	desc = "An 8 round single-stack pistol magazine."
 	icon_state = "45"
 	max_ammo = 8
+	multiple_sprites = 1
 	custom_materials = list(/datum/material/iron = MATS_MEDIUM_PISTOL_MAGAZINE)
 
 /obj/item/ammo_box/magazine/a45/eight/empty

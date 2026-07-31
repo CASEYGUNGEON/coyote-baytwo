@@ -1,7 +1,7 @@
 /obj/item/ammo_box/magazine/internal/cylinder/a12g
 	name = "shotgun tube"
 	desc = "should not be here, bugreport."
-	ammo_type = /obj/item/ammo_casing/a12g
+	ammo_type = /obj/item/ammo_casing/a12g/buck
 	caliber = list(CALIBER_12G)
 
 /obj/item/ammo_box/magazine/internal/cylinder/a12g/two

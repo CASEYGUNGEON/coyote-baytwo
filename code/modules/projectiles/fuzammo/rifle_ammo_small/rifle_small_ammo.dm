@@ -75,7 +75,7 @@
 /obj/item/ammo_box/a223
 	name = ".223 ammo box (handload)"
 	icon = 'icons/fallout/objects/guns/ammo.dmi'
-	icon_state = "556box"
+	icon_state = "ammobox"
 	multiple_sprites = 2
 	caliber = list(CALIBER_223)
 	ammo_type = /obj/item/ammo_casing/a223

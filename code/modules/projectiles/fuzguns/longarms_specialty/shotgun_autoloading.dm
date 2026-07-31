@@ -1,6 +1,6 @@
 // browning auto-5 is baseline
 
-/obj/item/gun/ballistic/shotgun/automatic/autoloading_shotgun
+/obj/item/gun/ballistic/shotgun/autoloading_shotgun
 	name = "autoloading shotgun template"							// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
@@ -69,12 +69,12 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/shotgun/automatic/autoloading_shotgun/auto5
+/obj/item/gun/ballistic/shotgun/autoloading_shotgun/auto5
 	name = " worn Auto-5"
 	desc = "An autoloading shotgun chambered in 12 gauge."
-/obj/item/gun/ballistic/shotgun/automatic/autoloading_shotgun/auto5/q2
+/obj/item/gun/ballistic/shotgun/autoloading_shotgun/auto5/q2
 	name = "Auto-5"
 	max_upgrades = 4
-/obj/item/gun/ballistic/shotgun/automatic/autoloading_shotgun/auto5/q3
+/obj/item/gun/ballistic/shotgun/autoloading_shotgun/auto5/q3
 	name = "unrusted Auto-5"
 	max_upgrades = 5

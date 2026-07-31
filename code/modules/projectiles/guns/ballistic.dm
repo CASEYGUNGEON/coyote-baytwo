@@ -301,6 +301,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(!magazine.fixed_mag)
 		if(!can_load_magazine_through_bolt)
 			return FALSE
+	if(magazine.fixed_mag)
+		if(can_load_magazine_through_bolt)
+			return TRUE
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		return TRUE // load it anyway

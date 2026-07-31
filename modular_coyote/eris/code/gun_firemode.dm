@@ -192,7 +192,7 @@
 		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
 	icon_state = "semi"
 	fire_type_default = GUN_FIREMODE_SEMIAUTO
-	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
 	burst_count_default = 1
 
 /datum/firemode/automatic
@@ -276,7 +276,7 @@
 		Also, remember that you have to pull back the hammer manually after every shot!"
 	icon_state = "semi"
 	fire_type_default = GUN_FIREMODE_SEMIAUTO
-	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
 	burst_count_default = 1
 	hammer_recock_on_fire = FALSE
 	hammer_ignore = FALSE
