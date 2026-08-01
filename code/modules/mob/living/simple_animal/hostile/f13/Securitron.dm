@@ -251,7 +251,7 @@
 	name = "riot-control sentry bot"
 	desc = "A Pre-Fall military robot armed with a modified breacher shotgun and covered in thick armor plating."
 	projectilesound = 'sound/f13weapons/riot_shotgun.ogg'
-	projectiletype = /obj/item/projectile/bullet/shotgun_beanbag
+	projectiletype = /obj/item/projectile/bullet/a12g
 	retreat_distance = 0
 	extra_projectiles = 0
 	projectile_sound_properties = list(

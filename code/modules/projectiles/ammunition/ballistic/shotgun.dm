@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 // Shotgun
 
 /obj/item/ammo_casing/shotgun
@@ -61,12 +63,12 @@
 		/datum/material/iron = (MATS_SHOTGUN_CASING * MATS_AMMO_CASING_HANDLOAD_MULT) + (MATS_SHOTGUN_BULLET * MATS_AMMO_BULLET_HANDLOAD_MULT),
 		/datum/material/blackpowder = MATS_SHOTGUN_POWDER * MATS_AMMO_POWDER_HANDLOAD_MULT)
 	fire_power = CASING_POWER_SHOTGUN * CASING_POWER_MOD_HANDLOAD
-
+*/
 /obj/item/ammo_casing/shotgun/improvised/simplemob
 	projectile_type = /obj/item/projectile/bullet/pellet/simplemob
 	pellets = SHOTGUN_PELLET_IMPROVISED * 2 // double the pellets, but half the damage of each, doubles the effectiveness of armor
 	variance = SHOTGUN_SPREAD_IMPROVISED * 3
-
+/*
 /obj/item/ammo_casing/shotgun/beanbag
 	name = "beanbag slug"
 	desc = "A weak beanbag slug for riot control."
@@ -157,7 +159,7 @@
 		/datum/material/iron = MATS_SHOTGUN_CASING + MATS_SHOTGUN_BULLET,
 		/datum/material/blackpowder = MATS_SHOTGUN_POWDER * MATS_AMMO_POWDER_HANDLOAD_MULT)
 	fire_power = CASING_POWER_SHOTGUN * CASING_POWER_MOD_HANDLOAD
-
+*/
 /obj/item/ammo_casing/shotgun/bloatfly
 	name = "bloatfly chunks"
 	desc = "A gross pressurized stinger... thing that spits out a spray of gunk. ew."
@@ -188,6 +190,7 @@
 	pixels_per_second = BULLET_SPEED_SHOTGUN_PELLET * 0.25
 	zone_accuracy_type = ZONE_WEIGHT_SHOTGUN
 
+/*
 /obj/item/ammo_casing/shotgun/ion
 	name = "ion shell"
 	desc = "An advanced shotgun shell which uses a subspace ansible crystal to produce an effect similar to a standard ion rifle. \
@@ -293,3 +296,6 @@
 	pellets = 6
 	variance = 18
 	fire_power = CASING_POWER_SHOTGUN * CASING_POWER_MOD_MATCH
+
+
+*/

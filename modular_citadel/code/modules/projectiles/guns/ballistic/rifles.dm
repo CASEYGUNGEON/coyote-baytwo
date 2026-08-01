@@ -8,7 +8,7 @@
 	icon_state = "x9"
 	inhand_icon_state = "arg"
 	slot_flags = 0
-	mag_type = /obj/item/ammo_box/magazine/m556	//Uses the m90gl's magazine, just like the NT-ARG
+	mag_type = /obj/item/ammo_box/magazine/a223	//Uses the m90gl's magazine, just like the NT-ARG
 	fire_sound = 'sound/weapons/gunshot_smg.ogg'
 	can_suppress = 0
 	burst_size = 6	//in line with XCOMEU stats. This can fire 5 bursts from a full magazine.

@@ -65,7 +65,7 @@
 	force = 12 //oasis made it better
 
 /obj/item/storage/briefcase/secretary/PopulateContents()
-	new /obj/item/gun/ballistic/automatic/pistol/sig(src)
+//	new /obj/item/gun/ballistic/automatic/pistol/sig(src) //deprecated, fuzguns
 	new /obj/item/paper_bin/bundlenatural(src)
 	new /obj/item/clothing/under/suit/black/skirt(src)
 	new /obj/item/pen(src)

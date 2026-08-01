@@ -163,7 +163,7 @@
 	new /obj/item/holosign_creator/security(src)
 	new /obj/item/reagent_containers/spray/pepper(src)
 	new /obj/item/clothing/suit/armor/medium/vest/det_suit(src)
-	new /obj/item/storage/belt/shoulderholster/full(src)
+	new /obj/item/storage/belt/shoulderholster(src)
 	new /obj/item/pinpointer/crew(src)
 
 /obj/structure/closet/secure_closet/injection
@@ -229,8 +229,6 @@
 /obj/structure/closet/secure_closet/armory2/PopulateContents()
 	..()
 	new /obj/item/storage/box/firingpins(src)
-	for(var/i in 1 to 3)
-		new /obj/item/ammo_box/shotgun/buck(src)
 /obj/structure/closet/secure_closet/armory3
 	name = "armory energy gun locker"
 	req_access = list(ACCESS_ARMORY)
@@ -244,7 +242,7 @@
 	icon_state = "tac"
 /obj/structure/closet/secure_closet/tac/PopulateContents()
 	..()
-	new /obj/item/gun/ballistic/automatic/assault_rifle/infiltrator(src)
+//	new /obj/item/gun/ballistic/automatic/assault_rifle/infiltrator(src)
 	new /obj/item/clothing/head/helmet/alt(src)
 	new /obj/item/clothing/mask/gas/sechailer(src)
 	new /obj/item/clothing/suit/armor/heavy/vest/bulletproof(src)
@@ -257,8 +255,6 @@
 	..()
 	new /obj/item/electrostaff(src)
 	new /obj/item/electrostaff(src)
-	for(var/i in 1 to 3)
-		new /obj/item/ammo_box/shotgun/buck(src)
 
 /obj/structure/closet/secure_closet/labor_camp_security
 	name = "labor camp security locker"

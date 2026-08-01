@@ -5,9 +5,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	desc = "Now comes in flavors like GUN. Uses 10mm ammo, for some reason."
 	name = "projectile gun"
 	icon_state = "pistol"
-	weapon_class = WEAPON_CLASS_RIFLE
+	weapon_class = null
 	var/spawnwithmagazine = TRUE
-	var/mag_type = /obj/item/ammo_box/magazine/m10mm/adv //Removes the need for max_ammo and caliber 
+	var/mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen //Removes the need for max_ammo and caliber 
 	var/init_mag_type = null
 	var/list/extra_mag_types = list()
 	/// List of mags accepted by the gun
@@ -301,6 +301,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(!magazine.fixed_mag)
 		if(!can_load_magazine_through_bolt)
 			return FALSE
+	if(magazine.fixed_mag)
+		if(can_load_magazine_through_bolt)
+			return TRUE
 	var/datum/firemode/my_mode = get_current_firemode()
 	if(my_mode.bolt_ignore)
 		return TRUE // load it anyway
@@ -718,6 +721,8 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		to_chat(user, span_alert("You can't seem to fit \the [mag_to_check] into \the [src]."))
 
 /obj/item/gun/ballistic/proc/eject_magazine(mob/living/user, put_it_in_their_hand, makesound, maketext)
+	if(!istype(magazine))
+		return FALSE
 	if(magazine.fixed_mag)
 		return FALSE
 	if(!remove_magazine_delay(user))
@@ -1047,7 +1052,7 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 // 	return TRUE
 
 /////////// DEBUG STUFF
-
+/* deprecated, fuzguns
 /obj/item/storage/debug/debug_ballistic_clutch
 	name = "Bag of Debug Ballistic Stuff"
 	desc = "A cool bag of guns to test guns and gun stuff!!!"
@@ -1156,6 +1161,6 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	init_firemodes = list(
 		/datum/firemode/open_bolt/automatic
 	)
-
+*/
 
 

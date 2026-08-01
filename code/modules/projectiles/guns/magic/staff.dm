@@ -60,8 +60,8 @@
 	recharge_rate = 6 SECONDS
 	var/allowed_projectile_types = list(/obj/item/projectile/magic/healbrute, /obj/item/projectile/magic/healburn, /obj/item/projectile/magic/healtoxin)
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm100,
-		/datum/firemode/semi_auto/faster
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/semi_auto
 	)
 
 /obj/item/gun/magic/staff/healing/triheal/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0, stam_cost = 0)
@@ -158,7 +158,7 @@
 	init_firemodes = list(
 		/datum/firemode/semi_auto
 	)
-	reskinnable_component = /datum/component/reskinnable/staff_kelpmagic
+//	reskinnable_component = /datum/component/reskinnable/staff_kelpmagic
 	// NOTE: max_charges is the number of shots, recharge_rate is time to recharge a single charge.
 
 /* This segment is commented out because the original template is over in wand.dm; this is here just for ease of reference
@@ -257,7 +257,7 @@
 	recharge_rate = 8 SECONDS
 	ammo_type = /obj/item/ammo_casing/magic/kelpmagic/sparks/thunder
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/semi_auto
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/sparks/thunder
@@ -280,7 +280,7 @@
 	recharge_rate = 8 SECONDS
 	ammo_type = /obj/item/ammo_casing/magic/kelpmagic/sparks/thunder/lowpower
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/semi_auto
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/sparks/thunder/lowpower
@@ -367,8 +367,8 @@
 	recharge_rate = 3.5 SECONDS //The acid staff is now a minigun for magic users, with worse damage
 	ammo_type = /obj/item/ammo_casing/magic/kelpmagic/acidspray
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm150,
-		/datum/firemode/semi_auto/faster
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/semi_auto
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/acidspray
@@ -395,8 +395,8 @@
 	recharge_rate = 4 SECONDS //The acid staff is now a minigun for magic users, with worse damage
 	ammo_type = /obj/item/ammo_casing/magic/kelpmagic/acidspray
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm150,
-		/datum/firemode/semi_auto/faster
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/semi_auto
 	)
 
 /****************/
@@ -415,7 +415,7 @@
 	recharge_rate = 1 SECONDS
 	ammo_type = /obj/item/ammo_casing/magic/kelpmagic/magmaspray
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm300
+		/datum/firemode/automatic/rpm800
 	)
 
 /obj/item/ammo_casing/magic/kelpmagic/magmaspray
@@ -452,7 +452,7 @@
 	recharge_rate = 0.4 SECONDS //This staff is very weak against anything with armor
 	ammo_type = /obj/item/ammo_casing/magic/kelpmagic/magmaspray/weak
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm300
+		/datum/firemode/automatic/rpm800
 	)
 /obj/item/ammo_casing/magic/kelpmagic/magmaspray/weak
 	projectile_type = /obj/item/projectile/magic/kelpmagic/magmaspray/weak

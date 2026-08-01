@@ -147,33 +147,35 @@
 /obj/effect/spawner/lootdrop/f13/common_weps
 	name = "common weapons"
 	loot = list(
-		/obj/effect/spawner/lootdrop/f13/common_guns = 50, //can adjust these values as needed
+//		/obj/effect/spawner/lootdrop/f13/common_guns = 50, //can adjust these values as needed
 		/obj/effect/spawner/lootdrop/f13/common_melee = 50
 	)
 
 /obj/effect/spawner/lootdrop/f13/uncommon_weps
 	name = "uncommon weapons"
 	loot = list(
-		/obj/effect/spawner/lootdrop/f13/uncommon_guns = 50, //can adjust these values as needed
+//		/obj/effect/spawner/lootdrop/f13/uncommon_guns = 50, //can adjust these values as needed
 		/obj/effect/spawner/lootdrop/f13/uncommon_melee = 50
 	)
 
 /obj/effect/spawner/lootdrop/f13/rare_weps
 	name = "rare weapons"
 	loot = list(
-		/obj/effect/spawner/lootdrop/f13/rare_guns = 50, //can adjust these values as needed
+//		/obj/effect/spawner/lootdrop/f13/rare_guns = 50, //can adjust these values as needed
 		/obj/effect/spawner/lootdrop/f13/rare_melee = 50
 	)
 
 /obj/effect/spawner/lootdrop/f13/very_rare
 	name = "very rare weapons"
 	loot = list(
-		/obj/effect/spawner/lootdrop/f13/very_rare_guns = 100
+//		/obj/effect/spawner/lootdrop/f13/very_rare_guns = 100
 	)
 
 ///////////////////////////////
 ///ballistic weapon spawners///
 ///////////////////////////////
+
+/* DEPRECATED, FUZGUNS
 
 /// DPS should be 100-150 ish
 /// If it's on the higher or lower side, it should have another stat lowered or raised such as magazine capacity.
@@ -454,6 +456,8 @@
 		/obj/item/minigunpack = 5,											//??? 200 Note: the laser gatling actually isn't working with the DPS tool, but it's 15 damage at 600 RPM. Once in a blue moon this will make someone's day.
 	)
 
+*/
+
 ///////////////////////////
 ///melee weapon spawners///
 ///////////////////////////
@@ -518,7 +522,7 @@
 /obj/effect/spawner/lootdrop/f13/rare_melee
 	name = "rare melee"
 	loot = list(
-		/obj/item/gun/ballistic/revolver/ballisticfist = 10,
+//		/obj/item/gun/ballistic/revolver/ballisticfist = 10,
 		/obj/item/melee/powered/ripper = 10,
 		/obj/item/twohanded/legionaxe = 10,
 		/obj/item/melee/transforming/energy/axe/protonaxe = 10,
@@ -545,6 +549,8 @@
 ////////////////////////////
 ///magazine ammo spawners///		each tier reflects the type of guns available in this tier
 ////////////////////////////
+
+/* DEPRECATED, FUZGUNS
 
 /obj/effect/spawner/lootdrop/f13/trash_mags
 	name = "trash magazines"
@@ -617,7 +623,7 @@
 		/obj/item/ammo_box/magazine/m44/automag = 1,
 		/obj/item/ammo_box/magazine/m556/rifle/extended = 1,
 		/obj/item/ammo_box/magazine/lewis/l47 = 1,
-		/obj/item/gun/ballistic/rifle/mag/antimaterial = 1,
+//		/obj/item/gun/ballistic/rifle/mag/antimaterial = 1,
 	)
 
 ///////////////////////
@@ -692,6 +698,7 @@
 		/obj/item/ammo_box/c4570box/ratshot = 1,
 		/obj/item/ammo_box/a50MGbox = 1,
 	)
+*/
 
 ///////////////////////
 ///medicine spawners///
@@ -1235,7 +1242,7 @@
 		/obj/item/restraints/handcuffs/sinew = 1,
 		/obj/item/lockpick_set = 1,
 		// /obj/item/book/granter/crafting_recipe/gunsmith_one = 1,
-		/obj/item/book/granter/crafting_recipe/ODF = 1,
+		///obj/item/book/granter/crafting_recipe/ODF = 1,
 		/obj/item/geiger_counter = 1,
 		/obj/item/reagent_containers/glass/beaker = 1,
 		/obj/item/flashlight/flare = 1,
@@ -1407,9 +1414,9 @@
 		/obj/item/grenade/f13/stinger = 3,
 		/obj/item/grenade/empgrenade = 3,
 		/obj/item/grenade/stingbang = 3,
-		/obj/item/gun/ballistic/revolver/grenadelauncher = 2,
-		/obj/item/gun/ballistic/shotgun/grenade = 1,
-		/obj/item/ammo_box/a40mm/hedp = 1,
+//		/obj/item/gun/ballistic/revolver/grenadelauncher = 2,
+//		/obj/item/gun/ballistic/shotgun/grenade = 1,
+//		/obj/item/ammo_box/a40mm/hedp = 1,
 		/obj/item/grenade/plastic/c4 = 1,
 		/obj/item/grenade/f13/radiation = 1,
 		/obj/item/grenade/spawnergrenade/spesscarp = 1,
@@ -1425,7 +1432,7 @@
 /obj/item/grenade/plastic/x4 = 10,
 /obj/item/grenade/f13/plasma = 10,
 /obj/item/ammo_casing/caseless/rocket = 10,
-/obj/item/gun/ballistic/rocketlauncher = 5,
+//obj/item/gun/ballistic/rocketlauncher = 5,
 /obj/item/ammo_casing/caseless/rocket/hedp = 5,
 //obj/item/ammo_casing/caseless/rocket/incendiary = 1, //you know what? no. these suck. it always feels bad finding an incendiary or chemical rocket instead of a standard one, knowing that they're designed as PVP gamer ammos, and are useless against simple mobs. if you want them? craft them.
 //obj/item/ammo_casing/caseless/rocket/chem = 1,

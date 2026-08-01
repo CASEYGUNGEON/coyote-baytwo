@@ -407,7 +407,7 @@
 		/obj/item/gun/energy/disabler/cyborg,
 		/obj/item/clothing/mask/gas/sechailer/cyborg,
 		/obj/item/pinpointer/crew)
-	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
+//	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
 //	ratvar_modules = list(/obj/item/clockwork/slab/cyborg/security,
 //		/obj/item/clockwork/weapon/ratvarian_spear)
 	cyborg_base_icon = "sec"
@@ -662,10 +662,10 @@
 		/obj/item/borg/cyborghug,
 		/obj/item/megaphone,
 		/obj/item/melee/classic_baton/police,
-		/obj/item/gun/energy/laser/pistol/cyborg/gutsy,
+//		/obj/item/gun/energy/laser/pistol/cyborg/gutsy,
 		/obj/item/clothing/mask/gas/sechailer/cyborg,
 		/obj/item/pinpointer/crew)
-	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
+//	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
 //	ratvar_modules = list(/obj/item/clockwork/slab/cyborg/security,
 //		/obj/item/clockwork/weapon/ratvarian_spear)
 	borghealth = 300
@@ -681,10 +681,9 @@
 		/obj/item/crowbar/cyborg,
 		/obj/item/restraints/handcuffs/cable/zipties,
 		/obj/item/melee/unarmed/punchdagger/cyborg,
-		/obj/item/gun/energy/laser/pistol/cyborg,
 		/obj/item/clothing/mask/gas/sechailer/cyborg,
 		/obj/item/pinpointer/crew)
-	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
+
 //	ratvar_modules = list(/obj/item/clockwork/slab/cyborg/security,
 //		/obj/item/clockwork/weapon/ratvarian_spear)
 	borghealth = 450 //Assaultron health
@@ -745,7 +744,7 @@
 		/obj/item/crowbar/cyborg,
 		/obj/item/melee/transforming/plasmacutter/sword/cyborg,
 		/obj/item/gun/energy/printer,
-		/obj/item/gun/ballistic/revolver/grenadelauncher/cyborg,
+//		/obj/item/gun/ballistic/revolver/grenadelauncher/cyborg,
 		/obj/item/card/emag,
 		/obj/item/crowbar/cyborg,
 		/obj/item/pinpointer/syndicate_cyborg)

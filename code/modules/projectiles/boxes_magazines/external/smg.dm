@@ -1,3 +1,5 @@
+/* deprecated, fuzguns
+fuz is a dork
 ///////////////////
 // SMG MAGAZINES //
 ///////////////////
@@ -175,3 +177,4 @@
 
 /obj/item/ammo_box/magazine/m10mm_p90/empty
 	start_empty = 1
+*/

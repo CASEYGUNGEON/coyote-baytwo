@@ -6,7 +6,7 @@
 */
 
 // Ammunition
-
+/* deprecated, fuzguns
 /datum/uplink_item/ammo/pistol
 	name = "10mm Handgun Magazine"
 	desc = "An additional 8-round 10mm magazine; compatible with the Stechkin Pistol. These rounds \
@@ -310,3 +310,4 @@
 	item = /obj/item/ammo_box/a357
 	cost = 6
 	include_modes = list(/datum/game_mode/nuclear)
+*/

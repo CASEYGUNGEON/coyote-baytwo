@@ -139,6 +139,7 @@
 				/obj/item/bedsheet/pirate = 1, /obj/item/bedsheet/gondola = 1
 				)
 
+/* deprecated, fuzguns
 /obj/effect/spawner/lootdrop/armory_contraband
 	name = "armory contraband gun spawner"
 	lootdoubles = FALSE
@@ -163,6 +164,8 @@
 				/obj/item/storage/box/syndie_kit/throwing_weapons = 1,
 				/obj/item/toy/cards/deck/syndicate = 2
 				)
+*/
+
 
 /obj/effect/spawner/lootdrop/grille_or_trash
 	name = "maint grille or trash spawner"
@@ -792,6 +795,7 @@
 		/obj/item/weaponcrafting/improvised_parts/trigger_assembly = 5,
 		)
 
+/* deprecated, fuzgun
 /obj/effect/spawner/lootdrop/ammo
 	name = "random ammo 75%"
 	lootcount = 1
@@ -829,3 +833,4 @@
 		/obj/item/ammo_casing/shotgun = 8,
 		/obj/item/ammo_casing/shotgun/incendiary = 10,
 		)
+*/

@@ -41,7 +41,7 @@ ATTACHMENTS
 	item_flags = NEEDS_PERMIT | SLOWS_WHILE_IN_HAND
 	attack_verb = list("struck", "hit", "bashed")
 	hud_actions = list()
-	var/weapon_class = null //assigns w_class, slot_flags, draw_time, slowdown, and force, based on a template
+	var/weapon_class = null //assigns w_class, slot_flags, draw_time, slowdown, and force, based on a template //now defunct in favor of specificity
 	var/fire_sound = "gunshot"
 	/// Time it takes between drawing the gun and shooting the gun
 	var/draw_time = null
@@ -1854,7 +1854,7 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 
 
 
-
+/* deprecated, fuzguns
 /obj/item/storage/backpack/debug_gun_hobo
 	name = "Bag of Gunstuff 4 hobos"
 	desc = "Cool shit for testing various guns!"
@@ -1932,6 +1932,7 @@ GLOBAL_LIST_INIT(gun_yeet_words, list(
 	new /obj/item/gun/ballistic/automatic/shotgun/pancor(src)
 	new /obj/item/ammo_box/magazine/d12g/buck(src)
 	new /obj/item/ammo_box/magazine/d12g/buck(src)
+*/
 
 //Reload hotkey stuff
 /obj/item/gun/proc/Reload(mob/user)

@@ -177,6 +177,7 @@
 				new path(LC)
 	return INITIALIZE_HINT_QDEL
 
+/* deprecated, fuzguns
 /obj/effect/spawner/bundle/crate/mosin
 	name = "Mosin-Nagant spawner"
 	items = list(
@@ -189,6 +190,7 @@
 	items = list(
 		/obj/item/ammo_box/magazine/m10mm/rifle
 	)
+*/
 
 /// Mobs!
 

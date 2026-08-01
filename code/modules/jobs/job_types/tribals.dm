@@ -20,7 +20,7 @@
 	ADD_TRAIT(H, TRAIT_GENERIC, src)
 	ADD_TRAIT(H, TRAIT_MACHINE_SPIRITS, src)
 	H.grant_language(/datum/language/tribal)
-	for(var/datum/crafting_recipe/recipe as() in GLOB.tribal_job_recipes)
+	for(var/datum/crafting_recipe/recipe in GLOB.tribal_job_recipes)
 		H.mind.teach_crafting_recipe(recipe)
 
 /*
@@ -307,7 +307,6 @@ Hunter
 	suit = /obj/item/clothing/suit/armor/light/tribal/strips
 	id = /obj/item/card/id/tribetattoo
 	backpack_contents = list(
-		/obj/item/storage/box/tools/ranching =1,
 		/obj/item/pda = 1,
 		/obj/item/card/id/selfassign,
 		// /obj/item/cool_book/warriorguide = 1

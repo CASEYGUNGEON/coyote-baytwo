@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 // Grease Gun //
 /*
 /obj/item/gun/ballistic/automatic/smg/greasegun/attackby(obj/item/W, mob/user, params)
@@ -554,4 +556,5 @@
 		qdel(src)
 		to_chat(usr,"You dissasemble the [src].")
 	. = ..()
+*/
 */

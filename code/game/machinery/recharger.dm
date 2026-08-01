@@ -20,8 +20,9 @@
 		/obj/item/ammo_casing/mws_batt,
 		/obj/item/ammo_box/magazine/mws_mag,
 		/obj/item/electrostaff,
-		/obj/item/storage/battery_box,
-		/obj/item/gun/ballistic/automatic/magrifle))
+		/obj/item/storage/battery_box
+//		/obj/item/gun/ballistic/automatic/magrifle //deprecated, fuzguns
+		))
 
 /obj/machinery/recharger/RefreshParts()
 	for(var/obj/item/stock_parts/capacitor/C in component_parts)

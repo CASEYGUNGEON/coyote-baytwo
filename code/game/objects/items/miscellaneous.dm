@@ -275,6 +275,7 @@
 /obj/item/choice_beacon/box/carpet/generate_display_names()
 	return carpet_list
 
+/* DEPRECATED, FUZGUNS
 /obj/item/choice_beacon/box/weapons_trash
 	name = "well packed trash weapon"
 	desc = "Contains your choice of weapon inside!"
@@ -408,6 +409,7 @@
 
 /obj/item/choice_beacon/box/weapons_uncommon/generate_display_names()
 	return weapon_list
+*/
 
 /obj/item/choice_beacon/box/plushie
 	name = "choice box (plushie)"
@@ -436,6 +438,7 @@
 	icon_state = "weaponcrate"
 	inhand_icon_state = "syringe_kit"
 
+/* DEPRECATED, FUZGUNS
 /obj/item/choice_beacon/weapon/follower
 	name = "Follower of the Apocalpyse standard issue self-defense weapon crate"
 	desc = "Has that weapon you ordered"
@@ -457,3 +460,4 @@
 	".357 Single Action Revolver" = /obj/item/gun/ballistic/revolver/colt357,
 	"5.56mm Varmint Rifle" = /obj/item/gun/ballistic/automatic/varmint
 	)
+*/

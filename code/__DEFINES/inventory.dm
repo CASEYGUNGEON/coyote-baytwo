@@ -182,34 +182,34 @@
 
 /// Little bitty ammo thingies
 GLOBAL_LIST_INIT(small_ammo_types, typecacheof(list(
-	/obj/item/ammo_box/magazine/m22,
+//	/obj/item/ammo_box/magazine/m22,
 	// /obj/item/ammo_box/magazine/zipgun,
-	/obj/item/ammo_box/magazine/m9mm,
-	/obj/item/ammo_box/magazine/m10mm,
-	/obj/item/ammo_box/magazine/m45,
-	/obj/item/ammo_box/magazine/m44,
-	/obj/item/ammo_box/magazine/m14mm,
-	/obj/item/ammo_box/magazine/m10mm/rifle,
+//	/obj/item/ammo_box/magazine/m9mm,
+//	/obj/item/ammo_box/magazine/m10mm,
+//	/obj/item/ammo_box/magazine/m45,
+//	/obj/item/ammo_box/magazine/m44,
+//	/obj/item/ammo_box/magazine/m14mm,
+//	/obj/item/ammo_box/magazine/m10mm/rifle,
 	// /obj/item/ammo_box/magazine/autopipe,
-	/obj/item/ammo_box/magazine/m556/rifle/small,
-	/obj/item/ammo_box/l10mm,
-	/obj/item/ammo_box/a357,
-	/obj/item/ammo_box/m44,
-	/obj/item/ammo_box/c45rev,
-	/obj/item/ammo_box/a45lcrev,
-	/obj/item/ammo_box/rev308,
-	/obj/item/ammo_box/c4570,
-	/obj/item/ammo_box/a3006,
-	/obj/item/ammo_box/c22,
-	/obj/item/ammo_box/a308,
-	/obj/item/ammo_box/a556/stripper,
-	/obj/item/ammo_box/needle,
-	/obj/item/ammo_box/foambox
+//	/obj/item/ammo_box/magazine/m556/rifle/small,
+//	/obj/item/ammo_box/l10mm,
+//	/obj/item/ammo_box/a357,
+//	/obj/item/ammo_box/m44,
+//	/obj/item/ammo_box/c45rev,
+//	/obj/item/ammo_box/a45lcrev,
+//	/obj/item/ammo_box/rev308,
+//	/obj/item/ammo_box/c4570,
+//	/obj/item/ammo_box/a3006,
+//	/obj/item/ammo_box/c22,
+//	/obj/item/ammo_box/a308,
+//	/obj/item/ammo_box/a556/stripper,
+//	/obj/item/ammo_box/needle,
+//	/obj/item/ammo_box/foambox
 	)))
 
 /// Not so little bitty ammo thingies
 GLOBAL_LIST_INIT(holster_disallowed, typecacheof(list(
-	/obj/item/ammo_box/magazine/m22/extended
+//	/obj/item/ammo_box/magazine/m22/extended
 	)))
 
 GLOBAL_LIST_INIT(typical_reagent_containers, typecacheof(list(
@@ -400,8 +400,8 @@ GLOBAL_LIST_INIT(toolbelt_allowed, typecacheof(list(
 	/obj/item/screwdriver,
 	/obj/item/kitchen,
 	/obj/item/reagent_containers/food,
-	/obj/item/gun/ballistic/revolver/detective,
-	/obj/item/gun/ballistic/revolver/m29/snub,
+//	/obj/item/gun/ballistic/revolver/detective,
+//	/obj/item/gun/ballistic/revolver/m29/snub,
 	/obj/item/shovel,
 	/obj/item/cultivator,
 	/obj/item/hatchet,
@@ -485,8 +485,8 @@ GLOBAL_LIST_INIT(medibelt_allowed, typecacheof(list(
 	/obj/item/implanter,
 	/obj/item/pinpointer/crew,
 	/obj/item/weldingtool,
-	/obj/item/gun/ballistic/revolver/needler, // the healing is not as rewarding as the hurting
-	/obj/item/ammo_box/needle,
+//	/obj/item/gun/ballistic/revolver/needler, // the healing is not as rewarding as the hurting
+//	/obj/item/ammo_box/needle,
 	/obj/item/tele_iv,
 	/obj/item/stack/sticky_tape, //surgical tape
 	/obj/item/handsaw,
@@ -567,17 +567,17 @@ GLOBAL_LIST_INIT(storage_shoes_can_hold, typecacheof(list(
 	/obj/item/screwdriver,
 	/obj/item/weldingtool/mini,
 	/obj/item/pen,
-	/obj/item/gun/ballistic/revolver/detective,
+//	/obj/item/gun/ballistic/revolver/detective,
 	// /obj/item/gun/ballistic/revolver/hobo/knifegun,
 	/obj/item/melee/onehanded/knife,
 	/obj/item/melee/smith/dagger,
 	/obj/item/scalpel,
-	/obj/item/gun/energy/laser/retro,
-	/obj/item/gun/ballistic/revolver/police,
-	/obj/item/gun/ballistic/revolver/m29/snub,
-	/obj/item/gun/ballistic/automatic/pistol/ninemil/ruby,
-	/obj/item/gun/ballistic/revolver/derringerLC,
-	/obj/item/gun/ballistic/revolver/derringer4570,
+//	/obj/item/gun/energy/laser/retro,
+//	/obj/item/gun/ballistic/revolver/police,
+//	/obj/item/gun/ballistic/revolver/m29/snub,
+//	/obj/item/gun/ballistic/automatic/pistol/ninemil/ruby,
+//	/obj/item/gun/ballistic/revolver/derringerLC,
+//	/obj/item/gun/ballistic/revolver/derringer4570,
 	)))
 
 GLOBAL_LIST_INIT(plushbelt_allowed, typecacheof(list(
@@ -645,15 +645,15 @@ GLOBAL_LIST_INIT(storage_wallet_can_hold, typecacheof(list(
 	)))
 
 GLOBAL_LIST_INIT(storage_holdout_can_hold, typecacheof(list(
-	/obj/item/gun/ballistic/automatic/pistol/sig,
-	/obj/item/gun/ballistic/revolver/detective,
-	// /obj/item/gun/ballistic/automatic/hobo/zipgun,
-	/obj/item/gun/ballistic/automatic/pistol/pistol14/compact,
-	/obj/item/gun/ballistic/revolver/police,
-	/obj/item/gun/ballistic/revolver/colt357/lucky,
-	/obj/item/gun/ballistic/revolver/m29/snub,
-	/obj/item/gun/ballistic/revolver/needler,
-	/obj/item/gun/energy/laser/wattz
+//	/obj/item/gun/ballistic/automatic/pistol/sig,
+//	/obj/item/gun/ballistic/revolver/detective,
+//	// /obj/item/gun/ballistic/automatic/hobo/zipgun,
+//	/obj/item/gun/ballistic/automatic/pistol/pistol14/compact,
+//	/obj/item/gun/ballistic/revolver/police,
+//	/obj/item/gun/ballistic/revolver/colt357/lucky,
+//	/obj/item/gun/ballistic/revolver/m29/snub,
+//	/obj/item/gun/ballistic/revolver/needler,
+//	/obj/item/gun/energy/laser/wattz
 	)))
 
 GLOBAL_LIST_INIT(storage_produce_bag_can_hold, typecacheof(list(

@@ -741,12 +741,12 @@ SUBSYSTEM_DEF(recoil)
 	name = "Bag of Debug Gun Mods"
 	desc = "A cool bag of upgrades and guns for devs to test weapon mods, recoil, etc!"
 
-/obj/item/storage/debug/debug_gun_sack/PopulateContents()
+/obj/item/storage/debug/debug_gun_sack/PopulateContents()  //the shoot scrote
 	. = ..()
 	new /obj/item/storage/debug_box/guns_ballistic_1(src)
-	new /obj/item/storage/debug_box/ammo_ballistic_1(src)
-	new /obj/item/storage/debug_box/guns_energy_1(src)
-	new /obj/item/storage/debug_box/ammo_energy_1(src)
+//	new /obj/item/storage/debug_box/ammo_ballistic_1(src)
+//	new /obj/item/storage/debug_box/guns_energy_1(src)
+//	new /obj/item/storage/debug_box/ammo_energy_1(src)
 	new /obj/item/storage/debug_box/tools(src)
 
 /obj/item/storage/debug_box/guns_ballistic_1
@@ -756,18 +756,16 @@ SUBSYSTEM_DEF(recoil)
 /obj/item/storage/debug_box/guns_ballistic_1/PopulateContents()
 	. = ..()
 	var/list/spawned = list()
-	spawned += new /obj/item/gun/ballistic/automatic/smg/american180(src)
-	spawned += new /obj/item/gun/ballistic/automatic/assault_rifle(src)
-	spawned += new /obj/item/gun/ballistic/automatic/shotgun/pancor(src)
-	spawned += new /obj/item/gun/ballistic/automatic/pistol/beretta(src)
-	spawned += new /obj/item/gun/ballistic/automatic/pistol/beretta(src)
-	spawned += new /obj/item/gun/ballistic/automatic/smg/mini_uzi(src)
-	spawned += new /obj/item/gun/ballistic/automatic/smg/mini_uzi(src)
-	spawned += new /obj/item/gun/ballistic/automatic/smg/p90(src)
-	spawned += new /obj/item/gun/ballistic/automatic/smg/p90(src)
+	spawned += new /obj/item/gun/ballistic/automatic/pistol/autopistol/hipower(src)
+	spawned += new /obj/item/gun/ballistic/automatic/pistol/autopistol/hipower(src)
+	spawned += new /obj/item/gun/ballistic/automatic/ar/m16(src)
+	spawned += new /obj/item/gun/ballistic/automatic/ar/m16(src)
+	spawned += new /obj/item/gun/ballistic/automatic/submachine_gun/mp5(src)
+	spawned += new /obj/item/gun/ballistic/automatic/submachine_gun/mp5(src)
 	for(var/obj/item/thingy in spawned)
 		SEND_SIGNAL(thingy, COMSIG_GUN_MAG_ADMIN_RELOAD)
 
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
 /obj/item/storage/debug_box/ammo_ballistic_1
 	name = "Debug Ammo"
 	desc = "A box of debug ammo for devs to test weapon mods, recoil, etc!"
@@ -843,6 +841,7 @@ SUBSYSTEM_DEF(recoil)
 	new /obj/item/stock_parts/cell/ammo/mfc(src)
 	new /obj/item/stock_parts/cell/ammo/mfc(src)
 	new /obj/item/stock_parts/cell/ammo/mfc(src)
+*/
 
 /obj/item/storage/debug_box/tools
 	name = "Debug Tools"

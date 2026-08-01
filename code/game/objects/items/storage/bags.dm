@@ -541,9 +541,9 @@
 
 /obj/item/storage/bag/casings/debug_casings/PopulateContents()
 	var/list/bullet_types = list()
-	bullet_types |= typesof(/obj/item/ammo_casing/m44)
-	bullet_types |= typesof(/obj/item/ammo_casing/c10mm)
-	bullet_types |= typesof(/obj/item/ammo_casing/c9mm)
+	bullet_types |= typesof(/obj/item/ammo_casing/a9mm)
+	bullet_types |= typesof(/obj/item/ammo_casing/a223)
+	bullet_types |= typesof(/obj/item/ammo_casing/a12g)
 
 	for(var/i in 1 to 200)
 		var/obj/item/ammo_casing/out = pick(bullet_types)

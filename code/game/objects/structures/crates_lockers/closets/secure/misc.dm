@@ -10,6 +10,7 @@
 	new /obj/item/storage/box/handcuffs(src)
 	new /obj/item/aicard(src)
 	new /obj/item/assembly/flash/handheld(src)
+/* deprecated, fuzguns
 	if(prob(50))
 		new /obj/item/ammo_box/magazine/m44(src)
 		new /obj/item/ammo_box/magazine/m44(src)
@@ -17,7 +18,7 @@
 	else
 		new /obj/item/ammo_box/a357(src)
 		new /obj/item/ammo_box/a357(src)
-
+*/
 /obj/structure/closet/secure_closet/ertSec
 	name = "security closet"
 	desc = "Emergency Response Team equipment locker."

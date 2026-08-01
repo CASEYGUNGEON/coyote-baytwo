@@ -33,7 +33,7 @@
 	head = /obj/item/clothing/head/fedora/det_hat
 	r_hand = /obj/item/gun/ballistic
 	l_hand = null
-	r_pocket = /obj/item/ammo_box/c10mm
+//	r_pocket = /obj/item/ammo_box/c10mm
 
 /datum/outfit/tournament/janitor
 	name = "tournament janitor"
@@ -132,37 +132,6 @@
 		I.add_mob_blood(H)
 	H.regenerate_icons()
 
-/datum/outfit/assassin
-	name = "Assassin"
-
-	uniform = /obj/item/clothing/under/suit/black
-	shoes = /obj/item/clothing/shoes/sneakers/black
-	gloves = /obj/item/clothing/gloves/color/black
-	ears = /obj/item/radio/headset
-	glasses = /obj/item/clothing/glasses/sunglasses
-	l_pocket = /obj/item/melee/transforming/plasmacutter/sword/saber
-	l_hand = /obj/item/storage/secure/briefcase
-	id = /obj/item/card/id/syndicate
-	belt = /obj/item/pda/heads
-
-/datum/outfit/assassin/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source)
-	var/obj/item/clothing/under/U = H.w_uniform
-	U.attach_accessory(new /obj/item/clothing/accessory/waistcoat(H))
-
-	if(visualsOnly)
-		return
-
-	//Could use a type
-	var/obj/item/storage/secure/briefcase/sec_briefcase = H.get_item_for_held_index(1)
-	for(var/obj/item/briefcase_item in sec_briefcase)
-		qdel(briefcase_item)
-	for(var/i = 3 to 0 step -1)
-		SEND_SIGNAL(sec_briefcase, COMSIG_TRY_STORAGE_INSERT, new /obj/item/stack/spacecash/c1000, null, TRUE, TRUE)
-	SEND_SIGNAL(sec_briefcase, COMSIG_TRY_STORAGE_INSERT, new /obj/item/gun/energy/kinetic_accelerator/crossbow, null, TRUE, TRUE)
-	SEND_SIGNAL(sec_briefcase, COMSIG_TRY_STORAGE_INSERT, new /obj/item/gun/ballistic/revolver/m29/snub, null, TRUE, TRUE)
-	SEND_SIGNAL(sec_briefcase, COMSIG_TRY_STORAGE_INSERT, new /obj/item/ammo_box/a357, null, TRUE, TRUE)
-	SEND_SIGNAL(sec_briefcase, COMSIG_TRY_STORAGE_INSERT, new /obj/item/grenade/plastic/x4, null, TRUE, TRUE)
-
 	var/obj/item/pda/heads/pda = H.belt
 	pda.owner = H.real_name
 	pda.ownjob = "Reaper"
@@ -185,7 +154,7 @@
 	glasses = /obj/item/clothing/glasses/eyepatch
 	mask = /obj/item/clothing/mask/cigarette/cigar/cohiba
 	head = /obj/item/clothing/head/centhat
-	belt = /obj/item/gun/ballistic/revolver/m29/snub
+//	belt = /obj/item/gun/ballistic/revolver/m29/snub
 	r_pocket = /obj/item/lighter
 	l_pocket = /obj/item/ammo_box/a357
 	back = /obj/item/storage/backpack/satchel/leather
@@ -214,7 +183,6 @@
 	ears = /obj/item/radio/headset/headset_cent/commander
 	mask = /obj/item/clothing/mask/cigarette/cigar/havana
 	head = /obj/item/clothing/head/helmet/space/beret
-	belt = /obj/item/gun/energy/pulse/pistol/m1911
 	r_pocket = /obj/item/lighter
 	back = /obj/item/storage/backpack/satchel/leather
 	id = /obj/item/card/id
@@ -296,7 +264,7 @@
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	suit = /obj/item/clothing/suit/pirate/captain
 	back = /obj/item/storage/backpack/satchel/leather
-	belt = /obj/item/gun/ballistic/revolver/m29/snub
+//	belt = /obj/item/gun/ballistic/revolver/m29/snub
 
 	id = /obj/item/card/id
 
@@ -353,7 +321,7 @@
 	l_pocket = /obj/item/melee/transforming/plasmacutter/sword/saber
 	r_pocket = /obj/item/shield/energy
 	suit_store = /obj/item/tank/internals/emergency_oxygen
-	belt = /obj/item/gun/ballistic/revolver/m29/snub
+//	belt = /obj/item/gun/ballistic/revolver/m29/snub
 	r_hand = /obj/item/gun/energy/pulse/loyalpin
 	id = /obj/item/card/id
 	ears = /obj/item/radio/headset/headset_cent/alt

@@ -12,6 +12,8 @@
 	weapon_class = WEAPON_CLASS_NORMAL
 	weapon_weight = GUN_ONE_HAND_ONLY
 
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 /obj/item/gun/energy/megabuster/proto
 	name = "Proto-buster"
 	icon_state = "protobuster"
@@ -29,3 +31,5 @@
 	ammo_x_offset = 2
 	weapon_class = WEAPON_CLASS_NORMAL
 	weapon_weight = GUN_ONE_HAND_ONLY
+
+*/

@@ -547,7 +547,7 @@
 	desc = "A large duffel bag for holding extra weapons ammunition and supplies."
 	icon_state = "duffel-syndieammo"
 	inhand_icon_state = "duffel-syndieammo"
-
+/* deprecated, fuzguns
 /obj/item/storage/backpack/duffelbag/syndie/ammo/shotgun
 	desc = "A large duffel bag, packed to the brim with Bulldog shotgun drum magazines."
 
@@ -619,7 +619,7 @@
 	new /obj/item/ammo_box/foambox/riot(src)
 	if(prob(5))
 		new /obj/item/reagent_containers/food/snacks/pizza/pineapple(src)
-
+*/
 /obj/item/storage/backpack/duffelbag/syndie/c4/PopulateContents()
 	for(var/i in 1 to 10)
 		new /obj/item/grenade/plastic/c4(src)

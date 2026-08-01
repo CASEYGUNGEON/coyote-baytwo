@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 // 7.62
 /obj/item/ammo_casing/a308
 	name = ".308 FMJ bullet casing"
@@ -247,3 +249,5 @@
 		/datum/material/iron = MATS_GAUSS_CASING + MATS_GAUSS_BULLET * 1.1,
 		/datum/material/blackpowder = MATS_GAUSS_POWDER,
 		/datum/material/titanium = MATS_GAUSS_BULLET * 1.1)
+
+*/

@@ -1,3 +1,5 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
 /obj/item/gun/energy/plasma //Not intended to be used, use its children instead.
 	name = "plasma gun"
 	desc = "A high-power plasma gun. You shouldn't ever see this."
@@ -62,3 +64,5 @@
 	righthand_file = 'modular_citadel/icons/mob/citadel/guns_righthand.dmi'
 	weapon_class = WEAPON_CLASS_NORMAL
 	weapon_weight = GUN_ONE_HAND_ONLY
+
+*/

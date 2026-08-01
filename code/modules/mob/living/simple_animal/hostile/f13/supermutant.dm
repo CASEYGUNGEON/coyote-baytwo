@@ -189,8 +189,8 @@
 	auto_fire_delay = GUN_BURSTFIRE_DELAY_FAST
 	ranged_cooldown_time = 4 SECONDS
 	loot = list(
-		/obj/item/ammo_box/shotgun/improvised,
-		/obj/item/gun/ballistic/revolver/widowmaker,
+//		/obj/item/ammo_box/shotgun/improvised,
+//		/obj/item/gun/ballistic/revolver/widowmaker,
 		/obj/effect/gibspawner/generic/animal
 		)
 	footstep_type = FOOTSTEP_MOB_HEAVY
@@ -379,176 +379,176 @@
 	..()
 
 //Cult Of Rain
-/mob/living/simple_animal/hostile/supermutant/meleemutant/rain
-	name = "super mutant rain cultist"
-	desc = "A super mutant covered in blue markings that has been indoctrinated into the Cult Of Rain. This one wields a sledgehammer blessed by the rain gods."
-	color = "#6B87C0"
-	speak_chance = 10
-	//speak = list("The rain cleanses!", "Sacrifices for the rain gods!", "The thunder guides my fury!", "I am become the storm, destroyer of all heretics!", "The priests will be pleased with my sacrifices!")
-	maxHealth = 360
-	health = 360
-	damage_coeff = list(BRUTE = 0.5, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
-	melee_damage_lower = 24
-	melee_damage_upper = 48
-	footstep_type = FOOTSTEP_MOB_HEAVY
+// /mob/living/simple_animal/hostile/supermutant/meleemutant/rain
+// 	name = "super mutant rain cultist"
+// 	desc = "A super mutant covered in blue markings that has been indoctrinated into the Cult Of Rain. This one wields a sledgehammer blessed by the rain gods."
+// 	color = "#6B87C0"
+// 	speak_chance = 10
+// 	//speak = list("The rain cleanses!", "Sacrifices for the rain gods!", "The thunder guides my fury!", "I am become the storm, destroyer of all heretics!", "The priests will be pleased with my sacrifices!")
+// 	maxHealth = 360
+// 	health = 360
+// 	damage_coeff = list(BRUTE = 0.5, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+// 	melee_damage_lower = 24
+// 	melee_damage_upper = 48
+// 	footstep_type = FOOTSTEP_MOB_HEAVY
 	
-/mob/living/simple_animal/hostile/supermutant/rangedmutant/rain
-	name = "super mutant rain cultist"
-	desc = "A super mutant covered in blue markings that has been indoctrinated into the Cult Of Rain. This one wields a hunting rifle blessed by the rain gods."
-	color = "#6B87C0"
-	speak_chance = 10
-	//speak = list("The rain cleanses!", "Sacrifices for the rain gods!", "The thunder guides my fury!", "I am become the storm, destroyer of all heretics!", "The priests will be pleased with my sacrifices!")
-	maxHealth = 360
-	health = 360
-	damage_coeff = list(BRUTE = 1, BURN = 0.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
-	melee_damage_lower = 24
-	melee_damage_upper = 48
-	footstep_type = FOOTSTEP_MOB_HEAVY
+// /mob/living/simple_animal/hostile/supermutant/rangedmutant/rain
+// 	name = "super mutant rain cultist"
+// 	desc = "A super mutant covered in blue markings that has been indoctrinated into the Cult Of Rain. This one wields a hunting rifle blessed by the rain gods."
+// 	color = "#6B87C0"
+// 	speak_chance = 10
+// 	//speak = list("The rain cleanses!", "Sacrifices for the rain gods!", "The thunder guides my fury!", "I am become the storm, destroyer of all heretics!", "The priests will be pleased with my sacrifices!")
+// 	maxHealth = 360
+// 	health = 360
+// 	damage_coeff = list(BRUTE = 1, BURN = 0.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+// 	melee_damage_lower = 24
+// 	melee_damage_upper = 48
+// 	footstep_type = FOOTSTEP_MOB_HEAVY
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain
-	name = "nightkin berserker rain priest"
-	desc = "A nightkin that spreads the word of the Cult Of Rain. They are covered in dark blue markings, indicating that they have been blessed by the rain god Odile."
-	color = "#6666FF"
-	speak_chance = 10
-	//speak = list("The rain speaks through me!", "Witness the gifts of rain!", "The great flood will come upon us! Do not fear it!", "My life for the rain gods!", "The rain gods can always use more sacrifices!")
-	maxHealth = 360
-	health = 360
-	damage_coeff = list(BRUTE = -0.1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
-	melee_damage_lower = 24
-	melee_damage_upper = 48
-	var/charging = FALSE
-	footstep_type = FOOTSTEP_MOB_HEAVY
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain
+// 	name = "nightkin berserker rain priest"
+// 	desc = "A nightkin that spreads the word of the Cult Of Rain. They are covered in dark blue markings, indicating that they have been blessed by the rain god Odile."
+// 	color = "#6666FF"
+// 	speak_chance = 10
+// 	//speak = list("The rain speaks through me!", "Witness the gifts of rain!", "The great flood will come upon us! Do not fear it!", "My life for the rain gods!", "The rain gods can always use more sacrifices!")
+// 	maxHealth = 360
+// 	health = 360
+// 	damage_coeff = list(BRUTE = -0.1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+// 	melee_damage_lower = 24
+// 	melee_damage_upper = 48
+// 	var/charging = FALSE
+// 	footstep_type = FOOTSTEP_MOB_HEAVY
 
-// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/bullet_act(obj/item/projectile/Proj)
-// 	if(!Proj)
-// 		return
-// 	if(prob(30))
-// 		visible_message(span_danger("\The [src] lets out a vicious war cry!"))
-// 		Charge()
-// 	if(prob(85) || Proj.damage > 30)
+// // /mob/living/simple_animal/hostile/supermutant/nightkin/rain/bullet_act(obj/item/projectile/Proj)
+// // 	if(!Proj)
+// // 		return
+// // 	if(prob(30))
+// // 		visible_message(span_danger("\The [src] lets out a vicious war cry!"))
+// // 		Charge()
+// // 	if(prob(85) || Proj.damage > 30)
+// // 		return ..()
+// // 	else
+// // 		visible_message(span_danger("\The [Proj] is abosrbed by \the [src]'s thick skin, strengthening it!"))
+// // 		return 0
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect)
+// 	if(!charging)
+// 		..()
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/AttackingTarget()
+// 	if(!charging)
 // 		return ..()
-// 	else
-// 		visible_message(span_danger("\The [Proj] is abosrbed by \the [src]'s thick skin, strengthening it!"))
-// 		return 0
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect)
-	if(!charging)
-		..()
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/Goto(target, delay, minimum_distance)
+// 	if(!charging)
+// 		..()
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/AttackingTarget()
-	if(!charging)
-		return ..()
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/Move()
+// 	if(charging)
+// 		new /obj/effect/temp_visual/decoy/fading(loc,src)
+// 		DestroySurroundings()
+// 	. = ..()
+// 	if(charging)
+// 		DestroySurroundings()
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/Goto(target, delay, minimum_distance)
-	if(!charging)
-		..()
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/Move()
-	if(charging)
-		new /obj/effect/temp_visual/decoy/fading(loc,src)
-		DestroySurroundings()
-	. = ..()
-	if(charging)
-		DestroySurroundings()
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/proc/Charge()
-	var/turf/T = get_turf(get_target())
-	if(!T || T == loc)
-		return
-	charging = TRUE
-	visible_message(span_danger("[src] charges!"))
-	DestroySurroundings()
-	walk(src, 0)
-	setDir(get_dir(src, T))
-	var/obj/effect/temp_visual/decoy/D = new /obj/effect/temp_visual/decoy(loc,src)
-	animate(D, alpha = 0, color = "#FF0000", transform = matrix()*2, time = 1)
-	throw_at(T, get_dist(src, T), 1, src, 0, callback = CALLBACK(src,PROC_REF(charge_end)))
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/proc/charge_end(list/effects_to_destroy)
-	charging = FALSE
-	var/atom/my_target = get_target()
-	if(!my_target)
-		return
-	Goto(my_target, move_to_delay, minimum_distance)
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/Bump(atom/A)
-	if(charging)
-		if(isturf(A) || isobj(A) && A.density)
-			A.ex_act(EXPLODE_HEAVY)
-		DestroySurroundings()
-	..()
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rain/throw_impact(atom/A)
-	if(!charging)
-		return ..()
-
-	else if(isliving(A))
-		var/mob/living/L = A
-		L.visible_message(span_danger("[src] slams into [L]!"), span_userdanger("[src] slams into you!"))
-		L.apply_damage(melee_damage_lower/2, BRUTE)
-		playsound(get_turf(L), 'sound/effects/meteorimpact.ogg', 100, 1)
-		shake_camera(L, 4, 3)
-		shake_camera(src, 2, 3)
-		var/throwtarget = get_edge_target_turf(src, get_dir(src, get_step_away(L, src)))
-		L.throw_at(throwtarget, 3)
-	charging = FALSE
-
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain
-	name = "nightkin guardian rain priest"
-	desc = "A nightkin that spreads the word of the Cult Of Rain. They are covered in dark blue markings, indicating that they have been blessed by the rain lord Ignacio."
-	color = "#6666FF"
-	speak_chance = 10
-	//speak = list("The rain speaks through me!", "Witness the gifts of rain!", "The great flood will come upon us! Do not fear it!", "My life for the rain gods!", "The rain gods can always use more sacrifices!")
-	maxHealth = 380
-	health = 380
-	damage_coeff = list(BRUTE = 1, BURN = -0.25, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
-	melee_damage_lower = 35
-	melee_damage_upper = 60
-	extra_projectiles = 2
-	retreat_distance = 2
-	minimum_distance = 4
-
-/mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/glow_heal, chosen_targets = /mob/living/simple_animal/hostile/supermutant, allow_revival = FALSE, restrict_faction = null, type_healing = BRUTELOSS | FIRELOSS)
-
-// /mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/bullet_act(obj/item/projectile/Proj)
-// 	if(!Proj)
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/proc/Charge()
+// 	var/turf/T = get_turf(get_target())
+// 	if(!T || T == loc)
 // 		return
-// 	if(prob(20))
-// 		visible_message(span_danger("\The [src] lets out a vicious war cry!"))
-// 		fire_release()
-// 	if(prob(85) || Proj.damage > 30)
+// 	charging = TRUE
+// 	visible_message(span_danger("[src] charges!"))
+// 	DestroySurroundings()
+// 	walk(src, 0)
+// 	setDir(get_dir(src, T))
+// 	var/obj/effect/temp_visual/decoy/D = new /obj/effect/temp_visual/decoy(loc,src)
+// 	animate(D, alpha = 0, color = "#FF0000", transform = matrix()*2, time = 1)
+// 	throw_at(T, get_dist(src, T), 1, src, 0, callback = CALLBACK(src,PROC_REF(charge_end)))
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/proc/charge_end(list/effects_to_destroy)
+// 	charging = FALSE
+// 	var/atom/my_target = get_target()
+// 	if(!my_target)
+// 		return
+// 	Goto(my_target, move_to_delay, minimum_distance)
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/Bump(atom/A)
+// 	if(charging)
+// 		if(isturf(A) || isobj(A) && A.density)
+// 			A.ex_act(EXPLODE_HEAVY)
+// 		DestroySurroundings()
+// 	..()
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rain/throw_impact(atom/A)
+// 	if(!charging)
 // 		return ..()
-// 	else
-// 		visible_message(span_danger("\The [Proj] is absorbed by \the [src]'s thick skin, strengthening it!"))
-// 		return 0
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/proc/fire_release()
-	playsound(get_turf(src),'sound/magic/fireball.ogg', 200, 1)
-	INVOKE_ASYNC(src,PROC_REF(fire_release_wall))
+// 	else if(isliving(A))
+// 		var/mob/living/L = A
+// 		L.visible_message(span_danger("[src] slams into [L]!"), span_userdanger("[src] slams into you!"))
+// 		L.apply_damage(melee_damage_lower/2, BRUTE)
+// 		playsound(get_turf(L), 'sound/effects/meteorimpact.ogg', 100, 1)
+// 		shake_camera(L, 4, 3)
+// 		shake_camera(src, 2, 3)
+// 		var/throwtarget = get_edge_target_turf(src, get_dir(src, get_step_away(L, src)))
+// 		L.throw_at(throwtarget, 3)
+// 	charging = FALSE
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/proc/fire_release_wall(dir)
-	for(var/mob/living/target in view(10, src))
-		var/obj/item/ammo_casing/casing = new /obj/item/ammo_casing/shotgun/incendiary(get_turf(src))
-		casing.factionize(faction)
-		casing.fire_casing(target, src, null, null, null, ran_zone(), 0, null, null, null, src)
-		qdel(casing)
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/elitemutant/rain
-	name = "nightkin rain lord"
-	desc = "A nightkin that writes the word of the Cult Of Rain. They are covered in dark blue markings and are adorned in pieces of bone armor, indicating that they are blessed by the rain lord Hyacinth."
-	color = "#6666FF"
-	speak_chance = 10
-	//speak = list("The great flood will come, I will make sure of it!", "Rain lord Odile, I call upon you for wrath!", "Rain creator Hyacinth, I call upon you for a tranquil mind!", "Rain lord Ignacio, I call upon you for protection!", "The storm rages within!")
-	maxHealth = 440
-	health = 440
-	damage_coeff = list(BRUTE = 0.5, BURN = 0.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
-	melee_damage_lower = 28
-	melee_damage_upper = 62
-	extra_projectiles = 1
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain
+// 	name = "nightkin guardian rain priest"
+// 	desc = "A nightkin that spreads the word of the Cult Of Rain. They are covered in dark blue markings, indicating that they have been blessed by the rain lord Ignacio."
+// 	color = "#6666FF"
+// 	speak_chance = 10
+// 	//speak = list("The rain speaks through me!", "Witness the gifts of rain!", "The great flood will come upon us! Do not fear it!", "My life for the rain gods!", "The rain gods can always use more sacrifices!")
+// 	maxHealth = 380
+// 	health = 380
+// 	damage_coeff = list(BRUTE = 1, BURN = -0.25, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+// 	melee_damage_lower = 35
+// 	melee_damage_upper = 60
+// 	extra_projectiles = 2
+// 	retreat_distance = 2
+// 	minimum_distance = 4
 
-/mob/living/simple_animal/hostile/supermutant/nightkin/elitemutant/rain/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/glow_heal, chosen_targets = /mob/living/simple_animal/hostile/supermutant, allow_revival = TRUE, restrict_faction = null, type_healing = BRUTELOSS | FIRELOSS)
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/Initialize(mapload)
+// 	. = ..()
+// 	AddComponent(/datum/component/glow_heal, chosen_targets = /mob/living/simple_animal/hostile/supermutant, allow_revival = FALSE, restrict_faction = null, type_healing = BRUTELOSS | FIRELOSS)
+
+// // /mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/bullet_act(obj/item/projectile/Proj)
+// // 	if(!Proj)
+// // 		return
+// // 	if(prob(20))
+// // 		visible_message(span_danger("\The [src] lets out a vicious war cry!"))
+// // 		fire_release()
+// // 	if(prob(85) || Proj.damage > 30)
+// // 		return ..()
+// // 	else
+// // 		visible_message(span_danger("\The [Proj] is absorbed by \the [src]'s thick skin, strengthening it!"))
+// // 		return 0
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/proc/fire_release()
+// 	playsound(get_turf(src),'sound/magic/fireball.ogg', 200, 1)
+// 	INVOKE_ASYNC(src,PROC_REF(fire_release_wall))
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/rangedmutant/rain/proc/fire_release_wall(dir)
+// 	for(var/mob/living/target in view(10, src))
+// 		var/obj/item/ammo_casing/casing = new /obj/item/ammo_casing/shotgun/incendiary(get_turf(src))
+// 		casing.factionize(faction)
+// 		casing.fire_casing(target, src, null, null, null, ran_zone(), 0, null, null, null, src)
+// 		qdel(casing)
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/elitemutant/rain
+// 	name = "nightkin rain lord"
+// 	desc = "A nightkin that writes the word of the Cult Of Rain. They are covered in dark blue markings and are adorned in pieces of bone armor, indicating that they are blessed by the rain lord Hyacinth."
+// 	color = "#6666FF"
+// 	speak_chance = 10
+// 	//speak = list("The great flood will come, I will make sure of it!", "Rain lord Odile, I call upon you for wrath!", "Rain creator Hyacinth, I call upon you for a tranquil mind!", "Rain lord Ignacio, I call upon you for protection!", "The storm rages within!")
+// 	maxHealth = 440
+// 	health = 440
+// 	damage_coeff = list(BRUTE = 0.5, BURN = 0.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
+// 	melee_damage_lower = 28
+// 	melee_damage_upper = 62
+// 	extra_projectiles = 1
+
+// /mob/living/simple_animal/hostile/supermutant/nightkin/elitemutant/rain/Initialize(mapload)
+// 	. = ..()
+// 	AddComponent(/datum/component/glow_heal, chosen_targets = /mob/living/simple_animal/hostile/supermutant, allow_revival = TRUE, restrict_faction = null, type_healing = BRUTELOSS | FIRELOSS)

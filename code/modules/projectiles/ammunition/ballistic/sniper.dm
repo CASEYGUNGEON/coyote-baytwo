@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 //.50 BMG
 
 /obj/item/ammo_casing/a50MG
@@ -72,4 +74,5 @@
 	desc = "Enriched uranium-tipped 12.7mm rifle rounds."
 	projectile_type = /obj/item/projectile/bullet/a50MG/uraniumtipped
 	icon_state = "50ap2"
+*/
 */

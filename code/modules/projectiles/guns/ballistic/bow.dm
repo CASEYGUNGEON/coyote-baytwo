@@ -1,3 +1,4 @@
+/*
 /obj/item/gun/ballistic/bow
 	name = "base bow"
 	desc = "base type of bow used to define features for multiple-loading bows"
@@ -223,6 +224,8 @@
 // Hopefully some player somewhere at some point in time will make use of this incredibly niche attack.
 // Not without telling them about it lmfao
 
+*/
+
 //////////////
 //	Tier 1	//
 //////////////
@@ -234,7 +237,7 @@
 	icon_state = "shortbow"
 	inhand_icon_state = "bow" 
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower
+		/datum/firemode/semi_auto/rpm800
 	)
 	damage_multiplier = GUN_EXTRA_DAMAGE_0 // Cheap, worst bow.
 
@@ -272,7 +275,7 @@
 	inhand_icon_state = "bow"
 	damage_multiplier = GUN_EXTRA_DAMAGE_T3 //Now actually worth taking over the longbow.
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower // Fires faster, more accurate.
+		/datum/firemode/semi_auto/rpm800 // Fires faster, more accurate.
 	)
 
 /obj/item/gun/ballistic/bow/longbow
@@ -306,7 +309,7 @@
 	inhand_icon_state = "bow"
 	damage_multiplier = GUN_EXTRA_DAMAGE_T2 // Has lower damage, high firerate
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow,// Fires much faster
+		/datum/firemode/semi_auto/rpm800// Fires much faster
 	)
 
 /obj/item/gun/ballistic/bow/composite/masterwork
@@ -314,7 +317,7 @@
 	desc = "A work of art produced by a seasoned bowyer, addorned with gold leaf."
 	icon_state = "composite_gold"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow,
+		/datum/firemode/semi_auto/rpm800
 	)
 	damage_multiplier = GUN_EXTRA_DAMAGE_T5 // The chiefs bow, supposed to be for tribal chiefs only
 
@@ -326,6 +329,6 @@
 	icon_state = "pipebow"
 	inhand_icon_state = "bow"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow,
+		/datum/firemode/semi_auto/rpm800
 	)
 	damage_multiplier = GUN_EXTRA_DAMAGE_T6 // The damn longbow WAS better than this. Lets make it actually boss tier.

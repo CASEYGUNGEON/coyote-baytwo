@@ -174,8 +174,9 @@
 	name = "\improper X-01 Multiphase energy gun box"
 	desc = "A storage case for a high-tech energy firearm."
 
-/obj/item/storage/secure/briefcase/hos/multiphase_box/PopulateContents()
-	new /obj/item/gun/energy/e_gun/hos(src)
+// deprecated, fuzguns
+// /obj/item/storage/secure/briefcase/hos/multiphase_box/PopulateContents()
+// 	new /obj/item/gun/energy/e_gun/hos(src)
 
 // -----------------------------
 //        Secure Safe

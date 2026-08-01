@@ -1,3 +1,5 @@
+/* DEPRECATED, FUZGUNS
+
 /* LIST STRUCTURELOADOUT_ROOT
  * list encodes "tag" = list(LOADOUT_BITFIELD = a bitfield, LOADOUT_CLASS = melee, LOADOUT_PATH = the path)
  */
@@ -3080,3 +3082,5 @@ GLOBAL_LIST_EMPTY(loadout_boxes)
 
 /obj/item/storage/box/gun/energy/tglaser/spammer/PopulateContents()
 	new /obj/item/gun/energy/laser/cranklasergun/tg/spamlaser(src)
+
+*/

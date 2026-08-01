@@ -1781,8 +1781,8 @@
 	lethal_projectile = null
 	lethal_projectile_sound = 'sound/f13weapons/shotgun.ogg'
 	stun_projectile_sound = 'sound/f13weapons/shotgun.ogg'
-	casing_type_stun = /obj/item/ammo_casing/shotgun/rubbershot
-	casing_type_lethal = /obj/item/ammo_casing/shotgun/buckshot
+	casing_type_stun = /obj/item/ammo_casing/a12g/buck //FUZGUNS, NO STUN AMMO AVAILABLE RN
+	casing_type_lethal = /obj/item/ammo_casing/a12g/buck
 
 /obj/machinery/porta_turret/f13/turret_shotgun/raider
 	name = "raider autoshotgun"
@@ -1908,8 +1908,8 @@
 	lethal_projectile = null
 	lethal_projectile_sound = 'sound/f13weapons/shotgun.ogg'
 	stun_projectile_sound = 'sound/f13weapons/shotgun.ogg'
-	casing_type_stun = /obj/item/ammo_casing/shotgun/rubbershot
-	casing_type_lethal = /obj/item/ammo_casing/shotgun/buckshot/wide
+	casing_type_stun = /obj/item/ammo_casing/a12g/buck //FUZGUNS NO NONLETHAL SHOTSHELLS RN
+	casing_type_lethal = /obj/item/ammo_casing/a12g/buck
 
 /obj/machinery/porta_turret/f13/town/AMR_turret
 	name = "allied big game point defense system"
@@ -2186,14 +2186,14 @@
 
 /// dumps loot all over the place
 /obj/machinery/porta_turret/f13/nash/drop_loot(obj/item/I, mob/user)
-	new /obj/item/gun/ballistic/automatic/sportcarbine(get_turf(src))
+	new /obj/item/gun/ballistic/automatic/submachine_gun/mp5(get_turf(src))
 	..()
 
 /obj/item/ammo_box/magazine/internal/turret
 	name = "turret ammo hopper"
 	desc = "A huge cannister of ammo designed to go into a turret."
-	ammo_type = /obj/item/ammo_casing/a22
-	caliber = list(CALIBER_22LR)
+	ammo_type = /obj/item/ammo_casing/a9mm
+	caliber = list(CALIBER_9MM)
 	max_ammo = 300
 	start_empty = FALSE
 	w_class = WEIGHT_CLASS_GIGANTIC

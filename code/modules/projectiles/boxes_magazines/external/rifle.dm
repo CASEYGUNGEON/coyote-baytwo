@@ -1,3 +1,5 @@
+/* deprecatd, fuzguns
+
 /obj/item/ammo_box/magazine/m10mm/rifle
 	name = "rifle magazine (10mm)"
 	desc = "A well-worn magazine fitted for the surplus rifle."
@@ -308,3 +310,4 @@
 	ammo_type = /obj/item/ammo_casing/c2mm/blender
 	max_ammo = 10
 	multiple_sprites = 2
+*/

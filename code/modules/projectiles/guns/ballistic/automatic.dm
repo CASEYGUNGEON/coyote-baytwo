@@ -1,3 +1,6 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
+
+
 //IN THIS DOCUMENT: Automatic template, SMGs, Carbines, Semi-auto rifles, Assault rifles, Machineguns and Misc.
 // See gun.dm for keywords and the system used for gun balance
 
@@ -11,7 +14,7 @@
 /obj/item/gun/ballistic/automatic
 	name = "automatic gun template"
 	desc = "should not be here, bugreport."
-	weapon_class = WEAPON_CLASS_RIFLE
+	weapon_class = null
 	weapon_weight = GUN_ONE_HAND_ONLY
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	cock_delay = GUN_COCK_RIFLE_BASE
@@ -785,6 +788,9 @@
 	scope_y_offset = 21
 	can_scope = TRUE
 
+*/
+//EXCEPTION FROM DEPRECATION FOR NOW
+
 /* * * * * * * * * * *
  * Sidewinder SMG
  * Multiammo SMG
@@ -806,17 +812,17 @@
 			inherently poor accuracy. Doesn't accept awkwardly shaped magazines, though. That's for the PRO model, which isn't \
 			available out here. ++To change ammunition type, unload the weapon and press the button on the top left corner of your screen."
 	icon_state = "sidewinder"
-	mag_type = /obj/item/ammo_box/magazine/uzim9mm
-	extra_mag_types = /obj/item/ammo_box/magazine/m9mm
-	init_mag_type = /obj/item/ammo_box/magazine/m9mm/doublestack
+	mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
+	extra_mag_types = /obj/item/ammo_box/magazine/a9mm/fifteen
+	init_mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
 	var/current_caliber = "9mm"
 	weapon_class = WEAPON_CLASS_NORMAL
 	weapon_weight = GUN_ONE_HAND_ONLY
 	added_spread = GUN_SPREAD_POOR
 	damage_multiplier = GUN_EXTRA_DAMAGE_0
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast,
-		/datum/firemode/burst/three/fast
+		/datum/firemode/semi_auto/rpm800,
+		/datum/firemode/burst/rpm800
 	)
 
 	can_scope = TRUE
@@ -861,22 +867,22 @@
 	switch(current_caliber)
 		if("22LR")
 			current_caliber = "9mm"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/m9mm, /obj/item/ammo_box/magazine/uzim9mm)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			message2self += "The panel on the side now reads: \"9mm Mode\""
 
 		if("9mm")
 			current_caliber = "10mm"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/m10mm, /obj/item/ammo_box/magazine/cg45)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			message2self += "The panel on the side now reads: \"10mm Mode\""
 
 		if("10mm")
 			current_caliber = "45ACP"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/greasegun, /obj/item/ammo_box/magazine/m45, /obj/item/ammo_box/magazine/tommygunm45/stick)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			message2self += "The panel on the side now reads: \".45ACP Mode\""
 
 		if("45ACP")
 			current_caliber = "22LR"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/m22)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			message2self += "The panel on the side now reads: \".22LR Mode\""
 
 	playsound(get_turf(src), 'sound/f13weapons/equipsounds/riflequip.ogg', 60, 1)
@@ -909,7 +915,7 @@
 			button on the top left corner of your screen."
 	icon_state = "sidewinder"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/semi_auto/rpm800
 	)
 
 /// multical-magnum
@@ -922,12 +928,12 @@
 			inherently poor accuracy. Only accepts small magazines. This model is locked to semi-auto! ++To change ammunition type,\
 			unload the weapon and press the button on the top left corner of your screen."
 	icon_state = "sidewinder-magnum"
-	mag_type = /obj/item/ammo_box/magazine/m44
-	extra_mag_types = /obj/item/ammo_box/magazine/m44/automag
-	init_mag_type = /obj/item/ammo_box/magazine/m44
+	mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
+	extra_mag_types = /obj/item/ammo_box/magazine/a9mm/fifteen
+	init_mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
 	current_caliber = "44"
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slow
+		/datum/firemode/semi_auto/rpm800
 	)
 	//fire_sound = 'sound/f13weapons/44mag.ogg'
 
@@ -937,19 +943,19 @@
 	switch(current_caliber)
 		if("44")
 			current_caliber = "14mm"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/m14mm)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			//fire_sound = 'sound/f13weapons/magnum_fire.ogg'
 			message2self += "The panel on the side now reads: \"14mm Mode\""
 
 		if("14mm")
 			current_caliber = "45ACP"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/m45)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			//fire_sound = 'sound/weapons/gunshot_smg.ogg'
 			message2self += "The panel on the side now reads: \".45ACP Mode\""
 
 		if("45ACP")
 			current_caliber = "44"
-			allowed_mags |= typesof(/obj/item/ammo_box/magazine/m44)
+			allowed_mags |= typesof(/obj/item/ammo_box/magazine/a9mm/fifteen)
 			//fire_sound = 'sound/f13weapons/44mag.ogg'
 			message2self += "The panel on the side now reads: \".44 Magnum Mode\""
 
@@ -957,6 +963,7 @@
 	if(user)
 		user.visible_message(message2everyone,span_notice(message2self))
 
+/* DEPRECATED
 
 /* * * * * * *
  * Carbines  *
@@ -1459,6 +1466,9 @@
 	icon_state = "alr15"
 	inhand_icon_state = "alr15"
 
+*/
+//EXCEPTION FROM DEPRECATION FOR NOW
+
 /* * * * * * * * * * *
  * Bushmaster Arm Gun
  * Light semi-auto rifle... pistol thing
@@ -1480,8 +1490,8 @@
 		Point'N'Clik SwampWarrior stance. Arm yourself with the Arm Pistol!"
 	icon_state = "arm_rifle"
 	inhand_icon_state = "m90"
-	mag_type = /obj/item/ammo_box/magazine/m556/rifle
-	init_mag_type = /obj/item/ammo_box/magazine/m556/rifle
+	mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
+	init_mag_type = /obj/item/ammo_box/magazine/a9mm/fifteen
 	/// sets if the gun is turnt
 	var/turnt = FALSE
 	weapon_class = WEAPON_CLASS_CARBINE
@@ -1531,6 +1541,8 @@
 			)
 	playsound(get_turf(src), 'sound/f13weapons/equipsounds/riflequip.ogg', 60, 1)
 	turnt = !turnt
+
+/* DEPRECATED
 
 /* * * * * * * * * * *
  * Service Rifle
@@ -3987,3 +3999,4 @@
 	gun_accuracy_zone_type = ZONE_WEIGHT_PRECISION
 	zoom_factor = 1.2
 	can_scope = FALSE
+*/

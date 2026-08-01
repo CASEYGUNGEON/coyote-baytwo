@@ -555,7 +555,7 @@
 	build_path = /obj/item/gun/ballistic/automatic/toy/magrifle
 	category = list("initial", "Rifles")
 	build_type = TOYLATHE | NO_PUBLIC_LATHE
-
+/* deprecated, fuzguns
 /datum/design/foam_hyperburst
 	name = "MagTag Hyper Rifle"
 	id = "foam_hyperburst"
@@ -563,7 +563,7 @@
 	materials = list(/datum/material/plastic = 4000, /datum/material/iron = 2000, /datum/material/glass = 1000)
 	build_path = /obj/item/gun/energy/laser/practice/hyperburst
 	category = list("initial", "Rifles")
-
+*/
 /datum/design/foam_sp
 	name = "Foam Force Stealth Pistol"
 	id = "foam_sp"

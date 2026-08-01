@@ -290,6 +290,7 @@
 	global_loot_lists = list(GLOB.loot_medical_drug)
 	. = ..()
 
+/* deprecated, fuzguns
 /*************
 *** WEAPON ***
 *************/
@@ -476,7 +477,7 @@
 /obj/item/locked_box/weapon/ammo/tier5/initialize_prizes()
 	global_loot_lists = list(GLOB.loot_t5_ammo)
 	. = ..()
-
+*/
 /***********
 *** MISC ***
 ***********/

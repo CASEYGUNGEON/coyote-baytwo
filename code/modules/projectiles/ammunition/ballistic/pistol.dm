@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 // 10mm
 /obj/item/ammo_casing/c10mm
 	name = "10mm FMJ bullet casing"
@@ -190,3 +192,5 @@
 	desc = "casing."
 	caliber = CALIBER_9MM
 	projectile_type = /obj/item/projectile/bullet/test
+
+*/

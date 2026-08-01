@@ -1,3 +1,5 @@
+/* DEPRECTED CODE, REPLACED BY FUZGUNS
+
 // 1.95x129mm (SAW)
 
 /obj/item/ammo_casing/mm195x129
@@ -36,3 +38,5 @@
 	ricochet_chance = 60
 	ricochet_auto_aim_range = 4
 	ricochet_incidence_leeway = 35
+
+*/

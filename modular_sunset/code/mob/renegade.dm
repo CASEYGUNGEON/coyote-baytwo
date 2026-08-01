@@ -66,7 +66,7 @@
 	auto_fire_delay = GUN_AUTOFIRE_DELAY_NORMAL
 	projectiletype = /obj/item/projectile/bullet/c10mm/simple
 	projectilesound = 'sound/f13weapons/10mm_fire_01.ogg'
-	loot = list(/obj/item/gun/ballistic/automatic/pistol/m1911, /obj/effect/gibspawner/human)
+	loot = list(/obj/effect/gibspawner/human)
 	robust_searching = TRUE
 	//speak = list(
 		// "Come get some!",
@@ -279,7 +279,6 @@
 	projectilesound = 'sound/f13weapons/bozar_fire.ogg'
 	loot = list(
 		/obj/item/stack/f13Cash/random/high,
-		/obj/item/gun/ballistic/rifle/hunting,
 		/obj/effect/spawner/lootdrop/f13/uncommon_armor,
 		/obj/effect/gibspawner/human
 		)
@@ -326,7 +325,7 @@
 	ranged_cooldown_time = 3
 	projectiletype = null
 	projectilesound = 'sound/f13weapons/auto5.ogg'
-	casingtype = /obj/item/ammo_casing/shotgun/buckshot
+	casingtype = /obj/item/ammo_casing/a12g/buck
 	loot = list(/obj/effect/spawner/lootdrop/f13/uncommon, /obj/effect/gibspawner/human)
 	loot_drop_amount = 5
 	loot_amount_random = TRUE

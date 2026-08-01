@@ -1,3 +1,4 @@
+/* DEPRECATED CODE, REPLACED BY FUZGUNS
 
 //////////////////
 //PLASMA WEAPONS//
@@ -332,3 +333,4 @@
 	)
 	weapon_special_component = /datum/component/weapon_special/ranged_spear
 
+*/

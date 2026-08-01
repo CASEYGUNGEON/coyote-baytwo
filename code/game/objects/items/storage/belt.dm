@@ -257,11 +257,13 @@
 	inhand_icon_state = "holster_leg"
 	component_type = /datum/component/storage/concrete/belt/specialized/gun
 
+/* deprecated, fuzguns
 /obj/item/storage/belt/legholster/police/PopulateContents()
 	new /obj/item/gun/ballistic/revolver/police(src)
 	new /obj/item/ammo_box/a357(src)
 	new /obj/item/ammo_box/a357(src)
 	new /obj/item/ammo_box/a357(src)
+*/
 
 ///////////////////
 /// Belt bandolier
@@ -445,42 +447,42 @@
 	alternate_worn_layer = UNDER_SUIT_LAYER
 	slot_flags = INV_SLOTBIT_NECK | INV_SLOTBIT_MASK
 	component_type = /datum/component/storage/concrete/pockets/bos/paladin //4 slots instead of 3
+/* deprecated, fuzguns
+// /obj/item/storage/belt/shoulderholster/full/PopulateContents()
+// 	new /obj/item/gun/ballistic/revolver/detective(src)
+// 	new /obj/item/ammo_box/c22(src)
+// 	new /obj/item/ammo_box/c22(src)
 
-/obj/item/storage/belt/shoulderholster/full/PopulateContents()
-	new /obj/item/gun/ballistic/revolver/detective(src)
-	new /obj/item/ammo_box/c22(src)
-	new /obj/item/ammo_box/c22(src)
+// /obj/item/storage/belt/shoulderholster/ranger44/PopulateContents()
+// 	new /obj/item/gun/ballistic/revolver/revolver44(src)
+// 	new /obj/item/ammo_box/m44(src)
+// 	new /obj/item/ammo_box/m44(src)
+// 	new /obj/item/ammo_box/m44(src)
 
-/obj/item/storage/belt/shoulderholster/ranger44/PopulateContents()
-	new /obj/item/gun/ballistic/revolver/revolver44(src)
-	new /obj/item/ammo_box/m44(src)
-	new /obj/item/ammo_box/m44(src)
-	new /obj/item/ammo_box/m44(src)
+// /obj/item/storage/belt/shoulderholster/ranger357/PopulateContents()
+// 	new /obj/item/gun/ballistic/revolver/colt357(src)
+// 	new /obj/item/ammo_box/a357(src)
+// 	new /obj/item/ammo_box/a357(src)
+// 	new /obj/item/ammo_box/a357(src)
 
-/obj/item/storage/belt/shoulderholster/ranger357/PopulateContents()
-	new /obj/item/gun/ballistic/revolver/colt357(src)
-	new /obj/item/ammo_box/a357(src)
-	new /obj/item/ammo_box/a357(src)
-	new /obj/item/ammo_box/a357(src)
+// /obj/item/storage/belt/shoulderholster/ranger45/PopulateContents()
+// 	new /obj/item/gun/ballistic/revolver/revolver45(src)
+// 	new /obj/item/ammo_box/c45rev(src)
+// 	new /obj/item/ammo_box/c45rev(src)
+// 	new /obj/item/ammo_box/c45rev(src)
 
-/obj/item/storage/belt/shoulderholster/ranger45/PopulateContents()
-	new /obj/item/gun/ballistic/revolver/revolver45(src)
-	new /obj/item/ammo_box/c45rev(src)
-	new /obj/item/ammo_box/c45rev(src)
-	new /obj/item/ammo_box/c45rev(src)
+// /obj/item/storage/belt/shoulderholster/ranger4570/PopulateContents()
+// 	new /obj/item/gun/ballistic/revolver/sequoia(src)
+// 	new /obj/item/ammo_box/c4570(src)
+// 	new /obj/item/ammo_box/c4570(src)
+// 	new /obj/item/ammo_box/c4570(src)
 
-/obj/item/storage/belt/shoulderholster/ranger4570/PopulateContents()
-	new /obj/item/gun/ballistic/revolver/sequoia(src)
-	new /obj/item/ammo_box/c4570(src)
-	new /obj/item/ammo_box/c4570(src)
-	new /obj/item/ammo_box/c4570(src)
-
-/obj/item/storage/belt/shoulderholster/ranger4570bayonet/PopulateContents()
-	new /obj/item/gun/ballistic/revolver/sequoia/bayonet(src)
-	new /obj/item/ammo_box/c4570(src)
-	new /obj/item/ammo_box/c4570(src)
-	new /obj/item/ammo_box/c4570(src)
-
+// /obj/item/storage/belt/shoulderholster/ranger4570bayonet/PopulateContents()
+// 	new /obj/item/gun/ballistic/revolver/sequoia/bayonet(src)
+// 	new /obj/item/ammo_box/c4570(src)
+// 	new /obj/item/ammo_box/c4570(src)
+// 	new /obj/item/ammo_box/c4570(src)
+*/
 /obj/item/storage/belt/outlawscloak
 	name = "outlaws cloak"
 	desc = "A sturdy, thick poncho made from burlap. Comes with a salvaged shoulderpad and a hidden armpit holster."

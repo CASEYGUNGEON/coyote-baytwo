@@ -45,7 +45,7 @@ Raider
 		///obj/item/gun/ballistic/automatic/varmint = 1,
 		///obj/item/ammo_box/magazine/m556/rifle/assault = 1,
 		// /obj/item/gun/ballistic/revolver/hobo/knucklegun = 1,
-		/obj/item/ammo_box/c45rev = 2,
+//		/obj/item/ammo_box/c45rev = 2,
 //		/obj/item/gun_upgrade/scope/watchman = 1,
 		/obj/item/reagent_containers/food/drinks/bottle/f13nukacola/radioactive = 1,
 		/obj/item/grenade/smokebomb = 2,
@@ -126,7 +126,8 @@ Raider
 		///obj/item/ammo_box/magazine/m10mm/adv/simple=2,
 		/obj/item/melee/onehanded/knife/bayonet = 1,
 		/obj/item/storage/box/ration/ranger_breakfast = 1,
-		/obj/item/book/granter/crafting_recipe/blueprint/service = 1)
+//		/obj/item/book/granter/crafting_recipe/blueprint/service = 1
+		)
 
 /*
 /datum/outfit/loadout/raider_legion
@@ -150,7 +151,7 @@ Raider
 	backpack_contents = list(
 		///obj/item/gun/energy/laser/wattzs = 1,
 		///obj/item/stock_parts/cell/ammo/ec = 1,
-		/obj/item/book/granter/crafting_recipe/blueprint/aep7 = 1,
+//		/obj/item/book/granter/crafting_recipe/blueprint/aep7 = 1,
 		/obj/item/grenade/f13/frag = 2,
 		)
 
@@ -460,7 +461,7 @@ Raider
 	..()
 	if(visualsOnly)
 		return
-	for(var/datum/crafting_recipe/recipe as() in GLOB.tribal_job_recipes)
+	for(var/datum/crafting_recipe/recipe in GLOB.tribal_job_recipes)
 		H.mind.teach_crafting_recipe(recipe)
 	H.grant_language(/datum/language/tribal)
 	add_verb(H, /mob/living/proc/create_tribe)
@@ -587,7 +588,7 @@ Raider
 		/obj/item/reagent_containers/food/drinks/shaker = 1,
 		/obj/item/book/granter/action/drink_fling = 1,
 		/obj/item/reagent_containers/spray/cleaner = 1,
-		/obj/item/storage/belt/legholster/police = 1,
+		/obj/item/storage/belt/legholster = 1,
 		/obj/item/clothing/under/f13/sleazeball = 1,
 		/obj/item/clothing/head/bowler = 1,
 		/obj/item/clothing/shoes/laceup = 1,
@@ -601,7 +602,7 @@ Raider
 		/obj/item/book/granter/trait/medical = 1,
 		/obj/item/storage/medical/ancientfirstaid = 1,
 		/obj/item/storage/briefcase/medical  = 1,
-		/obj/item/storage/belt/shoulderholster/full = 1,
+		/obj/item/storage/belt/shoulderholster = 1,
 		/obj/item/clothing/under/pants/tan = 1,
 		/obj/item/clothing/head/fedora/curator = 1,
 		/obj/item/clothing/shoes/cowboyboots/black = 1,
@@ -1502,69 +1503,9 @@ Raider
 	name = "Desert Ranger"
 	head = /obj/item/clothing/head/helmet/f13/ncr/rangercombat/desert
 	suit = /obj/item/clothing/suit/armor/medium/combat/desert_ranger
-	r_hand = /obj/item/gun/ballistic/revolver/revolver44/desert_ranger
 	backpack_contents = list(
 							)
 
-/datum/outfit/loadout/bounty_hunter
-	name = "Bounty Hunter"
-	head = /obj/item/clothing/suit/armor/medium/combat/mk2/dark
-	suit = /obj/item/clothing/head/helmet/f13/combat/mk2/dark
-	r_hand = /obj/item/gun/ballistic/automatic/g11
-	backpack_contents = list(
-							/obj/item/ammo_box/magazine/m473=2
-							)
-
-/datum/outfit/loadout/retired_ranger
-	name = "Retired Veteran"
-	r_hand = /obj/item/gun/ballistic/revolver/sequoia
-	backpack_contents = list(
-							/obj/item/ammo_box/c4570=2
-							)
-
-/datum/job/wasteland/f13adminboos
-	title = "Death"
-	flag = F13ADMINBOOS
-	faction = FACTION_WASTELAND
-	total_positions = 0
-	spawn_positions = 0
-	description = ""
-	supervisors = "no one"
-	selection_color = "#76885f"
-
-	outfit = /datum/outfit/job/wasteland/f13adminboos
-
-/datum/outfit/job/wasteland/f13adminboos
-	name = "Death"
-	jobtype = /datum/job/wasteland/f13vigilante
-	id = /obj/item/card/id/dogtag/vigilante
-	belt = /obj/item/storage/belt/military
-	shoes = /obj/item/clothing/shoes/f13/explorer
-	l_pocket = /obj/item/melee/onehanded/knife/hunting
-	r_pocket = /obj/item/flashlight/seclite
-	uniform = /obj/item/clothing/under/f13/merca
-	backpack = /obj/item/storage/backpack/satchel/trekker
-	gloves = /obj/item/clothing/gloves/f13/military
-	head = /obj/item/clothing/head/helmet/f13/ncr/rangercombat/desert
-	suit = /obj/item/clothing/suit/armor/medium/combat/desert_ranger
-	suit_store = /obj/item/gun/ballistic/revolver/sequoia/death
-	glasses = /obj/item/clothing/glasses/hud/health/night
-	backpack_contents = list(
-		/obj/item/reagent_containers/hypospray/medipen/stimpak/super=4, \
-		/obj/item/reagent_containers/pill/radx=1, \
-		/obj/item/restraints/handcuffs=2, \
-		/obj/item/ammo_box/c4570=6)
-
-/datum/outfit/job/wasteland/f13adminboos/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	..()
-
-	var/obj/item/implant/explosive/E = new
-	E.implant(H)
-
-	if(visualsOnly)
-		return
-	ADD_TRAIT(H, TRAIT_HARD_YARDS, src)
-	ADD_TRAIT(H, TRAIT_LIGHT_STEP, src)
 
 //New tribal role. Replaces old tribe stuff.
 

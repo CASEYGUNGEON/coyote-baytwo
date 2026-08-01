@@ -160,45 +160,10 @@
 /datum/firemode/proc/update()
 	return
 
-/* *
- * SINGLE ACTION FIREMODES
- * For revolvers of various types, and break action guns
- * HAMMER is important, BOLT is not
- * For burstfire single-actions (DB shotguns or whatever), make the hammer recock on fire
- * and ideally, have a burst count equal to the magazine capacity, to maintain the illusion
- * */
-/datum/firemode/single_action
-	name = "Single Action"
-	desc = "Shoot one shot, pull back the hammer, repeat."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
-		Also, remember that you have to pull back the hammer manually after every shot!"
-	icon_state = "semi"
-	fire_type_default = GUN_FIREMODE_SEMIAUTO
-	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
-	burst_count_default = 1
-	hammer_recock_on_fire = FALSE
-	hammer_ignore = FALSE
-	bolt_ignore = TRUE
-	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
-	bolt_cycles_on_shoot = FALSE
-	bolt_cycles_to_shootable_state_on_shoot = FALSE
+/////////////////////////////////////////////////////
+//// PARENT FIRE RATES, DON'T USE THESE PROBABLY ////
+/////////////////////////////////////////////////////
 
-/datum/firemode/single_action/double_action
-	name = "Double Action"
-	desc = "Shoot one shot, repeat."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
-	hammer_recock_on_fire = TRUE
-
-/* 
- * BOLT ACTION FIREMODES
- * For guns that require manual cycling of the bolt, like bolt action rifles and pump shotguns
- * BOLT is important, HAMMER is (generally) not
- * For burstfire bolt-actions... just use one of the automatic firemodes
- */
 /datum/firemode/bolt_using
 	name = "Parent Bolt Using"
 	desc = "hi"
@@ -219,53 +184,36 @@
 	bolt_closing_delay                      = 0
 	bolt_reloadable_state                   = GBOLT_OPEN
 
-/datum/firemode/bolt_using/straight_pull
-	name = "Straight-Pull Bolt Action"
-	desc = "Shoot one shot, pull the bolt straight back and forward, repeat."
-	extra_tip = "Uses a straight-pull bolt action, which means you just pull the bolt back, \
-		then push it forward, with no delay on either action."
-
-/datum/firemode/bolt_using/straight_pull/fast
+/datum/firemode/semi_auto
+	name = "Semi Automatic"
+	desc = "Shoot one shot per trigger pull."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	icon_state = "semi"
+	fire_type_default = GUN_FIREMODE_SEMIAUTO
 	shoot_delay_default = GUN_FIRE_DELAY_FAST
+	burst_count_default = 1
 
-////////////////////
-/datum/firemode/bolt_using/delay_on_open
-	name = "Cock-On-Open Bolt Action"
-	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
-	extra_tip = "Uses a cock-on-open bolt action, which means that pulling the bolt open \
-		will have a short delay, but closing it will be instant."
-	bolt_opening_delay = 0.2 SECONDS
+/datum/firemode/automatic
+	name = "Fully Automatic"
+	desc = "Spray and pray."
+	icon_state = "auto"
+	extra_tip = "Fires as long as you hold the mouse click down. Careful when clicking things, \
+		it will rapidly click them."
+	fire_type_default = GUN_FIREMODE_AUTO
+	shoot_delay_default = GUN_FIRE_RATE_1200
 
-/datum/firemode/bolt_using/delay_on_open/fast
-	shoot_delay_default = GUN_FIRE_DELAY_FAST
-
-////////////////////
-/datum/firemode/bolt_using/delay_on_close
-	name = "Cock-On-Close Bolt Action"
-	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
-	extra_tip = "Uses a cock-on-close bolt action, which means that jorking the bolt closed \
-		will have a short delay, but opening it will be instant."
-	bolt_closing_delay = 0.2 SECONDS
-
-/datum/firemode/bolt_using/delay_on_close/fast
-	shoot_delay_default = GUN_FIRE_DELAY_FAST
-
-/datum/firemode/bolt_using/pump_action
-	name = "Pump Action"
-	desc = "Shoot one shot, pull the pump back, push it forward, repeat."
-	extra_tip = "Uses a pump action, which means that you just pull the pump back, \
-		then push it forward, with no delay on either action."
-	bolt_reloadable_state = null
-
-/datum/firemode/bolt_using/lever_action
-	name = "Lever Action"
-	desc = "Shoot one shot, jork the lever, repeat."
-	extra_tip = "Uses a lever action, which means that you just jork the lever, \
-		with no delay on either action."
-	bolt_reloadable_state = null
-
-/datum/firemode/bolt_using/lever_action/fast
-	shoot_delay_default = GUN_FIRE_DELAY_FAST
+/datum/firemode/burst
+	name = "Burstfire"
+	desc = "Shoot multiple shots per triggerpull."
+	extra_tip = "Fires a several-round burst. Recoil is calculated after the end of the burst, so every shot \
+		in the burst will have more or less the same amount of spread."
+	icon_state = "burst"
+	fire_type_default = GUN_FIREMODE_BURST
+	burst_delay_default = GUN_BURSTFIRE_DELAY_NORMAL
+	shoot_delay_default = GUN_FIRE_DELAY_SLOW
+	burst_count_default = 3
 
 /datum/firemode/open_bolt
 	name = "Open Bolt"
@@ -295,154 +243,15 @@
 	fire_type_default = GUN_FIREMODE_AUTO
 	shoot_delay_default = GUN_FIRE_RATE_1200
 
-/* 
- * SEMI-AUTOMATIC FIREMODES
- * For guns that fire one shot per trigger pull without having to mess with anything... generally
- * */
-/// basic firemode for firemoding, its a firemode thats boring and works
-/datum/firemode/semi_auto
-	name = "Semi Automatic"
-	desc = "Shoot one shot per trigger pull."
-	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
-		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
-		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
-	icon_state = "semi"
-	fire_type_default = GUN_FIREMODE_SEMIAUTO
-	shoot_delay_default = GUN_FIRE_DELAY_NORMAL
-	burst_count_default = 1
+////////////////////////////////////////
+///////// SPECIALTY FIRE RATES /////////
+//// WEIRD BURST FIRE RATES GO HERE ////
+////////////////////////////////////////
 
 /datum/firemode/semi_auto/shotgun_fixed
 	name = "Single-Barrel Shot"
 	desc = "Blast 'em with one of those barrels!"
 	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
-
-/datum/firemode/semi_auto/fastest
-	shoot_delay_default = GUN_FIRE_DELAY_FASTEST
-
-/datum/firemode/semi_auto/faster
-	shoot_delay_default = GUN_FIRE_DELAY_FASTER
-
-/datum/firemode/semi_auto/fast
-	shoot_delay_default = GUN_FIRE_DELAY_FAST
-
-/datum/firemode/semi_auto/slow
-	shoot_delay_default = GUN_FIRE_DELAY_SLOW
-
-/datum/firemode/semi_auto/slower
-	shoot_delay_default = GUN_FIRE_DELAY_SLOWER
-
-/datum/firemode/semi_auto/slowest
-	shoot_delay_default = GUN_FIRE_DELAY_SLOWEST
-
-/*
- * FULLY AUTOMATIC FIREMODES
- * For guns that keep shooting as long as you hold the trigger down
- * Assumes a closed-bolt design, where the gun chambers a round, then fires it, then ejects the casing, then repeats
- * sugma
- */
-/datum/firemode/automatic
-	name = "Fully Automatic"
-	desc = "Spray and pray."
-	icon_state = "auto"
-	extra_tip = "Fires as long as you hold the mouse click down. Careful when clicking things, \
-		it will rapidly click them."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_1200
-
-/datum/firemode/automatic/rpm1200
-	name = "Fully Automatic"
-	desc = "Automatic - 1200 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_1200
-
-/datum/firemode/automatic/rpm1000
-	name = "Fully Automatic"
-	desc = "Automatic - 1000 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_1000
-
-/datum/firemode/automatic/rpm800
-	name = "Fully Automatic"
-	desc = "Automatic - 800 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_800
-
-/datum/firemode/automatic/rpm600
-	name = "Fully Automatic"
-	desc = "Automatic - 600 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_600
-
-/datum/firemode/automatic/rpm400
-	name = "Fully Automatic"
-	desc = "Automatic - 400 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_400
-
-/datum/firemode/automatic/rpm300
-	name = "Fully Automatic"
-	desc = "Automatic - 300 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_300
-
-/datum/firemode/automatic/rpm200
-	name = "Fully Automatic"
-	desc = "Automatic - 200 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_200
-
-/datum/firemode/automatic/rpm250
-	name = "Fully Automatic"
-	desc = "Automatic - 250 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_250
-
-/datum/firemode/automatic/rpm150
-	name = "Fully Automatic"
-	desc = "Automatic - 150 RPM."
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_150
-
-
-/datum/firemode/automatic/rpm75
-	name = "fully automatic"
-	desc = "Automatic - 75rpm"
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_75
-
-/datum/firemode/automatic/rpm40
-	name = "fully automatic"
-	desc = "Automatic - 40rpm"
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_40
-
-/datum/firemode/automatic/rpm100
-	name = "fully automatic"
-	desc = "Automatic - 100rpm"
-	fire_type_default = GUN_FIREMODE_AUTO
-	shoot_delay_default = GUN_FIRE_RATE_100
-
-/* 
- * BURST FIREMODES
- * For guns that fire a set number of shots per trigger pull
- * Assumes a closed-bolt
- */
-/datum/firemode/burst
-	name = "Burstfire"
-	desc = "Shoot multiple shots per triggerpull."
-	extra_tip = "Fires a several-round burst. Recoil is calculated after the end of the burst, so every shot \
-		in the burst will have more or less the same amount of spread."
-	icon_state = "burst"
-	fire_type_default = GUN_FIREMODE_BURST
-	burst_delay_default = GUN_BURSTFIRE_DELAY_NORMAL
-	shoot_delay_default = GUN_FIRE_DELAY_SLOW
-	burst_count_default = 3
-
-/datum/firemode/burst/two
-	name = "2-Round Burst"
-	desc = "Short, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_NORMAL
-	burst_count_default = 2
 
 /datum/firemode/burst/two/shotgun_fixed
 	name = "Both barrels"
@@ -451,135 +260,203 @@
 	burst_count_default = 2
 	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
 
-/datum/firemode/burst/two/slower
-	name = "2-Round Burst"
-	desc = "Sedate, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
+/*
+ * SINGLE ACTION FIREMODES
+ * For revolvers of various types, and break action guns
+ * HAMMER is important, BOLT is not
+ * For burstfire single-actions (DB shotguns or whatever), make the hammer recock on fire
+ * and ideally, have a burst count equal to the magazine capacity, to maintain the illusion
+ */
+/datum/firemode/single_action
+	name = "Single Action"
+	desc = "Shoot one shot, pull back the hammer, repeat."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!\n\n\
+		Also, remember that you have to pull back the hammer manually after every shot!"
+	icon_state = "semi"
+	fire_type_default = GUN_FIREMODE_SEMIAUTO
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+	burst_count_default = 1
+	hammer_recock_on_fire = FALSE
+	hammer_ignore = FALSE
+	bolt_ignore = TRUE
+	bolt_ejects_on_open = GEJECTOR_MANUAL_ONLY
+	bolt_cycles_on_shoot = FALSE
+	bolt_cycles_to_shootable_state_on_shoot = FALSE
 
-/datum/firemode/burst/two/slow
-	name = "2-Round Burst"
-	desc = "Calm, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOW
+/datum/firemode/single_action/double_action
+	name = "Double Action"
+	desc = "Shoot one shot, repeat."
+	extra_tip = "Fires when you release the mouse button. Note that on any intent other than Harm, \
+		if you move your mouse before releasing the button, or your mouse is over a different 'thing' \
+		when let go, you will probably not fire. To more reliably fire, use the Harm intent when shooting!"
+	hammer_recock_on_fire = TRUE
 
-/datum/firemode/burst/two/fast
-	name = "2-Round Burst"
-	desc = "Fast, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FAST
+/* 
+ * BOLT ACTION FIREMODES
+ * For guns that require manual cycling of the bolt, like bolt action rifles and pump shotguns
+ * BOLT is important, HAMMER is (generally) not
+ * For burstfire bolt-actions... just use one of the automatic firemodes
+ */
+/datum/firemode/bolt_using/straight_pull
+	name = "Straight-Pull Bolt Action"
+	desc = "Shoot one shot, pull the bolt straight back and forward, repeat."
+	extra_tip = "Uses a straight-pull bolt action, which means you just pull the bolt back, \
+		then push it forward, with no delay on either action."
 
-/datum/firemode/burst/two/faster
-	name = "2-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTER
-
-/datum/firemode/burst/two/fastest
-	name = "2-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
-
-/datum/firemode/burst/four
-	name = "4-Round Burst"
-	desc = "Short, controlled bursts."
-	fire_type_default = GUN_FIREMODE_BURST
-	burst_count_default = 4
-
-/datum/firemode/burst/four/slower
-	name = "4-Round Burst"
-	desc = "Sedate, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
-
-/datum/firemode/burst/four/slow
-	name = "4-Round Burst"
-	desc = "Calm, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOW
-
-/datum/firemode/burst/four/fast
-	name = "4-Round Burst"
-	desc = "Fast, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FAST
-
-/datum/firemode/burst/four/faster
-	name = "4-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTER
-
-/datum/firemode/burst/four/fastest
-	name = "4-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
-
-/datum/firemode/burst/four/fastest/hobo
-	name = "All four barrels"
-	desc = "Unleash the whole gun at once."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
-
-/datum/firemode/burst/three
-	name = "3-Round Burst"
-	desc = "Short, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_NORMAL
-	burst_count_default = 3
-
-/datum/firemode/burst/three/slower
-	name = "3-Round Burst"
-	desc = "Sedate, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
-
-/datum/firemode/burst/three/slow
-	name = "3-Round Burst"
-	desc = "Calm, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOW
-
-/datum/firemode/burst/three/fast
-	name = "3-Round Burst"
-	desc = "Fast, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FAST
-
-/datum/firemode/burst/three/faster
-	name = "3-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTER
-
-/datum/firemode/burst/three/fastest
-	name = "3-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
-
-/datum/firemode/burst/five
-	name = "5-Round Burst"
-	desc = "Short, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_NORMAL
-	burst_count_default = 5
-
-/datum/firemode/burst/five/slower
-	name = "5-Round Burst"
-	desc = "Sedate, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
-
-/datum/firemode/burst/five/slow
-	name = "5-Round Burst"
-	desc = "Calm, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOW
-
-/datum/firemode/burst/five/fast
-	name = "5-Round Burst"
-	desc = "Fast, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FAST
-
-/datum/firemode/burst/five/faster
-	name = "5-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTER
-
-/datum/firemode/burst/five/fastest
-	name = "5-Round Burst"
-	desc = "Quick, controlled bursts."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_FASTEST
-
-/datum/firemode/burst/twenty/slower
-	name = "20-Round burst"
-	desc = "Long, hectic burst."
-	burst_delay_default = GUN_BURSTFIRE_DELAY_SLOWER
-	burst_count_default = 20
-
-// yes there are a lot of them 
+/datum/firemode/bolt_using/straight_pull/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
 
 
+/datum/firemode/bolt_using/delay_on_open
+	name = "Cock-On-Open Bolt Action"
+	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
+	extra_tip = "Uses a cock-on-open bolt action, which means that pulling the bolt open \
+		will have a short delay, but closing it will be instant."
+	bolt_opening_delay = 0.2 SECONDS
+
+/datum/firemode/bolt_using/delay_on_open/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+
+/datum/firemode/bolt_using/delay_on_close
+	name = "Cock-On-Close Bolt Action"
+	desc = "Shoot one shot, pull the bolt back, slap it forward, repeat."
+	extra_tip = "Uses a cock-on-close bolt action, which means that jorking the bolt closed \
+		will have a short delay, but opening it will be instant."
+	bolt_closing_delay = 0.2 SECONDS
+
+/datum/firemode/bolt_using/delay_on_close/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+
+/datum/firemode/bolt_using/pump_action
+	name = "Pump Action"
+	desc = "Shoot one shot, pull the pump back, push it forward, repeat."
+	extra_tip = "Uses a pump action, which means that you just pull the pump back, \
+		then push it forward, with no delay on either action."
+	bolt_reloadable_state = null
+
+
+/datum/firemode/bolt_using/lever_action
+	name = "Lever Action"
+	desc = "Shoot one shot, jork the lever, repeat."
+	extra_tip = "Uses a lever action, which means that you just jork the lever, \
+		with no delay on either action."
+	bolt_reloadable_state = null
+
+/datum/firemode/bolt_using/lever_action/fast
+	shoot_delay_default = GUN_FIRE_DELAY_FAST
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// MAIN FIRERATES: NEW ADDITIONS SHOULD BE FULL FORMATED BLOCKS, PLACED IN ORDER OF DESCENDING RPM ////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 1200 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm1200
+	desc = "Semi-automatic - 1200 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1200
+/datum/firemode/automatic/rpm1200
+	desc = "Automatic - 1200 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1200
+/datum/firemode/burst/rpm1200
+	desc = "Burst fire - 1200 RPM."
+	burst_delay_default = GUN_FIRE_RATE_1200
+	shoot_delay_default = GUN_FIRE_RATE_1200
+/datum/firemode/open_bolt/rpm1200
+	desc = "Open bolt semi-auto - 1200 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1200
+/datum/firemode/open_bolt/automatic/rpm1200
+	desc = "Open bolt automatic - 1200 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1200
+
+// 1000 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm1000
+	desc = "Semi-automatic - 1000 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1000
+/datum/firemode/automatic/rpm1000
+	desc = "Automatic - 1000 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1000
+/datum/firemode/burst/rpm1000
+	desc = "Burst fire - 1000 RPM."
+	burst_delay_default = GUN_FIRE_RATE_1000
+	shoot_delay_default = GUN_FIRE_RATE_1000
+/datum/firemode/open_bolt/rpm1000
+	desc = "Open bolt semi-auto - 1000 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1000
+/datum/firemode/open_bolt/automatic/rpm1000after_shooting
+	desc = "Open bolt automatic - 1000 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_1000
+
+// 800 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm800
+	desc = "Semi-automatic - 800 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_800
+/datum/firemode/automatic/rpm800
+	desc = "Automatic - 800 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_800
+/datum/firemode/burst/rpm800
+	desc = "Burst fire - 800 RPM."
+	burst_delay_default = GUN_FIRE_RATE_800
+	shoot_delay_default = GUN_FIRE_RATE_800
+/datum/firemode/open_bolt/rpm800
+	desc = "Open bolt semi-auto - 800 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_800
+/datum/firemode/open_bolt/automatic/rpm800
+	desc = "Open bolt automatic - 800 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_800
+
+// 600 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm600
+	desc = "Semi-automatic - 600 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_600
+/datum/firemode/automatic/rpm600
+	desc = "Automatic - 600 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_600
+/datum/firemode/burst/rpm600
+	desc = "Burst fire - 600 RPM."
+	burst_delay_default = GUN_FIRE_RATE_600
+	shoot_delay_default = GUN_FIRE_RATE_600
+/datum/firemode/open_bolt/rpm600
+	desc = "Open bolt semi-auto - 600 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_600
+/datum/firemode/open_bolt/automatic/rpm600
+	desc = "Open bolt automatic - 600 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_600
+
+// 450 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm450
+	desc = "Semi-automatic - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/automatic/rpm450
+	desc = "Automatic - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/burst/rpm450
+	desc = "Burst fire - 450 RPM."
+	burst_delay_default = GUN_FIRE_RATE_450
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/open_bolt/rpm450
+	desc = "Open bolt semi-auto - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+/datum/firemode/open_bolt/automatic/rpm450
+	desc = "Open bolt automatic - 450 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_450
+
+// 400 RPM FIRE RATES //////////////////////////////////////////////////////////////////////////////////
+/datum/firemode/semi_auto/rpm400
+	desc = "Semi-automatic - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/automatic/rpm400
+	desc = "Automatic - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/burst/rpm400
+	desc = "Burst fire - 400 RPM."
+	burst_delay_default = GUN_FIRE_RATE_400
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/open_bolt/rpm400
+	desc = "Open bolt semi-auto - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400
+/datum/firemode/open_bolt/automatic/rpm400
+	desc = "Open bolt automatic - 400 RPM."
+	shoot_delay_default = GUN_FIRE_RATE_400

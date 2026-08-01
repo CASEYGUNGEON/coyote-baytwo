@@ -270,7 +270,7 @@
 	init_recoil = LASER_HANDGUN_RECOIL(1, 1)
 	init_firemodes = list(
 		/datum/firemode/semi_auto,
-		/datum/firemode/automatic/rpm100
+		/datum/firemode/automatic/rpm800
 	)
 
 /obj/item/stock_parts/cell/ammo/mfc/cranklasergun/tg
@@ -346,7 +346,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/cranklasergun/tg/spamlaser)
 	init_recoil = AUTOCARBINE_RECOIL(1, 1)
 	init_firemodes = list(
-	/datum/firemode/automatic/rpm200,
+	/datum/firemode/automatic/rpm800,
 	/datum/firemode/semi_auto,
 	)
 
@@ -385,7 +385,7 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/cranklasergun/tg/spamlaser/shocker)
 	init_recoil = AUTOCARBINE_RECOIL(1.5, 1)
 	init_firemodes = list(
-	/datum/firemode/automatic/rpm150,
+	/datum/firemode/automatic/rpm800,
 	/datum/firemode/semi_auto,
 	)
 
@@ -467,9 +467,8 @@
 	flight_y_offset = 10
 	init_recoil = LASER_RIFLE_RECOIL(1, 1)
 	init_firemodes = list(
-		/datum/firemode/burst/two,
-		/datum/firemode/semi_auto/fast,
-		/datum/firemode/automatic/rpm75
+		/datum/firemode/semi_auto,
+		/datum/firemode/automatic/rpm800
 	)
 
 /obj/item/stock_parts/cell/ammo/mfc/cranklasergun/tg/rifle
@@ -499,8 +498,8 @@
 	)
 	init_recoil = LASER_RIFLE_RECOIL(2, 1)
 	init_firemodes = list(
-		/datum/firemode/semi_auto/slower,
-		/datum/firemode/automatic/rpm40
+		/datum/firemode/semi_auto,
+		/datum/firemode/automatic/rpm800
 	)
 
 /obj/item/stock_parts/cell/ammo/mfc/cranklasergun/tg/rifle/heavy
@@ -538,9 +537,9 @@
 	)
 	init_recoil = AUTOCARBINE_RECOIL(1, 1)
 	init_firemodes = list(
-		/datum/firemode/automatic/rpm200,
-		/datum/firemode/burst/three/fast,
-		/datum/firemode/semi_auto/fast
+		/datum/firemode/automatic/rpm800,
+		/datum/firemode/burst,
+		/datum/firemode/semi_auto
 	)
 
 /obj/item/stock_parts/cell/ammo/mfc/cranklasergun/tg/rifle/auto

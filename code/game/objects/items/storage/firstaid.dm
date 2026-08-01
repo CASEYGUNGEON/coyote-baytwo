@@ -215,16 +215,16 @@
 	new /obj/item/healthanalyzer/advanced(src)
 	new /obj/item/melee/onehanded/knife/survival(src)
 	new /obj/item/melee/onehanded/machete/scrapsabre(src)
-	new /obj/item/gun/ballistic/automatic/pistol/beretta(src)
-	new /obj/item/gun/ballistic/automatic/pistol/beretta(src)
-	new /obj/item/gun/ballistic/automatic/rangemaster(src)
-	new /obj/item/gun/ballistic/automatic/r84(src)
-	new /obj/item/gun/ballistic/rifle/hunting(src)
-	new /obj/item/gun/ballistic/rifle/hunting(src)
-	new /obj/item/gun/ballistic/rifle/hunting(src)
-	new /obj/item/gun/ballistic/shotgun/trench(src)
-	new /obj/item/gun/ballistic/shotgun/trench(src)
-	new /obj/item/gun/ballistic/shotgun/trench(src)
+	new /obj/item/gun/ballistic/automatic/pistol/autopistol/hipower(src)
+	new /obj/item/gun/ballistic/automatic/pistol/autopistol/hipower(src)
+//	new /obj/item/gun/ballistic/automatic/rangemaster(src) // deprecated, fuzguns
+//	new /obj/item/gun/ballistic/automatic/r84(src)
+//	new /obj/item/gun/ballistic/rifle/hunting(src)
+//	new /obj/item/gun/ballistic/rifle/hunting(src)
+//	new /obj/item/gun/ballistic/rifle/hunting(src)
+//	new /obj/item/gun/ballistic/shotgun/trench(src)
+//	new /obj/item/gun/ballistic/shotgun/trench(src)
+//	new /obj/item/gun/ballistic/shotgun/trench(src)
 
 /*
  * Pill Bottles

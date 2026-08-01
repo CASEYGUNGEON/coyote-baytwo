@@ -1,5 +1,5 @@
 //new themed weapon lists! mostly for cargo crates, but can also populate dungeons. has a mix of low to high tier weaponry
-
+/* DEPRECATED, FUZGUNS
 /obj/effect/spawner/lootdrop/f13/weapon/combloc
 	name = "communist bloc themed weapons"
 	loot = list(
@@ -129,7 +129,7 @@
 	/obj/item/gun/ballistic/revolver/sequoia = 1,
 	/obj/item/gun/ballistic/rifle/repeater/brush = 5
 )
-
+*/
 
 
 
