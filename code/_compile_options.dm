@@ -64,6 +64,11 @@
 #ifdef LOWMEMORYMODE
 #define FORCE_MAP "_maps/runtimestation.json"
 #endif
+
+#ifdef SMALLMAP
+#define FORCE_MAP "_maps/pahrump-unit-test.json"
+#endif
+
 /*
 //Update this whenever you need to take advantage of more recent byond features
 #define MIN_COMPILER_VERSION 513

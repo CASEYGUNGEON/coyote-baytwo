@@ -5,6 +5,32 @@
 			"type": "process",
 			"command": "tools/build/build",
 			"windows": {
+				"command": ".\\tools\\build\\build.bat",
+			},
+			"args": [
+				"-DSMALLMAP"
+			],
+			"options": {
+				"env": {
+					"DM_EXE": "${config:dreammaker.byondPath}"
+				}
+			},
+			"problemMatcher": [
+				"$dreammaker",
+				"$tsc",
+				"$eslint-stylish"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"dependsOn": "dm: reparse",
+			"label": "Build All (Small Map)"
+		},
+		{
+			"type": "process",
+			"command": "tools/build/build",
+			"windows": {
 				"command": ".\\tools\\build\\build.bat"
 			},
 			"options": {
