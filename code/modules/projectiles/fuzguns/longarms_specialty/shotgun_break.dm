@@ -40,7 +40,7 @@
 	slot_flags = INV_SLOTBIT_BACK									// INV_SLOTBIT_BELT | INV_SLOTBIT_BACK to fit in belt and/or back
 	draw_time = GUN_DRAW_NORMAL										// time between drawing and readying the gun
 	slowdown = GUN_SLOWDOWN_SHOTGUN_FIXED							// move speed penalty when drawn
-	weapon_weight = GUN_ONE_HAND_AKIMBO								// akimbo, one handed, or two handed
+	weapon_weight = GUN_TWO_HAND_ONLY								// akimbo, one handed, or two handed
 	restrict_safety = FALSE											// setting to true disables safety
 	insert_magazine_delay = 0.5 SECONDS								// time to insert new mag
 	remove_magazine_delay = 0.5 SECONDS								// time to remove mag
@@ -80,7 +80,7 @@
 	knife_y_offset = 0
 
 /obj/item/gun/ballistic/revolver/break_shotgun/coach
-	name = " worn coach gun"
+	name = "worn coach gun"
 	desc = "A break-action shotgun chambered in 12 gauge."
 /obj/item/gun/ballistic/revolver/break_shotgun/coach/q2
 	name = "coach gun"

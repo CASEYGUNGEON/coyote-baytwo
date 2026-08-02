@@ -43,3 +43,18 @@
 	materials = list(/datum/material/iron = 4000)
 	build_path = /obj/item/ammo_box/magazine/a45/thirty/empty
 	category = list("initial", "Simple Magazines")
+
+
+
+//////////////////////////////////
+/// .357mag internal magazines ///
+//////////////////////////////////
+
+/obj/item/ammo_box/magazine/internal/a357/tube
+	name = ".357 tube"
+	desc = "should not be here, bugreport."
+	ammo_type = /obj/item/ammo_casing/a357
+	caliber = list(CALIBER_357)
+
+/obj/item/ammo_box/magazine/internal/a357/tube/fifteen
+	max_ammo = 15

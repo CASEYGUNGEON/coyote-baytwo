@@ -43,8 +43,8 @@
 	restrict_safety = TRUE											// setting to true disables safety
 	auto_eject = 0													// auto-ejects empty magazine
 	auto_eject_sound = null
-	remove_magazine_delay = 1 SECONDS								// time to remove mag
-	insert_magazine_delay = 1.5 SECONDS								// time to insert new mag
+	remove_magazine_delay = 1.5 SECONDS								// time to remove mag
+	insert_magazine_delay = 2.5 SECONDS								// time to insert new mag
 	can_load_magazine_through_bolt = FALSE
 // accessory vars
 	gun_tags = list(GUN_FA_MODDABLE)								// special weapon attachment tags
