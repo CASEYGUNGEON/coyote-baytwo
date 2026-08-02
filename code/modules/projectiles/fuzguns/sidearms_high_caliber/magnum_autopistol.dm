@@ -43,7 +43,7 @@
 	auto_eject = 0													// auto-ejects empty magazine
 	auto_eject_sound = null
 	insert_magazine_delay = 0.5 SECONDS								// time to insert new mag
-	remove_magazine_delay = 1 SECONDS								// time to remove mag
+	remove_magazine_delay = 1.5 SECONDS								// time to remove mag
 	can_load_magazine_through_bolt = FALSE
 // accessory vars
 	gun_tags = list(GUN_FA_MODDABLE, GUN_SCOPE)						// special weapon attachment tags

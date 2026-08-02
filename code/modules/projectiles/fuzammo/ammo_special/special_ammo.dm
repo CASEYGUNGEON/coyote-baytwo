@@ -177,7 +177,7 @@
 	pixels_per_second = TILES_TO_PIXELS(6) //slower than bullets
 	damage_falloff = BULLET_FALLOFF_DEFAULT_SHOTGUN_SLUG
 
-/obj/item/projectile/bullet/a40mm/he/on_hit(atom/target, blocked = FALSE)
+/obj/item/projectile/bullet/a40mm/exp/on_hit(atom/target, blocked = FALSE)
 	..()
 	explosion(target, -1, -1, -1, 3, 0)
 	new /obj/effect/temp_visual/explosion(get_turf(target))
@@ -214,9 +214,9 @@
 
 /obj/item/ammo_box/a40mm
 	name = "40mm slug box (handload)"
-	icon = 'icons/fallout/objects/guns/ammo.dmi'
+	icon = 'icons/obj/ammo.dmi'
 	icon_state = "40mm"
-	multiple_sprites = 3 // I think this is right?
+	multiple_sprites = 2
 	caliber = list(CALIBER_40MM)
 	ammo_type = /obj/item/ammo_casing/a40mm
 	max_ammo = 4 // don't change this for new calibers
@@ -247,7 +247,7 @@
 
 /obj/item/ammo_box/a40mm/exp
 	name = "40mm grenade box (handmade)"
-	icon_state = "40mmbuckshot"
+	icon_state = "40mmdual"
 	ammo_type = /obj/item/ammo_casing/a40mm/exp
 
 /obj/item/ammo_box/a40mm/exp/q2

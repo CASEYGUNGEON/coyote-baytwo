@@ -39,7 +39,7 @@
 	slot_flags = INV_SLOTBIT_BACK									// INV_SLOTBIT_BELT | INV_SLOTBIT_BACK to fit in belt and/or back
 	draw_time = GUN_DRAW_NORMAL										// time between drawing and readying the gun
 	slowdown = GUN_SLOWDOWN_SHOTGUN_PUMP							// move speed penalty when drawn
-	weapon_weight = GUN_ONE_HAND_ONLY								// akimbo, one handed, or two handed
+	weapon_weight = GUN_TWO_HAND_ONLY								// akimbo, one handed, or two handed
 	restrict_safety = FALSE											// setting to true disables safety
 	remove_magazine_delay = 0.5 SECONDS								// time to remove mag
 	insert_magazine_delay = 0.5 SECONDS								// time to insert new mag

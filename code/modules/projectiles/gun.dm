@@ -472,6 +472,13 @@ ATTACHMENTS
 	if(!can_shoot())
 		dont_shoot(user)
 		return
+	
+	if(weapon_weight == GUN_TWO_HAND_ONLY)
+		if(!wielded || !istype(user.get_inactive_held_item(), /obj/item/twohanded/offhand))
+			wield(user)
+			if(!wielded || !istype(user.get_inactive_held_item(), /obj/item/twohanded/offhand))
+				to_chat(user, span_alert("Oh no, you can't seem to wield [src] to fire it! Clear your other hand~"))
+				return
 
 	var/point_blank = flag // flag means we're adjacent to the target
 	if(point_blank) //It's adjacent, is the user, or is on the user's person

@@ -1,7 +1,7 @@
 // M16 is baseline
 //need to choose sprite
 
-/obj/item/gun/ballistic/automatic/ar
+/obj/item/gun/ballistic/automatic/assault_rifle
 	name = "assault rifle template"									// use a simple common name. do NOT go overly esoteric or extravagant
 	desc = "should not be here, bugreport."							// use the format "A submachine gun chambered in caliber. Optional flavor text goes here."
 // cosmetic vars
@@ -15,8 +15,8 @@
 	ejector_side = GUN_EJECTOR_RIGHT								// direction casings are ejected
 // performance vars
 	damage_multiplier = GUN_EXTRA_DAMAGE_0							// weapon damage modifier
-	mag_type = /obj/item/ammo_box/magazine/a223/thirty					// family of magazines it can fit
-	init_mag_type = /obj/item/ammo_box/magazine/a223/thirty				// specific mag it starts with 
+	mag_type = /obj/item/ammo_box/magazine/a223/stanag				// family of magazines it can fit
+	init_mag_type = /obj/item/ammo_box/magazine/a223/stanag/thirty	// specific mag it starts with 
 	extra_mag_types = list()										// extra familes of magazines it can fit
 	disallowed_mags = list()										// members of magazine family it cannot fit
 	init_firemodes = list(											// fire modes and fire rate
@@ -46,8 +46,8 @@
 	restrict_safety = FALSE											// setting to true disables safety
 	auto_eject = 0													// auto-ejects empty magazine
 	auto_eject_sound = null
-	remove_magazine_delay = 0.5 SECONDS								// time to remove mag
-	insert_magazine_delay = 1 SECONDS								// time to insert new mag
+	remove_magazine_delay = 2 SECONDS								// time to remove mag
+	insert_magazine_delay = 2 SECONDS								// time to insert new mag
 	can_load_magazine_through_bolt = FALSE
 // accessory vars
 	gun_tags = list(GUN_FA_MODDABLE, GUN_SCOPE)						// special weapon attachment tags
@@ -74,7 +74,7 @@
 	knife_x_offset = 0												// varedit in test server to zero in
 	knife_y_offset = 0
 
-/obj/item/gun/ballistic/automatic/ar/m16
+/obj/item/gun/ballistic/automatic/assault_rifle/m16
 	name = " worn M16"
 	desc = "An assault rifle chambered in .223. It is not, in fact, self cleaning..."
 	can_scope = TRUE
@@ -93,9 +93,9 @@
 	bayonet_state = "bayonet"
 	knife_x_offset = 0
 	knife_y_offset = 0
-/obj/item/gun/ballistic/automatic/ar/m16/q2
+/obj/item/gun/ballistic/automatic/assault_rifle/m16/q2
 	name = "M16"
 	max_upgrades = 4
-/obj/item/gun/ballistic/automatic/ar/m16/q3
+/obj/item/gun/ballistic/automatic/assault_rifle/m16/q3
 	name = "unrusted M16"
 	max_upgrades = 5

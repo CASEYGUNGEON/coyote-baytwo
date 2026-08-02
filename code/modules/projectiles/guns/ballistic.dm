@@ -640,7 +640,9 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 	if(!check_loading(user, TRUE))
 		return FALSE
 	// eject and remember the old mag, if any (and toss on the ground)
-	var/obj/item/ammo_box/oldmag = eject_magazine(user, FALSE, TRUE) //stop ejecting perfectly good shells!
+	var/obj/item/ammo_box/oldmag = eject_magazine(user, FALSE, TRUE, TRUE) //stop ejecting perfectly good shells!
+	if(oldmag)
+		return
 	if(!load_into_gun_delay(user, A))
 		to_chat(user, span_alert("You were interrupted!"))
 		return FALSE
@@ -649,11 +651,11 @@ GLOBAL_LIST_EMPTY(gun_accepted_casings)
 		to_chat(user, span_warning("You cannot seem to get \the [new_mag] to go in there!"))
 		return FALSE
 	magazine = new_mag
-	if(oldmag)
-		if(user.put_in_hands(oldmag) && get_dist(user, oldmag) <= 1)
-			to_chat(user, span_notice("You load \a [new_mag] into \the [src], keeping hold of the old one."))
-		else
-			to_chat(user, span_notice("You load \a [new_mag] into \the [src]."))
+	// if(oldmag)
+		// if(user.put_in_hands(oldmag) && get_dist(user, oldmag) <= 1)
+		// 	to_chat(user, span_notice("You load \a [new_mag] into \the [src], keeping hold of the old one."))
+		// else
+	to_chat(user, span_notice("You load \a [new_mag] into \the [src]."))
 
 	if(magazine.ammo_count())
 		playsound(src, "gun_insert_full_magazine", 70, FALSE)
