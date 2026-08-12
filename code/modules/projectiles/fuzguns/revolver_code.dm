@@ -85,7 +85,11 @@
 	var/speedloader_sound =          'sound/weapons/ba_revolver/speedloader_act.ogg'
 	var/eject_all_sound =            'sound/weapons/ba_revolver/eject_multiple.ogg'
 	var/eject_all_no_shells_sound =  'sound/weapons/ba_revolver/eject_multiple_no_shells.ogg'
-	var/break_action = FALSE
+	/// If true, when the gun is open, it'll display a different sprite
+	/// format: "[default icon state]-e", see line 911ish
+	var/uses_open_sprites = FALSE
+	/// whether the sprite has been rotated through the whole gun being open thing
+	var/turnt = FALSE
 	equipsound = 'sound/f13weapons/equipsounds/pistolequip.ogg'
 
 /obj/item/gun/ballistic/revolver/Initialize()
@@ -150,7 +154,7 @@
 			speedloader_sound =          'sound/weapons/ba_revolver/speedloader_act.ogg'
 			eject_all_sound =            'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
 			eject_all_no_shells_sound =  'sound/weapons/ba_revolver/shotgun_casing_eject.ogg'
-			break_action = TRUE
+			uses_open_sprites = TRUE
 
 /obj/item/gun/ballistic/revolver/mouse_wheel_signal_handler(
 	mob/living/user,
@@ -905,9 +909,24 @@
 	. += "( ) - Chambered round"
 	if(eject_style == REV_EJECT_SINGLE)
 		. += ", \[ \] - Round that can be ejected."
+
 /obj/item/gun/ballistic/revolver/update_icon_state()
-	if(break_action)
-		icon_state = "[initial(icon_state)][loader_exposed ? "-e" : ""]"
+	if(uses_open_sprites)
+		var/state = "[initial(icon_state)]"
+		if(loader_exposed)
+			state += "-e"
+		icon_state = state
+	else
+		if(loader_exposed)
+			if(!turnt)
+				var/matrix/M = transform
+				M = M.Turn(45)
+				transform = M
+				turnt = TRUE
+		else
+			if(turnt)
+				transform = initial(transform)
+				turnt = FALSE
 
 /obj/item/gun/ballistic/revolver/debug
 	name = "Debug Revolver"

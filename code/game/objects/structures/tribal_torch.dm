@@ -9,7 +9,7 @@
 	light_color = LIGHT_COLOR_FIRE
 	light_power = 0.6
 	light_range = 0
-	break_sound = 'sound/hallucinations/veryfar_noise.ogg'
+	break_sound = 'sound/f13effects/wallslam.ogg'
 	debris = list(/obj/item/candle/tribal_torch = 1)
 	tastes = list("wood" = 1, "fuel" = 1)
 	var/burning = FALSE

@@ -460,7 +460,7 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 				icon_state = "[initial(icon_state)]-8"
 			else
 				icon_state = "[initial(icon_state)]-[stored_ammo.len]"
-		if(4) // small caliber ammo crates
+		if(4) // ammo crates
 			if(stored_ammo.len/max_ammo >= 1)
 				icon_state = "[initial(icon_state)]-5"
 			else if(stored_ammo.len/max_ammo >= 0.75)
@@ -473,7 +473,7 @@ GLOBAL_LIST_EMPTY(currently_loading_something)
 				icon_state = "[initial(icon_state)]-1"
 			else
 				icon_state = "[initial(icon_state)]-0"
-		if(5)
+		if(5) // shotgun boxes
 			if(stored_ammo.len >= 12)
 				icon_state = "[initial(icon_state)]-12"
 			else
