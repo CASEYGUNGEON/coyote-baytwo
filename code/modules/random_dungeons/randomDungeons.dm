@@ -10,9 +10,11 @@ SUBSYSTEM_DEF(dungeon)
 
 
 /datum/controller/subsystem/dungeon/init_z(var/name = "Unnamed Randomized Dungeon", type = /datum/space_level/random_dungeon)
-	dungeons.Add(SSmapping.add_new_zlevel(name, ZTRAITS_DUNGEON, type))
+	var/newlevel = SSmapping.add_new_zlevel(name, ZTRAITS_DUNGEON, type)
+	dungeons.Add(newlevel)
 
-/datum/controller/subsystem/dungeon/populate_level()
+/datum/controller/subsystem/dungeon/populate_level(/datum/space_level/random_dungeon/zlevel)
+	zlevel.populate()
 
 
 /datum/space_level/random_dungeon
@@ -42,14 +44,39 @@ SUBSYSTEM_DEF(dungeon)
 	var/datum/dungeon_room/room = new /datum/dungeon_room()
 	room.dungeon_type = type
 
+/datum/space_level/random_dungeon/populate()
+	//TODO: find room placements and init first room.
+	break
+
 
 /datum/dungeon_room
 	var/datum/space_level/random_dungeon/dungeon_type = /datum/space_level/random_dungeon
-	var/list/obj/machinery/door/doors = list()
 	var/list/mob/mobs = list()
+	var/list/turf/closed/wall_types = null
+	var/list/turf/closed/floor_types = null
 	
 	// (x0,y0, x1,y1)
-	var/list/bounds = list(0,0, 3,3)
+	var/list/bounds = list(0,0, 5,5)
+
+/datum/dungeon_room/place(x1 = 0, y1 = 0, z = 0)
+	var/x2 = x1+bounds[2]
+	var/y2 = y1+bounds[3]
+	for (x in range(x1, x2))
+		for (y in range(y1, y2))
+			var/turf/turfloc = locate(x,y,z)
+
+			//set turf
+			if (x==x1 || y==y1)
+				turfloc = new(pickweight(wall_types))
+			else
+				turfloc = new(pickweight(floor_types))
+			
+			//TODO: populate mobs and objects
+			//TODO: place doors
+
+/datum/dungeon_room/finish()
+	//TODO: Clean up, set up to load next rooms
+	break
 
 /datum/dungeon_room/set_doors(open = TRUE)
 	for(var/obj/machinery/door/thisdoor in doors)
